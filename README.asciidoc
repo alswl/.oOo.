@@ -1,0 +1,6 @@
+alswl's vim configure files
+===========================
+
+find me at http://log4d.com[Log4D]
+
+contact me with alswlx[a]gmail.com
