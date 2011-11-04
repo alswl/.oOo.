@@ -1,0 +1,274 @@
+source $VIMRUNTIME/vimrc_example.vim
+
+"""""""""""""""""""""""""""""""""""""""
+"Platform
+"""""""""""""""""""""""""""""""""""""""
+function! MySys()
+  if has("win32")
+    return "windows"
+  else
+    return "linux"
+  endif
+endfunction
+
+"""""""""""""""""""""""""""""""""""""""
+"mswin
+"""""""""""""""""""""""""""""""""""""""
+"source $VIMRUNTIME/mswin.vim
+
+" CTRL-X and SHIFT-Del are Cut
+"vnoremap <C-X> "+x
+
+" CTRL-C and CTRL-Insert are Copy
+"vnoremap <C-C> "+y
+
+" CTRL-V and SHIFT-Insert are Paste
+map <C-V>		"+p
+
+"""""""""""""""""""""""""""""""""""""""
+"Gerneral
+"""""""""""""""""""""""""""""""""""""""
+" Enable filetype plugin
+filetype plugin on
+filetype indent on
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" When vimrc is edited, reload it
+if MySys() == "windows"
+	autocmd! bufwritepost _vimrc source ~/_vimrc
+else
+	autocmd! bufwritepost .vimrc source ~/.vimrc
+endif
+
+" disable VI's compatible mode..
+set nocompatible
+
+" Set windows postion and size
+if has("gui_running")
+  winpos 620 0
+  set lines=47
+  set columns=83
+endif
+
+set autochdir
+
+"auto save zz info
+au BufWinLeave *.* silent mkview
+au BufWinEnter *.* silent loadview
+
+"""""""""""""""""""""""""""""""""""""""
+"VIM user interface
+"""""""""""""""""""""""""""""""""""""""
+" use chinese help
+"set helplang=cn
+
+"set the menu & the message to English
+set langmenu=en_US
+let $LANG="en_US.UTF-8"
+
+set ruler "Always show current position
+
+"set cmdheight=2 "The commandbar height
+
+" Set backspace config
+set backspace=eol,start,indent
+"set whichwrap+=<,>,h,l
+
+set ignorecase "Ignore case when searching
+set smartcase
+"set nowrapscan
+
+set hlsearch "Highlight search things
+
+set incsearch "Make search act like search in modern browsers
+"set nolazyredraw "Don't redraw while executing macros 
+
+set magic "Set magic on, for regular expressions
+
+set showmatch "Show matching bracets when text indicator is over them
+
+set sidescroll=10 "左右移动边距
+
+"set list " 显示制表符/回车符
+set listchars=tab:>-,trail:$ " 行尾符号
+
+set showcmd "显示右下角命令
+set cursorline
+
+set noerrorbells
+set novisualbell
+
+"set iskeyword=@,48-57,192-255
+
+if ! has("gui_running")
+	set mouse-=a
+endif
+
+"""""""""""""""""""""""""""""""""""""""
+"Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""
+syntax enable "Enable syntax hl
+"au BufRead,BufNewFile *.aspx set filetype=xml
+
+" Set syntax color
+colorscheme desert
+
+"gfn=consolas:h10
+"set gui options
+if has("gui_running")
+  set guifont=Monospace\ 10
+  "set gfw=幼圆:h10:cGB2312
+  set guioptions -=m
+  set guioptions -=T
+  set guioptions -=L
+  set guioptions -=r
+  "set showtabline=0
+endif
+
+"""""""""""""""""""""""""""""""""""""""
+"Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""
+" Turn backup off, since most stuff is in SVN, git anyway...
+set nobackup
+set nowb
+set noswapfile
+set backupext=.bak
+
+"set encoding=utf-8
+set fileencodings=utf-8,gbk,ucs-bom,default,latin1
+set termencoding=utf-8
+set encoding=utf-8
+
+"Persistent undo
+if exists('+undodir')
+	if MySys() == "windows"
+		set undodir=C:\Windows\Temp
+	else
+		set undodir=~/.vim_runtime/undodir
+	endif
+	set undofile
+endif
+
+"""""""""""""""""""""""""""""""""""""""
+"Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""
+
+"set expandtab
+set noexpandtab "是否使用Tab缩进 默认使用
+
+set shiftwidth=4
+set tabstop=4
+set smarttab
+
+set lbr "智能换行
+"set tw=500 "自动换行 超过n列
+
+set ai "Auto indent
+set si "Smart indet
+set wrap "Wrap lines
+
+"特殊文件类型的缩进控制
+au FileType python setlocal expandtab
+"au FileType html setlocal shiftwidth=2
+"au FileType html setlocal tabstop=2
+
+" textwidth
+au FileType python setlocal textwidth=79 fo+=Mm
+
+set showmatch " show matching bracets
+
+"""""""""""""""""""""""""""""""""""""""
+"Visual mode related
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+"Command mode related
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+"Moving around, tabs and buffers
+"""""""""""""""""""""""""""""""""""""""
+" Smart way to move btw. windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Use the arrows to something usefull
+map <right> :bn<cr>
+map <left> :bp<cr>
+
+"""""""""""""""""""""""""""""""""""""""
+"Visual Cues
+"""""""""""""""""""""""""""""""""""""""
+" Enable syntax highlight syntax enable
+" Show line number
+set nu
+" set foldclose=all
+
+"""""""""""""""""""""""""""""""""""""""
+" Text Formatting/Layout
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+" Plugin
+"""""""""""""""""""""""""""""""""""""""
+set tags=tags;
+
+"pydiction 1.2 python auto complete
+"let g:pydiction_location = 'D:/Program Files/Vim/vimfiles/ftplugin/pydiction'
+"defalut g:pydiction_menu_height == 15
+"let g:pydiction_menu_height = 20
+
+"SuperTab
+"let g:SuperTabRetainCompletionType = 2
+"let g:SuperTabDefaultCompletionType = "<C-X><C-O>" 
+
+"Neo
+"let g:neocomplcache_enable_at_startup=1
+
+"""""""""""""""""""""""""""""""""""""""
+" Map
+"""""""""""""""""""""""""""""""""""""""
+map <F2>    :Tlist<cr>
+"代码折叠快捷方式
+map <F3>    zO
+map <F4>    zC
+map <F5>    zR
+map <F6>    zM
+map <F11>    gT
+map <F12>    gt
+"Map F9 to Run Python Script
+au FileType python map <F9> :!python %
+" 用空格键来开关折叠
+nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+"""""""""""""""""""""""""""""""""""""""
+" Default
+"""""""""""""""""""""""""""""""""""""""
+"set diffexpr=MyDiff()
+"function MyDiff()
+  "let opt = '-a --binary '
+  "if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  "if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  "let arg1 = v:fname_in
+  "if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  "let arg2 = v:fname_new
+  "if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  "let arg3 = v:fname_out
+  "if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  "let eq = ''
+  "if $VIMRUNTIME =~ ' '
+    "if &sh =~ '\<cmd'
+      "let cmd = '""' . $VIMRUNTIME . '\diff"'
+      "let eq = '"'
+    "else
+      "let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    "endif
+  "else
+    "let cmd = $VIMRUNTIME . '\diff'
+  "endif
+  "silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+"endfunction

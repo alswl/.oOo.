@@ -1,0 +1,31 @@
+"2.3.1 (created: 2010/04/07 18:56:53)
+
+noremap <C-c> <C-v><C-c>
+noremap <C-a> <C-v><C-a>
+cnoremap <C-c> <C-v><C-c>
+cnoremap <C-v> <C-v><C-v>
+cnoremap <C-x> <C-v><C-x>
+inoremap <C-a> <C-v><C-a>
+inoremap <C-c> <C-v><C-c>
+inoremap <C-v> <C-v><C-v>
+inoremap <C-x> <C-v><C-x>
+inoremap <C-z> <C-v><C-z>
+inoremap <C-y> <C-v><C-y>
+
+map <C-Up> :set go=m<CR>
+map <C-Down> :set go=<CR>
+
+noremap j 5j
+noremap k 5k
+
+map s :stop<CR>
+map J <C-d>
+map K <C-u>
+map h gT
+map l gt
+set nextpattern=s*下一页|下一张|下页s*,bnextb,^>$,^(>>|»)$,^(>|»),(>|»)$,bmoreb
+set previouspattern=s*上一页|上一张|上页s*,bprev|previousb,^<$,^(<<|«)$,^(<|«),(<|«)$
+set "runtimepath=C:\\Documents and Settings\\dijc.DCMS\\vimperator"
+source! "C:\\Documents and Settings\\dijc.DCMS\\_vimperatorrc.local"
+
+" vim: set ft=vimperator:
