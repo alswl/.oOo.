@@ -1,18 +1,18 @@
-source $VIMRUNTIME/vimrc_example.vim
+"source $VIMRUNTIME/vimrc_example.vim
 
 """""""""""""""""""""""""""""""""""""""
-"Platform
+"平台判断
 """""""""""""""""""""""""""""""""""""""
 function! MySys()
-  if has("win32")
-    return "windows"
-  else
-    return "linux"
-  endif
+	if has("win32")
+		return "windows"
+	else
+		return "linux"
+	endif
 endfunction
 
 """""""""""""""""""""""""""""""""""""""
-"mswin
+"模仿MS快捷键
 """""""""""""""""""""""""""""""""""""""
 "source $VIMRUNTIME/mswin.vim
 
@@ -35,24 +35,27 @@ filetype indent on
 " Set to auto read when a file is changed from the outside
 set autoread
 
-" When vimrc is edited, reload it
+" 编辑vimrc之后，重新加载
 if MySys() == "windows"
 	autocmd! bufwritepost _vimrc source ~/_vimrc
 else
 	autocmd! bufwritepost .vimrc source ~/.vimrc
 endif
 
-" disable VI's compatible mode..
+" 禁用Vi的兼容模式
 set nocompatible
 
 " Set windows postion and size
 if has("gui_running")
-  winpos 620 0
-  set lines=47
-  set columns=83
+	winpos 620 0
+	set lines=47
+	set columns=83
 endif
 
-set autochdir
+if exists('+autochdir')
+	" 文件路径设置为当前路径
+	set autochdir
+endif
 
 "auto save zz info
 au BufWinLeave *.* silent mkview
@@ -68,7 +71,7 @@ au BufWinEnter *.* silent loadview
 set langmenu=en_US
 let $LANG="en_US.UTF-8"
 
-set ruler "Always show current position
+set ruler "右下角显示当前光标
 
 "set cmdheight=2 "The commandbar height
 
@@ -82,7 +85,7 @@ set smartcase
 
 set hlsearch "Highlight search things
 
-set incsearch "Make search act like search in modern browsers
+set incsearch "在输入部分查找模式时显示相应的匹配点。
 "set nolazyredraw "Don't redraw while executing macros 
 
 set magic "Set magic on, for regular expressions
@@ -106,6 +109,16 @@ if ! has("gui_running")
 	set mouse-=a
 endif
 
+"设定宽度提醒
+if exists('+colorcolumn')
+	au FileType python set colorcolumn=79
+	au FileType asciidoc set colorcolumn=79
+endif
+
+set equalalways "分割窗口时保持相等的宽/高
+
+set guitablabel=%N.%t " 设定标签上显示序号
+
 """""""""""""""""""""""""""""""""""""""
 "Colors and Fonts
 """""""""""""""""""""""""""""""""""""""
@@ -118,14 +131,19 @@ colorscheme desert
 "gfn=consolas:h10
 "set gui options
 if has("gui_running")
-  set guifont=Monospace\ 10
-  "set gfw=幼圆:h10:cGB2312
-  set guioptions -=m
-  set guioptions -=T
-  set guioptions -=L
-  set guioptions -=r
-  "set showtabline=0
+	set guifont=Monospace\ 10
+	"set gfw=幼圆:h10:cGB2312
+	set guioptions -=m
+	set guioptions -=T
+	set guioptions -=L
+	set guioptions -=r
+	"set showtabline=0
 endif
+
+set ambiwidth=double " 设定某些标点符号为宽字符
+
+" 设定行首tab为灰色
+highlight LeaderTab guifg=#666666
 
 """""""""""""""""""""""""""""""""""""""
 "Files, backups and undo
@@ -136,7 +154,7 @@ set nowb
 set noswapfile
 set backupext=.bak
 
-"set encoding=utf-8
+"设置编码
 set fileencodings=utf-8,gbk,ucs-bom,default,latin1
 set termencoding=utf-8
 set encoding=utf-8
@@ -203,9 +221,12 @@ map <left> :bp<cr>
 """""""""""""""""""""""""""""""""""""""
 "Visual Cues
 """""""""""""""""""""""""""""""""""""""
-" Enable syntax highlight syntax enable
-" Show line number
-set nu
+if version <730
+	set number " 显示行号
+else
+	set relativenumber " 显示相对行号
+endif
+set numberwidth=2 "行号栏的宽度
 " set foldclose=all
 
 """""""""""""""""""""""""""""""""""""""
@@ -238,8 +259,29 @@ map <F3>    zO
 map <F4>    zC
 map <F5>    zR
 map <F6>    zM
+
+" 标签设置
 map <F11>    gT
 map <F12>    gt
+imap <M-1> <Esc>1gt
+nmap <M-1> 1gt
+imap <M-2> <Esc>2gt
+nmap <M-2> 2gt
+imap <M-3> <Esc>3gt
+nmap <M-3> 3gt
+imap <M-4> <Esc>4gt
+nmap <M-4> 4gt
+imap <M-5> <Esc>5gt
+nmap <M-5> 5gt
+imap <M-6> <Esc>6gt
+nmap <M-6> 6gt
+imap <M-7> <Esc>7gt
+nmap <M-7> 7gt
+imap <M-8> <Esc>8gt
+nmap <M-8> 8gt
+imap <M-9> <Esc>9gt
+nmap <M-9> 9gt
+
 "Map F9 to Run Python Script
 au FileType python map <F9> :!python %
 " 用空格键来开关折叠
@@ -250,25 +292,25 @@ nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 """""""""""""""""""""""""""""""""""""""
 "set diffexpr=MyDiff()
 "function MyDiff()
-  "let opt = '-a --binary '
-  "if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  "if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  "let arg1 = v:fname_in
-  "if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  "let arg2 = v:fname_new
-  "if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  "let arg3 = v:fname_out
-  "if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  "let eq = ''
-  "if $VIMRUNTIME =~ ' '
-    "if &sh =~ '\<cmd'
-      "let cmd = '""' . $VIMRUNTIME . '\diff"'
-      "let eq = '"'
-    "else
-      "let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-    "endif
-  "else
-    "let cmd = $VIMRUNTIME . '\diff'
-  "endif
-  "silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+"let opt = '-a --binary '
+"if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+"if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+"let arg1 = v:fname_in
+"if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+"let arg2 = v:fname_new
+"if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+"let arg3 = v:fname_out
+"if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+"let eq = ''
+"if $VIMRUNTIME =~ ' '
+"if &sh =~ '\<cmd'
+"let cmd = '""' . $VIMRUNTIME . '\diff"'
+"let eq = '"'
+"else
+"let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+"endif
+"else
+"let cmd = $VIMRUNTIME . '\diff'
+"endif
+"silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 "endfunction
