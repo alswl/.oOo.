@@ -49,7 +49,7 @@ set nocompatible
 if has("gui_running")
 	winpos 620 0
 	set lines=47
-	set columns=83
+	set columns=85
 endif
 
 if exists('+autochdir')
@@ -82,6 +82,10 @@ set backspace=eol,start,indent
 set ignorecase "Ignore case when searching
 set smartcase
 "set nowrapscan
+
+" 使用正统的搜索正则
+nnoremap / /\v
+vnoremap / /\v
 
 set hlsearch "Highlight search things
 
@@ -221,7 +225,7 @@ map <left> :bp<cr>
 """""""""""""""""""""""""""""""""""""""
 "Visual Cues
 """""""""""""""""""""""""""""""""""""""
-if version <730
+if exists(':relativenumber')
 	set number " 显示行号
 else
 	set relativenumber " 显示相对行号
@@ -286,6 +290,10 @@ nmap <M-9> 9gt
 au FileType python map <F9> :!python %
 " 用空格键来开关折叠
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+
+" 用Tab匹配括号
+nnoremap <tab> %
+vnoremap <tab> %
 
 """""""""""""""""""""""""""""""""""""""
 " Default
