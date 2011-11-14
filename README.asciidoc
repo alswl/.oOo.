@@ -1,6 +1,13 @@
 alswl's vim configure files
 ===========================
 
-find me at http://log4d.com[Log4D]
+这里是我的vim插件和vim配置文件，有兴趣的可以参考，
+我会慢慢将这个配置按个人喜好进化并加上注释。
 
-contact me with alswlx[a]gmail.com
+我是Python程序员，同时也code Javascript / html / css 。
+
+可以在http://log4d.com[Log4D]这里找到我，这是我的博客。
+
+需要帮助的话，通过alswlx[a]gmail.com联系我。
+
+// vim: set ft=asciidoc colorcolumn
