@@ -84,8 +84,8 @@ set smartcase
 "set nowrapscan
 
 " 使用正统的搜索正则
-nnoremap / /\v
-vnoremap / /\v
+"nnoremap / /\v
+"vnoremap / /\v
 
 set hlsearch "Highlight search things
 
@@ -267,24 +267,26 @@ map <F6>    zM
 " 标签设置
 map <F11>    gT
 map <F12>    gt
-imap <M-1> <Esc>1gt
-nmap <M-1> 1gt
-imap <M-2> <Esc>2gt
-nmap <M-2> 2gt
-imap <M-3> <Esc>3gt
-nmap <M-3> 3gt
-imap <M-4> <Esc>4gt
-nmap <M-4> 4gt
-imap <M-5> <Esc>5gt
-nmap <M-5> 5gt
-imap <M-6> <Esc>6gt
-nmap <M-6> 6gt
-imap <M-7> <Esc>7gt
-nmap <M-7> 7gt
-imap <M-8> <Esc>8gt
-nmap <M-8> 8gt
-imap <M-9> <Esc>9gt
-nmap <M-9> 9gt
+if has("gui_running")
+	imap <M-1> <Esc>1gt
+	nmap <M-1> 1gt
+	imap <M-2> <Esc>2gt
+	nmap <M-2> 2gt
+	imap <M-3> <Esc>3gt
+	nmap <M-3> 3gt
+	imap <M-4> <Esc>4gt
+	nmap <M-4> 4gt
+	imap <M-5> <Esc>5gt
+	nmap <M-5> 5gt
+	imap <M-6> <Esc>6gt
+	nmap <M-6> 6gt
+	imap <M-7> <Esc>7gt
+	nmap <M-7> 7gt
+	imap <M-8> <Esc>8gt
+	nmap <M-8> 8gt
+	imap <M-9> <Esc>9gt
+	nmap <M-9> 9gt
+endif
 
 "Map F9 to Run Python Script
 au FileType python map <F9> :!python %
@@ -296,29 +298,7 @@ nnoremap <tab> %
 vnoremap <tab> %
 
 """""""""""""""""""""""""""""""""""""""
-" Default
+" 自定义命令
 """""""""""""""""""""""""""""""""""""""
-"set diffexpr=MyDiff()
-"function MyDiff()
-"let opt = '-a --binary '
-"if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-"if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-"let arg1 = v:fname_in
-"if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-"let arg2 = v:fname_new
-"if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-"let arg3 = v:fname_out
-"if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-"let eq = ''
-"if $VIMRUNTIME =~ ' '
-"if &sh =~ '\<cmd'
-"let cmd = '""' . $VIMRUNTIME . '\diff"'
-"let eq = '"'
-"else
-"let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-"endif
-"else
-"let cmd = $VIMRUNTIME . '\diff'
-"endif
-"silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-"endfunction
+" 删除结尾空格定义
+command! -nargs=0 TrimR :%s/\s\+$//g
