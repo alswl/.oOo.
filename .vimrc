@@ -47,9 +47,9 @@ set nocompatible
 
 " Set windows postion and size
 if has("gui_running")
-	winpos 620 0
+	"winpos 620 0
 	set lines=47
-	set columns=85
+	"set columns=85
 endif
 
 if exists('+autochdir')
@@ -130,7 +130,7 @@ syntax enable "Enable syntax hl
 "au BufRead,BufNewFile *.aspx set filetype=xml
 
 " Set syntax color
-colorscheme desert
+colorscheme desert256
 
 "gfn=consolas:h10
 "set gui options
