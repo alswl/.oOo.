@@ -48,9 +48,12 @@ set nocompatible
 " Set windows postion and size
 if has("gui_running")
 	"winpos 620 0
-	set lines=47
+	"set lines=47
 	"set columns=85
 endif
+
+" 设定状态栏多显示信息
+set laststatus=2
 
 if exists('+autochdir')
 	" 文件路径设置为当前路径
