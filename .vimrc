@@ -23,7 +23,7 @@ endfunction
 "vnoremap <C-C> "+y
 
 " CTRL-V and SHIFT-Insert are Paste
-map <C-V>		"+p
+"map <C-V>		"+p
 
 """""""""""""""""""""""""""""""""""""""
 "Gerneral
@@ -235,6 +235,13 @@ else
 endif
 set numberwidth=2 "ÐÐºÅÀ¸µÄ¿í¶È
 " set foldclose=all
+
+"function! MarkPoint()
+	"mark `
+"endfunction
+
+"autocmd CursorMoved * call MarkPoint()
+
 
 """""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout
