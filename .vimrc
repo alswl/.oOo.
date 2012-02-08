@@ -316,3 +316,10 @@ vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 """""""""""""""""""""""""""""""""""""""
 " 删除结尾空格定义
 command! -nargs=0 TrimR :%s/\s\+$//g
+
+function! Pdb()
+	normal o
+	normal <ESC>
+	call setline(line("."), "import pdb")
+	call setline(line(".") + 1, "pdb.set_trace()")
+endfunction
