@@ -311,6 +311,9 @@ vnoremap <tab> %
 vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
+" html缩进
+let g:html_indent_inctags = "p,li"
+
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
 """""""""""""""""""""""""""""""""""""""
