@@ -48,8 +48,8 @@ set nocompatible
 " Set windows postion and size
 if has("gui_running")
 	"winpos 620 0
-	"set lines=47
-	"set columns=85
+	set lines=50
+	set columns=85
 endif
 
 " 设定状态栏多显示信息
