@@ -47,8 +47,8 @@ set nocompatible
 
 " Set windows postion and size
 if has("gui_running")
-	"winpos 620 0
-	set lines=50
+	winpos 0 0
+	set lines=41
 	set columns=85
 endif
 
