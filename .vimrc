@@ -95,7 +95,7 @@ set hlsearch "Highlight search things
 set incsearch "在输入部分查找模式时显示相应的匹配点。
 "set nolazyredraw "Don't redraw while executing macros 
 
-set magic "Set magic on, for regular expressions
+set nomagic "Set magic on, for regular expressions
 
 set showmatch "Show matching bracets when text indicator is over them
 
@@ -337,3 +337,9 @@ function! Pdb()
 	call setline(line("."), "import pdb")
 	call setline(line(".") + 1, "pdb.set_trace()")
 endfunction
+
+" 对比原始文件，显示更改处
+if !exists(":DiffOrig")
+    command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+          \ | wincmd p | diffthis
+endif
