@@ -275,15 +275,23 @@ let g:restart_sessionoptions = "restart_session"
 "nmap <silent> <leader>hr <Plug>MarkRegex
 "vmap <silent> <leader>hr <Plug>MarkRegex
 
+" minibufexpl.vim
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
+" fuzzyfinder
+map <silent> <leader>sf :FufFile<CR>
+map <silent> <leader>sb :FufBuffer<CR>
+
 """""""""""""""""""""""""""""""""""""""
 " Map
 """""""""""""""""""""""""""""""""""""""
 map <F2>    :Tlist<cr>
 "代码折叠快捷方式
-map <F3>    zO
-map <F4>    zC
-map <F5>    zR
-map <F6>    zM
+map <F3>    zR
+map <F4>    zM
 
 " 标签设置
 map <F11>    gT
@@ -334,8 +342,7 @@ command! -nargs=0 TrimR :%s/\s\+$//g
 function! Pdb()
 	normal o
 	normal <ESC>
-	call setline(line("."), "import pdb")
-	call setline(line(".") + 1, "pdb.set_trace()")
+	call setline(line("."), "import pdb;pdb.set_trace()")
 endfunction
 
 " 对比原始文件，显示更改处
