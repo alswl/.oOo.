@@ -333,6 +333,38 @@ vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 " html缩进
 let g:html_indent_inctags = "p,li,dt,dd"
 
+" 模拟 Emacs 键绑定
+" first move the window command because we'll be taking it over
+inoremap <C-x> <C-w>
+" Movement left/right
+noremap! <C-b> <Left>
+noremap! <C-f> <Right>
+" word left/right
+inoremap  <M-b> b
+noremap! <M-b> <C-o>b
+inoremap  <M-f> w
+noremap! <M-f> <C-o>w
+" line start/end
+inoremap  <C-a> ^
+noremap! <C-a> <Esc>I
+inoremap  <C-e> $
+noremap! <C-e> <Esc>A
+" Rubout word / line and enter insert mode
+inoremap  <C-w> i<C-w>
+inoremap  <C-u> i<C-u>
+" Forward delete char / word / line and enter insert mode
+noremap! <C-d> <C-o>x
+inoremap  <M-d> dw
+noremap! <M-d> <C-o>dw
+inoremap  <C-k> Da
+noremap! <C-k> <C-o>D
+" Undo / Redo and enter normal mode
+inoremap  <C-_> u
+noremap! <C-_> <C-o>u<Esc><Right>
+noremap! <C-r> <C-o><C-r><Esc>
+" Remap <C-space> to word completion
+"noremap! <Nul> <C-n>
+
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
 """""""""""""""""""""""""""""""""""""""
@@ -342,7 +374,7 @@ command! -nargs=0 TrimR :%s/\s\+$//g
 function! Pdb()
 	normal o
 	normal <ESC>
-	call setline(line("."), "import pdb;pdb.set_trace()")
+	call setline(line("."), "import ipdb;ipdb.set_trace()")
 endfunction
 
 " 对比原始文件，显示更改处
