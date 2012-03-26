@@ -275,12 +275,6 @@ let g:restart_sessionoptions = "restart_session"
 "nmap <silent> <leader>hr <Plug>MarkRegex
 "vmap <silent> <leader>hr <Plug>MarkRegex
 
-" minibufexpl.vim
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
-
 " fuzzyfinder
 map <silent> <leader>sf :FufFile<CR>
 map <silent> <leader>sb :FufBuffer<CR>
