@@ -81,7 +81,7 @@ Bundle 'html5.vim'
 Bundle 'JavaScript-syntax'
 "Bundle 'mako.vim'
 Bundle 'moin.vim'
-Bundle 'python.vim'
+Bundle 'python.vim--Vasiliev'
 Bundle 'xml.vim'
 
 " Color
@@ -100,7 +100,7 @@ Bundle 'python_fold'
 Bundle 'IndentAnything'
 Bundle 'Javascript-Indentation'
 Bundle 'mako.vim--Torborg'
-Bundle 'indent/python.vim'
+Bundle 'gg/python.vim'
 
 " Plugin
 Bundle 'The-NERD-tree'
@@ -353,6 +353,9 @@ map <silent> <leader>sb :FufBuffer<CR>
 " jslint.vim
 " let g:JSLintHighlightErrorLine = 0 " disabled
 
+" Fencview
+let g:fencview_autodetect = 0
+
 """""""""""""""""""""""""""""""""""""""
 " Map
 """""""""""""""""""""""""""""""""""""""
@@ -389,10 +392,6 @@ endif
 au FileType python map <F9> :!python %
 " 用空格键来开关折叠
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-
-" 用Tab匹配括号
-nnoremap <tab> %
-vnoremap <tab> %
 
 " 用 * / # 匹配选中
 vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
