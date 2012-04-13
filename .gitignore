@@ -1,3 +1,4 @@
 #Vim view
 .vim/view/*
 .vim/.netrwhist
+restart_session.vim
