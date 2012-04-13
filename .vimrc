@@ -328,36 +328,26 @@ vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 let g:html_indent_inctags = "p,li,dt,dd"
 
 " 模拟 Emacs 键绑定
-" first move the window command because we'll be taking it over
-inoremap <C-x> <C-w>
-" Movement left/right
-noremap! <C-b> <Left>
-noremap! <C-f> <Right>
-" word left/right
-inoremap  <M-b> b
+" Move
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+"inoremap <C-p> <Up>
+"inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+noremap  <M-b> b
 noremap! <M-b> <C-o>b
-inoremap  <M-f> w
+noremap  <M-f> w
 noremap! <M-f> <C-o>w
-" line start/end
-inoremap  <C-a> ^
-noremap! <C-a> <Esc>I
-inoremap  <C-e> $
-noremap! <C-e> <Esc>A
 " Rubout word / line and enter insert mode
-inoremap  <C-w> i<C-w>
-inoremap  <C-u> i<C-u>
-" Forward delete char / word / line and enter insert mode
-noremap! <C-d> <C-o>x
-inoremap  <M-d> dw
+inoremap  <C-w> <Esc>db
+" delete
+inoremap  <C-u> <Esc>c0
+inoremap  <C-k> <Esc><Right>C
+inoremap <C-d> <Esc>s
+
+inorem <M-d> dw
 noremap! <M-d> <C-o>dw
-inoremap  <C-k> Da
-noremap! <C-k> <C-o>D
-" Undo / Redo and enter normal mode
-inoremap  <C-_> u
-noremap! <C-_> <C-o>u<Esc><Right>
-noremap! <C-r> <C-o><C-r><Esc>
-" Remap <C-space> to word completion
-"noremap! <Nul> <C-n>
 
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
