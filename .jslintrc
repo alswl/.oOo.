@@ -1,4 +1,4 @@
 /*jslint browser: true, regexp: true */
-/*global jQuery, $ */
+/*global jQuery, $, window */
 
 // vim: set ft=javascript:
