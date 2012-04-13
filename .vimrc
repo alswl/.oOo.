@@ -123,6 +123,7 @@ Bundle 'taglist.vim'
 "Bundle 'vimim.vim'
 Bundle 'ZenCoding.vim'
 Bundle 'css_color.vim'
+Bundle 'hallettj/jslint.vim'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -348,6 +349,9 @@ let g:restart_sessionoptions = "restart_session"
 " fuzzyfinder
 map <silent> <leader>sf :FufFile<CR>
 map <silent> <leader>sb :FufBuffer<CR>
+
+" jslint.vim
+" let g:JSLintHighlightErrorLine = 0 " disabled
 
 """""""""""""""""""""""""""""""""""""""
 " Map
