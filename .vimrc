@@ -1,7 +1,7 @@
 "source $VIMRUNTIME/vimrc_example.vim
 
 """""""""""""""""""""""""""""""""""""""
-"Æ½Ì¨ÅĞ¶Ï
+"å¹³å°åˆ¤æ–­
 """""""""""""""""""""""""""""""""""""""
 function! MySys()
 	if has("win32")
@@ -12,7 +12,7 @@ function! MySys()
 endfunction
 
 """""""""""""""""""""""""""""""""""""""
-"Ä£·ÂMS¿ì½İ¼ü
+"æ¨¡ä»¿MSå¿«æ·é”®
 """""""""""""""""""""""""""""""""""""""
 "source $VIMRUNTIME/mswin.vim
 
@@ -35,14 +35,14 @@ filetype indent on
 " Set to auto read when a file is changed from the outside
 set autoread
 
-" ±à¼­vimrcÖ®ºó£¬ÖØĞÂ¼ÓÔØ
+" ç¼–è¾‘vimrcä¹‹åï¼Œé‡æ–°åŠ è½½
 if MySys() == "windows"
 	autocmd! bufwritepost _vimrc source ~/_vimrc
 else
 	autocmd! bufwritepost .vimrc source ~/.vimrc
 endif
 
-" ½ûÓÃViµÄ¼æÈİÄ£Ê½
+" ç¦ç”¨Viçš„å…¼å®¹æ¨¡å¼
 set nocompatible
 
 " Set windows postion and size
@@ -52,11 +52,11 @@ if has("gui_running")
 	set columns=85
 endif
 
-" Éè¶¨×´Ì¬À¸¶àÏÔÊ¾ĞÅÏ¢
+" è®¾å®šçŠ¶æ€æ å¤šæ˜¾ç¤ºä¿¡æ¯
 set laststatus=2
 
 if exists('+autochdir')
-	" ÎÄ¼şÂ·¾¶ÉèÖÃÎªµ±Ç°Â·¾¶
+	" æ–‡ä»¶è·¯å¾„è®¾ç½®ä¸ºå½“å‰è·¯å¾„
 	set autochdir
 endif
 
@@ -83,6 +83,7 @@ Bundle 'JavaScript-syntax'
 Bundle 'moin.vim'
 Bundle 'python.vim--Vasiliev'
 Bundle 'xml.vim'
+Bundle 'less'
 
 " Color
 
@@ -145,7 +146,7 @@ Bundle 'hallettj/jslint.vim'
 set langmenu=en_US
 let $LANG="en_US.UTF-8"
 
-set ruler "ÓÒÏÂ½ÇÏÔÊ¾µ±Ç°¹â±ê
+set ruler "å³ä¸‹è§’æ˜¾ç¤ºå½“å‰å…‰æ ‡
 
 "set cmdheight=2 "The commandbar height
 
@@ -157,25 +158,25 @@ set ignorecase "Ignore case when searching
 set smartcase
 "set nowrapscan
 
-" Ê¹ÓÃÕıÍ³µÄËÑË÷ÕıÔò
+" ä½¿ç”¨æ­£ç»Ÿçš„æœç´¢æ­£åˆ™
 "nnoremap / /\v
 "vnoremap / /\v
 
 set hlsearch "Highlight search things
 
-set incsearch "ÔÚÊäÈë²¿·Ö²éÕÒÄ£Ê½Ê±ÏÔÊ¾ÏàÓ¦µÄÆ¥Åäµã¡£
+set incsearch "åœ¨è¾“å…¥éƒ¨åˆ†æŸ¥æ‰¾æ¨¡å¼æ—¶æ˜¾ç¤ºç›¸åº”çš„åŒ¹é…ç‚¹ã€‚
 "set nolazyredraw "Don't redraw while executing macros 
 
 set nomagic "Set magic on, for regular expressions
 
 set showmatch "Show matching bracets when text indicator is over them
 
-set sidescroll=10 "×óÓÒÒÆ¶¯±ß¾à
+set sidescroll=10 "å·¦å³ç§»åŠ¨è¾¹è·
 
-"set list " ÏÔÊ¾ÖÆ±í·û/»Ø³µ·û
-set listchars=tab:>-,trail:$ " ĞĞÎ²·ûºÅ
+"set list " æ˜¾ç¤ºåˆ¶è¡¨ç¬¦/å›è½¦ç¬¦
+set listchars=tab:>-,trail:$ " è¡Œå°¾ç¬¦å·
 
-set showcmd "ÏÔÊ¾ÓÒÏÂ½ÇÃüÁî
+set showcmd "æ˜¾ç¤ºå³ä¸‹è§’å‘½ä»¤
 set cursorline
 
 set noerrorbells
@@ -187,15 +188,11 @@ if ! has("gui_running")
 	set mouse-=a
 endif
 
-"Éè¶¨¿í¶ÈÌáĞÑ
-if exists('+colorcolumn')
-	au FileType python set colorcolumn=79
-	au FileType asciidoc set colorcolumn=79
-endif
+set equalalways "åˆ†å‰²çª—å£æ—¶ä¿æŒç›¸ç­‰çš„å®½/é«˜
 
-set equalalways "·Ö¸î´°¿ÚÊ±±£³ÖÏàµÈµÄ¿í/¸ß
+set guitablabel=%N.%t " è®¾å®šæ ‡ç­¾ä¸Šæ˜¾ç¤ºåºå·
 
-set guitablabel=%N.%t " Éè¶¨±êÇ©ÉÏÏÔÊ¾ĞòºÅ
+set foldmethod=syntax
 
 """""""""""""""""""""""""""""""""""""""
 "Colors and Fonts
@@ -210,7 +207,7 @@ colorscheme desert256
 "set gui options
 if has("gui_running")
 	set guifont=Monospace\ 10
-	"set gfw=Ó×Ô²:h10:cGB2312
+	"set gfw=å¹¼åœ†:h10:cGB2312
 	set guioptions -=m
 	set guioptions -=T
 	set guioptions -=L
@@ -218,9 +215,9 @@ if has("gui_running")
 	"set showtabline=0
 endif
 
-set ambiwidth=double " Éè¶¨Ä³Ğ©±êµã·ûºÅÎª¿í×Ö·û
+set ambiwidth=double " è®¾å®šæŸäº›æ ‡ç‚¹ç¬¦å·ä¸ºå®½å­—ç¬¦
 
-" Éè¶¨ĞĞÊ×tabÎª»ÒÉ«
+" è®¾å®šè¡Œé¦–tabä¸ºç°è‰²
 highlight LeaderTab guifg=#666666
 
 """""""""""""""""""""""""""""""""""""""
@@ -232,7 +229,7 @@ set nowb
 set noswapfile
 set backupext=.bak
 
-"ÉèÖÃ±àÂë
+"è®¾ç½®ç¼–ç 
 set fileencodings=utf-8,gbk,ucs-bom,default,latin1
 set termencoding=utf-8
 set encoding=utf-8
@@ -252,28 +249,29 @@ endif
 """""""""""""""""""""""""""""""""""""""
 
 "set expandtab
-set noexpandtab "ÊÇ·ñÊ¹ÓÃTabËõ½ø Ä¬ÈÏÊ¹ÓÃ
+set noexpandtab "æ˜¯å¦ä½¿ç”¨Tabç¼©è¿› é»˜è®¤ä½¿ç”¨
 
 set shiftwidth=4
 set tabstop=4
 set smarttab
 
-set lbr "ÖÇÄÜ»»ĞĞ
-"set tw=500 "×Ô¶¯»»ĞĞ ³¬¹ınÁĞ
+set lbr "æ™ºèƒ½æ¢è¡Œ
+"set tw=500 "è‡ªåŠ¨æ¢è¡Œ è¶…è¿‡nåˆ—
 
 set ai "Auto indent
 set si "Smart indet
 set wrap "Wrap lines
 
-"ÌØÊâÎÄ¼şÀàĞÍµÄËõ½ø¿ØÖÆ
-au FileType python setlocal expandtab
-"au FileType html setlocal shiftwidth=2
-"au FileType html setlocal tabstop=2
-
-" textwidth
-au FileType python setlocal textwidth=79 fo+=Mm
-
 set showmatch " show matching bracets
+
+"""""""""""""""""""""""""""""""""""""""
+"FileType setting
+"""""""""""""""""""""""""""""""""""""""
+
+au FileType python setlocal expandtab colorcolumn=79 textwidth=79 " fo+=Mm
+au FileType asciidoc setlocal colorcolumn=79
+au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
+"au FileType html setlocal shiftwidth=2 tabstop=2
 
 """""""""""""""""""""""""""""""""""""""
 "Visual mode related
@@ -300,11 +298,11 @@ map <left> :bp<cr>
 "Visual Cues
 """""""""""""""""""""""""""""""""""""""
 if exists(':relativenumber')
-	set number " ÏÔÊ¾ĞĞºÅ
+	set number " æ˜¾ç¤ºè¡Œå·
 else
-	set relativenumber " ÏÔÊ¾Ïà¶ÔĞĞºÅ
+	set relativenumber " æ˜¾ç¤ºç›¸å¯¹è¡Œå·
 endif
-set numberwidth=2 "ĞĞºÅÀ¸µÄ¿í¶È
+set numberwidth=2 "è¡Œå·æ çš„å®½åº¦
 " set foldclose=all
 
 "function! MarkPoint()
@@ -360,11 +358,11 @@ let g:fencview_autodetect = 0
 " Map
 """""""""""""""""""""""""""""""""""""""
 map <F2>    :Tlist<cr>
-"´úÂëÕÛµş¿ì½İ·½Ê½
+"ä»£ç æŠ˜å å¿«æ·æ–¹å¼
 map <F3>    zR
 map <F4>    zM
 
-" ±êÇ©ÉèÖÃ
+" æ ‡ç­¾è®¾ç½®
 map <F11>    gT
 map <F12>    gt
 if has("gui_running")
@@ -390,17 +388,17 @@ endif
 
 "Map F9 to Run Python Script
 au FileType python map <F9> :!python %
-" ÓÃ¿Õ¸ñ¼üÀ´¿ª¹ØÕÛµş
+" ç”¨ç©ºæ ¼é”®æ¥å¼€å…³æŠ˜å 
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 
-" ÓÃ * / # Æ¥ÅäÑ¡ÖĞ
+" ç”¨ * / # åŒ¹é…é€‰ä¸­
 vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
-" htmlËõ½ø
+" htmlç¼©è¿›
 let g:html_indent_inctags = "p,li,dt,dd"
 
-" Ä£Äâ Emacs ¼ü°ó¶¨
+" æ¨¡æ‹Ÿ Emacs é”®ç»‘å®š
 " Move
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
@@ -423,9 +421,9 @@ inorem <M-d> dw
 noremap! <M-d> <C-o>dw
 
 """""""""""""""""""""""""""""""""""""""
-" ×Ô¶¨ÒåÃüÁî
+" è‡ªå®šä¹‰å‘½ä»¤
 """""""""""""""""""""""""""""""""""""""
-" É¾³ı½áÎ²¿Õ¸ñ¶¨Òå
+" åˆ é™¤ç»“å°¾ç©ºæ ¼å®šä¹‰
 command! -nargs=0 TrimR :%s/\s\+$//g
 
 function! Pdb()
@@ -434,7 +432,7 @@ function! Pdb()
 	call setline(line("."), "import ipdb;ipdb.set_trace()")
 endfunction
 
-" ¶Ô±ÈÔ­Ê¼ÎÄ¼ş£¬ÏÔÊ¾¸ü¸Ä´¦
+" å¯¹æ¯”åŸå§‹æ–‡ä»¶ï¼Œæ˜¾ç¤ºæ›´æ”¹å¤„
 if !exists(":DiffOrig")
     command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
           \ | wincmd p | diffthis
