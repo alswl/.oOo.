@@ -409,12 +409,13 @@ inoremap <C-f> <Right>
 inoremap <M-b> <C-o>b
 inoremap <M-f> <C-o>w
 " Rubout word / line and enter insert mode
-inoremap <C-w> <Esc><Right>cb
+" use <Esc><Right> instead of <C-o>
+inoremap <C-w> <Esc><Right>cb 
 " delete
 inoremap <C-u> <Esc><Right>c0
 inoremap <C-k> <Esc><Right>C
 inoremap <C-d> <Esc><Right>s
-noremap <M-d> <C-o>dw
+inoremap <M-d> <C-o>de
 
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
