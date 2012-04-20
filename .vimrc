@@ -406,19 +406,15 @@ inoremap <C-e> <End>
 "inoremap <C-n> <Down>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-noremap  <M-b> b
 noremap! <M-b> <C-o>b
-noremap  <M-f> w
 noremap! <M-f> <C-o>w
 " Rubout word / line and enter insert mode
-inoremap  <C-w> <Esc>db
+inoremap <C-w> <Esc><Right>cb
 " delete
-inoremap  <C-u> <Esc>c0
-inoremap  <C-k> <Esc><Right>C
-inoremap <C-d> <Esc>s
-
-inorem <M-d> dw
-noremap! <M-d> <C-o>dw
+inoremap <C-u> <Esc><Right>c0
+inoremap <C-k> <Esc><Right>C
+inoremap <C-d> <Esc><Right>s
+noremap <M-d> <C-o>dw
 
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
