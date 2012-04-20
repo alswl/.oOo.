@@ -406,8 +406,8 @@ inoremap <C-e> <End>
 "inoremap <C-n> <Down>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-noremap! <M-b> <C-o>b
-noremap! <M-f> <C-o>w
+inoremap <M-b> <C-o>b
+inoremap <M-f> <C-o>w
 " Rubout word / line and enter insert mode
 inoremap <C-w> <Esc><Right>cb
 " delete
