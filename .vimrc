@@ -410,9 +410,9 @@ inoremap <M-b> <C-o>b
 inoremap <M-f> <C-o>w
 " Rubout word / line and enter insert mode
 " use <Esc><Right> instead of <C-o>
-inoremap <C-w> <Esc><Right>cb 
+inoremap <C-w> <Esc>dbcl
 " delete
-inoremap <C-u> <Esc><Right>c0
+inoremap <C-u> <Esc>d0cl
 inoremap <C-k> <Esc><Right>C
 inoremap <C-d> <Esc><Right>s
 inoremap <M-d> <C-o>de
