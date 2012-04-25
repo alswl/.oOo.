@@ -125,6 +125,7 @@ Bundle 'taglist.vim'
 Bundle 'ZenCoding.vim'
 Bundle 'css_color.vim'
 Bundle 'hallettj/jslint.vim'
+Bundle 'vcscommand.vim'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
