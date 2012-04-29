@@ -1,8 +1,18 @@
-alswl's vim configure files
+alswl's dot files
 ===========================
 
-这里是我的vim插件和vim配置文件，有兴趣的可以参考，
+这里是我的Linux 配置文件，有兴趣的可以参考，
 我会慢慢将这个配置按个人喜好进化并加上注释。
+
+目前的配置文件包括：
+
+* vim
+* vimperator
+* xmonad
+* xmobar
+* xsession
+* zsh
+* Xmodmap
 
 我是Python程序员，同时也code Javascript / html / css 。
 
