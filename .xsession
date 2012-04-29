@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This file will start with gdm
+
 # Dual Monitor
 xrandr --output VGA1 --rotate right --mode 1440x900 --left-of LVDS1
 
@@ -11,5 +13,8 @@ nm-applet &
 
 # Dropbox
 dropboxd  &
+
+# xscreensaver
+xscreensaver -no-splash &
 
 # vim: set ft=sh:
