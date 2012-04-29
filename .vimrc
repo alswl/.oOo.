@@ -47,9 +47,14 @@ set nocompatible
 
 " Set windows postion and size
 if has("gui_running")
-	winpos 0 0
-	set lines=41
-	set columns=85
+	"winpos 0 0
+	"set lines=43
+	"set columns=85
+	set guioptions -=m
+	set guioptions -=T
+	set guioptions -=L
+	set guioptions -=r
+	"set showtabline=0
 endif
 
 " 设定状态栏多显示信息
@@ -207,13 +212,8 @@ colorscheme desert256
 "gfn=consolas:h10
 "set gui options
 if has("gui_running")
-	set guifont=Monospace\ 10
+	set guifont=Monospace\ 11
 	"set gfw=幼圆:h10:cGB2312
-	set guioptions -=m
-	set guioptions -=T
-	set guioptions -=L
-	set guioptions -=r
-	"set showtabline=0
 endif
 
 set ambiwidth=double " 设定某些标点符号为宽字符
@@ -273,6 +273,7 @@ au FileType python setlocal expandtab colorcolumn=79 textwidth=79 " fo+=Mm
 au FileType asciidoc setlocal colorcolumn=79
 au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 "au FileType html setlocal shiftwidth=2 tabstop=2
+au FileType haskell setlocal expandtab
 
 """""""""""""""""""""""""""""""""""""""
 "Visual mode related
