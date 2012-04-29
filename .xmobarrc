@@ -1,0 +1,26 @@
+Config { font = "xft:WenQuanYi Micro Hei:pixelsize=12"
+       , borderColor = "black"
+       , border = TopB
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = TopW L 90
+       , lowerOnStart = True
+       , commands = [ Run StdinReader
+                    , Run Network "eth0" ["-L","0","-H","100","--normal","green","--high","red", "-t", "E: <rx>/<tx>"] 10
+                    , Run Network "wlan0" ["-L","0","-H","100","--normal","green","--high","red", "-t", "W: <rx>/<tx>"] 10
+                    -- , Run Cpu ["-L","3","-H","30","--normal","green","--high","red", "-t", "C: <total>%"] 10
+                    , Run MultiCpu ["-L","3","-H","30","--normal","green","--high","red", "-t", "C: <total>%"] 10
+                    , Run Memory ["-t","M: <usedratio>%"] 10
+                    , Run Swap ["-t", "S: <usedratio>%"] 10
+                    , Run Com "uname" ["-s","-r"] "" 36000
+                    , Run Date "%a %_d %H:%M:%S" "date" 10
+                    , Run Battery ["-L","30","-H","75","--high","green","--normal","yellow", "--low", "red", "-t", "B: <left>%/<timeleft>"] 10
+                    , Run Volume "default" "Master" ["-t", "V: <volume>% <status>"] 10
+                    , Run Brightness ["-t", "B: <percent>"] 10
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %multicpu% | %memory% | %swap% | %eth0% - %wlan0% | %battery% | <fc=#c8f2ff>%default:Master%</fc> | <fc=#f8ffbb>%bright%</fc> | <fc=#ee9a00>%date%</fc>"
+}
+
+-- vim: set ft=haskell:

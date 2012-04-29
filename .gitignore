@@ -1,4 +1,6 @@
 #Vim view
 .vim/view/*
 .vim/.netrwhist
+.vimperator/info/*
+.xmonad/*
 restart_session.vim
