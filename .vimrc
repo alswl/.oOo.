@@ -99,7 +99,7 @@ Bundle 'vibrantink'
 Bundle 'vividchalk.vim'
 
 " Ftplugin
-Bundle 'python_fold'
+"Bundle 'python_fold'
 
 " Indent
 "Bundle 'indent/html.vim'
@@ -256,9 +256,6 @@ set shiftwidth=4
 set tabstop=4
 set smarttab
 
-set lbr "智能换行
-"set tw=500 "自动换行 超过n列
-
 set ai "Auto indent
 set si "Smart indet
 set wrap "Wrap lines
@@ -268,6 +265,8 @@ set showmatch " show matching bracets
 """""""""""""""""""""""""""""""""""""""
 "FileType setting
 """""""""""""""""""""""""""""""""""""""
+
+au BufRead,BufNewFile *.md set filetype=markdown
 
 au FileType python setlocal expandtab colorcolumn=79 textwidth=79 " fo+=Mm
 au FileType asciidoc setlocal colorcolumn=79
@@ -317,6 +316,10 @@ set numberwidth=2 "行号栏的宽度
 """""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout
 """""""""""""""""""""""""""""""""""""""
+
+set formatoptions+=mB
+set lbr "智能换行
+"set tw=500 "自动换行 超过n列
 
 """""""""""""""""""""""""""""""""""""""
 " Plugin
