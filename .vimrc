@@ -89,6 +89,7 @@ Bundle 'moin.vim'
 Bundle 'python.vim--Vasiliev'
 Bundle 'xml.vim'
 Bundle 'less'
+Bundle 'hallison/vim-markdown'
 
 " Color
 

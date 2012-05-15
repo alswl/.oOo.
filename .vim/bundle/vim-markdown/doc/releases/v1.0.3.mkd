@@ -1,0 +1,9 @@
+Vim-Markdown v1.0.3
+===================
+
+* Added auto-detection for file type.
+* Updates in documentation.
+* Updates in package list.
+
+For more information about this version, please visit the repository hosted
+on <http://github.com/hallison/vim-markdown>.

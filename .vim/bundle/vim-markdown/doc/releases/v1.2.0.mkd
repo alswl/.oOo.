@@ -1,0 +1,16 @@
+Vim-Markdown v1.2.0
+===================
+
+* Fixes.
+  * The italics has been fixed. Thanks to Ian Smith-Heisters.
+  * Fix in gzip package extension.
+
+* Improvements.
+  * Support multi-line captioned images and links. This feature is supported
+    by Pandoc and others parsers. Thanks to Bryan Silverthorn.
+  * You can install Markdown using vim-addon-manager. More details see
+    <http://github.com/MarcWeber/vim-addon-manager>.
+
+For more information about this version, please visit the repository hosted
+on <http://github.com/hallison/vim-markdown>.
+

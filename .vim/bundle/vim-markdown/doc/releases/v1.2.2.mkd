@@ -1,0 +1,15 @@
+Vim-Markdown v1.2.2
+===================
+
+Several fixes. Thanks to [Dustin Ingram][].
+
+* Fixes.
+  * Multi-paragraph list items.
+  * Code block in list.
+
+For more information about this version, please visit the repository hosted
+on <http://github.com/hallison/vim-markdown>.
+
+[Dustin Ingram]: http://github.com/dustingram
+  "Dustin Ingram"
+

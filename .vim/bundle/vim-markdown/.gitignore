@@ -1,0 +1,6 @@
+.*.sw[p-z]
+*.gz
+*.tmp
+*.vba
+*.zip
+

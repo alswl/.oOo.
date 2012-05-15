@@ -1,0 +1,12 @@
+Vim-Markdown v1.2.1
+===================
+
+* Fixes.
+  * The backtick trigger has been fixed.
+
+* Improvements.
+  * Adding of task for creating a package for tests.
+
+For more information about this version, please visit the repository hosted
+on <http://github.com/hallison/vim-markdown>.
+

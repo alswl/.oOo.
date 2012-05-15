@@ -1,0 +1,10 @@
+Vim-Markdown v1.0.1
+===================
+
+Improvements and fixes in plugin.
+
+*  Fix in task pool file.
+*  Change file name of the package content.
+*  New tasks in pool.
+*  Small improvements in syntax and doc updates.
+

@@ -1,0 +1,10 @@
+Vim-Markdown v1.0.0
+===================
+
+This release include new features.
+
+* Syntax file renamed to `markdown.vim`.
+* Added snippets.
+* Added Vimball package support.
+* Versioning.
+

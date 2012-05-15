@@ -1,0 +1,14 @@
+Vim-Markdown v1.1.0
+===================
+
+* Enhancements.
+  * Added build using Bakefile (Bash-Toolbox).
+  * Manifest file for VBA package.
+
+* Fixes.
+  * Fixes in the file detection.
+  * Fixes in link snippets.
+
+For more information about this version, please visit the repository hosted
+on <http://github.com/hallison/vim-markdown>.
+
