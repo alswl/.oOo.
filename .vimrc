@@ -79,7 +79,7 @@ call vundle#rc()
 
 " vim-scripts repos
 
-Bundle 'vundle'
+Bundle 'git://github.com/gmarik/vundle.git'
 
 " Syntax
 Bundle 'asciidoc.vim'
@@ -91,7 +91,7 @@ Bundle 'moin.vim'
 Bundle 'python.vim--Vasiliev'
 Bundle 'xml.vim'
 Bundle 'less'
-Bundle 'hallison/vim-markdown'
+Bundle 'git://github.com/hallison/vim-markdown.git'
 
 " Color
 
@@ -109,7 +109,7 @@ Bundle 'vividchalk.vim'
 Bundle 'IndentAnything'
 Bundle 'Javascript-Indentation'
 Bundle 'mako.vim--Torborg'
-Bundle 'gg/python.vim'
+Bundle 'git://github.com/gg/python.vim.git'
 
 " Plugin
 Bundle 'The-NERD-tree'
@@ -132,7 +132,7 @@ Bundle 'taglist.vim'
 "Bundle 'vimim.vim'
 Bundle 'ZenCoding.vim'
 Bundle 'css_color.vim'
-Bundle 'hallettj/jslint.vim'
+Bundle 'git://github.com/hallettj/jslint.vim.git'
 Bundle 'vcscommand.vim'
 
 " original repos on github
