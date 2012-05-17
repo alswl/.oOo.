@@ -34,7 +34,9 @@ plugins=(git python archlinux history-substring-search)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=$PATH:/opt/java/bin:/opt/java/db/bin:/opt/java/jre/bin:/usr/bin/core_perl
+export PATH=$PATH:/opt/java6/bin:/opt/java6/db/bin:/opt/java6/jre/bin:/usr/bin/core_perl:/home/alswl/local/bin
+export JAVA_HOME=/opt/java6
+export EDITOR=vim
 
 # 常用alias {{{
 alias ls='ls --color=auto'
@@ -43,11 +45,10 @@ alias la='ls -a'
 alias mkdir='mkdir -p'
 alias ..='cd ..'
 alias mem='free -m'
-alias nautilus=nautilus --no-desktop
 # }}}
 
 # ssh alias {{{
-alias ssh-log4d='ssh alswl@log4d.com'
+alias ssh-log4d='ssh blog@log4d.com'
 alias ssh-dddspace='ssh alswl@dddspace.com'
 alias ssh-route='ssh root@192.168.1.254'
 alias ssh-myb='ssh myblogin@221.130.6.212 -p 2122'
