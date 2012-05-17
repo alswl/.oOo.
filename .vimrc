@@ -79,6 +79,8 @@ call vundle#rc()
 
 " vim-scripts repos
 
+Bundle 'vundle'
+
 " Syntax
 Bundle 'asciidoc.vim'
 Bundle 'confluencewiki.vim'
@@ -274,6 +276,7 @@ au FileType asciidoc setlocal colorcolumn=79
 au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 "au FileType html setlocal shiftwidth=2 tabstop=2
 au FileType haskell setlocal expandtab
+au FileType lua setlocal expandtab
 
 """""""""""""""""""""""""""""""""""""""
 "Visual mode related
