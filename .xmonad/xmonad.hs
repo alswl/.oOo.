@@ -15,7 +15,7 @@ import XMonad.Util.Run (spawnPipe)
 
 import Graphics.X11.ExtraTypes.XF86 
 
-{-import XMonad.Config.Gnome-}
+--import XMonad.Config.Gnome -- Gnome config
 
 import System.IO
 
@@ -27,7 +27,6 @@ import qualified Data.Map as M
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
---
 myTerminal = "gnome-terminal"
 
 -- Whether focus follows the mouse pointer.
@@ -35,14 +34,12 @@ myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = True
 
 -- Width of the window border in pixels.
---
 myBorderWidth = 2
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
 -- ("right alt"), which does not conflict with emacs keybindings. The
 -- "windows key" is usually mod4Mask.
---
 myModMask = mod4Mask
 
 -- The default number of workspaces (virtual screens) and their names.
@@ -53,11 +50,9 @@ myModMask = mod4Mask
 -- A tagging example:
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
---
 myWorkspaces = ["1:web","2:dev","3:im","4:dev","5:dev","6","7:media","8:util","9:nautilus"]
 
 -- Border colors for unfocused and focused windows, respectively.
---
 myNormalBorderColor  = "#0f0f0f"
 myFocusedBorderColor = "#ff0000"
 
@@ -115,13 +110,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_l), sendMessage Expand)
 
     -- Push window back into tiling
-    , ((modm,               xK_t     ), withFocused $ windows . W.sink)
+    , ((modm, xK_t), withFocused $ windows . W.sink)
 
     -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
+    , ((modm , xK_comma), sendMessage (IncMasterN 1))
 
     -- Deincrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
+    , ((modm , xK_period), sendMessage (IncMasterN (-1)))
 
 	, ((modm, xK_Print), spawn "/usr/bin/gnome-screenshot -i")
 
@@ -132,7 +127,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_r     ), io (exitWith ExitSuccess))
+    , ((modm .|. shiftMask, xK_r), io (exitWith ExitSuccess))
 
     -- Restart xmonad
     , ((modm , xK_r), spawn "xmonad --recompile; xmonad --restart")
@@ -262,11 +257,16 @@ myManageHook = composeAll
     , className =? "MPlayer" --> doShift "7:media"
 	, className =? "banshee" --> doShift "7:media"
 	, className =? "Rhythmbox" --> doShift "7:media"
+	, className =? "Smplayer" --> doShift "7:media"
 	, className =? "Thunderbird" --> doShift "8:util"
+	, className =? "Gnucash" --> doShift "8:util"
 	, className =? "Nautilus" --> doShift "9:nautilus"
     , className =? "Gimp" --> doFloat
+    , className =? "Gimp" --> doShift "7:media"
+    , className =? "Gimp-2.6" --> doFloat
+    , className =? "Gimp-2.6" --> doShift "7:media"
     , className =? "Tilda" --> doFloat
-    , className =? "VirtualBox" --> doFloat
+    , className =? "VirtualBox" --> doShift "3:im"
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
     , manageDocks
@@ -334,11 +334,3 @@ main = do
         logHook            = myLogHook xmproc,
         startupHook        = myStartupHook
     }
-{-main = xmonad gnomeConfig-}
-
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---

@@ -1,12 +1,19 @@
 #!/bin/bash
 
-SESSION_TYPE=xmonad
+# This script will start by /usr/share/xsessions/*.desktop
+
+SESSION_TYPE=$1
 
 GLOBALXSESSION="xmonad"
 USERXSESSION=~/.xsession
 
-if [ -f "$USERXSESSION" ]
-	then . $USERXSESSION
+# nautilus
+alias nautilus="nautilus --no-desktop"
+
+
+if [ -f "$USERXSESSION" ]; then
+	. $USERXSESSION $1
 fi
 
-exec xmonad
+#exec ck-launch-session dbus-launch $1
+exec $1
