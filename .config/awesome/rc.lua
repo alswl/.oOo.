@@ -368,14 +368,18 @@ for i = 1, keynumber do
                         if tags[cs][i] and table.getn(tags[cs][i]:clients()) > 0 then
                             awful.tag.viewonly(tags[cs][i])
                         else
+                            local ismatched = false
                             for j = 1, screen.count() do
                                 if table.getn(tags[j][i]:clients()) > 0 then
                                     awful.tag.viewonly(tags[j][i])
                                     awful.screen.focus(j)
+                                    ismatched = true
                                     break
                                 end
                             end
-                            return
+                            if ismatched then
+                                return
+                            end
                         end
                         if tags[cs][i] then
                             awful.tag.viewonly(tags[cs][i])
