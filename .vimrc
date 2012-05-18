@@ -92,6 +92,7 @@ Bundle 'python.vim--Vasiliev'
 Bundle 'xml.vim'
 Bundle 'less'
 Bundle 'git://github.com/hallison/vim-markdown.git'
+Bundle 'wikipedia.vim'
 
 " Color
 
