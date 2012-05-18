@@ -6,6 +6,8 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
+-- Third party
+require("vicious")
 
 -- widgets
 --require("vicious")
@@ -72,8 +74,8 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = {"1:web", "2:dev", "3:im", "4:dev", "5:dev", "6", "7:media",
-    "8:util","9:nautilus"}
+    names = {"1:w", "2:d", "3:im", "4:d", "5:d", "6", "7:m",
+    "8:u","9:n"}
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
@@ -87,6 +89,7 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
+   { "halt", function () awful.util.spawn("sudo halt") end},
    { "quit", awesome.quit }
    -- TODO add power off
 }
@@ -107,6 +110,29 @@ mylauncher = awful.widget.launcher({
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
+-- Initialize widget
+memwidget = awful.widget.progressbar()
+-- Progressbar properties
+memwidget:set_width(8)
+memwidget:set_height(10)
+memwidget:set_vertical(true)
+memwidget:set_background_color("#494B4F")
+memwidget:set_border_color(nil)
+memwidget:set_color("#AECF96")
+memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+-- Register widget
+vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
+
+-- Initialize widget
+cpuwidget = awful.widget.graph()
+-- Graph properties
+cpuwidget:set_width(8)
+cpuwidget:set_background_color("#494B4F")
+cpuwidget:set_color("#FF5656")
+cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+-- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+
 -- Create a systray
 mysystray = widget({ type = "systray" })
 
@@ -125,6 +151,8 @@ mytaglist.buttons = awful.util.table.join(
     awful.button({ }, 5, awful.tag.viewprev)
 )
 mytasklist = {}
+mystatuslist = {
+}
 mytasklist.buttons = awful.util.table.join(
     awful.button({}, 1,
         function (c)
@@ -196,6 +224,8 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
+            cpuwidget,
+            memwidget,
             mylauncher,
             mytaglist[s],
             mypromptbox[s],
@@ -291,13 +321,13 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
 
-	-- Volume
-	awful.key({}, "XF86AudioMute",
-		function () awful.util.spawn("amixer set Master toggle") end),
-	awful.key({}, "XF86AudioRaiseVolume",
-		function () awful.util.spawn("amixer set Master -c 0 3dB+") end),
-	awful.key({}, "XF86AudioLowerVolume",
-		function () awful.util.spawn("amixer set Master -c 0 3dB-") end)
+    -- Volume
+    awful.key({}, "XF86AudioMute",
+        function () awful.util.spawn("amixer set Master toggle") end),
+    awful.key({}, "XF86AudioRaiseVolume",
+        function () awful.util.spawn("amixer set Master -c 0 3dB+") end),
+    awful.key({}, "XF86AudioLowerVolume",
+        function () awful.util.spawn("amixer set Master -c 0 3dB-") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -334,9 +364,21 @@ for i = 1, keynumber do
     globalkeys = awful.util.table.join(globalkeys,
         awful.key({ modkey }, "#" .. i + 9,
                   function ()
-                        local screen = mouse.screen
-                        if tags[screen][i] then
-                            awful.tag.viewonly(tags[screen][i])
+                        local cs = mouse.screen
+                        if tags[cs][i] and table.getn(tags[cs][i]:clients()) > 0 then
+                            awful.tag.viewonly(tags[cs][i])
+                        else
+                            for j = 1, screen.count() do
+                                if table.getn(tags[j][i]:clients()) > 0 then
+                                    awful.tag.viewonly(tags[j][i])
+                                    awful.screen.focus(j)
+                                    break
+                                end
+                            end
+                            return
+                        end
+                        if tags[cs][i] then
+                            awful.tag.viewonly(tags[cs][i])
                         end
                   end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,
