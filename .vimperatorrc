@@ -1,7 +1,11 @@
 let mapleader = ","
 
-noremap <C-b> <C-v><C-b>
-noremap <C-y> <C-v><C-y>
+noremap <C-b> <Ins><C-b><Ins>
+noremap <C-y> <Ins><C-y><Ins>
+noremap <C-a> <Ins><C-a><Ins>
+noremap <C-c> <Ins><C-c><Ins>
+noremap <C-v> <Ins><C-v><Ins>
+
 noremap j 4j
 noremap k 4k
 noremap h gT
@@ -20,8 +24,8 @@ noremap <leader>dc :dialog console<CR>
 noremap <leader>di :dialog pageinfo<CR>
 
 "干掉一些快捷键
-map <C-d> <Nop>
-map <C-u> <Nop>
+" map <C-d> <Nop>
+" map <C-u> <Nop>
 
 " set titlestring=Mozilla\ Firefox
 
@@ -33,7 +37,7 @@ set nextpattern=\s*下一页|下一张|下一篇|下页|后页\s*,^\bnext\b,\\bn
 set previouspattern=\s*上一页|上一张|上一篇|上页|前页\s*,^\bprev|previous\b,\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$
 
 "surround com and net可以直接先输入网站名,再用<CTRL>+<ENTER>快捷输入.com/.net
-cnoremap<S-Return> <End>.org<Home><C-Right>www.<CR>
-cnoremap<C-Return> <End>.com<Home><C-Right>www.<CR>
+cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
+cnoremap<C-Return> <End>.com<Home><C-Right><Right>www.<CR>
 
 " vim: set ft=vimperator:
