@@ -58,15 +58,15 @@ layouts =
 {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
+    --awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
+    --awful.layout.suit.tile.top,
+    --awful.layout.suit.fair,
+    --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
+    --awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
 -- }}}
@@ -74,12 +74,19 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = {"1:w", "2:d", "3:im", "4:d", "5:d", "6", "7:m",
-    "8:u","9:n"}
+    names = {"1:w", "2:d", "3:im", "4:d", "5:d", "6", "7:m", "8:u","9:n"},
+    layouts = {
+        layouts[2], layouts[2], layouts[4], layouts[2], layouts[2],
+        layouts[2], layouts[2], layouts[2], layouts[2]
+    }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag(tags.names, s, layouts[2])
+    if s == 1 then
+        tags[s] = awful.tag(tags.names, s, tags.layouts)
+    else
+        tags[s] = awful.tag(tags.names, s, layouts[3])
+    end
 end
 -- }}}
 
@@ -89,6 +96,7 @@ myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
+   { "suspend", function () awful.util.spawn("xscreensaver-command -lock && sudo pm-suspend") end},
    { "halt", function () awful.util.spawn("sudo halt") end},
    { "quit", awesome.quit }
    -- TODO add power off
@@ -224,8 +232,8 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
-            cpuwidget,
-            memwidget,
+            s == 1 and cpuwidget or nil,
+            s == 1 and memwidget or nil,
             mylauncher,
             mytaglist[s],
             mypromptbox[s],
