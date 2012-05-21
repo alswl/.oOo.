@@ -1,10 +1,14 @@
 let mapleader = ","
 
-noremap <C-b> <Ins><C-b><Ins>
-noremap <C-y> <Ins><C-y><Ins>
+noremap <C-b> <C-b>
+noremap <C-y> <C-y>
 noremap <C-a> <Ins><C-a><Ins>
 noremap <C-c> <Ins><C-c><Ins>
 noremap <C-v> <Ins><C-v><Ins>
+inoremap <C-y> <Ins><C-y><Ins>
+inoremap <C-a> <Ins><C-a><Ins>
+inoremap <C-c> <Ins><C-c><Ins>
+inoremap <C-v> <Ins><C-v><Ins>
 
 noremap j 4j
 noremap k 4k
@@ -40,4 +44,4 @@ set previouspattern=\s*上一页|上一张|上一篇|上页|前页\s*,^\bprev|pr
 cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
 cnoremap<C-Return> <End>.com<Home><C-Right><Right>www.<CR>
 
-" vim: set ft=vimperator:
+" vim: set ft=vim:
