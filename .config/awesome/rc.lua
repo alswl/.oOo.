@@ -74,18 +74,26 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
+    -- www / dev / im / dev / dev / dev / media / util / nautilus
     names = {"1:w", "2:d", "3:im", "4:d", "5:d", "6", "7:m", "8:u","9:n"},
     layouts = {
-        layouts[2], layouts[2], layouts[4], layouts[2], layouts[2],
-        layouts[2], layouts[2], layouts[2], layouts[2]
+        awful.layout.suit.tile,
+        awful.layout.suit.tile,
+        awful.layout.suit.tile,
+        awful.layout.suit.max,
+        awful.layout.suit.tile,
+        awful.layout.suit.tile,
+        awful.layout.suit.tile,
+        awful.layout.suit.tile,
+        awful.layout.suit.tile
     }
 }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     if s == 1 then
         tags[s] = awful.tag(tags.names, s, tags.layouts)
-    else
-        tags[s] = awful.tag(tags.names, s, layouts[3])
+    else -- 第二屏幕，是竖起来的
+        tags[s] = awful.tag(tags.names, s, awful.layout.suit.tile.bottom)
     end
 end
 -- }}}
@@ -93,19 +101,20 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
+   --{ "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
-   { "suspend", function () awful.util.spawn("xscreensaver-command -lock && sudo pm-suspend") end},
-   { "halt", function () awful.util.spawn("sudo halt") end},
-   { "quit", awesome.quit }
-   -- TODO add power off
+   { "quit", awesome.quit },
+   --{ "suspend", function () awful.util.spawn("xscreensaver-command -lock && sudo pm-suspend") end},
+   { "power off", "dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Mana"},
 }
 
 mymainmenu = awful.menu({
     items = {
-        { "awesome", myawesomemenu, beautiful.awesome_icon },
-        { "open terminal", terminal }
+        {"awesome", myawesomemenu, beautiful.awesome_icon},
+        {"&Nautilus", "nautilus --no-desktop", '/usr/share/icons/hicolor/32x32/apps/nautilus.png'},
+        {"屏幕键盘", "matchbox-keyboard", '/usr/share/pixmaps/matchbox-keyboard.png'}
+        --{"open terminal", terminal }
     }
 })
 
@@ -140,6 +149,63 @@ cpuwidget:set_color("#FF5656")
 cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
 -- Register widget
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+
+-- {{{ netif
+netif = 'eth0'
+function netwidget_text(netif)
+    return '↓<span color="#5798d9">${' ..netif.. ' down_kb}</span> ↑<span color="#c2ba62">${' ..netif.. ' up_kb}</span> '
+end
+netwidget = widget({ type = "textbox" })
+netwidget_v = vicious.register(netwidget, vicious.widgets.net, netwidget_text(netif) , 2)
+function set_netif(interface)
+    netwidget_v.format = netwidget_text(interface)
+end
+-- }}}
+
+-- {{{ Volume Control
+volume_cardid  = 0
+volume_channel = "Master"
+function volume (mode, widget)
+    if mode == "update" then
+        local fd = io.popen("amixer -c " .. volume_cardid .. " -- sget " .. volume_channel)
+        local status = fd:read("*all")
+        fd:close()
+
+        local volume = string.match(status, "(%d?%d?%d)%%")
+        volume = string.format("% 3d", volume)
+
+        status = string.match(status, "%[(o[^%]]*)%]")
+
+        if string.find(status, "on", 1, true) then
+            volume = '♫' .. volume .. "%"
+        else
+            volume = '♫' .. volume .. '<span color="red">M</span>'
+        end
+        widget.text = volume
+    elseif mode == "up" then
+        io.popen("amixer -q -c " .. volume_cardid .. " sset " .. volume_channel .. " 5%+"):read("*all")
+        volume("update", widget)
+    elseif mode == "down" then
+        io.popen("amixer -q -c " .. volume_cardid .. " sset " .. volume_channel .. " 5%-"):read("*all")
+        volume("update", widget)
+    else
+        io.popen("amixer -c " .. volume_cardid .. " sset " .. volume_channel .. " toggle"):read("*all")
+        volume("update", widget)
+    end
+end
+volume_clock = timer({ timeout = 10 })
+volume_clock:add_signal("timeout", function () volume("update", tb_volume) end)
+volume_clock:start()
+
+tb_volume = widget({ type = "textbox", name = "tb_volume", align = "right" })
+tb_volume.width = 45
+tb_volume:buttons(awful.util.table.join(
+    awful.button({ }, 4, function () volume("up", tb_volume) end),
+    awful.button({ }, 5, function () volume("down", tb_volume) end),
+    awful.button({ }, 1, function () volume("mute", tb_volume) end)
+))
+volume("update", tb_volume)
+-- }}}
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -242,6 +308,8 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         mytextclock,
         s == 1 and mysystray or nil,
+        s == 1 and netwidget or nil,
+        s == 1 and tb_volume or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -331,11 +399,21 @@ globalkeys = awful.util.table.join(
 
     -- Volume
     awful.key({}, "XF86AudioMute",
-        function () awful.util.spawn("amixer set Master toggle") end),
+        function ()
+            awful.util.spawn("amixer set Master toggle")
+            os.execute("sleep .5") -- 延迟
+            volume("update", tb_volume)
+        end),
     awful.key({}, "XF86AudioRaiseVolume",
-        function () awful.util.spawn("amixer set Master -c 0 3dB+") end),
+        function ()
+            awful.util.spawn("amixer set Master -c 0 3dB+")
+            volume("update", tb_volume)
+        end),
     awful.key({}, "XF86AudioLowerVolume",
-        function () awful.util.spawn("amixer set Master -c 0 3dB-") end)
+        function ()
+            awful.util.spawn("amixer set Master -c 0 3dB-")
+            volume("update", tb_volume)
+        end)
 )
 
 clientkeys = awful.util.table.join(
