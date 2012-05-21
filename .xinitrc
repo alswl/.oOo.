@@ -18,4 +18,4 @@ export QT_IM_MODULE=fcitx
 exec ck-launch-session xmonad 
 # exec ck-launch-session gnome-session
 
-# vim: set ft=bash:
+# vim: set ft=sh:
