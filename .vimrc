@@ -433,7 +433,7 @@ inoremap <C-d> <Esc><Right>s
 inoremap <M-d> <C-o>de
 
 let g:pep8_map='<leader>8' " PEP8 Check
-map <leader>n :NERDTreeToggle<CR>
+map <leader>f :NERDTreeToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
