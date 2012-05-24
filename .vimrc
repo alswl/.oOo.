@@ -136,6 +136,9 @@ Bundle 'css_color.vim'
 Bundle 'git://github.com/hallettj/jslint.vim.git'
 Bundle 'vcscommand.vim'
 Bundle 'snipMate'
+Bundle 'TaskList.vim'
+Bundle 'pep8'
+"Bundle 'git://github.com/kevinw/pyflakes-vim.git'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -274,6 +277,8 @@ set showmatch " show matching bracets
 au BufRead,BufNewFile *.md set filetype=markdown
 
 au FileType python setlocal expandtab colorcolumn=79 textwidth=79 " fo+=Mm
+"Map F9 to Run Python Script
+au FileType python map <F9> :!python %
 au FileType asciidoc setlocal colorcolumn=79
 au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 "au FileType html setlocal shiftwidth=2 tabstop=2
@@ -397,8 +402,6 @@ if has("gui_running")
 	nmap <M-9> 9gt
 endif
 
-"Map F9 to Run Python Script
-au FileType python map <F9> :!python %
 " 用空格键来开关折叠
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 
@@ -427,6 +430,8 @@ inoremap <C-u> <Esc>d0cl
 inoremap <C-k> <Esc><Right>C
 inoremap <C-d> <Esc><Right>s
 inoremap <M-d> <C-o>de
+
+let g:pep8_map='<leader>8'
 
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
