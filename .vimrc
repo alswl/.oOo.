@@ -139,6 +139,7 @@ Bundle 'snipMate'
 Bundle 'TaskList.vim'
 Bundle 'pep8'
 "Bundle 'git://github.com/kevinw/pyflakes-vim.git'
+Bundle 'git://github.com/sontek/rope-vim.git'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -431,7 +432,8 @@ inoremap <C-k> <Esc><Right>C
 inoremap <C-d> <Esc><Right>s
 inoremap <M-d> <C-o>de
 
-let g:pep8_map='<leader>8'
+let g:pep8_map='<leader>8' " PEP8 Check
+map <leader>n :NERDTreeToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""
 " 自定义命令
