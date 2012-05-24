@@ -135,6 +135,7 @@ Bundle 'ZenCoding.vim'
 Bundle 'css_color.vim'
 Bundle 'git://github.com/hallettj/jslint.vim.git'
 Bundle 'vcscommand.vim'
+Bundle 'snipMate'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -432,12 +433,6 @@ inoremap <M-d> <C-o>de
 """""""""""""""""""""""""""""""""""""""
 " 删除结尾空格定义
 command! -nargs=0 TrimR :%s/\s\+$//g
-
-function! Pdb()
-	normal o
-	normal <ESC>
-	call setline(line("."), "import ipdb;ipdb.set_trace()")
-endfunction
 
 " 对比原始文件，显示更改处
 if !exists(":DiffOrig")
