@@ -207,6 +207,11 @@ tb_volume:buttons(awful.util.table.join(
 volume("update", tb_volume)
 -- }}}
 
+-- {{{ Battery
+batwidget = widget({ type = "textbox" })
+vicious.register(batwidget, vicious.widgets.bat, ' <span color="#0000ff">$1$2%</span>', 5, 'BAT0')
+-- }}}
+
 -- Create a systray
 mysystray = widget({ type = "systray" })
 
@@ -310,6 +315,7 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil,
         s == 1 and netwidget or nil,
         s == 1 and tb_volume or nil,
+        s == 1 and batwidget or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
