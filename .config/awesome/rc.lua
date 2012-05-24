@@ -79,13 +79,13 @@ tags = {
     layouts = {
         awful.layout.suit.tile,
         awful.layout.suit.tile,
-        awful.layout.suit.tile,
         awful.layout.suit.max,
-        awful.layout.suit.tile,
-        awful.layout.suit.tile,
-        awful.layout.suit.tile,
-        awful.layout.suit.tile,
-        awful.layout.suit.tile
+        awful.layout.suit.floating,
+        awful.layout.suit.floating,
+        awful.layout.suit.floating,
+        awful.layout.suit.floating,
+        awful.layout.suit.floating,
+        awful.layout.suit.floating
     }
 }
 for s = 1, screen.count() do
@@ -113,8 +113,8 @@ mymainmenu = awful.menu({
     items = {
         {"awesome", myawesomemenu, beautiful.awesome_icon},
         {"&Nautilus", "nautilus --no-desktop", '/usr/share/icons/hicolor/32x32/apps/nautilus.png'},
-        {"屏幕键盘", "matchbox-keyboard", '/usr/share/pixmaps/matchbox-keyboard.png'}
-        --{"open terminal", terminal }
+        {"屏幕键盘", "matchbox-keyboard", '/usr/share/pixmaps/matchbox-keyboard.png'},
+        {"open terminal", terminal }
     }
 })
 
@@ -516,8 +516,8 @@ awful.rules.rules = {
       properties = {floating = true}},
     {rule = {class = "Firefox", name = "Download"},
       properties = {floating = true}},
-    {rule = {class = "Gvim"},
-      properties = {tag = tags[1][2]}},
+    --{rule = {class = "Gvim"},
+      --properties = {tag = tags[1][2]}},
     {rule = {class = "Chromium"},
       properties = {tag = tags[1][3]}},
     {rule = {class = "Thunderbird"},
@@ -528,8 +528,8 @@ awful.rules.rules = {
      properties = {floating = true, tag = tags[1][7]}},
     {rule = {class = "MPlayer"},
      properties = {floating = true}, tag = tags[1][7]},
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
+    --{ rule = { class = "pinentry" },
+      --properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
     {rule = {class = "Goldendict"},
