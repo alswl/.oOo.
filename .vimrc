@@ -79,7 +79,7 @@ call vundle#rc()
 
 " vim-scripts repos
 
-Bundle 'git://github.com/gmarik/vundle.git'
+Bundle 'gmarik/vundle'
 
 " Syntax
 Bundle 'asciidoc.vim'
