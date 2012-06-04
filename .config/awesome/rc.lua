@@ -105,7 +105,7 @@ myawesomemenu = {
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit },
-   --{ "suspend", function () awful.util.spawn("xscreensaver-command -lock && sudo pm-suspend") end},
+   { "suspend", function () awful.util.spawn("sudo pm-suspend") end},
    { "power off", "dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Mana"},
 }
 
