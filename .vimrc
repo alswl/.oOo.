@@ -93,6 +93,8 @@ Bundle 'xml.vim'
 Bundle 'less'
 Bundle 'git://github.com/hallison/vim-markdown.git'
 Bundle 'wikipedia.vim'
+Bundle 'gre/play2vim'
+Bundle 'derekwyatt/vim-scala'
 
 " Color
 
