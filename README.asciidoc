@@ -16,8 +16,20 @@ alswl's dot files
 
 我是Python程序员，同时也code Javascript / html / css 。
 
-可以在http://log4d.com[Log4D]这里找到我，这是我的博客。
+可以在http://log4d.com/[Log4D]这里找到我，这是我的博客。
 
 需要帮助的话，通过alswlx[a]gmail.com联系我。
+
+== Vim Usage ==
+
+---------------------
+git clone --recursive https://github.com/alswl/dotfiles.git
+ln -s /your/dotfiles/.vim ~/.vim
+ln -s /your/dotfiles/.vimrc ~/.vimrc
+vim +BundleInstall # use vundle to install scripts
+---------------------
+
+Tips: `Bundle 'gmarik/vundle'` won't installed by vundle.
+Because it was cloned by git with `recursive` .
 
 // vim: set ft=asciidoc colorcolumn
