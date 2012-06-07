@@ -287,7 +287,7 @@ au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 "au FileType html setlocal shiftwidth=2 tabstop=2
 au FileType haskell setlocal expandtab
 au FileType lua setlocal expandtab
-au FileType java setlocal colorcolumn=110
+au FileType java setlocal colorcolumn=96
 
 """""""""""""""""""""""""""""""""""""""
 "Visual mode related
