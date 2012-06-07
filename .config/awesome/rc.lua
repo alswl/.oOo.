@@ -42,7 +42,7 @@ end
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "tilda"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -573,6 +573,12 @@ client.add_signal("manage", function (c, startup)
     end
 end)
 
-client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.add_signal("focus", function(c)
+    c.border_color = beautiful.border_focus
+    c.opacity = 1
+end)
+client.add_signal("unfocus", function(c)
+    c.border_color = beautiful.border_normal
+    c.opacity = 0.7
+end)
 -- }}}

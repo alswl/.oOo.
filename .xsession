@@ -24,4 +24,7 @@ dropboxd  &
 # xscreensaver
 xscreensaver -no-splash &
 
+# Desktop effect, for example transparency
+xcompmgr &
+
 # vim: set ft=sh:
