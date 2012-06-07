@@ -385,6 +385,9 @@ map <F4>    zM
 " 标签设置
 map <F11>    gT
 map <F12>    gt
+imap <F11>    <Esc>gT
+imap <F12>    <Esc>gt
+
 if has("gui_running")
 	imap <M-1> <Esc>1gt
 	nmap <M-1> 1gt
