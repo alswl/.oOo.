@@ -69,6 +69,11 @@ layouts =
     --awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
+
+mouse_position = {}
+for s = 1, screen.count() do
+    mouse_position[s] = {x = 600, y = 400}
+end
 -- }}}
 
 -- {{{ Tags
@@ -96,6 +101,8 @@ for s = 1, screen.count() do
         tags[s] = awful.tag(tags.names, s, awful.layout.suit.tile.bottom)
     end
 end
+current_tag = 1
+last_tag = 1
 -- }}}
 
 -- {{{ Menu
@@ -351,8 +358,14 @@ globalkeys = awful.util.table.join(
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, }, "q", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, }, "w", function () awful.screen.focus_relative(-1) end),
+    awful.key({ modkey, }, "q",
+        function ()
+            tag_switch(last_tag)
+        end),
+    awful.key({ modkey, }, "w",
+        function ()
+            awful.screen.focus_relative(-1)
+        end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -449,34 +462,39 @@ for s = 1, screen.count() do
    keynumber = math.min(9, math.max(#tags[s], keynumber));
 end
 
+-- Switch Tag for multi screen
+function tag_switch(i)
+    local cs = mouse.screen
+    last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
+    -- current screen
+    if tags[cs][i] and table.getn(tags[cs][i]:clients()) > 0 then
+        awful.tag.viewonly(tags[cs][i])
+    else -- other screen's tag is active
+        local ismatched = false
+        for j = 1, screen.count() do
+            if table.getn(tags[j][i]:clients()) > 0 then
+                awful.tag.viewonly(tags[j][i])
+                awful.screen.focus(j)
+                ismatched = true
+                break
+            end
+        end
+    end
+    if ismatched and tags[cs][i] then
+        awful.tag.viewonly(tags[cs][i])
+    end
+    current_tag = i
+end
+
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, keynumber do
     globalkeys = awful.util.table.join(globalkeys,
         awful.key({ modkey }, "#" .. i + 9,
-                  function ()
-                        local cs = mouse.screen
-                        if tags[cs][i] and table.getn(tags[cs][i]:clients()) > 0 then
-                            awful.tag.viewonly(tags[cs][i])
-                        else
-                            local ismatched = false
-                            for j = 1, screen.count() do
-                                if table.getn(tags[j][i]:clients()) > 0 then
-                                    awful.tag.viewonly(tags[j][i])
-                                    awful.screen.focus(j)
-                                    ismatched = true
-                                    break
-                                end
-                            end
-                            if ismatched then
-                                return
-                            end
-                        end
-                        if tags[cs][i] then
-                            awful.tag.viewonly(tags[cs][i])
-                        end
-                  end),
+            function ()
+                tag_switch(i)
+            end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
                       local screen = mouse.screen
