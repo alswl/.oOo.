@@ -364,7 +364,9 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey, }, "w",
         function ()
+            last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
             awful.screen.focus_relative(-1)
+            current_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
         end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
