@@ -467,12 +467,15 @@ end
 -- Switch Tag for multi screen
 function tag_switch(i)
     local cs = mouse.screen
+    if i == awful.tag.getidx(awful.tag.selected(mouse.screen)) then
+        return
+    end
     last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
     -- current screen
+    local ismatched = false
     if tags[cs][i] and table.getn(tags[cs][i]:clients()) > 0 then
         awful.tag.viewonly(tags[cs][i])
     else -- other screen's tag is active
-        local ismatched = false
         for j = 1, screen.count() do
             if table.getn(tags[j][i]:clients()) > 0 then
                 awful.tag.viewonly(tags[j][i])
@@ -482,7 +485,7 @@ function tag_switch(i)
             end
         end
     end
-    if ismatched and tags[cs][i] then
+    if not ismatched and tags[cs][i] then
         awful.tag.viewonly(tags[cs][i])
     end
     current_tag = i
