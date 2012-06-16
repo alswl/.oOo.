@@ -84,7 +84,7 @@ Bundle 'gmarik/vundle'
 " Syntax
 Bundle 'asciidoc.vim'
 Bundle 'confluencewiki.vim'
-Bundle 'html5.vim'
+Bundle 'othree/html5.vim'
 Bundle 'JavaScript-syntax'
 "Bundle 'mako.vim'
 Bundle 'moin.vim'
@@ -283,6 +283,7 @@ au FileType python setlocal expandtab colorcolumn=79 textwidth=79 " fo+=Mm
 "Map F9 to Run Python Script
 au FileType python map <F9> :!python %
 au FileType asciidoc setlocal colorcolumn=79
+au FileType markdown setlocal colorcolumn=79
 au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 "au FileType html setlocal shiftwidth=2 tabstop=2
 au FileType haskell setlocal expandtab
