@@ -113,7 +113,7 @@ myawesomemenu = {
    { "restart", awesome.restart },
    { "quit", awesome.quit },
    { "suspend", function () awful.util.spawn("sudo pm-suspend") end},
-   { "power off", "dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Mana"},
+   { "power off", "dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop",  '/usr/share/icons/gnome/16x16/actions/gtk-quit.png'},
 }
 
 mymainmenu = awful.menu({
@@ -547,8 +547,8 @@ awful.rules.rules = {
       properties = {floating = true}},
     --{rule = {class = "Gvim"},
       --properties = {tag = tags[1][2]}},
-    {rule = {class = "Chromium"},
-      properties = {tag = tags[1][3]}},
+    --{rule = {class = "Chromium"},
+      --properties = {tag = tags[1][3]}},
     {rule = {class = "Thunderbird"},
       properties = {tag = tags[1][8]}},
     {rule = {class = "VirtualBox"},
