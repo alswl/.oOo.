@@ -22,6 +22,6 @@ export PATH=$PATH:/home/alswl/.cabal/bin
 bash /home/alswl/dev/workspace/bash/trackpoint.sh
 
 # ssh-proxy
-ssh alswl@log4d.com -ND 7070 &
+#ssh alswl@log4d.com -ND 7070 &
 
 # vim: set ft=sh:
