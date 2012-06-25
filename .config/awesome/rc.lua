@@ -72,7 +72,10 @@ layouts =
 
 mouse_position = {}
 for s = 1, screen.count() do
-    mouse_position[s] = {x = 600, y = 400}
+    mouse_position[s] = {}
+    for l =  1, 9 do
+        mouse_position[s][l] = {x = 400 + (2 - s) * 900, y = 600}
+    end
 end
 -- }}}
 
@@ -365,8 +368,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, }, "w",
         function ()
             last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
+            mouse_position[mouse.screen][last_tag] = mouse.coords()
             awful.screen.focus_relative(-1)
             current_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
+            mouse.coords(mouse_position[mouse.screen][current_tag])
         end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
@@ -438,20 +443,22 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-    awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",
+    awful.key({ modkey, }, "f",
+        function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey, "Shift" }, "c", function (c) c:kill() end),
+    awful.key({ modkey, "Control" }, "space", awful.client.floating.toggle),
+    awful.key({ modkey, "Control" }, "Return",
+        function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey, }, "o", awful.client.movetoscreen),
+    awful.key({ modkey, "Shift" }, "r", function (c) c:redraw() end),
+    awful.key({ modkey, }, "t", function (c) c.ontop = not c.ontop end),
+    awful.key({ modkey, }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
         end),
-    awful.key({ modkey,           }, "m",
+    awful.key({ modkey, }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
@@ -467,14 +474,15 @@ end
 -- Switch Tag for multi screen
 function tag_switch(i)
     local cs = mouse.screen
-    if i == awful.tag.getidx(awful.tag.selected(mouse.screen)) then
-        return
+    local selected_tag_idx = awful.tag.getidx(awful.tag.selected(cs))
+    if i == selected_tag_idx then
+        return -- not current screen
     end
-    last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
-    -- current screen
+    last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen)) -- log current screen
+    mouse_position[mouse.screen][last_tag] = mouse.coords()
     local ismatched = false
     if tags[cs][i] and table.getn(tags[cs][i]:clients()) > 0 then
-        awful.tag.viewonly(tags[cs][i])
+        awful.tag.viewonly(tags[cs][i]) -- current screen's tag is active
     else -- other screen's tag is active
         for j = 1, screen.count() do
             if table.getn(tags[j][i]:clients()) > 0 then
@@ -489,6 +497,7 @@ function tag_switch(i)
         awful.tag.viewonly(tags[cs][i])
     end
     current_tag = i
+    mouse.coords(mouse_position[mouse.screen][current_tag])
 end
 
 -- Bind all key numbers to tags.
