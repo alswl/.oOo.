@@ -19,7 +19,7 @@ export PATH=$PATH:/home/alswl/.cabal/bin
 #fcitx &
 
 # trackpoint
-bash /home/alswl/dev/workspace/bash/trackpoint.sh
+sudo bash /home/alswl/dev/workspace/bash/trackpoint.sh
 
 # ssh-proxy
 #ssh alswl@log4d.com -ND 7070 &
