@@ -122,14 +122,13 @@ Bundle 'auto_mkdir'
 Bundle 'cecutil'
 Bundle 'fcitx.vim'
 Bundle 'FencView.vim'
-"Bundle 'FuzzyFinder'
+Bundle 'FuzzyFinder'
 Bundle 'jsbeautify'
 Bundle 'L9'
 Bundle 'Mark'
 Bundle 'matrix.vim'
 Bundle 'mru.vim'
 Bundle 'The-NERD-Commenter'
-"Bundle 'project.vim'
 Bundle 'restart.vim'
 Bundle 'taglist.vim'
 "Bundle 'templates.vim'
@@ -143,6 +142,9 @@ Bundle 'TaskList.vim'
 Bundle 'pep8'
 "Bundle 'git://github.com/kevinw/pyflakes-vim.git'
 Bundle 'sontek/rope-vim'
+Bundle 'project.tar.gz'
+"Bundle 'minibufexplorerpp'
+Bundle 'bufexplorer.zip'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -216,7 +218,6 @@ set foldmethod=syntax
 "Colors and Fonts
 """""""""""""""""""""""""""""""""""""""
 syntax enable "Enable syntax hl
-"au BufRead,BufNewFile *.aspx set filetype=xml
 
 " Set syntax color
 colorscheme desert256
@@ -290,6 +291,8 @@ au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 au FileType haskell setlocal expandtab
 au FileType lua setlocal expandtab
 au FileType java setlocal colorcolumn=96
+au FileType ruby setlocal expandtab shiftwidth=2
+au FileType eruby setlocal expandtab shiftwidth=2
 
 """""""""""""""""""""""""""""""""""""""
 "Visual mode related
@@ -375,6 +378,13 @@ map <silent> <leader>sb :FufBuffer<CR>
 
 " Fencview
 let g:fencview_autodetect = 0
+
+" JSLint
+let g:JSLintHighlightErrorLine = 0
+
+" Project
+map <silent> <leader>p :Project<CR>
+
 
 """""""""""""""""""""""""""""""""""""""
 " Map
