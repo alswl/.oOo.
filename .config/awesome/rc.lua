@@ -70,6 +70,7 @@ layouts =
     awful.layout.suit.magnifier
 }
 
+-- Mouse position for every tag
 mouse_position = {}
 for s = 1, screen.count() do
     mouse_position[s] = {}
@@ -77,13 +78,16 @@ for s = 1, screen.count() do
         mouse_position[s][l] = {x = 400 + (2 - s) * 900, y = 600}
     end
 end
+
+-- Save last used tag over all screen
+last_tag = 1
 -- }}}
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
     -- www / dev / im / dev / dev / dev / media / util / nautilus
-    names = {"1:w", "2:d", "3:im", "4:d", "5:d", "6", "7:m", "8:u","9:n"},
+    names = {"1:w", "2:d", "3:im", "4:d", "5:m", "6:d", "7", "8:u","9:n"},
     layouts = {
         awful.layout.suit.tile,
         awful.layout.suit.tile,
@@ -104,8 +108,6 @@ for s = 1, screen.count() do
         tags[s] = awful.tag(tags.names, s, awful.layout.suit.tile.bottom)
     end
 end
-current_tag = 1
-last_tag = 1
 -- }}}
 
 -- {{{ Menu
@@ -239,9 +241,8 @@ mytaglist.buttons = awful.util.table.join(
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 )
-mytasklist = {}
-mystatuslist = {
-}
+mytasklist = { }
+mystatuslist = { }
 mytasklist.buttons = awful.util.table.join(
     awful.button({}, 1,
         function (c)
@@ -349,11 +350,13 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,}, "j",
         function ()
             awful.client.focus.byidx( 1)
+            set_mouse_to_client_center()
             if client.focus then client.focus:raise() end
         end),
     awful.key({ modkey, }, "k",
         function ()
             awful.client.focus.byidx(-1)
+            set_mouse_to_client_center()
             if client.focus then client.focus:raise() end
         end),
     --awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
@@ -367,11 +370,9 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey, }, "w",
         function ()
-            last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
-            mouse_position[mouse.screen][last_tag] = mouse.coords()
+            save_tag_status()
             awful.screen.focus_relative(-1)
-            current_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
-            mouse.coords(mouse_position[mouse.screen][current_tag])
+            set_tag_status()
         end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
@@ -478,8 +479,7 @@ function tag_switch(i)
     if i == selected_tag_idx then
         return -- not current screen
     end
-    last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen)) -- log current screen
-    mouse_position[mouse.screen][last_tag] = mouse.coords()
+    save_tag_status()
     local ismatched = false
     if tags[cs][i] and table.getn(tags[cs][i]:clients()) > 0 then
         awful.tag.viewonly(tags[cs][i]) -- current screen's tag is active
@@ -496,8 +496,40 @@ function tag_switch(i)
     if not ismatched and tags[cs][i] then
         awful.tag.viewonly(tags[cs][i])
     end
-    current_tag = i
-    mouse.coords(mouse_position[mouse.screen][current_tag])
+    set_tag_status()
+end
+
+-- Move mouse to client center
+function set_mouse_to_client_center()
+    local cc = awful.client.next(0)
+    local x = cc:geometry().x
+    local y = cc:geometry().y
+    local width = cc:geometry().width
+    local height = cc:geometry().height
+    mouse.coords({ x = x + width / 2, y = y + height / 2 })
+end
+
+-- save tag status
+function save_tag_status(screen, tag)
+    last_tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
+    if screen == nil then
+        screen = mouse.screen
+    end
+    if tag == nil then
+        tag = last_tag
+    end
+    mouse_position[screen][tag] = mouse.coords()
+end
+
+-- set tag status
+function set_tag_status(screen, tag)
+    if screen == nil then
+        screen = mouse.screen
+    end
+    if tag == nil then
+        tag = awful.tag.getidx(awful.tag.selected(mouse.screen))
+    end
+    mouse.coords(mouse_position[screen][tag])
 end
 
 -- Bind all key numbers to tags.
