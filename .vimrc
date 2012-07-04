@@ -96,6 +96,8 @@ Bundle 'tpope/vim-markdown'
 Bundle 'wikipedia.vim'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'alswl/play2vim'
+Bundle 'tpope/vim-haml'
+Bundle 'kchmck/vim-coffee-script'
 
 " Color
 
@@ -145,6 +147,8 @@ Bundle 'sontek/rope-vim'
 Bundle 'project.tar.gz'
 "Bundle 'minibufexplorerpp'
 Bundle 'bufexplorer.zip'
+"Bundle 'Align.vim'
+"Bundle 'SQLUtilities'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -293,6 +297,7 @@ au FileType lua setlocal expandtab
 au FileType java setlocal colorcolumn=96
 au FileType ruby setlocal expandtab shiftwidth=2
 au FileType eruby setlocal expandtab shiftwidth=2
+au FileType rst setlocal colorcolumn=79
 
 """""""""""""""""""""""""""""""""""""""
 "Visual mode related
