@@ -12,10 +12,14 @@ inoremap <C-v> <Ins><C-v><Ins>
 
 noremap j 4j
 noremap k 4k
-noremap h gT
-noremap l gt
 noremap J <C-d>
 noremap K <C-u>
+noremap w <C-d>
+noremap e <C-u>
+noremap W <C-f>
+noremap E <C-b>
+noremap h gT
+noremap l gt
 noremap s :stop<CR>
 
 noremap <leader>da :dialog addons<CR>

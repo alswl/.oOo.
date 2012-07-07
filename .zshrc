@@ -48,8 +48,7 @@ alias mem='free -m'
 # }}}
 
 # ssh alias {{{
-alias ssh-log4d='ssh blog@log4d.com'
-alias ssh-dddspace='ssh alswl@dddspace.com'
+alias ssh-log4d='ssh alswl@log4d.com'
 alias ssh-route='ssh root@192.168.1.254'
 alias ssh-myb='ssh myblogin@221.130.6.212 -p 2122'
 alias ssh-proxy='ssh alswl@log4d.com -ND 7070 &'

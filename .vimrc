@@ -295,7 +295,7 @@ au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 au FileType haskell setlocal expandtab
 au FileType lua setlocal expandtab
 au FileType java setlocal colorcolumn=96
-au FileType ruby setlocal expandtab shiftwidth=2
+au FileType ruby setlocal expandtab shiftwidth=2 colorcolumn=79
 au FileType eruby setlocal expandtab shiftwidth=2
 au FileType rst setlocal colorcolumn=79
 
