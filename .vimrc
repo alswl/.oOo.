@@ -98,6 +98,7 @@ Bundle 'derekwyatt/vim-scala'
 Bundle 'alswl/play2vim'
 Bundle 'tpope/vim-haml'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'vim-ruby/vim-ruby'
 
 " Color
 

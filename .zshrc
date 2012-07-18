@@ -34,8 +34,8 @@ plugins=(git python archlinux history-substring-search github node npm play rake
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=$PATH:/opt/java6/bin:/opt/java6/db/bin:/opt/java6/jre/bin:/usr/bin/core_perl:/home/alswl/local/bin
-export JAVA_HOME=/opt/java6
+#export PATH=$PATH:/usr/bin/core_perl:/home/alswl/local/bin
+#export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
 export EDITOR=vim
 
 # 常用alias {{{
@@ -45,6 +45,8 @@ alias la='ls -a'
 alias mkdir='mkdir -p'
 alias ..='cd ..'
 alias mem='free -m'
+alias less='less -i'
+alias rv='rview'
 # }}}
 
 # ssh alias {{{
