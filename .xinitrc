@@ -1,21 +1,29 @@
 #!/bin/bash
 
-export LC_ALL=zh_CN.UTF-8
-export LC_CTYPE=zh_CN.UTF-8
-export LC_LANG=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8
+[ -f /etc/xprofile ] && . /etc/xprofile
+[ -f ~/.xprofile ] && . ~/.xprofile $1
 
-export XMODIFIERS=@im=fcitx
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
+DEFAULT_SESSION=xfce4
 
-# fcitx &
+case $1 in
 
-# exec startkde
-# exec startxfce4
-
-# exec ck-launch-session awesome
-exec ck-launch-session xmonad 
-# exec ck-launch-session gnome-session
+	kde)
+		exec startkde
+		;;
+	xfce4)
+		exec startxfce4
+		;;
+	lxde)
+		exec startlxde
+		;;
+	awesome)
+		exec awesome
+		;;
+	e17)
+		exec enlightenment_start
+		;;
+	*)
+		exec $DEFAULT_SESSION
+esac
 
 # vim: set ft=sh:

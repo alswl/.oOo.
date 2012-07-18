@@ -3,7 +3,6 @@
 # This file will start with .start-session.sh
 
 # Dual Monitor
-xrandr --output VGA1 --rotate right --mode 1440x900 --left-of LVDS1
 
 case $1 in
 	"xmonad")
@@ -13,7 +12,7 @@ case $1 in
 esac
 
 #/usr/lib/polkit-1/polkit-agent-helper-1 &
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+#/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # nm-applet
 nm-applet &
