@@ -26,7 +26,8 @@ sudo bash /home/alswl/dev/workspace/bash/trackpoint.sh
 
 if [ $1 = 'awesome' ]; then
 	xrandr --output LVDS1 --mode 1280x800
-	xrandr --output VGA1 --rotate right --mode 1440x900 --left-of LVDS1
+	#xrandr --output VGA1 --rotate left --mode 1440x900 --left-of LVDS1
+	xrandr --output VGA1 --rotate normal --mode 1440x900 --above LVDS1
 
 	# xscreensaver
 	xscreensaver -no-splash &
@@ -38,7 +39,8 @@ if [ $1 = 'awesome' ]; then
 fi
 
 # Dropbox
-#dropboxd  &
+dropboxd  &
+clipit &
 
 # nm-applet
 #nm-applet &
