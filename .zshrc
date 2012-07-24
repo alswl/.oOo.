@@ -68,8 +68,9 @@ alias yuicompresor='java -jar ~/local/yuicompressor/yuicompressor-2.4.7.jar'
 # }}}
 
 # 路径别名 {{{
-hash -d WWW="/srv/http/"
-hash -d MYB="/home/alswl/work/xintong/workspace/MYB_WENDA/myb/"
+#hash -d WWW="/srv/http/" # use http instead
+hash -d myb="$HOME/work/xintong/workspace/MYB_WENDA/myb/"
+hash -d xt72ch="$HOME/work/xintong/workspace/xt72ch"
 # }}}
 
 # virtual wrapper {{{
