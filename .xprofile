@@ -35,12 +35,13 @@ if [ $1 = 'awesome' ]; then
 	# Desktop effect, for example transparency
 	xcompmgr &
 
-	xmodmap ~/.Xmodmap
+	clipit &
 fi
+
+xmodmap $HOME/.Xmodmap
 
 # Dropbox
 dropboxd  &
-clipit &
 
 # nm-applet
 #nm-applet &
