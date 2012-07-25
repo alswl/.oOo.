@@ -84,7 +84,7 @@ Bundle 'gmarik/vundle'
 " Syntax
 Bundle 'asciidoc.vim'
 Bundle 'confluencewiki.vim'
-Bundle 'othree/html5.vim'
+Bundle 'alswl/html5.vim'
 Bundle 'JavaScript-syntax'
 "Bundle 'mako.vim'
 Bundle 'moin.vim'
