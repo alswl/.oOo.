@@ -107,6 +107,9 @@ Bundle 'Impact'
 Bundle 'matrix.vim'
 Bundle 'vibrantink'
 Bundle 'vividchalk.vim'
+Bundle 'spring.vim'
+Bundle 'candycode.vim'
+Bundle 'ego.vim'
 
 " Ftplugin
 "Bundle 'python_fold'
@@ -142,7 +145,7 @@ Bundle 'hallettj/jslint.vim'
 Bundle 'vcscommand.vim'
 Bundle 'snipMate'
 Bundle 'TaskList.vim'
-Bundle 'pep8'
+"Bundle 'pep8'
 "Bundle 'git://github.com/kevinw/pyflakes-vim.git'
 Bundle 'sontek/rope-vim'
 Bundle 'project.tar.gz'
@@ -150,6 +153,7 @@ Bundle 'project.tar.gz'
 Bundle 'bufexplorer.zip'
 "Bundle 'Align.vim'
 "Bundle 'SQLUtilities'
+Bundle 'matchit.zip'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -192,7 +196,7 @@ set hlsearch "Highlight search things
 set incsearch "在输入部分查找模式时显示相应的匹配点。
 "set nolazyredraw "Don't redraw while executing macros 
 
-set nomagic "Set magic on, for regular expressions
+set magic "Set magic on, for regular expressions
 
 set showmatch "Show matching bracets when text indicator is over them
 
@@ -225,7 +229,7 @@ set foldmethod=syntax
 syntax enable "Enable syntax hl
 
 " Set syntax color
-colorscheme desert256
+colorscheme ego
 
 "gfn=consolas:h10
 "set gui options
