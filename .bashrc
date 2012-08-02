@@ -28,3 +28,5 @@ alias ssh-myb='ssh myblogin@221.130.6.212 -p 2122'
 alias ssh-proxy='ssh alswl@log4d.com -ND 7070 &'
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+export EDITOR=vim
