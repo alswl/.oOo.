@@ -47,6 +47,7 @@ alias ..='cd ..'
 alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
+alias dstat='dstat -cdlmnpsy'
 # }}}
 
 # ssh alias {{{
@@ -58,7 +59,6 @@ alias ssh-reddit='ssh reddit@192.168.61.120'
 # }}}
 
 # xintong alias {{{
-alias cdxt='pushd /home/alswl/work/xintong/workspace/MYB_WENDA/myb'
 alias xt-run='/home/alswl/work/xintong/workspace/MYB_WENDA/myb/run_server.sh'
 # }}}
 
@@ -71,6 +71,7 @@ alias yuicompresor='java -jar ~/local/yuicompressor/yuicompressor-2.4.7.jar'
 #hash -d WWW="/srv/http/" # use http instead
 hash -d myb="$HOME/work/xintong/workspace/MYB_WENDA/myb/"
 hash -d xt72ch="$HOME/work/xintong/workspace/xt72ch"
+hash -d blog="/home/alswl/dev/myproject/ruby/log4d.com/"
 # }}}
 
 # virtual wrapper {{{
