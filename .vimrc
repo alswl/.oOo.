@@ -99,6 +99,7 @@ Bundle 'alswl/play2vim'
 Bundle 'tpope/vim-haml'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'altercation/vim-colors-solarized'
 
 " Color
 
@@ -229,7 +230,13 @@ set foldmethod=syntax
 syntax enable "Enable syntax hl
 
 " Set syntax color
-colorscheme ego
+"if has('gui_running')
+    "set background=light
+"else
+    "set background=dark
+"endif
+set background=dark
+colorscheme solarized
 
 "gfn=consolas:h10
 "set gui options
