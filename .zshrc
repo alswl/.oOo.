@@ -35,7 +35,10 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 #export PATH=$PATH:/usr/bin/core_perl:/home/alswl/local/bin
-#export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+export PATH=$PATH:/opt/jdk1.6.0_33/bin/:/home/alswl/local/bin/:/home/alswl/.rvm/bin
+
+JAVA_HOME=/opt/jdk1.6.0_33
+export JAVA_HOME
 export EDITOR=vim
 
 # 常用alias {{{
@@ -62,6 +65,10 @@ alias ssh-reddit='ssh reddit@192.168.61.120'
 alias xt-run='/home/alswl/work/xintong/workspace/MYB_WENDA/myb/run_server.sh'
 # }}}
 
+# ***REMOVED*** alias {{{
+alias btrace='/home/alswl/local/btrace/bin/btrace'
+# }}}
+
 alias trackpoint=/home/alswl/dev/workspace/bash/trackpoint.sh
 alias yuicompresor='java -jar ~/local/yuicompressor/yuicompressor-2.4.7.jar'
 
@@ -75,7 +82,7 @@ hash -d blog="/home/alswl/dev/myproject/ruby/log4d.com/"
 # }}}
 
 # virtual wrapper {{{
-source /usr/bin/virtualenvwrapper.sh
+source /etc/bash_completion.d/virtualenvwrapper
 #}}}
 
 # rvm {{{
