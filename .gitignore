@@ -6,3 +6,5 @@
 .vimperator/info/*
 .xmonad/*
 restart_session.vim
+.vim/tags
+.vim/xml-plugin.txt
