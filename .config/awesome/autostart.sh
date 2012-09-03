@@ -13,7 +13,7 @@ xcompmgr &
 xmodmap $HOME/.Xmodmap
 
 # Dropbox
-#dropboxd  &
+dropbox start
 
 # nm-applet
 #nm-applet &
