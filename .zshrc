@@ -29,7 +29,7 @@ ZSH_THEME="robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python archlinux history-substring-search github node npm play rake ruby rvm vundle rails3)
+plugins=(git svn mvn python history-substring-search github vundle debian)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -51,6 +51,7 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
+alias tdcli='/home/alswl/.virtualenvs/7/bin/python /home/alswl/dev/project/python/poodledo/tdcli'
 # }}}
 
 # ssh alias {{{
@@ -61,12 +62,8 @@ alias ssh-proxy='ssh alswl@log4d.com -ND 7070 &'
 alias ssh-reddit='ssh reddit@192.168.61.120'
 # }}}
 
-# xintong alias {{{
-alias xt-run='/home/alswl/work/xintong/workspace/MYB_WENDA/myb/run_server.sh'
-# }}}
-
 # ***REMOVED*** alias {{{
-alias btrace='/home/alswl/local/btrace/bin/btrace'
+. ~/work/script/init_shell.sh
 # }}}
 
 alias trackpoint=/home/alswl/dev/workspace/bash/trackpoint.sh
@@ -76,9 +73,8 @@ alias yuicompresor='java -jar ~/local/yuicompressor/yuicompressor-2.4.7.jar'
 
 # 路径别名 {{{
 #hash -d WWW="/srv/http/" # use http instead
-hash -d myb="$HOME/work/xintong/workspace/MYB_WENDA/myb/"
-hash -d xt72ch="$HOME/work/xintong/workspace/xt72ch"
 hash -d blog="/home/alswl/dev/myproject/ruby/log4d.com/"
+hash -d workspace="/home/alswl/work/workspace/"
 # }}}
 
 # virtual wrapper {{{
