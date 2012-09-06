@@ -9,8 +9,8 @@ require("naughty")
 -- Third party
 require("vicious")
 
--- widgets
---require("vicious")
+-- Load Debian menu entries
+require("debian.menu")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -42,7 +42,7 @@ end
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "tilda"
+terminal = "gnome-terminal"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -52,6 +52,9 @@ editor_cmd = terminal .. " -e " .. editor
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+
+-- auto run
+awful.util.spawn_with_shell("./autorun.sh")
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -71,11 +74,15 @@ layouts =
 }
 
 -- Mouse position for every tag
-mouse_position = {}
+mouse_position = {} -- TODO
 for s = 1, screen.count() do
     mouse_position[s] = {}
-    for l =  1, 9 do
-        mouse_position[s][l] = {x = 400 + (2 - s) * 900, y = 600}
+    for t =  1, 9 do
+        local screen_geometry = screen[s].workarea
+        mouse_position[s][t] = {
+            x = screen_geometry.x + screen_geometry.width / 2,
+            y = screen_geometry.y + screen_geometry.height / 2,
+        }
     end
 end
 
@@ -117,18 +124,15 @@ myawesomemenu = {
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit },
-   { "suspend", function () awful.util.spawn("sudo pm-suspend") end},
-   { "power off", "dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop",  '/usr/share/icons/gnome/16x16/actions/gtk-quit.png'},
+   --{ "suspend", function () awful.util.spawn("sudo pm-suspend") end},
+   --{ "power off", "dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop",  '/usr/share/icons/gnome/16x16/actions/gtk-quit.png'},
 }
 
-mymainmenu = awful.menu({
-    items = {
-        {"awesome", myawesomemenu, beautiful.awesome_icon},
-        {"&Nautilus", "nautilus --no-desktop", '/usr/share/icons/hicolor/32x32/apps/nautilus.png'},
-        {"屏幕键盘", "matchbox-keyboard", '/usr/share/pixmaps/matchbox-keyboard.png'},
-        {"open terminal", terminal }
-    }
-})
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "Debian", debian.menu.Debian_menu.Debian },
+                                    { "open terminal", terminal }
+                                  }
+                        })
 
 mylauncher = awful.widget.launcher({
     image = image(beautiful.awesome_icon),
@@ -643,6 +647,7 @@ client.add_signal("focus", function(c)
 end)
 client.add_signal("unfocus", function(c)
     c.border_color = beautiful.border_normal
-    c.opacity = 0.7
+    c.opacity = 0.6
 end)
 -- }}}
+
