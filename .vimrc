@@ -99,6 +99,7 @@ Bundle 'alswl/play2vim'
 Bundle 'tpope/vim-haml'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'django.vim'
 
 " Color
 
@@ -152,6 +153,7 @@ Bundle 'bufexplorer.zip'
 "Bundle 'Align.vim'
 "Bundle 'SQLUtilities'
 Bundle 'matchit.zip'
+Bundle 'xmledit'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
