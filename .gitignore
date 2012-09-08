@@ -7,3 +7,5 @@
 .xmonad/*
 restart_session.vim
 .personal-command.sh
+.vim/tags
+.vim/xml-plugin.txt

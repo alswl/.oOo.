@@ -42,7 +42,7 @@ end
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "tilda"
+terminal = "gnome-terminal"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -52,6 +52,9 @@ editor_cmd = terminal .. " -e " .. editor
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+
+-- auto run
+awful.util.spawn_with_shell("./autorun.sh")
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -71,11 +74,15 @@ layouts =
 }
 
 -- Mouse position for every tag
-mouse_position = {}
+mouse_position = {} -- TODO
 for s = 1, screen.count() do
     mouse_position[s] = {}
-    for l =  1, 9 do
-        mouse_position[s][l] = {x = 400 + (2 - s) * 900, y = 600}
+    for t =  1, 9 do
+        local screen_geometry = screen[s].workarea
+        mouse_position[s][t] = {
+            x = screen_geometry.x + screen_geometry.width / 2,
+            y = screen_geometry.y + screen_geometry.height / 2,
+        }
     end
 end
 
@@ -643,6 +650,6 @@ client.add_signal("focus", function(c)
 end)
 client.add_signal("unfocus", function(c)
     c.border_color = beautiful.border_normal
-    c.opacity = 0.7
+    c.opacity = 0.6
 end)
 -- }}}
