@@ -7,7 +7,7 @@
 
 PS1='[\u@\h \W]\$ '
 
-export PATH=$PATH/opt/java/bin:
+#export PATH=$PATH/opt/java/bin:
 source /usr/bin/virtualenvwrapper.sh
 
 alias ls='ls --color=auto'
