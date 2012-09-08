@@ -6,3 +6,4 @@
 .vimperator/info/*
 .xmonad/*
 restart_session.vim
+.personal-command.sh

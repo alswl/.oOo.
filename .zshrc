@@ -48,35 +48,18 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
-# }}}
-
-# ssh alias {{{
-alias ssh-log4d='ssh alswl@log4d.com'
-alias ssh-route='ssh root@192.168.1.254'
-alias ssh-myb='ssh myblogin@221.130.6.212 -p 2122'
-alias ssh-proxy='ssh alswl@log4d.com -ND 7070 &'
-alias ssh-reddit='ssh reddit@192.168.61.120'
-# }}}
-
-# xintong alias {{{
-alias xt-run='/home/alswl/work/xintong/workspace/MYB_WENDA/myb/run_server.sh'
-# }}}
 
 alias trackpoint=/home/alswl/dev/workspace/bash/trackpoint.sh
 alias yuicompresor='java -jar ~/local/yuicompressor/yuicompressor-2.4.7.jar'
-
-# }}}
-
-# 路径别名 {{{
-#hash -d WWW="/srv/http/" # use http instead
-hash -d myb="$HOME/work/xintong/workspace/MYB_WENDA/myb/"
-hash -d xt72ch="$HOME/work/xintong/workspace/xt72ch"
-hash -d blog="/home/alswl/dev/myproject/ruby/log4d.com/"
 # }}}
 
 # virtual wrapper {{{
 source /usr/bin/virtualenvwrapper.sh
 #}}}
+
+# personal command {{{
+. $HOME/.personal-command.sh
+# }}}
 
 # rvm {{{
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
