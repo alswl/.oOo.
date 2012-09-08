@@ -99,18 +99,17 @@ Bundle 'alswl/play2vim'
 Bundle 'tpope/vim-haml'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'altercation/vim-colors-solarized'
+Bundle 'django.vim'
 
 " Color
 
 Bundle 'desert256.vim'
 Bundle 'Impact'
 Bundle 'matrix.vim'
-Bundle 'vibrantink'
 Bundle 'vividchalk.vim'
-Bundle 'spring.vim'
-Bundle 'candycode.vim'
 Bundle 'ego.vim'
+Bundle 'tomasr/molokai'
+Bundle 'altercation/vim-colors-solarized'
 
 " Ftplugin
 "Bundle 'python_fold'
@@ -155,6 +154,7 @@ Bundle 'bufexplorer.zip'
 "Bundle 'Align.vim'
 "Bundle 'SQLUtilities'
 Bundle 'matchit.zip'
+Bundle 'xmledit'
 
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
@@ -229,21 +229,15 @@ set foldmethod=syntax
 """""""""""""""""""""""""""""""""""""""
 syntax enable "Enable syntax hl
 
-" Set syntax color
-set background=dark
-if has('gui_running')
-    "set background=light
-	colorscheme ego
-else
-    "set background=dark
-	colorscheme solarized
-endif
-
 "gfn=consolas:h10
 "set gui options
 if has("gui_running")
 	set guifont=Monospace\ 11
-	"set gfw=幼圆:h10:cGB2312
+
+	" Set syntax color
+	colorscheme molokai
+else
+	colorscheme desert256
 endif
 
 set ambiwidth=double " 设定某些标点符号为宽字符

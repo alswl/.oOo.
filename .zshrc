@@ -29,13 +29,14 @@ ZSH_THEME="robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python archlinux history-substring-search github node npm play rake ruby rvm vundle rails3)
+plugins=(git python archlinux history-substring-search github node npm rake ruby rvm vundle rails3)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 #export PATH=$PATH:/usr/bin/core_perl:/home/alswl/local/bin
-#export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+#export PATH=$PATH:/opt/jdk1.6.0_33/bin/:/home/alswl/local/bin/:/home/alswl/.rvm/bin
+
 export EDITOR=vim
 
 # 常用alias {{{
