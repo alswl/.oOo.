@@ -31,6 +31,9 @@ noremap <leader>ds :dialog pagesource<CR>
 noremap <leader>dc :dialog console<CR>
 noremap <leader>di :dialog pageinfo<CR>
 
+" use b for bookmarks
+noremap b :bmarks 
+
 "干掉一些快捷键
 " map <C-d> <Nop>
 " map <C-u> <Nop>
