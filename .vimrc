@@ -142,7 +142,7 @@ Bundle 'taglist.vim'
 "Bundle 'vimim.vim'
 Bundle 'ZenCoding.vim'
 Bundle 'css_color.vim'
-Bundle 'hallettj/jslint.vim'
+"Bundle 'hallettj/jslint.vim'
 Bundle 'vcscommand.vim'
 Bundle 'snipMate'
 Bundle 'TaskList.vim'
@@ -230,13 +230,14 @@ set foldmethod=syntax
 syntax enable "Enable syntax hl
 
 " Set syntax color
-"if has('gui_running')
-    "set background=light
-"else
-    "set background=dark
-"endif
 set background=dark
-colorscheme solarized
+if has('gui_running')
+    "set background=light
+	colorscheme ego
+else
+    "set background=dark
+	colorscheme solarized
+endif
 
 "gfn=consolas:h10
 "set gui options
@@ -256,7 +257,7 @@ highlight LeaderTab guifg=#666666
 " Turn backup off, since most stuff is in SVN, git anyway...
 set nobackup
 set nowb
-set noswapfile
+"set noswapfile
 set backupext=.bak
 
 "设置编码
