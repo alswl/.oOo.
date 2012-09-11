@@ -52,6 +52,7 @@ alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
 alias tdcli='/home/alswl/.virtualenvs/7/bin/python /home/alswl/dev/project/python/poodledo/tdcli'
+alias grep='grep --exclude-dir=\.svn'
 # }}}
 
 # ssh alias {{{
