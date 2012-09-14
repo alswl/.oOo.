@@ -100,6 +100,7 @@ Bundle 'tpope/vim-haml'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'django.vim'
+Bundle 'nginx.vim'
 
 " Color
 
@@ -300,7 +301,7 @@ au FileType mako setlocal colorcolumn=79 cc=0 fdm=indent
 "au FileType html setlocal shiftwidth=2 tabstop=2
 au FileType haskell setlocal expandtab
 au FileType lua setlocal expandtab
-au FileType java setlocal colorcolumn=96
+au FileType java setlocal colorcolumn=108
 au FileType ruby setlocal expandtab shiftwidth=2 colorcolumn=79
 au FileType eruby setlocal expandtab shiftwidth=2
 au FileType rst setlocal colorcolumn=79
