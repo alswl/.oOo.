@@ -38,7 +38,7 @@ if [ $1 = 'awesome' ]; then
 	clipit &
 fi
 
-xmodmap $HOME/.Xmodmap
+#xmodmap $HOME/.Xmodmap
 
 # Dropbox
 dropboxd  &
