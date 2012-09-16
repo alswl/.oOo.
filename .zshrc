@@ -29,15 +29,19 @@ ZSH_THEME="robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python archlinux history-substring-search github node npm rake ruby rvm vundle rails3)
+plugins=(git python history-substring-search github)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-#export PATH=$PATH:/usr/bin/core_perl:/home/alswl/local/bin
-#export PATH=$PATH:/opt/jdk1.6.0_33/bin/:/home/alswl/local/bin/:/home/alswl/.rvm/bin
+export PATH=$PATH:$HOME/local/bin/
+#export PATH=$PATH:/opt/jdk1.6.0_33/bin/
 
 export EDITOR=vim
+
+# personal script {{{
+[-f ./.personal.sh ] && . ./.personal.sh
+# }}}
 
 # 常用alias {{{
 alias ls='ls --color=auto'
@@ -49,18 +53,15 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
+# }}}
 
-alias trackpoint=/home/alswl/dev/workspace/bash/trackpoint.sh
-alias yuicompresor='java -jar ~/local/yuicompressor/yuicompressor-2.4.7.jar'
+# 路径别名 {{{
+#hash -d WWW="/srv/http/" # use http instead
 # }}}
 
 # virtual wrapper {{{
-source /usr/bin/virtualenvwrapper.sh
+[-f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh
 #}}}
-
-# personal command {{{
-. $HOME/.personal-command.sh
-# }}}
 
 # rvm {{{
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
