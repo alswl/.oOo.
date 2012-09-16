@@ -458,6 +458,15 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "space", awful.client.floating.toggle),
     awful.key({ modkey, "Control" }, "Return",
         function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey, }, "i",
+        function (c)
+            save_tag_status()
+            local tag_idx = awful.tag.getidx(awful.tag.selected(client.focus.screen))
+            awful.client.movetoscreen(c)
+            awful.client.movetotag(tags[client.focus.screen][tag_idx])
+            awful.tag.viewonly(tags[client.focus.screen][tag_idx])
+            set_tag_status()
+        end),
     awful.key({ modkey, }, "o", awful.client.movetoscreen),
     awful.key({ modkey, "Shift" }, "r", function (c) c:redraw() end),
     awful.key({ modkey, }, "t", function (c) c.ontop = not c.ontop end),

@@ -27,4 +27,7 @@ xmodmap $HOME/.Xmodmap
 # wallpaper
 #nitrogen --restore
 
+# disable touchpad when typing
+syndaemon -td
+
 # vim: set ft=sh:
