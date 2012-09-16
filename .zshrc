@@ -40,7 +40,7 @@ export PATH=$PATH:$HOME/local/bin/
 export EDITOR=vim
 
 # personal script {{{
-[-f ./.personal.sh ] && . ./.personal.sh
+[ -f ./.personal.sh ] && . ./.personal.sh
 # }}}
 
 # 常用alias {{{
@@ -60,7 +60,8 @@ alias dstat='dstat -cdlmnpsy'
 # }}}
 
 # virtual wrapper {{{
-[-f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh
+[ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
+[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
 #}}}
 
 # rvm {{{
