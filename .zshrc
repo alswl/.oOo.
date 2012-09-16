@@ -42,7 +42,7 @@ export JAVA_HOME
 export EDITOR=vim
 
 # personal script {{{
-[-f ./.personal.sh ] && . ./.personal.sh
+[ -f ./.personal.sh ] && . ./.personal.sh
 # }}}
 
 
@@ -64,7 +64,7 @@ alias grep='grep --exclude-dir=\.svn'
 # }}}
 
 # virtual wrapper {{{
-source /etc/bash_completion.d/virtualenvwrapper
+[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper
 #}}}
 
 # rvm {{{
