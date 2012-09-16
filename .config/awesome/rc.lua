@@ -9,8 +9,8 @@ require("naughty")
 -- Third party
 require("vicious")
 
--- widgets
---require("vicious")
+-- Load Debian menu entries
+require("debian.menu")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -131,6 +131,7 @@ myawesomemenu = {
 mymainmenu = awful.menu({
     items = {
         {"awesome", myawesomemenu, beautiful.awesome_icon},
+        {"Debian", debian.menu.Debian_menu.Debian},
         {"&Nautilus", "nautilus --no-desktop", '/usr/share/icons/hicolor/32x32/apps/nautilus.png'},
         {"&Thunar", "thunar"},
         {"屏幕键盘", "matchbox-keyboard", '/usr/share/pixmaps/matchbox-keyboard.png'},
