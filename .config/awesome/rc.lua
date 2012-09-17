@@ -8,9 +8,7 @@ require("beautiful")
 require("naughty")
 -- Third party
 require("vicious")
-
--- widgets
---require("vicious")
+require("volume")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -183,48 +181,8 @@ end
 -- }}}
 
 -- {{{ Volume Control
-volume_cardid  = 0
-volume_channel = "Master"
-function volume (mode, widget)
-    if mode == "update" then
-        local fd = io.popen("amixer -c " .. volume_cardid .. " -- sget " .. volume_channel)
-        local status = fd:read("*all")
-        fd:close()
-
-        local volume = string.match(status, "(%d?%d?%d)%%")
-        volume = string.format("% 3d", volume)
-
-        status = string.match(status, "%[(o[^%]]*)%]")
-
-        if string.find(status, "on", 1, true) then
-            volume = '♫' .. volume .. "%"
-        else
-            volume = '♫' .. volume .. '<span color="red">M</span>'
-        end
-        widget.text = volume
-    elseif mode == "up" then
-        io.popen("amixer -q -c " .. volume_cardid .. " sset " .. volume_channel .. " 5%+"):read("*all")
-        volume("update", widget)
-    elseif mode == "down" then
-        io.popen("amixer -q -c " .. volume_cardid .. " sset " .. volume_channel .. " 5%-"):read("*all")
-        volume("update", widget)
-    else
-        io.popen("amixer -c " .. volume_cardid .. " sset " .. volume_channel .. " toggle"):read("*all")
-        volume("update", widget)
-    end
-end
-volume_clock = timer({ timeout = 10 })
-volume_clock:add_signal("timeout", function () volume("update", tb_volume) end)
-volume_clock:start()
-
 tb_volume = widget({ type = "textbox", name = "tb_volume", align = "right" })
-tb_volume.width = 45
-tb_volume:buttons(awful.util.table.join(
-    awful.button({ }, 4, function () volume("up", tb_volume) end),
-    awful.button({ }, 5, function () volume("down", tb_volume) end),
-    awful.button({ }, 1, function () volume("mute", tb_volume) end)
-))
-volume("update", tb_volume)
+volume.register(tb_volume)
 -- }}}
 
 -- {{{ Battery
@@ -425,30 +383,13 @@ globalkeys = awful.util.table.join(
         function () mypromptbox[mouse.screen]:run() end),
 
     awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end),
-
-    -- Volume
-    awful.key({}, "XF86AudioMute",
         function ()
-            awful.util.spawn("amixer set Master toggle")
-            os.execute("sleep .5") -- 延迟
-            volume("update", tb_volume)
+            awful.prompt.run({ prompt = "Run Lua code: " },
+            mypromptbox[mouse.screen].widget,
+            awful.util.eval, nil,
+            awful.util.getdir("cache") .. "/history_eval")
         end),
-    awful.key({}, "XF86AudioRaiseVolume",
-        function ()
-            awful.util.spawn("amixer set Master -c 0 3dB+")
-            volume("update", tb_volume)
-        end),
-    awful.key({}, "XF86AudioLowerVolume",
-        function ()
-            awful.util.spawn("amixer set Master -c 0 3dB-")
-            volume("update", tb_volume)
-        end)
+    volume.get_keys(tb_volume)
 )
 
 clientkeys = awful.util.table.join(
