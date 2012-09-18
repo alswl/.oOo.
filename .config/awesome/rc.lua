@@ -209,7 +209,7 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 -- {{{ Key bindings
-globalkeys = awful.util.table.join(
+local globalkeys = awful.util.table.join(
     awful.key({ modkey,}, "Left", awful.tag.viewprev),
     awful.key({ modkey,}, "Right", awful.tag.viewnext),
     awful.key({ modkey,}, "Escape", awful.tag.history.restore),
@@ -280,13 +280,13 @@ globalkeys = awful.util.table.join(
         function () awful.util.spawn("xscreensaver-command -lock") end),
 
     -- Prompt
-    --awful.key({ modkey }, "p",
-        --function () mypromptbox[mouse.screen]:run() end), -- FIXME
+    awful.key({ modkey }, "p",
+        function () mypromptbox[mouse.screen]:run() end),
 
     awful.key({ modkey }, "x",
         function ()
             awful.prompt.run({ prompt = "Run Lua code: " },
-            --mypromptbox[mouse.screen].widget, -- FIXME
+            mypromptbox[mouse.screen].widget,
             awful.util.eval, nil,
             awful.util.getdir("cache") .. "/history_eval")
         end),
