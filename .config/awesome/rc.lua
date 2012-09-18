@@ -12,6 +12,7 @@ require("volume")
 require("netwidget")
 require("cpuwidget")
 require("memwidget")
+require("battery")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -156,8 +157,7 @@ local netwidget1 = netwidget.register(widget({ type = "textbox" }), "wlan0")
 -- Volume Control
 local volume1 = volume.register()
 -- Battery
-local batwidget1 = widget({ type = "textbox" })
-vicious.register(batwidget1, vicious.widgets.bat, ' <span color="#0000ff">$1$2%</span>', 5, 'BAT0')
+local batwidget1 = battery.register()
 
 -- Create a systray
 local mysystray = widget({ type = "systray" })
