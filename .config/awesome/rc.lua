@@ -10,6 +10,8 @@ require("naughty")
 require("vicious")
 require("volume")
 require("netwidget")
+require("cpuwidget")
+require("memwidget")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -143,45 +145,19 @@ mylauncher = awful.widget.launcher({
 -- }}}
 
 -- {{{ Wibox
--- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
-
--- Initialize widget
-memwidget = awful.widget.progressbar()
--- Progressbar properties
-memwidget:set_width(8)
-memwidget:set_height(10)
-memwidget:set_vertical(true)
-memwidget:set_background_color("#494B4F")
-memwidget:set_border_color(nil)
-memwidget:set_color("#AECF96")
-memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
--- Register widget
-vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
-
--- Initialize widget
-cpuwidget = awful.widget.graph()
--- Graph properties
-cpuwidget:set_width(8)
-cpuwidget:set_background_color("#494B4F")
-cpuwidget:set_color("#FF5656")
-cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
--- Register widget
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
-
--- {{{ netif
+-- Text Clock
+local textclock1 = awful.widget.textclock({ align = "right" })
+-- Memory Widget
+local memwidget1 = memwidget.register()
+-- Cpu Widget
+local cpuwidget1 = cpuwidget.register()
+-- Net Interface Speed
 local netwidget1 = netwidget.register(widget({ type = "textbox" }), "wlan0")
--- }}}
-
--- {{{ Volume Control
-tb_volume = widget({ type = "textbox", name = "tb_volume", align = "right" })
-volume.register(tb_volume)
--- }}}
-
--- {{{ Battery
-batwidget = widget({ type = "textbox" })
-vicious.register(batwidget, vicious.widgets.bat, ' <span color="#0000ff">$1$2%</span>', 5, 'BAT0')
--- }}}
+-- Volume Control
+local volume1 = volume.register()
+-- Battery
+local batwidget1 = widget({ type = "textbox" })
+vicious.register(batwidget1, vicious.widgets.bat, ' <span color="#0000ff">$1$2%</span>', 5, 'BAT0')
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -273,19 +249,19 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
-            s == 1 and cpuwidget or nil,
-            s == 1 and memwidget or nil,
+            s == 1 and cpuwidget1 or nil,
+            s == 1 and memwidget1 or nil,
             mylauncher,
             mytaglist[s],
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
-        mytextclock,
+        textclock1,
         s == 1 and mysystray or nil,
         s == 1 and netwidget1 or nil,
-        s == 1 and tb_volume or nil,
-        s == 1 and batwidget or nil,
+        s == 1 and volume1 or nil,
+        s == 1 and batwidget1 or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -382,7 +358,7 @@ globalkeys = awful.util.table.join(
             awful.util.eval, nil,
             awful.util.getdir("cache") .. "/history_eval")
         end),
-    volume.get_keys(tb_volume)
+    volume.get_keys(volume1)
 )
 
 clientkeys = awful.util.table.join(
