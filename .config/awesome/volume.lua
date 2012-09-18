@@ -14,6 +14,7 @@ local io = io
 local os = os
 local string = string
 local awful = require("awful")
+local widget_module = require("widget")
 
 module("volume")
 
@@ -53,7 +54,8 @@ function toggle(widget)
     update(widget)
 end
 
-function register(widget)
+function register()
+    local widget = widget_module({ type = "textbox", name = "volume1", align = "right" })
     widget.width = 45
     widget:buttons(awful.util.table.join(
         awful.button({ }, 4, function () up(widget) end),
@@ -66,6 +68,7 @@ function register(widget)
     volume_clock:start()
 
     update(widget)
+    return widget
 end
 
 function get_keys(widget)
