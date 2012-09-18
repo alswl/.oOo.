@@ -3,10 +3,10 @@
 ---------------------------------------------------------------
 -- Usage:
 -- 1. require("volume")
--- 2.  tb_volume = widget({ type = "textbox", name = "tb_volume", align = "right" })
---     volume.register(tb_volume)
--- 3.  s == 1 and tb_volume or nil, -- in and tb_volume
--- 4.  volume.get_keys(tb_volume) -- in globalkeys
+-- 2.  volume1 = widget({ type = "textbox", name = "volume1", align = "right" })
+--     volume.register(volume1)
+-- 3.  s == 1 and volume1 or nil, -- in and volume1
+-- 4.  volume.get_keys(volume1) -- in globalkeys
 ---------------------------------------------------------------
 -- Grab environment
 local timer = timer
@@ -53,29 +53,29 @@ function toggle(widget)
     update(widget)
 end
 
-function register(tb_volume)
-    tb_volume.width = 45
-    tb_volume:buttons(awful.util.table.join(
-        awful.button({ }, 4, function () up(tb_volume) end),
-        awful.button({ }, 5, function () down(tb_volume) end),
-        awful.button({ }, 1, function () toggle(tb_volume) end)
+function register(widget)
+    widget.width = 45
+    widget:buttons(awful.util.table.join(
+        awful.button({ }, 4, function () up(widget) end),
+        awful.button({ }, 5, function () down(widget) end),
+        awful.button({ }, 1, function () toggle(widget) end)
     ))
 
     local volume_clock = timer({ timeout = 10 })
-    volume_clock:add_signal("timeout", function () update(tb_volume) end)
+    volume_clock:add_signal("timeout", function () update(widget) end)
     volume_clock:start()
 
-    update(tb_volume)
+    update(widget)
 end
 
-function get_keys(tb_volume)
+function get_keys(widget)
     keys = awful.util.table.join(
         awful.key({}, "XF86AudioMute",
-            function () toggle(tb_volume) end),
+            function () toggle(widget) end),
         awful.key({}, "XF86AudioRaiseVolume",
-            function () up(tb_volume) end),
+            function () up(widget) end),
         awful.key({}, "XF86AudioLowerVolume",
-            function () down(tb_volume) end)
+            function () down(widget) end)
     )
     return keys
 end
