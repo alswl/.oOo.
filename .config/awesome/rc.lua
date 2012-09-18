@@ -9,6 +9,7 @@ require("naughty")
 -- Third party
 require("vicious")
 require("volume")
+require("netwidget")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -169,15 +170,7 @@ cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
 
 -- {{{ netif
-netif = 'eth0'
-function netwidget_text(netif)
-    return '↓<span color="#5798d9">${' ..netif.. ' down_kb}</span> ↑<span color="#c2ba62">${' ..netif.. ' up_kb}</span> '
-end
-netwidget = widget({ type = "textbox" })
-netwidget_v = vicious.register(netwidget, vicious.widgets.net, netwidget_text(netif) , 2)
-function set_netif(interface)
-    netwidget_v.format = netwidget_text(interface)
-end
+local netwidget1 = netwidget.register(widget({ type = "textbox" }), "wlan0")
 -- }}}
 
 -- {{{ Volume Control
@@ -290,7 +283,7 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         mytextclock,
         s == 1 and mysystray or nil,
-        s == 1 and netwidget or nil,
+        s == 1 and netwidget1 or nil,
         s == 1 and tb_volume or nil,
         s == 1 and batwidget or nil,
         mytasklist[s],
