@@ -3,8 +3,8 @@ local vicious = require("vicious")
 
 module("cpuwidget")
 
-function register()
-    local widget = awful.widget.graph()
+function register(widget)
+    widget = widget or awful.widget.graph()
     widget:set_width(8)
     widget:set_background_color("#494B4F")
     widget:set_color("#FF5656")
