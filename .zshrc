@@ -35,7 +35,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=$PATH:$HOME/local/bin/
-#export PATH=$PATH:/opt/jdk1.6.0_33/bin/
+export PATH=/opt/jdk1.6.0_33/bin/:$PATH
 
 export EDITOR=vim
 

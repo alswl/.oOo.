@@ -4,7 +4,7 @@
 
 目前的配置文件包括：
 
-* awesome
+* awesome # moved to https://github.com/alswl/awesome
 * zsh
 * vim
 * vimperator
@@ -25,13 +25,7 @@ Branche 'master' is for Arch Linux, branche 'vostro' is for Ubuntu 12.04.
 
 ## Awesome Usage ##
 
-``` bash
-git clone --recursive https://github.com/alswl/dotfiles.git
-ln -s /your/dotfiles/.config/awesome ~/.config
-```
-
-My Awesome config need many 3rd library, please make sure installed them.
-You should check the `~/.config/awesome/rc.lua`.
+Awesome configuration had moved to https://github.com/alswl/awesome 。
 
 ## Vim Usage ##
 
