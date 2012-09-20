@@ -8,8 +8,8 @@
 * zsh
 * vim
 * vimperator
-* xmonad # suspend
-* xmobar # suspend
+* xmonad # deleted
+* xmobar # deleted
 * xsession
 * Xmodmap
 
