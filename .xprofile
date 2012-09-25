@@ -15,19 +15,10 @@ export XIM_PROGRAM=fcitx
 
 export PATH=$PATH:/home/alswl/local/bin
 
-# fctix
-fcitx &
-
-# turn off beep
-xset b off
-
-# trackpoint
-sudo bash /home/alswl/dev/workspace/bash/trackpoint.sh
-
 if [ $1 = 'awesome' ]; then
-	xrandr --output LVDS1 --mode 1280x800
+	#xrandr --output LVDS1 --mode 1280x800
 	#xrandr --output VGA1 --rotate left --mode 1440x900 --left-of LVDS1
-	xrandr --output VGA1 --rotate normal --mode 1440x900 --above LVDS1
+	#xrandr --output VGA1 --rotate normal --mode 1440x900 --above LVDS1
 
 	# xscreensaver
 	xscreensaver -no-splash &
@@ -38,13 +29,21 @@ if [ $1 = 'awesome' ]; then
 	clipit &
 fi
 
-#xmodmap $HOME/.Xmodmap
+# fctix
+fcitx &
+
+# turn off beep
+xset b off
+
+# trackpoint
+sudo bash /home/alswl/dev/workspace/bash/trackpoint.sh
 
 # Dropbox
 dropboxd  &
 
 # nm-applet
 #nm-applet &
+archassistant &
 
 # trayer
 #trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --widthtype pixel --width 128 --transparent true --alpha 0 --tint 0x000000 --height 18 &
