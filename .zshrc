@@ -29,15 +29,18 @@ ZSH_THEME="robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python history-substring-search github svn django virtualenvwrapper ssh-agent)
+plugins=(git python history-substring-search github svn django virtualenvwrapper ssh-agent mvn)
 
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-export PATH=$PATH:$HOME/local/bin/
-export PATH=/opt/jdk1.6.0_33/bin/:$PATH
-
 export EDITOR=vim
+
+# Customize to your needs...
+for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
+	PATH=$p/bin:$PATH
+done
+PATH=$HOME/local/bin/:$PATH
+export PATH
 
 # personal script {{{
 [ -f ./.personal.sh ] && . ./.personal.sh
