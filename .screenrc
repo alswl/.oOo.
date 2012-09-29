@@ -1,0 +1,15 @@
+startup_message off # default: on
+
+autodetach on # default:on
+
+shell zsh
+
+caption always "%{=b}%{b}%{C}[stream]%{-}  %+010=%-w%8L>%{uB .my}*%n %t%{-}%+w%-014<  %-012=%{b m}%m-%d %c "
+
+# bind F9 to "move to previous window"
+bindkey -k k9 prev
+# bind F10 to "move to next window"
+bindkey -k k; next
+
+# bind key see
+# http://web.mit.edu/gnu/doc/html/screen_toc.html#SEC82
