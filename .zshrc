@@ -58,6 +58,7 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
+alias grep='grep --exclude-dir=".svn"'
 # }}}
 
 # 路径别名 {{{
