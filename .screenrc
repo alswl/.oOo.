@@ -6,6 +6,8 @@ shell zsh
 
 caption always "%{=b}%{b}%{C}[stream]%{-}  %+010=%-w%8L>%{uB .my}*%n %t%{-}%+w%-014<  %-012=%{b m}%m-%d %c "
 
+term screen-256color
+
 # bind F9 to "move to previous window"
 bindkey -k k9 prev
 # bind F10 to "move to next window"
