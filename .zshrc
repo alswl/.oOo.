@@ -29,7 +29,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python history-substring-search github svn django ssh-agent mvn virtualenvwrapper)
+plugins=(git python history-substring-search github svn django ssh-agent mvn virtualenvwrapper pip)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -104,6 +104,15 @@ bindkey '\e.' insert-last-word
 #bindkey "\e[F" end-of-line
 
 bindkey "^x^e" edit-command-line
+
+bindkey "[16~" delete-char # F5 pass to tmux
+bindkey "[17~" delete-char # F6 pass to tmux
+bindkey "[18~" delete-char # F7 pass to tmux
+bindkey "[19~" delete-char # F8 pass to tmux
+bindkey "^[[20~" delete-char # F9 pass to tmux
+bindkey "^[[21~" delete-char # F10 pass to tmux
+bindkey "^[[23~" delete-char # F11 pass to tmux
+bindkey "[24~" delete-char # F12 pass to tmux
 # }}}
 
 #color
