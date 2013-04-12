@@ -29,7 +29,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python history-substring-search github svn django ssh-agent mvn virtualenvwrapper pip)
+plugins=(git python history-substring-search github svn django ssh-agent mvn virtualenvwrapper pip scala github)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -43,6 +43,7 @@ done
 PATH=$PATH:$HOME/local/bin/
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$HOME/local/play-2.1.0 # Add RVM to PATH for scripting
 export PATH
 
 # personal script {{{
