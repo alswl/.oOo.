@@ -29,7 +29,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python history-substring-search github svn django ssh-agent mvn virtualenvwrapper pip scala github)
+plugins=(git python history-substring-search github svn django ssh-agent mvn pip scala github autojump)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -113,6 +113,9 @@ bindkey "^[[20~" delete-char # F9 pass to tmux
 bindkey "^[[21~" delete-char # F10 pass to tmux
 bindkey "^[[23~" delete-char # F11 pass to tmux
 bindkey "[24~" delete-char # F12 pass to tmux
+
+bindkey "${terminfo[kcuu1]}" up-line-or-search # for Ubuntu 12.10
+bindkey "${terminfo[kcud1]}" down-line-or-search # for Ubuntu 12.10
 # }}}
 
 #color
