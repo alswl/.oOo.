@@ -43,7 +43,6 @@ done
 PATH=$PATH:$HOME/local/bin/
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-PATH=$PATH:$HOME/local/play-2.1.0 # Add RVM to PATH for scripting
 export PATH
 
 # personal script {{{
