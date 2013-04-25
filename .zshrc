@@ -115,8 +115,6 @@ bindkey "^[[21~" delete-char # F10 pass to tmux
 bindkey "^[[23~" delete-char # F11 pass to tmux
 bindkey "[24~" delete-char # F12 pass to tmux
 
-bindkey "${terminfo[kcuu1]}" up-line-or-search # for Ubuntu 12.10
-bindkey "${terminfo[kcud1]}" down-line-or-search # for Ubuntu 12.10
 # }}}
 
 #color
