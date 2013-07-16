@@ -29,7 +29,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python history-substring-search github svn django ssh-agent mvn pip scala github autojump)
+plugins=(git python history-substring-search github git-flow svn django ssh-agent mvn scala autojump autoenv compleat urltools virtualenvwrapper rvm)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -69,12 +69,12 @@ alias screen='TERM=xterm-256color screen'
 # }}}
 
 # virtual wrapper {{{
-[ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
-[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
+#[ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
+#[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
 #}}}
 
 # rvm {{{
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+#[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 #}}}
 
 # key binding {{{
