@@ -38,9 +38,13 @@ export EDITOR=vim
 
 # Customize to your needs...
 for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
-	PATH=$PATH:$p/bin
+	PATH=$p/bin:$PATH
 done
-PATH=$PATH:$HOME/local/bin/
+PATH=$HOME/local/bin/:$PATH
+
+for p in `find /usr/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
+	PATH=$p/bin:$PATH
+done
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH
