@@ -1,21 +1,36 @@
-# alswl's dot files #
+# Alswl's .oOo. #
 
-For support Thoma Yao's [Gitcafe][]，This project moved to
-[.oOo.][] 。
+这里是我的 Linux 配置文件，有兴趣的可以参考。
 
-`.oOo.` includes：
+This is my Linux configuration.
 
+目前的配置文件包括：
+
+* awesome # moved to [awesome][]
 * zsh
+* vim # moved to [miv][]
 * vimperator
-* Xmodmap
-* tmux
-* screen
+* Xmodmap # depleted
+* font
+* tmux / screen
+* xmonad # depleted
+* xmobar # depleted
+* xsession # depleted
 
-Awesome config files moved to [awesome][] 。
+## Usage ##
 
-Vim config files moved to [miv][] 。
+``` bash
+git clone https://github.com/alswl/.oOo.
+ln -s /your/.oOo./.* ~/
+```
 
- [Gitcafe]: https://gitcafe.com/
- [.oOo.]: https://gitcafe.com/alswl/.oOo.
- [awesome]: https://github.com/alswl/awesome
- [miv]: https://gitcafe.com/alswl/miv
+## Related ##
+
+* [miv][] vim configuration
+* [awesome][] awesome configuration
+* [.oOo. mirror][] Mirror @ GitCafe
+
+[.oOo.]: https://github.com/alswl/.oOo.
+[.oOo. mirror]: https://gitcafe.com/alswl/.oOo.
+[awesome]: https://github.com/alswl/awesome
+[miv]: https://github.com/alswl/miv
