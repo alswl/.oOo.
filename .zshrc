@@ -49,6 +49,8 @@ done
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH
 
+[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+
 # personal script {{{
 [ -f $HOME/.personal.sh ] && . $HOME/.personal.sh
 # }}}
