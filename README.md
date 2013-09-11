@@ -17,6 +17,7 @@ This is my Linux configuration.
 * xmobar # depleted
 * xsession # depleted
 * .gitconfig
+* local/bin # svn diff / git diff / gbk unzip / speedfox
 
 ## Usage ##
 
@@ -24,6 +25,9 @@ This is my Linux configuration.
 git clone https://github.com/alswl/.oOo.
 ln -s /your/.oOo./.* ~/
 cp /your/.oOo./_.gitconfig ~/.gitconfig
+
+mkdir -p ~/local/bin && cd ~/local/bin
+ln -s /your/.oOo./local/bin/* .
 ```
 
 ## Related ##
