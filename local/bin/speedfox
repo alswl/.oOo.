@@ -1,0 +1,68 @@
+#!/bin/bash
+# Alex Alexander (wired) <alex.alexander@gmail.com>
+# http://www.linuxized.com
+#
+# this script makes sure your .mozilla folder is in tmpfs and constantly syncs it
+# with a folder on your hdd so you won't lose anything :)
+# for more details on how it works visit my blog in the link above.
+#
+# for this to have any meaning, the MOZTMPFS folder must be on tmpfs
+# i.e. to make /var/tmp a tmpfs folder, add the following in /etc/fstab
+# tmpfs      		/var/tmp	tmpfs  size=768M,mode=0777         0 0
+#
+# don't forget to mount the first time!
+
+# your ram mozilla folder
+MOZTMPFS=/dev/shm/`whoami`_mozilla
+# your original mozilla folder - i recommend: mv ~/.mozilla ~/.mozilla-hdd
+MOZHDD="${HOME}/.mozilla-hdd"
+# your ~/.mozilla
+MOZHOME="${HOME}/.mozilla"
+# seconds interval for rsync
+INTERVAL=60
+
+# lets make sure MOZHDD exists before we do anything naughty
+if [ ! -d "${MOZHDD}" ]; then
+	echo "ERROR"
+	echo "${MOZHDD} doesn't exist."
+	echo "we won't do anything until you cp/mv your ${MOZHOME} folder there."
+	echo "try: mv ${MOZHOME} ${MOZHDD}"
+	exit
+fi
+
+# check for and create tmp folder
+if [ ! -d "${MOZTMPFS}" ]; then
+	mkdir -p ${MOZTMPFS}
+fi
+
+# check for ~/.mozilla
+# if it exists and is a directory die
+if [ -e "${MOZHOME}" ] && [ ! -L "${MOZHOME}" ]; then
+	echo "ERROR"
+	echo "${MOZHOME} should not exist or should be a link"
+	echo "aborting to avoid permanent damage"
+	echo "backup and/or delete ${MOZHOME} and try again"
+	exit
+else
+	if [ ! -e "${MOZHOME}" ]; then
+		ln -s "${MOZTMPFS}" "${MOZHOME}"
+	fi
+fi
+
+# sync to tmpfs
+echo "syching ${MOZHDD} to ${MOZTMPFS}"
+rsync -avi --delete "${MOZHDD}/" "${MOZTMPFS}/"
+
+echo "executing reverse sync every ${INTERVAL} seconds"
+( while true; do sleep ${INTERVAL}; rsync -avi --delete "${MOZTMPFS}/" "${MOZHDD}/"; done; ) &
+SYNC=$!
+
+echo "launching firefox";
+firefox
+
+echo "firefox closed, kill auto sync and reverse sync one last time"
+echo "please wait..."
+kill $!
+rsync -avi --delete "${MOZTMPFS}/" "${MOZHDD}/"
+echo "all done, removing ${MOZHOME} link for safety reasons =]";
+rm ${MOZHOME}
