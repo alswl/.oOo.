@@ -16,12 +16,14 @@ This is my Linux configuration.
 * xmonad # depleted
 * xmobar # depleted
 * xsession # depleted
+* .gitconfig
 
 ## Usage ##
 
 ``` bash
 git clone https://github.com/alswl/.oOo.
 ln -s /your/.oOo./.* ~/
+cp /your/.oOo./_.gitconfig ~/.gitconfig
 ```
 
 ## Related ##
