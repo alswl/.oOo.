@@ -1,0 +1,14 @@
+[diff]
+	external = git_diff_wrapper
+[pager]
+	diff = 
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+	st = status
+	pl = pull
+	ps = push
+	co = checkout
+	ci = commit
+	df = diff
+[color]
+	diff = auto
