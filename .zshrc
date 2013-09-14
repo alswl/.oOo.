@@ -46,8 +46,8 @@ for p in `find /usr/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; d
 	PATH=$p/bin:$PATH
 done
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-export PATH
+# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+# export PATH
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
@@ -80,8 +80,8 @@ alias screen='TERM=xterm-256color screen'
 #}}}
 
 # rvm {{{
-#[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
-#}}}
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+# }}}
 
 # key binding {{{
 bindkey '\e.' insert-last-word
