@@ -1,3 +1,5 @@
+[color]
+    diff = auto 
 [diff]
 	external = git_diff_wrapper
 [pager]
@@ -7,8 +9,12 @@
 	st = status
 	pl = pull
 	ps = push
-	co = checkout
-	ci = commit
+	if = info
 	df = diff
-[color]
-	diff = auto
+	ci = commit
+	co = checkout
+	cl = clone
+[merge]
+	tool = vimdiff
+;[push]
+	;default = simple
