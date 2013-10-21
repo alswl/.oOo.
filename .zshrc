@@ -29,7 +29,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python history-substring-search github git-flow svn django ssh-agent mvn scala autojump autoenv compleat urltools virtualenvwrapper rvm)
+plugins=(git python history-substring-search github git-flow svn django ssh-agent mvn scala autojump autoenv compleat urltools virtualenvwrapper rvm vagrant)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
