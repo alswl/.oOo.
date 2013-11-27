@@ -9,6 +9,28 @@ config resizePercentOf screenSize
 alias mouse_left shell path:~/ '/usr/local/bin/cliclick m:640,400'
 alias mouse_right shell path:~/ '/usr/local/bin/cliclick m:1920,400'
 
+alias mouse_set_0 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 0 --set'
+alias mouse_set_1 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 1 --set'
+alias mouse_set_2 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 2 --set'
+alias mouse_set_3 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 3 --set'
+alias mouse_set_4 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 4 --set'
+alias mouse_set_5 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 5 --set'
+alias mouse_set_6 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 6 --set'
+alias mouse_set_7 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 7 --set'
+alias mouse_set_8 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 8 --set'
+alias mouse_set_9 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 9 --set'
+
+alias mouse_resotre_0 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 0'
+alias mouse_restore_1 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 1'
+alias mouse_restore_2 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 2'
+alias mouse_restore_3 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 3'
+alias mouse_restore_4 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 4'
+alias mouse_restore_5 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 5'
+alias mouse_restore_6 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 6'
+alias mouse_restore_7 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 7'
+alias mouse_restore_8 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 8'
+alias mouse_restore_9 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 9'
+
 # Resize Bindings
 #bind right:alt       resize +10% +0
 #bind left:alt        resize -10% +0
@@ -41,11 +63,11 @@ bind 2:ctrl;alt         throw 1 resize
 #bind down:ctrl;alt;cmd  throw down  resize
 
 # Focus Bindings
-bind `:alt     sequence focus 'iTerm' > ${mouse_left}
-bind 1:alt     sequence focus 'Firefox' > ${mouse_left}
-bind 2:alt     sequence focus 'Google Chrome' > ${mouse_left}
-bind 3:alt     sequence focus 'QQ' > ${mouse_left}
-bind q:alt     sequence focus 'MacVim' > ${mouse_right}
+bind `:alt     sequence focus 'iTerm' > ${mouse_resotre_0}
+bind 1:alt     sequence focus 'Firefox' > ${mouse_resotre_0}
+bind 2:alt     sequence focus 'Google Chrome' > ${mouse_resotre_0}
+bind 3:alt     sequence focus 'QQ' > ${mouse_resotre_0}
+bind q:alt     sequence focus 'MacVim' > ${mouse_restore_1}
 bind h:alt     sequence focus left > ${mouse_left}
 bind l:alt     sequence focus right > ${mouse_right}
 #bind up:cmd       focus up
