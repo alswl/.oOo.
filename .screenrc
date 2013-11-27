@@ -4,7 +4,7 @@ autodetach on # default:on
 
 shell zsh
 
-caption always "%{=b}%{b}%{C}[stream]%{-}  %+010=%-w%8L>%{uB .my}*%n %t%{-}%+w%-014<  %-012=%{b m}%m-%d %c "
+caption always "%{=b}%{b}%{C}[stream]%{-}  %+010=%-w%8L>%{uB .my}*%n %t%{-}%+w%-014< %c "
 
 term screen-256color
 

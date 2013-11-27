@@ -1,8 +1,10 @@
 # Alswl's .oOo. #
 
-这里是我的 Linux 配置文件，有兴趣的可以参考。
+这里是我的 Mac OS 配置文件，有兴趣的可以参考。
 
-This is my Linux configuration.
+This is my Mac OS configuration.
+
+The old version of Linux is [here](https://github.com/alswl/.oOo./tree/ubuntu-final)
 
 目前的配置文件包括：
 

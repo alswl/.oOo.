@@ -51,4 +51,6 @@ set previouspattern=\s*上一页|上一张|上一篇|上页|前页\s*,^\bprev|pr
 cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
 cnoremap<C-Return> <End>.com<Home><C-Right><Right>www.<CR>
 
+set 'editor=/bin/bash -lc "mvim -f \$*" mvim '
+
 " vim: set ft=vim:
