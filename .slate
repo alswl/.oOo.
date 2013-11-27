@@ -5,6 +5,10 @@ config defaultToCurrentScreen true
 config nudgePercentOf screenSize
 config resizePercentOf screenSize
 
+# Alias
+alias mouse_left shell path:~/ '/usr/local/bin/cliclick m:640,400'
+alias mouse_right shell path:~/ '/usr/local/bin/cliclick m:1920,400'
+
 # Resize Bindings
 #bind right:alt       resize +10% +0
 #bind left:alt        resize -10% +0
@@ -37,13 +41,13 @@ bind 2:ctrl;alt         throw 1 resize
 #bind down:ctrl;alt;cmd  throw down  resize
 
 # Focus Bindings
-bind `:alt     focus 'iTerm'
-bind 1:alt     focus 'Firefox'
-bind 2:alt     focus 'Google Chrome'
-bind 3:alt     focus 'QQ'
-bind q:alt     focus 'MacVim'
-bind h:alt    focus left
-bind l:alt    focus right
+bind `:alt     sequence focus 'iTerm' > ${mouse_left}
+bind 1:alt     sequence focus 'Firefox' > ${mouse_left}
+bind 2:alt     sequence focus 'Google Chrome' > ${mouse_left}
+bind 3:alt     sequence focus 'QQ' > ${mouse_left}
+bind q:alt     sequence focus 'MacVim' > ${mouse_right}
+bind h:alt     sequence focus left > ${mouse_left}
+bind l:alt     sequence focus right > ${mouse_right}
 #bind up:cmd       focus up
 #bind down:cmd     focus down
 bind k:alt   focus behind
