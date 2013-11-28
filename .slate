@@ -31,6 +31,10 @@ alias mouse_restore_7 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 7
 alias mouse_restore_8 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 8'
 alias mouse_restore_9 shell path:~/ '/Users/alswl/local/bin/move_pointer.py -s 9'
 
+alias mouse_set_last shell path:~/ '/usr/local/bin/cliclick p | awk \'{print $4}\' > /tmp/last_screen'
+alias mouse_restore_last shell path:~/ '/usr/local/bin/cliclick m:`cat /tmp/last_screen_t`'
+alias _mouse_copy shell path:~/ 'cp /tmp/last_screen /tmp/last_screen_t'
+
 # Resize Bindings
 #bind right:alt       resize +10% +0
 #bind left:alt        resize -10% +0
@@ -63,7 +67,7 @@ bind 2:ctrl;alt         throw 1 resize
 #bind down:ctrl;alt;cmd  throw down  resize
 
 # Focus Bindings
-bind `:alt     sequence focus 'iTerm' > ${mouse_resotre_0}
+bind `:alt     sequence _mouse_copy > focus 'iTerm' > mouse_set_last > mouse_restore_last
 bind 1:alt     sequence focus 'Firefox' > ${mouse_resotre_0}
 bind 2:alt     sequence focus 'Google Chrome' > ${mouse_resotre_0}
 bind 3:alt     sequence focus 'QQ' > ${mouse_resotre_0}
