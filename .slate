@@ -6,8 +6,8 @@ config nudgePercentOf screenSize
 config resizePercentOf screenSize
 
 # Alias
-alias mouse_left shell path:~/ '/usr/local/bin/cliclick m:640,400'
-alias mouse_right shell path:~/ '/usr/local/bin/cliclick m:1920,400'
+alias mouse_left shell path:~/ '/usr/local/bin/cliclick m:640,400 && /Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh'
+alias mouse_right shell path:~/ '/usr/local/bin/cliclick m:1920,400 && /Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh'
 
 alias mouse_iTerm shell path:~/ '/Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh iTerm'
 alias mouse_Firefox shell path:~/ '/Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh Firefox'
@@ -52,8 +52,8 @@ bind 1:alt     sequence ${mouse_Firefox} > focus 'Firefox'
 bind 2:alt     sequence ${mouse_Google_Chrome} > focus 'Google Chrome'
 bind 3:alt     sequence ${mouse_QQ} > focus 'QQ'
 bind q:alt     sequence ${mouse_MacVim} > focus 'MacVim'
-bind h:alt     sequence focus left > ${mouse_left}
-bind l:alt     sequence focus right > ${mouse_right}
+bind h:alt     sequence ${mouse_left} > focus left
+bind l:alt     sequence ${mouse_right} > focus right
 #bind up:cmd       focus up
 #bind down:cmd     focus down
 bind k:alt   focus behind

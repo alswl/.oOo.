@@ -3,8 +3,8 @@
 #for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 	#PATH=$p/bin:$PATH
 #done
-PATH=$HOME/local/bin/:$PATH
-PATH=$PATH:/Users/alswl/Library/Python/2.7/bin/
+PATH=$HOME/local/bin:/usr/local/bin:$PATH
+PATH=$PATH:/Users/alswl/Library/Python/2.7/bin
 
 #for p in `find /usr/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 	#PATH=$p/bin:$PATH
