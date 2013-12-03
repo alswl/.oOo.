@@ -8,13 +8,19 @@
 	name = 
 	email = 
 [alias]
+	s = status
+	a = !git add . && git status
+	c = git commit -av
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	ll = log --stat --abbrev-commit
 	st = status
 	pl = pull
 	ps = push
 	df = diff
 	ci = commit
 	co = checkout
+	spl = svn rebase
+	sps = svn dcommit
 [merge]
 	tool = vimdiff
 ;[push]
