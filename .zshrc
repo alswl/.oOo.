@@ -83,6 +83,7 @@ alias dstat='dstat -cdlmnpsy'
 alias grep='grep --exclude-dir=".svn"'
 alias tmux='tmux -2'
 alias screen='TERM=xterm-256color /usr/local/bin/screen'
+alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 # }}}
 
 # 路径别名 {{{
