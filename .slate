@@ -59,6 +59,10 @@ bind l:alt     sequence ${mouse_right} > focus right
 bind k:alt   focus behind
 bind j:alt focus behind
 
+# Move Bindings
+bind h:alt;shift     sequence ${mouse_left} > focus left > move 0;0 screenSizeX;screenSizeY 0
+bind l:alt;shift     sequence ${mouse_right} > focus right > move screenOriginX;screenOriginY screenSizeX;screenSizeY 1
+
 # Window Hints
 #bind esc:cmd hint
 
