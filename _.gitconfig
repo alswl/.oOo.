@@ -1,19 +1,20 @@
 [color]
     diff = auto 
+	ui = true
 [diff]
 	external = git_diff_wrapper
 [pager]
-	diff = 
+	diff = less -r
 [user]
 	name = 
 	email = 
 [alias]
 	s = status
-	a = !git add . && git status
-	c = git commit -av
+	c = commit -av
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	ll = log --stat --abbrev-commit
 	st = status
+	sta = stash
 	pl = pull
 	ps = push
 	df = diff
@@ -23,5 +24,6 @@
 	sps = svn dcommit
 [merge]
 	tool = vimdiff
-;[push]
+[push]
+	default = matching
 	;default = simple
