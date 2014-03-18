@@ -63,6 +63,7 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 export EDITOR=vim
+export JAVA_HOME=`/usr/libexec/java_home`
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
@@ -84,6 +85,11 @@ alias grep='grep --exclude-dir=".svn"'
 alias tmux='tmux -2'
 alias screen='TERM=xterm-256color /usr/local/bin/screen'
 alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+alias readlink=greadlink
+alias g=git
+alias v=vim
+alias mk=mkdir
+alias le=less
 # }}}
 
 # 路径别名 {{{

@@ -14,6 +14,7 @@ alias mouse_Firefox shell path:~/ '/Users/alswl/dev/myproject/.oOo./local/bin/mo
 alias mouse_Google_Chrome shell path:~/ '/Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh Google_Chrome'
 alias mouse_QQ shell path:~/ '/Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh QQ'
 alias mouse_MacVim shell path:~/ '/Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh MacVim'
+alias mouse_Sparrow shell path:~/ '/Users/alswl/dev/myproject/.oOo./local/bin/mouse_restore.sh Sparrow'
 
 # Resize Bindings
 #bind right:alt       resize +10% +0
@@ -52,6 +53,7 @@ bind 1:alt     sequence ${mouse_Firefox} > focus 'Firefox'
 bind 2:alt     sequence ${mouse_Google_Chrome} > focus 'Google Chrome'
 bind 3:alt     sequence ${mouse_QQ} > focus 'QQ'
 bind q:alt     sequence ${mouse_MacVim} > focus 'MacVim'
+bind w:alt     sequence ${mouse_Sparrow} > focus 'Sparrow'
 bind h:alt     sequence ${mouse_left} > focus left
 bind l:alt     sequence ${mouse_right} > focus right
 #bind up:cmd       focus up
