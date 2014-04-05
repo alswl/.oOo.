@@ -53,7 +53,7 @@ bind 1:alt     sequence ${mouse_Firefox} > focus 'Firefox'
 bind 2:alt     sequence ${mouse_Google_Chrome} > focus 'Google Chrome'
 bind 3:alt     sequence ${mouse_QQ} > focus 'QQ'
 bind a:alt     sequence ${mouse_MacVim} > focus 'MacVim'
-bind s:alt     sequence ${mouse_Sparrow} > focus 'Sparrow'
+bind s:alt     sequence ${mouse_Sparrow} > focus 'IntelliJ IDEA'
 bind h:alt     sequence ${mouse_left} > focus left
 bind l:alt     sequence ${mouse_right} > focus right
 #bind up:cmd       focus up
@@ -62,8 +62,10 @@ bind k:alt   focus behind
 bind j:alt focus behind
 
 # Move Bindings
-bind h:alt;shift     sequence ${mouse_left} > focus left > throw 0 resize
-bind l:alt;shift     sequence ${mouse_right} > focus right > throw 1 resize
+#bind h:alt;shift     sequence ${mouse_left} > focus left > throw 0 resize
+#bind l:alt;shift     sequence ${mouse_right} > focus right > throw 1 resize
+bind h:alt;shift     sequence ${mouse_left} > focus left > throw 0
+bind l:alt;shift     sequence ${mouse_right} > focus right > throw 1
 
 # Window Hints
 #bind esc:cmd hint
