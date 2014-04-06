@@ -29,6 +29,24 @@ Window.prototype.moveToScreen = function(screen) {
 };
 
 
+Window.prototype.focusNextWindowsOnSameScreen = function() {
+  var currentWindow = Window.focusedWindow();
+  var windows = currentWindow.otherWindowsOnSameScreen()
+  windows.push(currentWindow);
+  windows = _.chain(windows).sortBy(function(window) { return window.app().pid}).value();
+  windows[(_.indexOf(windows, currentWindow) + 1) % windows.length].focusWindow();
+};
+
+
+Window.prototype.focusPreviousWindowsOnSameScreen = function() {
+  var currentWindow = Window.focusedWindow();
+  var windows = currentWindow.otherWindowsOnSameScreen()
+  windows.push(currentWindow);
+  windows = _.chain(windows).sortBy(function(window) { return window.app().pid}).value();
+  windows[(_.indexOf(windows, currentWindow) - 1 + windows.length) % windows.length].focusWindow();
+};
+
+
 /**
  * My Settings
  */
@@ -55,11 +73,10 @@ api.bind('m', mash, function() {
 });
 
 api.bind('j', mash, function() {
-  //api.alert(Window.focusedWindow().otherWindowsOnSameScreen());
-  Window.focusedWindow().focusWindowDown();
+  Window.focusedWindow().focusNextWindowsOnSameScreen();
 });
 api.bind('k', mash, function() {
-  Window.focusedWindow().focusWindowUp();
+  Window.focusedWindow().focusPreviousWindowsOnSameScreen();
 });
 
 // Mission Control
