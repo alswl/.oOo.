@@ -61,10 +61,10 @@ api.bind('s', mash, function() { api.launch('IntelliJ IDEA 13'); });
 
 // Multi screen
 api.bind('l', mashShift, function() {
-  Window.focusedWindow().moveToScreen(win.screen().nextScreen());
+  Window.focusedWindow().moveToScreen(Window.focusedWindow().screen().nextScreen());
 });
 api.bind('h', mashShift, function() {
-  Window.focusedWindow().moveToScreen(win.screen().previousScreen());
+  Window.focusedWindow().moveToScreen(Window.focusedWindow().screen().previousScreen());
 });
 
 // Window
