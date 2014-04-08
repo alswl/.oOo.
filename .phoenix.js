@@ -38,6 +38,14 @@ Window.prototype.focusNextWindowsOnSameScreen = function() {
 };
 
 
+Window.prototype.focusNextScreen = function() {
+  var windows = _.union(Window.visibleWindowsMostRecentFirst(), _.difference(this.otherWindowsOnAllScreens(), this.otherWindowsOnSameScreen()));
+  if (windows.length > 2) {
+    windows[1].focusWindow();
+  }
+};
+
+
 Window.prototype.focusPreviousWindowsOnSameScreen = function() {
   var currentWindow = Window.focusedWindow();
   var windows = currentWindow.otherWindowsOnSameScreen()
@@ -60,6 +68,12 @@ api.bind('a', mash, function() { api.launch('MacVim'); });
 api.bind('s', mash, function() { api.launch('IntelliJ IDEA 13'); });
 
 // Multi screen
+api.bind('l', mash, function() {
+  Window.focusedWindow().focusNextScreen();
+});
+api.bind('h', mash, function() {
+  Window.focusedWindow().focusNextScreen();
+});
 api.bind('l', mashShift, function() {
   Window.focusedWindow().moveToScreen(Window.focusedWindow().screen().nextScreen());
 });
