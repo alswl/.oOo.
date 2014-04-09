@@ -31,7 +31,7 @@ Window.prototype.moveToScreen = function(screen) {
 
 Window.prototype.focusNextWindowsOnSameScreen = function() {
   var currentWindow = Window.focusedWindow();
-  var windows = currentWindow.otherWindowsOnSameScreen()
+  var windows = currentWindow.otherWindowsOnSameScreen();
   windows.push(currentWindow);
   windows = _.chain(windows).sortBy(function(window) { return window.app().pid}).value();
   windows[(_.indexOf(windows, currentWindow) + 1) % windows.length].focusWindow();
@@ -87,10 +87,20 @@ api.bind('m', mash, function() {
 });
 
 api.bind('j', mash, function() {
-  Window.focusedWindow().focusNextWindowsOnSameScreen();
+  var window = Window.focusedWindow();
+  if (window === undefined) {
+    Window.visibleWindowsMostRecentFirst()[0].focusWindow();
+    return;
+  }
+  window.focusNextWindowsOnSameScreen();
 });
 api.bind('k', mash, function() {
-  Window.focusedWindow().focusPreviousWindowsOnSameScreen();
+  var window = Window.focusedWindow();
+  if (window === undefined) {
+    Window.visibleWindowsMostRecentFirst()[0].focusWindow();
+    return;
+  }
+  window.focusPreviousWindowsOnSameScreen();
 });
 
 // Mission Control
