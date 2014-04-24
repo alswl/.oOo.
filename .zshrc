@@ -82,6 +82,7 @@ alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
 alias grep='grep --exclude-dir=".svn"'
+alias find=gfind
 alias tmux='tmux -2'
 alias screen='TERM=xterm-256color /usr/local/bin/screen'
 alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
@@ -90,6 +91,7 @@ alias g=git
 alias v=vim
 alias mk=mkdir
 alias le=less
+alias ipy=/Users/alswl/.virtualenvs/7/bin/ipython
 # }}}
 
 # 路径别名 {{{
