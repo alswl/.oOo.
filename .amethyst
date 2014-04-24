@@ -1,10 +1,8 @@
 {
     "LAYOUTS": "----------------------",
     "layouts": [
-        "tall",
-        "wide",
-        "fullscreen",
-        "column"
+        "floating",
+		"tall"
     ],
 
     "MODIFIERS": "----------------------",
@@ -17,12 +15,10 @@
 
     "mod1": [
         "option",
-        "shift"
     ],
     "mod2": [
         "option",
         "shift",
-        "control"
     ],
 
     "COMMANDS": "----------------------",
@@ -64,53 +60,29 @@
         "mod": "mod2",
         "key": "space"
     },
-    "select-tall-layout": {
-        "mod": "mod1",
-        "key": "a"
-    },
-    "select-wide-layout": {
-        "mod": "mod1",
-        "key": "s"
-    },
-    "select-fullscreen-layout": {
-        "mod": "mod1",
-        "key": "d"
-    },
-    "select-column-layout": {
-        "mod": "mod1",
-        "key": "f"
-    },
     "focus-screen-1": {
-        "mod": "mod1",
-        "key": "w"
-    },
-    "focus-screen-2": {
-        "mod": "mod1",
-        "key": "e"
-    },
-    "focus-screen-3": {
-        "mod": "mod1",
-        "key": "r"
-    },
-    "throw-screen-1": {
-        "mod": "mod2",
-        "key": "w"
-    },
-    "throw-screen-2": {
-        "mod": "mod2",
-        "key": "e"
-    },
-    "throw-screen-3": {
-        "mod": "mod2",
-        "key": "r"
-    },
-    "shrink-main": {
         "mod": "mod1",
         "key": "h"
     },
-    "expand-main": {
+    "focus-screen-2": {
         "mod": "mod1",
         "key": "l"
+    },
+    "throw-screen-1": {
+        "mod": "mod2",
+        "key": "h"
+    },
+    "throw-screen-2": {
+        "mod": "mod2",
+        "key": "l"
+    },
+    "shrink-main": {
+        "mod": "mod1",
+        "key": "9"
+    },
+    "expand-main": {
+        "mod": "mod1",
+        "key": "0"
     },
     "increase-main": {
         "mod": "mod1",
@@ -135,14 +107,6 @@
     "swap-screen-cw": {
         "mod": "mod2",
         "key": "l"
-    },
-    "swap-ccw": {
-        "mod": "mod2",
-        "key": "j"
-    },
-    "swap-cw": {
-        "mod": "mod2",
-        "key": "k"
     },
     "swap-main": {
         "mod": "mod1",
@@ -184,14 +148,6 @@
         "mod": "mod2",
         "key": "9"
     },
-    "toggle-float": {
-        "mod": "mod1",
-        "key": "t"
-    },
-    "toggle-tiling": {
-        "mod": "mod2",
-        "key": "t"
-    },
     "display-current-layout": {
         "mod": "mod1",
         "key": "i"
@@ -200,7 +156,7 @@
     "MISC": "----------------------",
     "floating": [],
     "float-small-windows": true,
-    "mouse-follows-focus": false,
+    "mouse-follows-focus": true,
     "enables-layout-hud": true,
     "enables-layout-hud-on-space-change": true
 }
