@@ -64,8 +64,19 @@ api.bind('`', mash, function() { api.launch('iTerm'); });
 api.bind('1', mash, function() { api.launch('Firefox'); });
 api.bind('2', mash, function() { api.launch('Google Chrome'); });
 api.bind('3', mash, function() { api.launch('QQ'); });
-api.bind('a', mash, function() { api.launch('MacVim'); });
+api.bind('a', mash, function() {
+  //if (_.contains(
+    //_.map(Window.allWindows(), function(window) { return window.title(); }),
+    //'MacVim'
+  //)) {
+    //api.launch('MacVim');
+  //} else {
+    //api.launch('IntelliJ IDEA 13');
+  //}
+  api.launch('MacVim');
+});
 api.bind('s', mash, function() { api.launch('IntelliJ IDEA 13'); });
+api.bind('d', mash, function() { api.launch('Sparrow'); });
 
 // Multi screen
 api.bind('l', mash, function() {
@@ -101,6 +112,19 @@ api.bind('k', mash, function() {
     return;
   }
   window.focusPreviousWindowsOnSameScreen();
+});
+
+
+api.bind('0', mash, function() {
+  //_.map([Window.focusedWindow()], function(window) { api.alert(window.title())});  // current one
+  //_.map(Window.allWindows(), function(window) { api.alert(window.title(), 5)});  // all, include hide
+  //_.map(Window.visibleWindows(), function(window) { api.alert(window.title())});  // all, no hide
+  //_.map(Window.visibleWindowsMostRecentFirst(), function(window) { api.alert(window.title())});
+  //_.map(Window.focusedWindow().otherWindowsOnSameScreen(), function(window) { api.alert(window.title())});  // no space
+  //_.map(Window.focusedWindow().otherWindowsOnAllScreens(), function(window) { api.alert(window.title())});  // no space
+  //_.chain(Window.allWindows()).difference(Window.visibleWindows()).map(function(window) { api.alert(window.title())});  // all, include hide
+  //api.alert(_.chain(Window.allWindows()).difference(Window.visibleWindows()).value().length);
+  //api.alert(_.chain(Window.allWindows()).value().length);
 });
 
 // Mission Control
