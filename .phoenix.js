@@ -3,6 +3,7 @@
  */
 var mash = ["alt"];
 var mashShift = ["alt", "shift"];
+var mousePositions = {};
 
 
 /**
@@ -59,11 +60,22 @@ Window.prototype.focusPreviousWindowsOnSameScreen = function() {
  * My Settings
  */
 
+function switchApp(appName) {
+  //switch app, and remember mouse position
+  mousePositions[Window.focusedWindow().title()] = MousePosition.capture();
+  api.launch(appName);
+  if (mousePositions[Window.focusedWindow().title()]  !== undefined) {
+    MousePosition.restore(mousePositions[Window.focusedWindow().title()]);
+  }
+}
+
 // Launch App
-api.bind('`', mash, function() { api.launch('iTerm'); });
-api.bind('1', mash, function() { api.launch('Firefox'); });
-api.bind('2', mash, function() { api.launch('Google Chrome'); });
-api.bind('3', mash, function() { api.launch('QQ'); });
+api.bind('`', mash, function() {
+  switchApp('iTerm');
+});
+api.bind('1', mash, function() { switchApp('Firefox'); });
+api.bind('2', mash, function() { switchApp('Google Chrome'); });
+api.bind('3', mash, function() { switchApp('QQ'); });
 api.bind('a', mash, function() {
   //if (_.contains(
     //_.map(Window.allWindows(), function(window) { return window.title(); }),
@@ -73,10 +85,10 @@ api.bind('a', mash, function() {
   //} else {
     //api.launch('IntelliJ IDEA 13');
   //}
-  api.launch('MacVim');
+  switchApp('MacVim');
 });
-api.bind('s', mash, function() { api.launch('IntelliJ IDEA 13'); });
-api.bind('d', mash, function() { api.launch('Sparrow'); });
+api.bind('s', mash, function() { switchApp('IntelliJ IDEA 13'); });
+api.bind('d', mash, function() { switchApp('Sparrow'); });
 
 // Multi screen
 api.bind('l', mash, function() {

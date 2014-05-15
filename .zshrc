@@ -91,6 +91,7 @@ alias g=git
 alias v=vim
 alias mk=mkdir
 alias le=less
+alias psg='ps -ef | grep '
 alias ipy=/Users/alswl/.virtualenvs/7/bin/ipython
 # }}}
 
