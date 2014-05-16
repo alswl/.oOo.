@@ -91,18 +91,12 @@ api.bind('1', mash, function() { switchApp('Firefox'); });
 api.bind('2', mash, function() { switchApp('Google Chrome'); });
 api.bind('3', mash, function() { switchApp('QQ'); });
 api.bind('a', mash, function() {
-  //if (_.contains(
-    //_.map(Window.allWindows(), function(window) { return window.title(); }),
-    //'MacVim'
-  //)) {
-    //api.launch('MacVim');
-  //} else {
-    //api.launch('IntelliJ IDEA 13');
-  //}
   switchApp('MacVim');
 });
 api.bind('s', mash, function() { switchApp('IntelliJ IDEA 13'); });
-api.bind('d', mash, function() { switchApp('Sparrow'); });
+api.bind(',', mash, function() { switchApp('Sparrow'); });
+api.bind('.', mash, function() { switchApp('Evernote'); });
+api.bind('/', mash, function() { switchApp('Finder'); });
 
 // Multi screen
 api.bind('l', mash, function() {
