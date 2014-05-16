@@ -60,13 +60,27 @@ Window.prototype.focusPreviousWindowsOnSameScreen = function() {
  * My Settings
  */
 
-function switchApp(appName) {
-  //switch app, and remember mouse position
+function save_mouse_position_for_now() {
+  if (Window.focusedWindow() === undefined) {
+    return;
+  }
   mousePositions[Window.focusedWindow().title()] = MousePosition.capture();
-  api.launch(appName);
+}
+
+function restore_mouse_position_for_now() {
+  if (Window.focusedWindow() === undefined) {
+    return;
+  }
   if (mousePositions[Window.focusedWindow().title()]  !== undefined) {
     MousePosition.restore(mousePositions[Window.focusedWindow().title()]);
   }
+}
+
+function switchApp(appName) {
+  //switch app, and remember mouse position
+  save_mouse_position_for_now()
+  api.launch(appName);
+  restore_mouse_position_for_now()
 }
 
 // Launch App
