@@ -92,7 +92,10 @@ alias v=vim
 alias mk=mkdir
 alias le=less
 alias psg='ps -ef | grep '
+alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 alias ipy=/Users/alswl/.virtualenvs/7/bin/ipython
+alias py='python'
+alias jy='jython'
 # }}}
 
 # 路径别名 {{{
