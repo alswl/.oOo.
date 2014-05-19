@@ -63,7 +63,9 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 
 export EDITOR=vim
-export JAVA_HOME=`/usr/libexec/java_home`
+if [ `uname` = 'Darwin' ]; then
+	export JAVA_HOME=`/usr/libexec/java_home`
+fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
@@ -82,20 +84,22 @@ alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
 alias grep='grep --exclude-dir=".svn"'
-alias find=gfind
 alias tmux='tmux -2'
 alias screen='TERM=xterm-256color /usr/local/bin/screen'
-alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
-alias readlink=greadlink
 alias g=git
 alias v=vim
 alias mk=mkdir
 alias le=less
 alias psg='ps -ef | grep '
-alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 alias ipy=/Users/alswl/.virtualenvs/7/bin/ipython
 alias py='python'
 alias jy='jython'
+if [ `uname` = 'Darwin' ]; then
+	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+	alias find=gfind
+	alias readlink=greadlink
+	alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
+fi
 # }}}
 
 # 路径别名 {{{
