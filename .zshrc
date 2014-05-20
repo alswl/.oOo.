@@ -85,8 +85,9 @@ alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
 alias grep='grep --exclude-dir=".svn"'
 alias tmux='tmux -2'
-alias screen='TERM=xterm-256color /usr/local/bin/screen'
 alias g=git
+alias gspl=git svn pull
+alias gsps=git svn rebase
 alias v=vim
 alias mk=mkdir
 alias le=less
@@ -99,6 +100,7 @@ if [ `uname` = 'Darwin' ]; then
 	alias find=gfind
 	alias readlink=greadlink
 	alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
+	alias screen='TERM=xterm-256color /usr/local/bin/screen'
 fi
 # }}}
 
