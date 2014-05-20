@@ -95,6 +95,7 @@ alias psg='ps -ef | grep '
 alias ipy=/Users/alswl/.virtualenvs/7/bin/ipython
 alias py='python'
 alias jy='jython'
+alias screen='TERM=xterm-256color screen'
 if [ `uname` = 'Darwin' ]; then
 	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 	alias find=gfind
