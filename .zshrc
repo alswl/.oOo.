@@ -86,8 +86,8 @@ alias dstat='dstat -cdlmnpsy'
 alias grep='grep --exclude-dir=".svn"'
 alias tmux='tmux -2'
 alias g=git
-alias gspl=git svn pull
-alias gsps=git svn rebase
+alias gspl='git svn rebase'
+alias gsps='git svn dcommit'
 alias v=vim
 alias mk=mkdir
 alias le=less

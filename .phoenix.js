@@ -30,6 +30,24 @@ Window.prototype.moveToScreen = function(screen) {
 };
 
 
+Window.prototype.windowsOnOtherScreen = function() {
+  var otherWindowTitlesOnSameScreen = _.map( Window.focusedWindow().otherWindowsOnSameScreen(), function(w) { return w.title(); });
+  return _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
+    .filter(function(window) { return ! _.contains(otherWindowTitlesOnSameScreen, window.title()); })
+    .value();
+};
+
+Window.prototype.sortByMostRecent = function(windows) {
+  var visibleWindowsMostRecentFirst = _.map(Window.visibleWindowsMostRecentFirst(), function(w) { return w.title()});
+  var weights = _.range(visibleWindowsMostRecentFirst.length, 0, -1);
+  var visibleWindowsMostRecentFirstWithWeight = _.zip(visibleWindowsMostRecentFirst, weights);
+
+  return _.chain(windows)
+    .sortBy(function(window) { return visibleWindowsMostRecentFirstWithWeight[window.title()] })
+    .value();
+};
+
+
 Window.prototype.focusNextWindowsOnSameScreen = function() {
   var currentWindow = Window.focusedWindow();
   var windows = currentWindow.otherWindowsOnSameScreen();
@@ -40,9 +58,9 @@ Window.prototype.focusNextWindowsOnSameScreen = function() {
 
 
 Window.prototype.focusNextScreen = function() {
-  var windows = _.union(Window.visibleWindowsMostRecentFirst(), _.difference(this.otherWindowsOnAllScreens(), this.otherWindowsOnSameScreen()));
-  if (windows.length > 2) {
-    windows[1].focusWindow();
+  var windows = this.sortByMostRecent(this.windowsOnOtherScreen());
+  if (windows.length > 0) {
+    windows[0].focusWindow();
   }
 };
 
@@ -134,14 +152,22 @@ api.bind('k', mash, function() {
   window.focusPreviousWindowsOnSameScreen();
 });
 
+var alert_title = function(window) { api.alert(window.title())};
+
 
 api.bind('0', mash, function() {
+  var cw = Window.focusedWindow();
+  //_.map(App.runningApps(), function(app) { api.alert(app.title(), 5)});
   //_.map([Window.focusedWindow()], function(window) { api.alert(window.title())});  // current one
   //_.map(Window.allWindows(), function(window) { api.alert(window.title(), 5)});  // all, include hide
   //_.map(Window.visibleWindows(), function(window) { api.alert(window.title())});  // all, no hide
   //_.map(Window.visibleWindowsMostRecentFirst(), function(window) { api.alert(window.title())});
-  //_.map(Window.focusedWindow().otherWindowsOnSameScreen(), function(window) { api.alert(window.title())});  // no space
+  //_.map(Window.focusedWindow().otherWindowsOnSameScreen(), alert_title);
   //_.map(Window.focusedWindow().otherWindowsOnAllScreens(), function(window) { api.alert(window.title())});  // no space
+  //_.map(Window.focusedWindow().windowsOnOtherScreen(), alert_title);
+  _.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
+
+
   //_.chain(Window.allWindows()).difference(Window.visibleWindows()).map(function(window) { api.alert(window.title())});  // all, include hide
   //api.alert(_.chain(Window.allWindows()).difference(Window.visibleWindows()).value().length);
   //api.alert(_.chain(Window.allWindows()).value().length);
