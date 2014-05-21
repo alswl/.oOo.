@@ -4,13 +4,17 @@
 [diff]
 	external = git_diff_wrapper
 [pager]
-	diff = less -r
+	diff =
 [user]
 	name = 
 	email = 
 [alias]
 	s = status
 	c = commit -av
+	b = branch
+	br = branch
+	f = flow
+	sv = svn
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	ll = log --stat --abbrev-commit
 	st = status
@@ -18,6 +22,7 @@
 	pl = pull
 	ps = push
 	df = diff
+	dr = diff --no-ext-diff
 	ci = commit
 	co = checkout
 	spl = svn rebase
