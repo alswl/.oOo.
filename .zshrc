@@ -74,7 +74,21 @@ fi
 # }}}
 
 # 常用alias {{{
-alias ls='ls -Gv'
+if [ `uname` = 'Darwin' ]; then
+	alias ls='ls -Gv'
+	alias b=brew
+	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+	alias find=gfind
+	alias readlink=greadlink
+	alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
+	alias p2v='pbpaste | vi -'
+	alias -g Toa=' > /tmp/a.html && open /tmp/a.html'
+	alias screen='TERM=xterm-256color /usr/local/bin/screen'
+	alias mute='osascript -e "set volume 0"'
+	alias unmute='osascript -e "set volume 2"'
+elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
+	alias ls="ls --color=auto"
+fi
 alias ll='ls -l'
 alias la='ls -a'
 alias mkdir='mkdir -p'
@@ -83,11 +97,14 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
-alias grep='grep --exclude-dir=".svn"'
+alias grep='grep --exclude-dir=".svn" --color=auto -n'
 alias tmux='tmux -2'
 alias g=git
-alias gspl='git svn rebase'
-alias gsps='git svn dcommit'
+alias gc='git c'
+alias gpl='git pl'
+alias gps='git ps'
+alias gspl='git spl'
+alias gsps='git sps'
 alias v=vim
 alias mk=mkdir
 alias le=less
@@ -97,13 +114,13 @@ alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'
 alias screen='TERM=xterm-256color screen'
-if [ `uname` = 'Darwin' ]; then
-	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
-	alias find=gfind
-	alias readlink=greadlink
-	alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
-	alias screen='TERM=xterm-256color /usr/local/bin/screen'
-fi
+alias s='sudo '
+alias vd='vimdiff'
+
+alias -g L='| less'
+alias -g G='| grep --color=auto -n'
+alias -g H='| head'
+
 # }}}
 
 # 路径别名 {{{

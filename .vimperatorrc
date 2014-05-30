@@ -52,5 +52,6 @@ cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
 cnoremap<C-Return> <End>.com<Home><C-Right><Right>www.<CR>
 
 set 'editor=/bin/bash -lc "mvim -f \$*" mvim '
+set yankencodedurl=true
 
 " vim: set ft=vim:
