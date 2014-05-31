@@ -1,6 +1,8 @@
 [color]
     diff = auto 
 	ui = true
+	status = always
+	diff = always
 [diff]
 	external = git_diff_wrapper
 [pager]
@@ -30,5 +32,4 @@
 [merge]
 	tool = vimdiff
 [push]
-	default = matching
-	;default = simple
+	default = simple
