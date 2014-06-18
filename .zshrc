@@ -116,6 +116,7 @@ alias ksh='killall ssh'
 alias screen='TERM=xterm-256color screen'
 alias s='sudo '
 alias vd='vimdiff'
+alias f='find . -name '
 
 alias -g L='| less'
 alias -g G='| grep --color=auto -n'

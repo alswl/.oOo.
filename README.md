@@ -32,6 +32,13 @@ mkdir -p ~/local/bin && cd ~/local/bin
 ln -s /your/.oOo./local/bin/* .
 ```
 
+use at cent os(linux):
+```
+git clone git@github.com:alswl/.oOo..git
+ZDOTDIR=/home/admin/ddd/.oOo./ zsh
+git checkout -b centos origin/centos
+```
+
 ## Related ##
 
 * [miv][] vim configuration
