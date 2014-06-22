@@ -117,6 +117,8 @@ alias screen='TERM=xterm-256color screen'
 alias s='sudo '
 alias vd='vimdiff'
 alias f='find . -name '
+alias tarx='tar xzvf'
+alias tarc='tar czvf'
 
 alias -g L='| less'
 alias -g G='| grep --color=auto -n'
