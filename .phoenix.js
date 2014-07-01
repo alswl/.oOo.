@@ -54,7 +54,7 @@ Window.prototype.focusNextWindowsOnSameScreen = function() {
   var currentWindow = Window.focusedWindow();
   var windows = currentWindow.otherWindowsOnSameScreen();
   windows.push(currentWindow);
-  windows = _.chain(windows).sortBy(function(window) { return window.app().pid}).value();
+  windows = _.chain(windows).sortBy(function(window) { return window.title() + window.app().pid.toString() }).value();
   var targetWindow = windows[(_.indexOf(windows, currentWindow) + 1) % windows.length];
   targetWindow.focusWindow();
   return targetWindow;
@@ -74,7 +74,7 @@ Window.prototype.focusPreviousWindowsOnSameScreen = function() {
   var currentWindow = Window.focusedWindow();
   var windows = currentWindow.otherWindowsOnSameScreen()
   windows.push(currentWindow);
-  windows = _.chain(windows).sortBy(function(window) { return window.app().pid}).value();
+  windows = _.chain(windows).sortBy(function(window) { return window.title() + window.app().pid.toString() }).value();
   var targetWindow = windows[(_.indexOf(windows, currentWindow) - 1 + windows.length) % windows.length];
   targetWindow.focusWindow();
   return targetWindow;
