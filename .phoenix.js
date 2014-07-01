@@ -92,9 +92,23 @@ function save_mouse_position_for_now() {
   mousePositions[Window.focusedWindow().title()] = MousePosition.capture();
 }
 
+function restore_mouse_position_for_window_center(window) {
+  MousePosition.restore({
+    x: window.topLeft().x + window.frame().width / 2,
+    y: window.topLeft().y + window.frame().height / 2
+  });
+}
+
 function restore_mouse_position_for_window(window) {
-  if (mousePositions[window.title()]  !== undefined) {
-    MousePosition.restore(mousePositions[window.title()]);
+  if (mousePositions[window.title()]  === undefined) {
+    return;
+  }
+  var pos = mousePositions[window.title()];
+  var rect = window.frame();
+  if (pos.x < rect.x || pos.x > (rect.x + rect.width) || pos.y < rect.y || pos. y > (rect.y + rect.height)) {
+    restore_mouse_position_for_window_center(window);
+  } else {
+    MousePosition.restore(pos);
   }
 }
 
@@ -166,6 +180,17 @@ api.bind('m', mash, function() {
   Window.focusedWindow().maximize();
 });
 
+// Move Middleware
+api.bind('m', mashShift, function() {
+  var window = Window.focusedWindow();
+  if (window === undefined) return;
+  window.setTopLeft({
+    x: (window.screen().frameIncludingDockAndMenu().width - window.size().width) / 2 + window.screen().frameIncludingDockAndMenu().x,
+    y: (window.screen().frameIncludingDockAndMenu().height - window.size().height) / 2 + window.screen().frameIncludingDockAndMenu().y
+  });
+  
+});
+
 api.bind('j', mash, function() {
   var window = Window.focusedWindow();
   if (window === undefined) {
@@ -192,10 +217,7 @@ api.bind('space', mash, function() {
   if (window === undefined) {
     return;
   }
-  MousePosition.restore({
-    x: window.topLeft().x + window.frame().width / 2,
-    y: window.topLeft().y + window.frame().height / 2
-  });
+  restore_mouse_position_for_window_center(window);
 });
 
 
