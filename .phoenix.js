@@ -129,6 +129,9 @@ api.bind('/', mash, function() { switchApp('Finder'); });
 
 // Multi screen
 api.bind('l', mash, function() {
+  if (Window.focusedWindow().screen().nextScreen().frameIncludingDockAndMenu().x < 0) {
+    return;
+  }
   save_mouse_position_for_now();
   var targetWindow = Window.focusedWindow().focusNextScreen();
   if (targetWindow !== undefined) {
@@ -136,6 +139,9 @@ api.bind('l', mash, function() {
   }
 });
 api.bind('h', mash, function() {
+  if (Window.focusedWindow().screen().nextScreen().frameIncludingDockAndMenu().x == 0) {
+    return;
+  }
   save_mouse_position_for_now();
   var targetWindow = Window.focusedWindow().focusNextScreen();
   if (targetWindow !== undefined) {
@@ -143,9 +149,15 @@ api.bind('h', mash, function() {
   }
 });
 api.bind('l', mashShift, function() {
+  if (Window.focusedWindow().screen().nextScreen().frameIncludingDockAndMenu().x < 0) {
+    return;
+  }
   Window.focusedWindow().moveToScreen(Window.focusedWindow().screen().nextScreen());
 });
 api.bind('h', mashShift, function() {
+  if (Window.focusedWindow().screen().nextScreen().frameIncludingDockAndMenu().x == 0) {
+    return;
+  }
   Window.focusedWindow().moveToScreen(Window.focusedWindow().screen().previousScreen());
 });
 
@@ -197,8 +209,9 @@ api.bind('0', mash, function() {
   //_.map(Window.focusedWindow().otherWindowsOnSameScreen(), alert_title);
   //_.map(Window.focusedWindow().otherWindowsOnAllScreens(), function(window) { api.alert(window.title())});  // no space
   //_.map(Window.focusedWindow().windowsOnOtherScreen(), alert_title);
-  _.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
+  //_.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
   //_.map(cw.windowsOnOtherScreen(), alert_title);
+  //api.alert(Window.focusedWindow().screen());
 
 
   //_.chain(Window.allWindows()).difference(Window.visibleWindows()).map(function(window) { api.alert(window.title())});  // all, include hide
