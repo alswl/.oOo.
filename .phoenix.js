@@ -5,6 +5,8 @@ var mash = ["alt"];
 var mashShift = ["alt", "shift"];
 var mousePositions = {};
 
+var alert_title = function(window) { api.alert(window.title())};
+
 
 /**
  * Upgrade Phoenix Window 
@@ -38,13 +40,13 @@ Window.prototype.windowsOnOtherScreen = function() {
 };
 
 Window.prototype.sortByMostRecent = function(windows) {
-  var visibleWindowsMostRecentFirst = _.map(Window.visibleWindowsMostRecentFirst(), function(w) { return w.title()});
-  var weights = _.range(visibleWindowsMostRecentFirst.length, 0, -1);
-  var visibleWindowsMostRecentFirstWithWeight = _.zip(visibleWindowsMostRecentFirst, weights);
+  var visibleAppMostRecentFirst = _.map(Window.visibleWindowsMostRecentFirst(),
+                                            function(w) { return w.app().title(); });
+  var weights = _.range(visibleAppMostRecentFirst.length);
 
-  return _.chain(windows)
-    .sortBy(function(window) { return visibleWindowsMostRecentFirstWithWeight[window.title()] })
-    .value();
+  //return Window.visibleAppMostRecentFirst();
+  var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst, weights);
+  return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.app().title()]; });
 };
 
 
@@ -156,8 +158,6 @@ api.bind('k', mash, function() {
   window.focusPreviousWindowsOnSameScreen();
 });
 
-var alert_title = function(window) { api.alert(window.title())};
-
 api.bind('space', mash, function() {
   var window = Window.focusedWindow();
   if (window === undefined) {
@@ -181,6 +181,7 @@ api.bind('0', mash, function() {
   //_.map(Window.focusedWindow().otherWindowsOnAllScreens(), function(window) { api.alert(window.title())});  // no space
   //_.map(Window.focusedWindow().windowsOnOtherScreen(), alert_title);
   _.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
+  //_.map(cw.windowsOnOtherScreen(), alert_title);
 
 
   //_.chain(Window.allWindows()).difference(Window.visibleWindows()).map(function(window) { api.alert(window.title())});  // all, include hide
