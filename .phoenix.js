@@ -118,10 +118,14 @@ api.bind('/', mash, function() { switchApp('Finder'); });
 
 // Multi screen
 api.bind('l', mash, function() {
+  save_mouse_position_for_now()
   Window.focusedWindow().focusNextScreen();
+  restore_mouse_position_for_now()
 });
 api.bind('h', mash, function() {
+  save_mouse_position_for_now()
   Window.focusedWindow().focusNextScreen();
+  restore_mouse_position_for_now()
 });
 api.bind('l', mashShift, function() {
   Window.focusedWindow().moveToScreen(Window.focusedWindow().screen().nextScreen());
@@ -153,6 +157,17 @@ api.bind('k', mash, function() {
 });
 
 var alert_title = function(window) { api.alert(window.title())};
+
+api.bind('space', mash, function() {
+  var window = Window.focusedWindow();
+  if (window === undefined) {
+    return;
+  }
+  MousePosition.restore({
+    x: window.topLeft().x + window.frame().width / 2,
+    y: window.topLeft().y + window.frame().height / 2
+  });
+});
 
 
 api.bind('0', mash, function() {
