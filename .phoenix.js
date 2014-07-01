@@ -55,7 +55,9 @@ Window.prototype.focusNextWindowsOnSameScreen = function() {
   var windows = currentWindow.otherWindowsOnSameScreen();
   windows.push(currentWindow);
   windows = _.chain(windows).sortBy(function(window) { return window.app().pid}).value();
-  windows[(_.indexOf(windows, currentWindow) + 1) % windows.length].focusWindow();
+  var targetWindow = windows[(_.indexOf(windows, currentWindow) + 1) % windows.length];
+  targetWindow.focusWindow();
+  return targetWindow;
 };
 
 
@@ -63,6 +65,7 @@ Window.prototype.focusNextScreen = function() {
   var windows = this.sortByMostRecent(this.windowsOnOtherScreen());
   if (windows.length > 0) {
     windows[0].focusWindow();
+    return windows[0];
   }
 };
 
@@ -72,7 +75,9 @@ Window.prototype.focusPreviousWindowsOnSameScreen = function() {
   var windows = currentWindow.otherWindowsOnSameScreen()
   windows.push(currentWindow);
   windows = _.chain(windows).sortBy(function(window) { return window.app().pid}).value();
-  windows[(_.indexOf(windows, currentWindow) - 1 + windows.length) % windows.length].focusWindow();
+  var targetWindow = windows[(_.indexOf(windows, currentWindow) - 1 + windows.length) % windows.length];
+  targetWindow.focusWindow();
+  return targetWindow;
 };
 
 
@@ -87,13 +92,17 @@ function save_mouse_position_for_now() {
   mousePositions[Window.focusedWindow().title()] = MousePosition.capture();
 }
 
+function restore_mouse_position_for_window(window) {
+  if (mousePositions[window.title()]  !== undefined) {
+    MousePosition.restore(mousePositions[window.title()]);
+  }
+}
+
 function restore_mouse_position_for_now() {
   if (Window.focusedWindow() === undefined) {
     return;
   }
-  if (mousePositions[Window.focusedWindow().title()]  !== undefined) {
-    MousePosition.restore(mousePositions[Window.focusedWindow().title()]);
-  }
+  restore_mouse_position_for_window(Window.focusedWindow());
 }
 
 function switchApp(appName) {
@@ -120,14 +129,18 @@ api.bind('/', mash, function() { switchApp('Finder'); });
 
 // Multi screen
 api.bind('l', mash, function() {
-  save_mouse_position_for_now()
-  Window.focusedWindow().focusNextScreen();
-  restore_mouse_position_for_now()
+  save_mouse_position_for_now();
+  var targetWindow = Window.focusedWindow().focusNextScreen();
+  if (targetWindow !== undefined) {
+    restore_mouse_position_for_window(targetWindow);
+  }
 });
 api.bind('h', mash, function() {
-  save_mouse_position_for_now()
-  Window.focusedWindow().focusNextScreen();
-  restore_mouse_position_for_now()
+  save_mouse_position_for_now();
+  var targetWindow = Window.focusedWindow().focusNextScreen();
+  if (targetWindow !== undefined) {
+    restore_mouse_position_for_window(targetWindow);
+  }
 });
 api.bind('l', mashShift, function() {
   Window.focusedWindow().moveToScreen(Window.focusedWindow().screen().nextScreen());
@@ -147,7 +160,9 @@ api.bind('j', mash, function() {
     Window.visibleWindowsMostRecentFirst()[0].focusWindow();
     return;
   }
-  window.focusNextWindowsOnSameScreen();
+  save_mouse_position_for_now();
+  var targetWindow = window.focusNextWindowsOnSameScreen();
+  restore_mouse_position_for_window(targetWindow);
 });
 api.bind('k', mash, function() {
   var window = Window.focusedWindow();
@@ -155,7 +170,9 @@ api.bind('k', mash, function() {
     Window.visibleWindowsMostRecentFirst()[0].focusWindow();
     return;
   }
-  window.focusPreviousWindowsOnSameScreen();
+  save_mouse_position_for_now();
+  var targetWindow = window.focusPreviousWindowsOnSameScreen();
+  restore_mouse_position_for_window(targetWindow);
 });
 
 api.bind('space', mash, function() {
