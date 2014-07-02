@@ -21,6 +21,27 @@ function sortByMostRecent(windows) {  // TODO: check
   return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.app().title()]; });
 };
 
+function getNewFrame(frame, oldScreenRect, newScreenRect) {
+}
+
+function getResizeFrame(frame, ratio) {
+  var mid_pos_x = frame.x + 0.5 * frame.width;
+  var mid_pos_y = frame.y + 0.5 * frame.height;
+  return {
+    x: Math.round(frame.x + frame.width / 2 * (1 - ratio)),
+    y: Math.round(frame.y + frame.height / 2 * (1 - ratio)),
+    width: Math.round(frame.width * ratio),
+    height: Math.round(frame.height * ratio)
+  }
+}
+
+function getSmallerFrame(frame) {
+  return getResizeFrame(frame, 0.9);
+}
+
+function getLargerFrame(frame) {
+  return getResizeFrame(frame, 1.1);
+}
 
 /**
  * Screen
@@ -36,9 +57,14 @@ function moveToScreen(window, screen) {
   var xRatio = newScreenRect.width / oldScreenRect.width;
   var yRatio = newScreenRect.height / oldScreenRect.height;
 
+  var mid_pos_x = frame.x + Math.round(0.5 * frame.width);
+  var mid_pos_y = frame.y + Math.round(0.5 * frame.height);
+
   window.setFrame({
-    x: (Math.round(frame.x - oldScreenRect.x) * xRatio) + newScreenRect.x,
-    y: (Math.round(frame.y - oldScreenRect.y) * yRatio) + newScreenRect.y,
+    x: (mid_pos_x - oldScreenRect.x) * xRatio + newScreenRect.x - 0.5 * frame.width,
+    y: (mid_pos_y - oldScreenRect.y) * yRatio + newScreenRect.y - 0.5 * frame.height,
+    //x: frame.x - oldScreenRect.x + newScreenRect.x - mid_pos_x,
+    //y: mid_pos_y,
     width: frame.width,
     height: frame.height
     //width: Math.round(frame.width * xRatio),
@@ -224,6 +250,31 @@ api.bind('m', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.maximize();
+});
+
+// Window Smaller
+api.bind('-', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  var oldFrame = window.frame();
+  var frame = getSmallerFrame(oldFrame);
+  window.setFrame(frame);
+  if (window.frame().width == oldFrame.width || window.frame().height == oldFrame.height) {
+    window.setFrame(oldFrame);
+  }
+});
+
+// Window Larger
+api.bind('=', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  var frame = getLargerFrame(window.frame());
+  if (frame.width > window.screen().frameWithoutDockOrMenu().width ||
+      frame.height > window.screen().frameWithoutDockOrMenu().height) {
+    window.maximize();
+  } else {
+    window.setFrame(frame);
+  }
 });
 
 // Window Central
