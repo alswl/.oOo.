@@ -26,7 +26,7 @@ function sortByMostRecent(windows) {  // TODO: check
  * Screen
  */
 
-function moveToScreen(window, screen) {  // TODO: check
+function moveToScreen(window, screen) {
   if (!window) return;
   if (!screen) return;
 
@@ -39,9 +39,18 @@ function moveToScreen(window, screen) {  // TODO: check
   window.setFrame({
     x: (Math.round(frame.x - oldScreenRect.x) * xRatio) + newScreenRect.x,
     y: (Math.round(frame.y - oldScreenRect.y) * yRatio) + newScreenRect.y,
-    width: Math.round(frame.width * xRatio),
-    height: Math.round(frame.height * yRatio)
+    width: frame.width,
+    height: frame.height
+    //width: Math.round(frame.width * xRatio),
+    //height: Math.round(frame.height * yRatio)
   });
+};
+
+function windowsOnOtherScreen() {
+  var otherWindowTitlesOnSameScreen = _.map( Window.focusedWindow().otherWindowsOnSameScreen(), function(w) { return w.title(); });
+  return _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
+    .filter(function(window) { return ! _.contains(otherWindowTitlesOnSameScreen, window.title()); })
+    .value();
 };
 
 
@@ -85,11 +94,6 @@ function setWindowCentral(window) {
 function save_mouse_position_for_window(window) {
   if (!window) return;
   mousePositions[window.title()] = MousePosition.capture();
-}
-
-function save_mouse_position_for_now() {  // TODO delete
-  if (!Window.focusedWindow()) return;
-  mousePositions[Window.focusedWindow().title()] = MousePosition.capture();
 }
 
 function set_mouse_position_for_window_center(window) {
@@ -144,21 +148,6 @@ function switchApp(appName) {
  */
 
 
-Window.prototype.windowsOnOtherScreen = function() {
-  var otherWindowTitlesOnSameScreen = _.map( Window.focusedWindow().otherWindowsOnSameScreen(), function(w) { return w.title(); });
-  return _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
-    .filter(function(window) { return ! _.contains(otherWindowTitlesOnSameScreen, window.title()); })
-    .value();
-};
-
-
-Window.prototype.focusNextScreen = function() {
-  var windows = sortByMostRecent(this.windowsOnOtherScreen());
-  if (windows.length > 0) {
-    windows[0].focusWindow();
-    return windows[0];
-  }
-};
 
 
 /**
@@ -176,33 +165,35 @@ api.bind(',', mash, function() { switchApp('Sparrow'); });
 api.bind('.', mash, function() { switchApp('Evernote'); });
 api.bind('/', mash, function() { switchApp('Finder'); });
 
-// Next screen
+// Next screen, now only support 2 display // TODO
 api.bind('l', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().nextScreen()) return;
-  if (window.screen().nextScreen().frameIncludingDockAndMenu().x < 0) {
+  if (window.screen().nextScreen().frameIncludingDockAndMenu().x < window.screen().frameIncludingDockAndMenu().x) {
     return;
   }
-  save_mouse_position_for_now();
-  var targetWindow = window.focusNextScreen();
-  if (targetWindow !== undefined) {
-    restore_mouse_position_for_window(targetWindow);
+  save_mouse_position_for_window(window);
+  var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());
+  if (nextScreenWindows.length > 0) {
+    nextScreenWindows[0].focusWindow();
+    restore_mouse_position_for_window(nextScreenWindows[0]);
   }
 });
 
-// Previous Screen
+// Previous Screen, now only support 2 display // TODO
 api.bind('h', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().nextScreen()) return;
-  if (window.screen().nextScreen().frameIncludingDockAndMenu().x == 0) {
+  if (window.screen().nextScreen().frameIncludingDockAndMenu().x > window.screen().frameIncludingDockAndMenu().x) {
     return;
   }
-  save_mouse_position_for_now();
-  var targetWindow = window.focusNextScreen();
-  if (targetWindow !== undefined) {
-    restore_mouse_position_for_window(targetWindow);
+  save_mouse_position_for_window(window);
+  var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());
+  if (nextScreenWindows.length > 0) {
+    nextScreenWindows[0].focusWindow();
+    restore_mouse_position_for_window(nextScreenWindows[0]);
   }
 });
 
