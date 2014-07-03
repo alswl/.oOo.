@@ -8,12 +8,12 @@ var mousePositions = {};
 
 
 /**
- * Utils
+ * Utils Functions
  */
 
 var alert_title = function(window) { api.alert(window.title())};
 
-function sortByMostRecent(windows) {  // TODO: check
+function sortByMostRecent(windows) {
   var visibleAppMostRecentFirst = _.map(Window.visibleWindowsMostRecentFirst(),
                                         function(w) { return w.app().title(); });
   var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
@@ -44,7 +44,7 @@ function getLargerFrame(frame) {
 }
 
 /**
- * Screen
+ * Screen Functions
  */
 
 function moveToScreen(window, screen) {
@@ -63,12 +63,8 @@ function moveToScreen(window, screen) {
   window.setFrame({
     x: (mid_pos_x - oldScreenRect.x) * xRatio + newScreenRect.x - 0.5 * frame.width,
     y: (mid_pos_y - oldScreenRect.y) * yRatio + newScreenRect.y - 0.5 * frame.height,
-    //x: frame.x - oldScreenRect.x + newScreenRect.x - mid_pos_x,
-    //y: mid_pos_y,
     width: frame.width,
     height: frame.height
-    //width: Math.round(frame.width * xRatio),
-    //height: Math.round(frame.height * yRatio)
   });
 };
 
@@ -81,14 +77,16 @@ function windowsOnOtherScreen() {
 
 
 /**
- * Window
+ * Window Functions
  */
 
 function getAnotherWindowsOnSameScreen(window, offset) {
   var windows = window.otherWindowsOnSameScreen();
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
-    return window.topLeft().y;
+    return window.frame().y;
+  }).sortBy(function(window) {
+    return window.frame().x;
   }).sortBy(function(window) {
     return window.app().pid;
   }).sortBy(function(window) {
@@ -98,23 +96,23 @@ function getAnotherWindowsOnSameScreen(window, offset) {
 }
 
 function getNextWindowsOnSameScreen(window) {
-  return getAnotherWindowsOnSameScreen(window, 1)
+  return getAnotherWindowsOnSameScreen(window, -1)
 };
 
 function getPreviousWindowsOnSameScreen(window) {
-  return getAnotherWindowsOnSameScreen(window, -1)
+  return getAnotherWindowsOnSameScreen(window, 1)
 };
 
 function setWindowCentral(window) {
   window.setTopLeft({
-    x: (window.screen().frameIncludingDockAndMenu().width - window.size().width) / 2 + window.screen().frameIncludingDockAndMenu().x,
-    y: (window.screen().frameIncludingDockAndMenu().height - window.size().height) / 2 + window.screen().frameIncludingDockAndMenu().y
+    x: (window.screen().frameWithoutDockOrMenu().width - window.size().width) / 2 + window.screen().frameWithoutDockOrMenu().x,
+    y: (window.screen().frameWithoutDockOrMenu().height - window.size().height) / 2 + window.screen().frameWithoutDockOrMenu().y
   });
 };
 
 
 /**
- * Mouse
+ * Mouse Functions
  */
 
 function save_mouse_position_for_window(window) {
@@ -152,7 +150,7 @@ function restore_mouse_position_for_now() {
 
 
 /**
- * App
+ * App Functions
  */
 
 //switch app, and remember mouse position
@@ -170,14 +168,7 @@ function switchApp(appName) {
 
 
 /**
- * Upgrade Phoenix Window 
- */
-
-
-
-
-/**
- * My Settings
+ * My Configuartion App
  */
 
 // Launch App
@@ -190,6 +181,11 @@ api.bind('s', mash, function() { switchApp('IntelliJ IDEA 13'); });
 api.bind(',', mash, function() { switchApp('Sparrow'); });
 api.bind('.', mash, function() { switchApp('Evernote'); });
 api.bind('/', mash, function() { switchApp('Finder'); });
+
+
+/**
+ * My Configuartion Screen
+ */
 
 // Next screen, now only support 2 display // TODO
 api.bind('l', mash, function() {
@@ -245,8 +241,13 @@ api.bind('h', mashShift, function() {
   moveToScreen(window, window.screen().previousScreen());
 });
 
+
+/**
+ * My Configuartion Window
+ */
+
 // Window Maximize
-api.bind('m', mash, function() {
+api.bind('m', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.maximize();
@@ -278,10 +279,70 @@ api.bind('=', mash, function() {
 });
 
 // Window Central
-api.bind('m', mashShift, function() {
+api.bind('m', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   setWindowCentral(window);
+});
+
+// Window Vertical
+api.bind('\\', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  window.setFrame({
+    x: window.frame().x,
+    y: window.screen().frameWithoutDockOrMenu().y,
+    width: window.frame().width,
+    height: window.screen().frameWithoutDockOrMenu().height
+  });
+});
+
+// Window >
+api.bind('right', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  window.setFrame({
+    x: window.frame().x + 100,
+    y: window.frame().y,
+    width: window.frame().width,
+    height: window.frame().height
+  });
+});
+
+// Window <
+api.bind('left', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  window.setFrame({
+    x: window.frame().x - 100,
+    y: window.frame().y,
+    width: window.frame().width,
+    height: window.frame().height
+  });
+});
+
+// Window ^
+api.bind('up', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  window.setFrame({
+    x: window.frame().x,
+    y: window.frame().y - 100,
+    width: window.frame().width,
+    height: window.frame().height
+  });
+});
+
+// Window v
+api.bind('down', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  window.setFrame({
+    x: window.frame().x,
+    y: window.frame().y + 100,
+    width: window.frame().width,
+    height: window.frame().height
+  });
 });
 
 // Next Window in One Screen
@@ -312,12 +373,28 @@ api.bind('k', mash, function() {
   restore_mouse_position_for_window(targetWindow);
 });
 
+
+/**
+ * My Configuartion Mouse
+ */
+
 // Central Mouse
 api.bind('space', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   set_mouse_position_for_window_center(window);
 });
+
+
+/**
+ * Mission Control
+ */
+
+// use Mac Keyboard setting
+// mash + i
+// mash + o
+
+
 
 
 // Test
@@ -340,8 +417,3 @@ api.bind('0', mash, function() {
   //api.alert(_.chain(Window.allWindows()).difference(Window.visibleWindows()).value().length);
   //api.alert(_.chain(Window.allWindows()).value().length);
 });
-
-// Mission Control
-// use Mac Keyboard setting
-// mash + i
-// mash + o
