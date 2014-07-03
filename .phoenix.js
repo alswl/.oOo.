@@ -5,6 +5,8 @@
 var mash = ["alt"];
 var mashShift = ["alt", "shift"];
 var mousePositions = {};
+var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
+var ACTIVE_WINDOWS_TIMES = {};
 
 
 /**
@@ -80,6 +82,24 @@ function windowsOnOtherScreen() {
  * Window Functions
  */
 
+function hide_inactiveWindow(windows) {
+  var now = new Date().getTime() / 1000;
+  _.chain(windows).filter(function(window) {
+    if (!ACTIVE_WINDOWS_TIMES[window.app().pid]) {
+      ACTIVE_WINDOWS_TIMES[window.app().pid] = now;
+      return false;
+    } return true;
+  }).filter(function(window) {
+    return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> HIDE_INACTIVE_WINDOW_TIME * 60;
+    //return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
+  }).map(function(window) {window.app().hide()});
+}
+
+function heartbeat_window(window) {
+  ACTIVE_WINDOWS_TIMES[window.app().pid] = new Date().getTime() / 1000;
+  //hide_inactiveWindow(window.otherWindowsOnSameScreen());
+}
+
 function getAnotherWindowsOnSameScreen(window, offset) {
   var windows = window.otherWindowsOnSameScreen();
   windows.push(window);
@@ -108,6 +128,7 @@ function setWindowCentral(window) {
     x: (window.screen().frameWithoutDockOrMenu().width - window.size().width) / 2 + window.screen().frameWithoutDockOrMenu().x,
     y: (window.screen().frameWithoutDockOrMenu().height - window.size().height) / 2 + window.screen().frameWithoutDockOrMenu().y
   });
+  heartbeat_window(window);
 };
 
 
@@ -117,6 +138,7 @@ function setWindowCentral(window) {
 
 function save_mouse_position_for_window(window) {
   if (!window) return;
+  heartbeat_window(window);
   mousePositions[window.title()] = MousePosition.capture();
 }
 
@@ -125,6 +147,7 @@ function set_mouse_position_for_window_center(window) {
     x: window.topLeft().x + window.frame().width / 2,
     y: window.topLeft().y + window.frame().height / 2
   });
+  heartbeat_window(window);
 }
 
 function restore_mouse_position_for_window(window) {
@@ -139,6 +162,7 @@ function restore_mouse_position_for_window(window) {
     return;
   }
   MousePosition.restore(pos);
+  heartbeat_window(window);
 }
 
 function restore_mouse_position_for_now() {
@@ -246,11 +270,20 @@ api.bind('h', mashShift, function() {
  * My Configuartion Window
  */
 
+// Window Hide Inactive
+api.bind('delete', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  heartbeat_window(window);
+  hide_inactiveWindow(window.otherWindowsOnAllScreens());
+});
+
 // Window Maximize
 api.bind('m', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.maximize();
+  //heartbeat_window(window);
 });
 
 // Window Smaller
@@ -263,6 +296,7 @@ api.bind('-', mash, function() {
   if (window.frame().width == oldFrame.width || window.frame().height == oldFrame.height) {
     window.setFrame(oldFrame);
   }
+  //heartbeat_window(window);
 });
 
 // Window Larger
@@ -276,6 +310,7 @@ api.bind('=', mash, function() {
   } else {
     window.setFrame(frame);
   }
+  //heartbeat_window(window);
 });
 
 // Window Central
@@ -295,6 +330,7 @@ api.bind('\\', mash, function() {
     width: window.frame().width,
     height: window.screen().frameWithoutDockOrMenu().height
   });
+  heartbeat_window(window);
 });
 
 // Window >
@@ -307,6 +343,7 @@ api.bind('right', mash, function() {
     width: window.frame().width,
     height: window.frame().height
   });
+  heartbeat_window(window);
 });
 
 // Window <
@@ -319,6 +356,7 @@ api.bind('left', mash, function() {
     width: window.frame().width,
     height: window.frame().height
   });
+  heartbeat_window(window);
 });
 
 // Window ^
@@ -331,6 +369,7 @@ api.bind('up', mash, function() {
     width: window.frame().width,
     height: window.frame().height
   });
+  heartbeat_window(window);
 });
 
 // Window v
@@ -343,6 +382,7 @@ api.bind('down', mash, function() {
     width: window.frame().width,
     height: window.frame().height
   });
+  heartbeat_window(window);
 });
 
 // Next Window in One Screen
@@ -405,7 +445,6 @@ api.bind('0', mash, function() {
   //_.map(Window.allWindows(), function(window) { api.alert(window.title(), 5)});  // all, include hide
   //_.map(Window.visibleWindows(), function(window) { api.alert(window.title())});  // all, no hide
   //_.map(Window.visibleWindowsMostRecentFirst(), function(window) { api.alert(window.title())});
-  //_.map(Window.focusedWindow().otherWindowsOnSameScreen(), alert_title);
   //_.map(Window.focusedWindow().otherWindowsOnAllScreens(), function(window) { api.alert(window.title())});  // no space
   //_.map(Window.focusedWindow().windowsOnOtherScreen(), alert_title);
   //_.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
@@ -416,4 +455,5 @@ api.bind('0', mash, function() {
   //_.chain(Window.allWindows()).difference(Window.visibleWindows()).map(function(window) { api.alert(window.title())});  // all, include hide
   //api.alert(_.chain(Window.allWindows()).difference(Window.visibleWindows()).value().length);
   //api.alert(_.chain(Window.allWindows()).value().length);
+  hide_inactiveWindow(Window.focusedWindow().otherWindowsOnAllScreens());
 });
