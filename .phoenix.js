@@ -4,6 +4,7 @@
 
 var mash = ["alt"];
 var mashShift = ["alt", "shift"];
+var CMD_BTN = ["cmd"];
 var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
 var ACTIVE_WINDOWS_TIMES = {};
@@ -229,18 +230,23 @@ api.bind('l', mash, function() {
 
 // Previous Screen, now only support 2 display // TODO
 api.bind('h', mash, function() {
+  var now = new Date();
+  //now.format('yy-M-dd h:mm:tt')
+  //api.alert('h1: '+ (new Date()).format('yy-M-dd h:mm:tt'));
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().nextScreen()) return;
   if (window.screen().nextScreen().frameIncludingDockAndMenu().x > window.screen().frameIncludingDockAndMenu().x) {
     return;
   }
+  //api.alert('h2: '+ (new Date()).format('yy-M-dd h:mm:tt'));
   save_mouse_position_for_window(window);
   var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());
   if (nextScreenWindows.length > 0) {
     nextScreenWindows[0].focusWindow();
     restore_mouse_position_for_window(nextScreenWindows[0]);
   }
+  //api.alert('h3: '+ (new Date()).format('yy-M-dd h:mm:tt'));
 });
 
 // Move Current Window to Next Screen
@@ -278,11 +284,22 @@ api.bind('delete', mash, function() {
   hide_inactiveWindow(window.otherWindowsOnAllScreens());
 });
 
+//api.bind('h', CMD_BTN, function() {
+  //var window = Window.focusedWindow();
+  //if (!window) return;
+  //window.app().hide();
+  //var window = Window.focusedWindow();
+  //api.alert(window.title());  // TODO need delay
+  //if (!window) return;
+  //restore_mouse_position_for_window(window);
+//});
+
 // Window Maximize
 api.bind('m', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.maximize();
+  setWindowCentral(window);
   //heartbeat_window(window);
 });
 
@@ -457,3 +474,4 @@ api.bind('0', mash, function() {
   //api.alert(_.chain(Window.allWindows()).value().length);
   hide_inactiveWindow(Window.focusedWindow().otherWindowsOnAllScreens());
 });
+

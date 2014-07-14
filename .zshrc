@@ -90,6 +90,7 @@ elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	alias ls="ls --color=auto"
 fi
 alias ll='ls -l'
+alias llh='ls -lh'
 alias la='ls -a'
 alias mkdir='mkdir -p'
 alias ..='cd ..'
@@ -120,10 +121,12 @@ alias vdiff='vimdiff'
 alias f='find . -name '
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
+alias e='echo'
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
 alias -g H='| head'
+alias -g J='| json_pp | less'
 
 # }}}
 

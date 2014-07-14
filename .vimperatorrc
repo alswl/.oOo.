@@ -24,11 +24,9 @@ noremap s :stop<CR>
 
 noremap <leader>+ :open javascript:void((function(){var%20d=document,e=d.createElement(%22script%22);e.setAttribute(%22charset%22,%22UTF-8%22);e.setAttribute(%22src%22,%22http://www.***REMOVED***.com/js/core/no/collectit.js?%22+Math.floor(new%20Date/1E7));d.body.appendChild(e)})());<CR>
 
-noremap <leader>da :dialog addons<CR>
-" noremap <leader>p gT
-" noremap <leader>n gt
+noremap <leader>da :tabopen about:addons<CR>
 noremap <leader>dp :dialog preferences<CR>
-noremap <leader>dd :dialog downloads<CR>
+noremap <leader>dd :downloads<CR>
 noremap <leader>ds :dialog pagesource<CR>
 noremap <leader>dc :dialog console<CR>
 noremap <leader>di :dialog pageinfo<CR>
@@ -50,8 +48,8 @@ set nextpattern=\s*下一页|下一张|下一篇|下页|后页\s*,^\bnext\b,\\bn
 set previouspattern=\s*上一页|上一张|上一篇|上页|前页\s*,^\bprev|previous\b,\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$
 
 "surround com and net可以直接先输入网站名,再用<CTRL>+<ENTER>快捷输入.com/.net
-cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
-cnoremap<C-Return> <End>.com<Home><C-Right><Right>www.<CR>
+"cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
+cnoremap<C-Return> <C-e>.com<CR>
 
 set 'editor=/bin/bash -lc "mvim -f \$*" mvim '
 set yankencodedurl=true
