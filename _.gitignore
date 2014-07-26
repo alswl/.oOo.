@@ -1,8 +1,0 @@
-## Vim ##
-
-*.swp
-*.swo
-*.un~
-Session.vim
-.netrwhist
-*~

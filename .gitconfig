@@ -1,0 +1,47 @@
+[color]
+    diff = auto 
+	ui = true
+	status = always
+	diff = always
+	branch = always
+[diff]
+	external = git_diff_wrapper
+[pager]
+	diff =
+[user]
+	name = 
+	email = 
+[alias]
+	s = status
+	c = commit -av
+	b = branch
+	br = branch
+	fl = flow
+	f = fetch --all -p
+	sv = svn
+	svf = svn fetch
+	svnf = svn fetch
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	ll = log --stat --abbrev-commit
+	st = status
+	sta = stash
+	pl = pull
+	ps = push
+	df = diff
+	dr = diff --no-ext-diff
+	ci = commit
+	co = checkout
+	spl = svn rebase
+	sps = svn dcommit
+[merge]
+	tool = vimdiff
+[push]
+	default = simple
+[core]
+	excludesfile = /Users/alswl/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.4.1/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
