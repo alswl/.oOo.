@@ -4,6 +4,7 @@
 
 var mash = ["alt"];
 var mashShift = ["alt", "shift"];
+var mashCtrl = ["alt", "ctrl"];
 var CMD_BTN = ["cmd"];
 var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
@@ -203,6 +204,7 @@ api.bind('2', mash, function() { switchApp('Google Chrome'); });
 api.bind('3', mash, function() { switchApp('QQ'); });
 api.bind('a', mash, function() { switchApp('MacVim'); });
 api.bind('s', mash, function() { switchApp('IntelliJ IDEA 13'); });
+api.bind('z', mash, function() { switchApp('Mou'); });
 api.bind(',', mash, function() { switchApp('Sparrow'); });
 api.bind('.', mash, function() { switchApp('Evernote'); });
 api.bind('/', mash, function() { switchApp('Finder'); });
@@ -351,7 +353,7 @@ api.bind('\\', mash, function() {
 });
 
 // Window >
-api.bind('right', mash, function() {
+api.bind('l', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -364,7 +366,7 @@ api.bind('right', mash, function() {
 });
 
 // Window <
-api.bind('left', mash, function() {
+api.bind('h', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -377,7 +379,7 @@ api.bind('left', mash, function() {
 });
 
 // Window ^
-api.bind('up', mash, function() {
+api.bind('k', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -390,7 +392,7 @@ api.bind('up', mash, function() {
 });
 
 // Window v
-api.bind('down', mash, function() {
+api.bind('j', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({

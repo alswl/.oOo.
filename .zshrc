@@ -86,6 +86,9 @@ if [ `uname` = 'Darwin' ]; then
 	alias screen='TERM=xterm-256color /usr/local/bin/screen'
 	alias mute='osascript -e "set volume 0"'
 	alias unmute='osascript -e "set volume 2"'
+	alias find='gfind'
+	alias date='gdate'
+	alias sed='gsed'
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	alias ls="ls --color=auto"
 fi
@@ -107,6 +110,9 @@ alias gpl='git pl'
 alias gps='git ps'
 alias gspl='git spl'
 alias gsps='git sps'
+alias gbr='git br'
+alias gf='git f'
+alias gs='git status'
 alias v=vim
 alias mk=mkdir
 alias le=less
@@ -123,6 +129,12 @@ alias f='find . -name '
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
+alias vh='sudo vi /etc/hosts'
+alias cnpm="npm --registry=https://registry.npm.taobao.org \
+	--cache=$HOME/.npm/.cache/cnpm \
+	--disturl=https://npm.taobao.org/dist \
+	--userconfig=$HOME/.cnpmrc"""
+alias wo='workon'
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
