@@ -205,7 +205,7 @@ api.bind('3', mash, function() { switchApp('QQ'); });
 api.bind('a', mash, function() { switchApp('MacVim'); });
 api.bind('s', mash, function() { switchApp('IntelliJ IDEA 13'); });
 api.bind('z', mash, function() { switchApp('Mou'); });
-api.bind(',', mash, function() { switchApp('Sparrow'); });
+api.bind(',', mash, function() { switchApp('Airmail'); });
 api.bind('.', mash, function() { switchApp('Evernote'); });
 api.bind('/', mash, function() { switchApp('Finder'); });
 
@@ -458,7 +458,7 @@ api.bind('space', mash, function() {
 
 // Test
 api.bind('0', mash, function() {
-  var cw = Window.focusedWindow();
+  //var cw = Window.focusedWindow();
   //_.map(App.runningApps(), function(app) { api.alert(app.title(), 5)});
   //_.map([Window.focusedWindow()], function(window) { api.alert(window.title())});  // current one
   //_.map(Window.allWindows(), function(window) { api.alert(window.title(), 5)});  // all, include hide
@@ -474,6 +474,7 @@ api.bind('0', mash, function() {
   //_.chain(Window.allWindows()).difference(Window.visibleWindows()).map(function(window) { api.alert(window.title())});  // all, include hide
   //api.alert(_.chain(Window.allWindows()).difference(Window.visibleWindows()).value().length);
   //api.alert(_.chain(Window.allWindows()).value().length);
-  hide_inactiveWindow(Window.focusedWindow().otherWindowsOnAllScreens());
+  //hide_inactiveWindow(Window.focusedWindow().otherWindowsOnAllScreens());
+  api.alert('xx');
 });
 
