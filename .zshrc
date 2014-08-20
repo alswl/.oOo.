@@ -136,6 +136,7 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org \
 	--disturl=https://npm.taobao.org/dist \
 	--userconfig=$HOME/.cnpmrc"""
 alias wo='workon'
+alias ta='tmux attach -t'
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
