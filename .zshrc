@@ -89,6 +89,7 @@ if [ `uname` = 'Darwin' ]; then
 	alias find='gfind'
 	alias date='gdate'
 	alias sed='gsed'
+	alias sort='gsort'
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	alias ls="ls --color=auto"
 fi
@@ -201,7 +202,7 @@ LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:c
 export LS_COLORS
 
 # LANG
-LANG="zh_CN.UTF-8"
+LANG="en_US.UTF-8"
 LC_COLLATE="zh_CN.UTF-8"
 LC_CTYPE="zh_CN.UTF-8"
 LC_MESSAGES="zh_CN.UTF-8"
