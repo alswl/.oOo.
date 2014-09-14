@@ -216,7 +216,7 @@ api.bind('/', mash, function() { switchApp('Finder'); });
  */
 
 // Next screen, now only support 2 display // TODO
-api.bind('l', mash, function() {
+api.bind('j', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().nextScreen()) return;
@@ -232,7 +232,7 @@ api.bind('l', mash, function() {
 });
 
 // Previous Screen, now only support 2 display // TODO
-api.bind('h', mash, function() {
+api.bind('k', mash, function() {
   var now = new Date();
   //now.format('yy-M-dd h:mm:tt')
   //api.alert('h1: '+ (new Date()).format('yy-M-dd h:mm:tt'));
@@ -406,7 +406,7 @@ api.bind('j', mashCtrl, function() {
 });
 
 // Next Window in One Screen
-api.bind('j', mash, function() {
+api.bind('l', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
     if (Window.visibleWindowsMostRecentFirst().length == 0) return;
@@ -420,7 +420,7 @@ api.bind('j', mash, function() {
 });
 
 // Previous Window in One Screen
-api.bind('k', mash, function() {
+api.bind('h', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
     if (Window.visibleWindowsMostRecentFirst().length == 0) return;

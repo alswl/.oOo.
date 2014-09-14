@@ -41,7 +41,7 @@ noremap b :bmarks
 " set titlestring=Mozilla\ Firefox
 
 "命令行下拉菜单最多显示的条目数
-set maxitems=6
+"set maxitems=6
 
 "Next Page and Previous Page超级的下一页,基本上是够用了.快捷键是[[和]]
 set nextpattern=\s*下一页|下一张|下一篇|下页|后页\s*,^\bnext\b,\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b
