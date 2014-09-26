@@ -56,6 +56,6 @@ set yankencodedurl=true
 
 " ignorekeys add https://www.toodledo.com/tasks/index.php
 " ignorekeys add http://www.toodledo.com/tasks/index.php
-ignorekeys add https://mail.google.com/
+" ignorekeys add https://mail.google.com/
 
 " vim: set ft=vim:

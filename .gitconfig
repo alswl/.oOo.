@@ -33,6 +33,7 @@
 	co = checkout
 	spl = svn rebase
 	sps = svn dcommit
+	rs = reset
 [merge]
 	tool = vimdiff
 [push]
