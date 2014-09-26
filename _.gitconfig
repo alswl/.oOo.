@@ -33,7 +33,16 @@
 	co = checkout
 	spl = svn rebase
 	sps = svn dcommit
+	rs = reset
 [merge]
 	tool = vimdiff
 [push]
 	default = simple
+[core]
+	excludesfile = /Users/alswl/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.4.1/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
