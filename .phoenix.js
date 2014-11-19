@@ -200,15 +200,18 @@ function switchApp(appName) {
 // Launch App
 api.bind('`', mash, function() { switchApp('iTerm'); });
 api.bind('1', mash, function() { switchApp('Google Chrome'); });
+api.bind('2', mash, function() { switchApp('Safari'); });
 api.bind('3', mash, function() { switchApp('QQ'); });
+api.bind('e', mash, function() { switchApp('Preview'); });
 api.bind('a', mash, function() { switchApp('MacVim'); });
 api.bind('s', mash, function() { switchApp('IntelliJ IDEA 13'); });
 api.bind('z', mash, function() { switchApp('Mou'); });
-//api.bind(',', mash, function() { switchApp('Airmail'); });
-api.bind(',', mash, function() { switchApp('Sparrow'); });
+api.bind(',', mash, function() { switchApp('Airmail'); });
+api.bind('9', mash, function() { switchApp('Music.163'); });
+//api.bind(',', mash, function() { switchApp('Sparrow'); });
+//api.bind(',', mash, function() { switchApp('Inky'); });
 api.bind('.', mash, function() { switchApp('Evernote'); });
 api.bind('/', mash, function() { switchApp('Finder'); });
-api.bind('9', mash, function() { switchApp('Music.163'); });
 
 
 /**
