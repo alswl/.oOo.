@@ -1,0 +1,66 @@
+let mapleader = ","
+
+"map <C-y> <C-y>
+"map <C-a> <Ins><C-a><Ins>
+"map <C-c> <Ins><C-c><Ins>
+"map <C-v> <Ins><C-v><Ins>
+"imap <C-y> <Ins><C-y><Ins>
+"imap <C-a> <Ins><C-a><Ins>
+"imap <C-c> <Ins><C-c><Ins>
+"imap <C-v> <Ins><C-v><Ins>
+
+"map j <C-d>
+"map k <C-u>
+"map J <C-f>
+"map K <C-b>
+noremap j 5j
+noremap k 5k
+map w <C-d>
+map e <C-u>
+map W <C-f>
+map E <C-b>
+map h gT
+map l gt
+map s :stop<CR>
+
+map <leader>+ :open javascript:void((function(){var%20d=document,e=d.createElement(%22script%22);e.setAttribute(%22charset%22,%22UTF-8%22);e.setAttribute(%22src%22,%22http://www.***REMOVED***.com/js/core/no/collectit.js?%22+Math.floor(new%20Date/1E7));d.body.appendChild(e)})());<CR>
+
+map <leader>da :tabopen about:addons<CR>
+map <leader>dp :dialog preferences<CR>
+map <leader>dd :downloads<CR>
+map <leader>ds :dialog pagesource<CR>
+map <leader>dc :dialog console<CR>
+map <leader>di :dialog pageinfo<CR>
+
+" use b for bookmarks
+map b :bmarks 
+
+"干掉一些快捷键
+" map <C-d> <Nop>
+" map <C-u> <Nop>
+
+" set titlestring=Mozilla\ Firefox
+
+"命令行下拉菜单最多显示的条目数
+"set maxitems=6
+
+"Next Page and Previous Page超级的下一页,基本上是够用了.快捷键是[[和]]
+set nextpattern=\s*下一页|下一张|下一篇|下页|后页\s*,^\bnext\b,\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b
+set previouspattern=\s*上一页|上一张|上一篇|上页|前页\s*,^\bprev|previous\b,\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$
+
+"set hintmatching=custom
+hi -a Hint font-size: 18pt !important;
+"set hintkeys=asdfg;lkjh
+
+"surround com and net可以直接先输入网站名,再用<CTRL>+<ENTER>快捷输入.com/.net
+"cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
+" cnoremap<C-Return> <C-e>.com<CR>
+
+set editor='/usr/local/bin/mvim -f +<line> +"sil! call cursor(0, <column>)" <file>'
+"set yankencodedurl=true
+
+" ignorekeys add https://www.toodledo.com/tasks/index.php
+" ignorekeys add http://www.toodledo.com/tasks/index.php
+" ignorekeys add https://mail.google.com/
+
+" vim: set ft=vim:
