@@ -49,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python history history-substring-search git-flow svn django ssh-agent mvn scala autojump autoenv compleat urltools virtualenvwrapper rvm npm vagrant osx brew go pip brew brew-cask bower fabric docker gem redis-cli rsync sbt screen sudo tmux xcode colored-man)
+plugins=(autoenv autojump bower brew brew-cask colored-man compleat django docker fabric gem git git-flow go golang history history-substring-search mvn npm osx pip python redis-cli rsync rvm sbt scala screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper xcode zsh_reload)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -232,6 +232,6 @@ LC_TIME="zh_CN.UTF-8"
 LC_ALL="zh_CN.UTF-8"
 
 [[ -s /usr/share/source-highlight/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-[[ -s /usr/local/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+[[ -s /usr/local/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
 
 #. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
