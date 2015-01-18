@@ -16,12 +16,14 @@
 	c = commit -av
 	b = branch
 	br = branch
+	brm = branch --merged
 	fl = flow
 	f = fetch --all -p
 	sv = svn
 	svf = svn fetch
 	svnf = svn fetch
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lgd = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
 	ll = log --stat --abbrev-commit
 	st = status
 	sta = stash
@@ -29,7 +31,9 @@
 	ps = push
 	df = diff
 	dr = diff --no-ext-diff
+	dn = diff --name-only
 	ci = commit
+	civ = commit -v
 	co = checkout
 	spl = svn rebase
 	sps = svn dcommit

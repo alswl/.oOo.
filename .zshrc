@@ -108,6 +108,8 @@ alias grep='grep --exclude-dir=".svn" --color=auto'
 alias tmux='tmux -2'
 alias g=git
 alias gc='git c'
+alias gci='git ci'
+alias gcv='git civ'
 alias gpl='git pl'
 alias gps='git ps'
 alias gspl='git spl'
