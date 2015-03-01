@@ -49,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autoenv autojump bower brew brew-cask colored-man compleat django docker fabric gem git git-flow go golang history history-substring-search mvn npm osx pip python redis-cli rsync rvm sbt scala screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper xcode zsh_reload)
+plugins=(autojump bower brew brew-cask colored-man compleat django docker fabric gem git git-flow go golang history history-substring-search mvn npm osx pip python redis-cli rsync rvm sbt scala screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper xcode zsh_reload)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -64,7 +64,7 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR=vim
 if [ `uname` = 'Darwin' ]; then
-	export JAVA_HOME=`/usr/libexec/java_home`
+	export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
@@ -117,6 +117,7 @@ alias gsps='git sps'
 alias gbr='git br'
 alias gf='git f'
 alias gs='git status'
+alias gdf='git df'
 alias v=vim
 alias mk=mkdir
 alias le=less
@@ -140,7 +141,8 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org \
 	--userconfig=$HOME/.cnpmrc"""
 alias wo='workon'
 alias ta='tmux attach -t'
-alias gdf='git diff'
+alias k='kill'
+alias k9='kill -9 '
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
