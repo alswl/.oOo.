@@ -1,4 +1,7 @@
 /**
+ * Phoenix
+ * doc: https://github.com/jasonm23/phoenix/wiki/JavaScript-API-documentation
+ *
  * Global Settings
  */
 
@@ -73,10 +76,14 @@ function moveToScreen(window, screen) {
 };
 
 function windowsOnOtherScreen() {
-  var otherWindowTitlesOnSameScreen = _.map( Window.focusedWindow().otherWindowsOnSameScreen(), function(w) { return w.title(); });
-  return _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
+  var start = new Date().getTime();
+  var otherWindowsOnSameScreen = Window.focusedWindow().otherWindowsOnSameScreen();  // slow
+  api.log('windowsOnOtherScreen 0.1: ' + (new Date().getTime() - start));
+  var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen , function(w) { return w.title(); });
+  var return_value = _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
     .filter(function(window) { return ! _.contains(otherWindowTitlesOnSameScreen, window.title()); })
     .value();
+  return return_value;
 };
 
 
@@ -103,17 +110,13 @@ function heartbeat_window(window) {
 }
 
 function getAnotherWindowsOnSameScreen(window, offset) {
-  var windows = window.otherWindowsOnSameScreen();
+  var start = new Date().getTime();
+  var windows = window.otherWindowsOnSameScreen(); // slow, makes `Saved spin report for Phoenix version 1.2 (1.2) to /Library/Logs/DiagnosticReports/Phoenix_2015-05-30-170354_majin.spin`
+  api.log('getAnotherWindowsOnSameScreen 1: ' + (new Date().getTime() - start));
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
-    return window.frame().y;
-  }).sortBy(function(window) {
-    return window.frame().x;
-  }).sortBy(function(window) {
-    return window.app().pid;
-  }).sortBy(function(window) {
-    return window.title();
-  }).value();
+    return [window.frame().x, window.frame().y, window.app().pid, window.title()].join('_');
+  }).value().reverse();
   return windows[(_.indexOf(windows, window) + offset + windows.length) % windows.length];
 }
 
@@ -205,7 +208,8 @@ api.bind('3', mash, function() { switchApp('QQ'); });
 api.bind('e', mash, function() { switchApp('Preview'); });
 api.bind('a', mash, function() { switchApp('MacVim'); });
 api.bind('s', mash, function() { switchApp('IntelliJ IDEA 14'); });
-api.bind('z', mash, function() { switchApp('Mou'); });
+//api.bind('z', mash, function() { switchApp('Mou'); });
+api.bind('z', mash, function() { switchApp('Macdown'); });
 api.bind(',', mash, function() { switchApp('Google Chrome'); });
 api.bind('9', mash, function() { switchApp('NeteaseMusic'); });
 //api.bind(',', mash, function() { switchApp('Sparrow'); });
@@ -236,23 +240,18 @@ api.bind('l', mash, function() {
 
 // Previous Screen, now only support 2 display // TODO
 api.bind('h', mash, function() {
-  var now = new Date();
-  //now.format('yy-M-dd h:mm:tt')
-  //api.alert('h1: '+ (new Date()).format('yy-M-dd h:mm:tt'));
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().nextScreen()) return;
   if (window.screen().nextScreen().frameIncludingDockAndMenu().x > window.screen().frameIncludingDockAndMenu().x) {
     return;
   }
-  //api.alert('h2: '+ (new Date()).format('yy-M-dd h:mm:tt'));
   save_mouse_position_for_window(window);
-  var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());
+  var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());  // find it!!! cost !!!
   if (nextScreenWindows.length > 0) {
     nextScreenWindows[0].focusWindow();
     restore_mouse_position_for_window(nextScreenWindows[0]);
   }
-  //api.alert('h3: '+ (new Date()).format('yy-M-dd h:mm:tt'));
 });
 
 // Move Current Window to Next Screen
@@ -431,7 +430,7 @@ api.bind('j', mash, function() {
     return;
   }
   save_mouse_position_for_window(window);
-  var targetWindow = getPreviousWindowsOnSameScreen(window);
+  var targetWindow = getPreviousWindowsOnSameScreen(window);  // <- most time cost
   targetWindow.focusWindow();
   restore_mouse_position_for_window(targetWindow);
 });

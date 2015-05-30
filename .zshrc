@@ -165,6 +165,7 @@ hash -d mandala="/Users/alswl/***REMOVED***/workspace/mandala/"
 hash -d faba="/Users/alswl/***REMOVED***/workspace/faba/"
 hash -d titan="/Users/alswl/***REMOVED***/workspace/titan/"
 hash -d nginx="/Users/alswl/***REMOVED***/workspace/nginx/"
+hash -d desktop="/Users/alswl/Desktop/"
 # }}}
 
 # virtual wrapper {{{
