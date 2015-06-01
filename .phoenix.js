@@ -478,6 +478,6 @@ api.bind('0', mash, function() {
   //api.alert(_.chain(Window.allWindows()).difference(Window.visibleWindows()).value().length);
   //api.alert(_.chain(Window.allWindows()).value().length);
   //hide_inactiveWindow(Window.focusedWindow().otherWindowsOnAllScreens());
-  api.alert('Focus Target!');
+  api.alert('F!');
 });
 
