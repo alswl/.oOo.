@@ -26,6 +26,7 @@ ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="powerline"
 ZSH_THEME="robbyrussell"
+#ZSH_THEME="kolo"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"

@@ -12,6 +12,7 @@ var CMD_BTN = ["cmd"];
 var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
 var ACTIVE_WINDOWS_TIMES = {};
+var DEFAULT_WIDTH = 1280;
 
 
 /**
@@ -209,7 +210,8 @@ api.bind('e', mash, function() { switchApp('Preview'); });
 api.bind('a', mash, function() { switchApp('MacVim'); });
 api.bind('s', mash, function() { switchApp('IntelliJ IDEA 14'); });
 //api.bind('z', mash, function() { switchApp('Mou'); });
-api.bind('z', mash, function() { switchApp('Macdown'); });
+//api.bind('z', mash, function() { switchApp('Macdown'); });
+api.bind('z', mash, function() { switchApp('Atom'); });
 api.bind(',', mash, function() { switchApp('Google Chrome'); });
 api.bind('9', mash, function() { switchApp('NeteaseMusic'); });
 //api.bind(',', mash, function() { switchApp('Sparrow'); });
@@ -342,7 +344,7 @@ api.bind('m', mash, function() {
   setWindowCentral(window);
 });
 
-// Window Vertical
+// Window Height
 api.bind('\\', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
@@ -351,6 +353,19 @@ api.bind('\\', mash, function() {
     y: window.screen().frameWithoutDockOrMenu().y,
     width: window.frame().width,
     height: window.screen().frameWithoutDockOrMenu().height
+  });
+  heartbeat_window(window);
+});
+
+// Window Width
+api.bind('\\', mashShift, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  window.setFrame({
+    x: window.frame().x,
+    y: window.screen().frameWithoutDockOrMenu().y,
+    width: DEFAULT_WIDTH,  // Mac width
+    height: window.frame().height
   });
   heartbeat_window(window);
 });
