@@ -241,3 +241,4 @@ LC_ALL="zh_CN.UTF-8"
 [[ -s /usr/local/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
 
 #. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
+#eval "$(jenv init -)"
