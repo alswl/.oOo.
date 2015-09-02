@@ -67,8 +67,8 @@ function moveToScreen(window, screen) {
   if (!screen) return;
 
   var frame = window.frame();
-  var oldScreenRect = window.screen().frameWithoutDockOrMenu();
-  var newScreenRect = screen.frameWithoutDockOrMenu();
+  var oldScreenRect = window.screen().frameInRectangle();
+  var newScreenRect = screen.frameInRectangle();
   var xRatio = newScreenRect.width / oldScreenRect.width;
   var yRatio = newScreenRect.height / oldScreenRect.height;
 
@@ -138,8 +138,8 @@ function getPreviousWindowsOnSameScreen(window) {
 
 function setWindowCentral(window) {
   window.setTopLeft({
-    x: (window.screen().frameWithoutDockOrMenu().width - window.size().width) / 2 + window.screen().frameWithoutDockOrMenu().x,
-    y: (window.screen().frameWithoutDockOrMenu().height - window.size().height) / 2 + window.screen().frameWithoutDockOrMenu().y
+    x: (window.screen().frameInRectangle().width - window.size().width) / 2 + window.screen().frameInRectangle().x,
+    y: (window.screen().frameInRectangle().height - window.size().height) / 2 + window.screen().frameInRectangle().y
   });
   heartbeat_window(window);
 };
@@ -346,8 +346,8 @@ Phoenix.bind('=', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   var frame = getLargerFrame(window.frame());
-  if (frame.width > window.screen().frameWithoutDockOrMenu().width ||
-      frame.height > window.screen().frameWithoutDockOrMenu().height) {
+  if (frame.width > window.screen().frameInRectangle().width ||
+      frame.height > window.screen().frameInRectangle().height) {
     window.maximize();
   } else {
     window.setFrame(frame);
@@ -368,9 +368,9 @@ Phoenix.bind('\\', mash, function() {
   if (!window) return;
   window.setFrame({
     x: window.frame().x,
-    y: window.screen().frameWithoutDockOrMenu().y,
+    y: window.screen().frameInRectangle().y,
     width: window.frame().width,
-    height: window.screen().frameWithoutDockOrMenu().height
+    height: window.screen().frameInRectangle().height
   });
   heartbeat_window(window);
 });
@@ -381,7 +381,7 @@ Phoenix.bind('\\', mashShift, function() {
   if (!window) return;
   window.setFrame({
     x: window.frame().x,
-    y: window.screen().frameWithoutDockOrMenu().y,
+    y: window.screen().frameInRectangle().y,
     width: DEFAULT_WIDTH,  // Mac width
     height: window.frame().height
   });
