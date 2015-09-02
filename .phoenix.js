@@ -19,14 +19,21 @@ var DEFAULT_WIDTH = 1280;
  * Utils Functions
  */
 
-var alert_title = function(window) { api.alert(window.title())};
+function alert(message) {
+  var modal = new Modal();
+  modal.message = message;
+  modal.duration = 2;
+  modal.show();
+}
+
+var alert_title = function(window) { Modal.show(window.title()); };
 
 function sortByMostRecent(windows) {
-  var visibleAppMostRecentFirst = _.map(Window.visibleWindowsMostRecentFirst(),
-                                        function(w) { return w.app().title(); });
+  var visibleAppMostRecentFirst = _.map(Window.visibleWindowsInOrder(),
+                                        function(w) { return w.app().name(); });
   var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
                                                      _.range(visibleAppMostRecentFirst.length));
-  return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.app().title()]; });
+  return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.app().name()]; });
 };
 
 function getNewFrame(frame, oldScreenRect, newScreenRect) {
@@ -60,8 +67,8 @@ function moveToScreen(window, screen) {
   if (!screen) return;
 
   var frame = window.frame();
-  var oldScreenRect = window.screen().frameWithoutDockOrMenu();
-  var newScreenRect = screen.frameWithoutDockOrMenu();
+  var oldScreenRect = window.screen().frameInRectangle();
+  var newScreenRect = screen.frameInRectangle();
   var xRatio = newScreenRect.width / oldScreenRect.width;
   var yRatio = newScreenRect.height / oldScreenRect.height;
 
@@ -79,7 +86,7 @@ function moveToScreen(window, screen) {
 function windowsOnOtherScreen() {
   var start = new Date().getTime();
   var otherWindowsOnSameScreen = Window.focusedWindow().otherWindowsOnSameScreen();  // slow
-  api.log('windowsOnOtherScreen 0.1: ' + (new Date().getTime() - start));
+  Phoenix.log('windowsOnOtherScreen 0.1: ' + (new Date().getTime() - start));
   var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen , function(w) { return w.title(); });
   var return_value = _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
     .filter(function(window) { return ! _.contains(otherWindowTitlesOnSameScreen, window.title()); })
@@ -113,7 +120,7 @@ function heartbeat_window(window) {
 function getAnotherWindowsOnSameScreen(window, offset) {
   var start = new Date().getTime();
   var windows = window.otherWindowsOnSameScreen(); // slow, makes `Saved spin report for Phoenix version 1.2 (1.2) to /Library/Logs/DiagnosticReports/Phoenix_2015-05-30-170354_majin.spin`
-  api.log('getAnotherWindowsOnSameScreen 1: ' + (new Date().getTime() - start));
+  Phoenix.log('getAnotherWindowsOnSameScreen 1: ' + (new Date().getTime() - start));
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
     return [window.frame().x, window.frame().y, window.app().pid, window.title()].join('_');
@@ -131,8 +138,8 @@ function getPreviousWindowsOnSameScreen(window) {
 
 function setWindowCentral(window) {
   window.setTopLeft({
-    x: (window.screen().frameWithoutDockOrMenu().width - window.size().width) / 2 + window.screen().frameWithoutDockOrMenu().x,
-    y: (window.screen().frameWithoutDockOrMenu().height - window.size().height) / 2 + window.screen().frameWithoutDockOrMenu().y
+    x: (window.screen().frameInRectangle().width - window.size().width) / 2 + window.screen().frameInRectangle().x,
+    y: (window.screen().frameInRectangle().height - window.size().height) / 2 + window.screen().frameInRectangle().y
   });
   heartbeat_window(window);
 };
@@ -145,11 +152,11 @@ function setWindowCentral(window) {
 function save_mouse_position_for_window(window) {
   if (!window) return;
   heartbeat_window(window);
-  mousePositions[window.title()] = MousePosition.capture();
+  mousePositions[window.title()] = Mouse.location();
 }
 
 function set_mouse_position_for_window_center(window) {
-  MousePosition.restore({
+  Mouse.moveTo({
     x: window.topLeft().x + window.frame().width / 2,
     y: window.topLeft().y + window.frame().height / 2
   });
@@ -167,7 +174,7 @@ function restore_mouse_position_for_window(window) {
     set_mouse_position_for_window_center(window);
     return;
   }
-  MousePosition.restore(pos);
+  Mouse.moveTo(pos);
   heartbeat_window(window);
 }
 
@@ -183,14 +190,24 @@ function restore_mouse_position_for_now() {
  * App Functions
  */
 
+function launchOrFocus(appName) {
+  var app = _.find(App.runningApps(), function(x) { return x.name() == appName});
+  if (app === undefined) {
+    app = App.launch(appName);
+  }
+  app.activate();
+  app.focus();
+  return app;
+}
+
 //switch app, and remember mouse position
-function switchApp(appName) {
+function callApp(appName) {
   var window = Window.focusedWindow();
   if (window) {
     save_mouse_position_for_window(window);
   }
-  api.launch(appName);
-  var newWindow = Window.focusedWindow();
+  //App.launch(appName);
+  var newWindow = _.first(launchOrFocus(appName).windows());
   if (newWindow && window !== newWindow) {
     restore_mouse_position_for_window(newWindow);
   }
@@ -202,22 +219,23 @@ function switchApp(appName) {
  */
 
 // Launch App
-api.bind('`', mash, function() { switchApp('iTerm'); });
-api.bind('1', mash, function() { switchApp('Firefox'); });
-api.bind('2', mash, function() { switchApp('Google Chrome'); });
-api.bind('3', mash, function() { switchApp('QQ'); });
-api.bind('e', mash, function() { switchApp('Preview'); });
-api.bind('a', mash, function() { switchApp('MacVim'); });
-api.bind('s', mash, function() { switchApp('IntelliJ IDEA 14'); });
-//api.bind('z', mash, function() { switchApp('Mou'); });
-api.bind('z', mash, function() { switchApp('Macdown'); });
-//api.bind('z', mash, function() { switchApp('Atom'); });
-api.bind(',', mash, function() { switchApp('Google Chrome'); });
-api.bind('9', mash, function() { switchApp('NeteaseMusic'); });
-//api.bind(',', mash, function() { switchApp('Sparrow'); });
-//api.bind(',', mash, function() { switchApp('Inky'); });
-api.bind('.', mash, function() { switchApp('Evernote'); });
-api.bind('/', mash, function() { switchApp('Finder'); });
+Phoenix.bind('`', mash, function() { callApp('iTerm'); });
+Phoenix.bind('1', mash, function() { callApp('Firefox'); });
+Phoenix.bind('2', mash, function() { callApp('Google Chrome'); });
+Phoenix.bind('3', mash, function() { callApp('QQ'); });
+Phoenix.bind('e', mash, function() { callApp('Preview'); });
+Phoenix.bind('a', mash, function() { callApp('MacVim'); });
+Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); });
+//Phoenix.bind('z', mash, function() { callApp('Mou'); });
+Phoenix.bind('z', mash, function() { callApp('Macdown'); });
+//Phoenix.bind('z', mash, function() { callApp('Typora'); });
+//Phoenix.bind('z', mash, function() { callApp('Atom'); });
+Phoenix.bind(',', mash, function() { callApp('Google Chrome'); });
+Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); });
+//Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
+//Phoenix.bind(',', mash, function() { callApp('Inky'); });
+Phoenix.bind('.', mash, function() { callApp('Evernote'); });
+Phoenix.bind('/', mash, function() { callApp('Finder'); });
 
 
 /**
@@ -225,57 +243,57 @@ api.bind('/', mash, function() { switchApp('Finder'); });
  */
 
 // Next screen, now only support 2 display // TODO
-api.bind('l', mash, function() {
+Phoenix.bind('l', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
-  if (window.screen() === window.screen().nextScreen()) return;
-  if (window.screen().nextScreen().frameIncludingDockAndMenu().x < window.screen().frameIncludingDockAndMenu().x) {
+  if (window.screen() === window.screen().next()) return;
+  if (window.screen().next().frameInRectangle().x < window.screen().frameInRectangle().x) {
     return;
   }
   save_mouse_position_for_window(window);
   var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());
   if (nextScreenWindows.length > 0) {
-    nextScreenWindows[0].focusWindow();
+    nextScreenWindows[0].focus();
     restore_mouse_position_for_window(nextScreenWindows[0]);
   }
 });
 
 // Previous Screen, now only support 2 display // TODO
-api.bind('h', mash, function() {
+Phoenix.bind('h', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
-  if (window.screen() === window.screen().nextScreen()) return;
-  if (window.screen().nextScreen().frameIncludingDockAndMenu().x > window.screen().frameIncludingDockAndMenu().x) {
+  if (window.screen() === window.screen().next()) return;
+  if (window.screen().next().frameInRectangle().x > window.screen().frameInRectangle().x) {
     return;
   }
   save_mouse_position_for_window(window);
   var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());  // find it!!! cost !!!
   if (nextScreenWindows.length > 0) {
-    nextScreenWindows[0].focusWindow();
+    nextScreenWindows[0].focus();
     restore_mouse_position_for_window(nextScreenWindows[0]);
   }
 });
 
 // Move Current Window to Next Screen
-api.bind('l', mashShift, function() {
+Phoenix.bind('l', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
-  if (window.screen() === window.screen().nextScreen()) return;
-  if (window.screen().nextScreen().frameIncludingDockAndMenu().x < 0) {
+  if (window.screen() === window.screen().next()) return;
+  if (window.screen().next().frameInRectangle().x < 0) {
     return;
   }
-  moveToScreen(window, window.screen().nextScreen());
+  moveToScreen(window, window.screen().next());
 });
 
 // Move Current Window to Previous Screen
-api.bind('h', mashShift, function() {
+Phoenix.bind('h', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
-  if (window.screen() === window.screen().nextScreen()) return;
-  if (window.screen().nextScreen().frameIncludingDockAndMenu().x == 0) {
+  if (window.screen() === window.screen().next()) return;
+  if (window.screen().next().frameInRectangle().x == 0) {
     return;
   }
-  moveToScreen(window, window.screen().previousScreen());
+  moveToScreen(window, window.screen().previous());
 });
 
 
@@ -284,25 +302,25 @@ api.bind('h', mashShift, function() {
  */
 
 // Window Hide Inactive
-api.bind('delete', mash, function() {
+Phoenix.bind('delete', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   heartbeat_window(window);
   hide_inactiveWindow(window.otherWindowsOnAllScreens());
 });
 
-//api.bind('h', CMD_BTN, function() {
+//Phoenix.bind('h', CMD_BTN, function() {
   //var window = Window.focusedWindow();
   //if (!window) return;
   //window.app().hide();
   //var window = Window.focusedWindow();
-  //api.alert(window.title());  // TODO need delay
+  //Modal.show(window.title());  // TODO need delay
   //if (!window) return;
   //restore_mouse_position_for_window(window);
 //});
 
 // Window Maximize
-api.bind('m', mashShift, function() {
+Phoenix.bind('m', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.maximize();
@@ -311,7 +329,7 @@ api.bind('m', mashShift, function() {
 });
 
 // Window Smaller
-api.bind('-', mash, function() {
+Phoenix.bind('-', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   var oldFrame = window.frame();
@@ -324,12 +342,12 @@ api.bind('-', mash, function() {
 });
 
 // Window Larger
-api.bind('=', mash, function() {
+Phoenix.bind('=', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   var frame = getLargerFrame(window.frame());
-  if (frame.width > window.screen().frameWithoutDockOrMenu().width ||
-      frame.height > window.screen().frameWithoutDockOrMenu().height) {
+  if (frame.width > window.screen().frameInRectangle().width ||
+      frame.height > window.screen().frameInRectangle().height) {
     window.maximize();
   } else {
     window.setFrame(frame);
@@ -338,32 +356,32 @@ api.bind('=', mash, function() {
 });
 
 // Window Central
-api.bind('m', mash, function() {
+Phoenix.bind('m', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   setWindowCentral(window);
 });
 
 // Window Height
-api.bind('\\', mash, function() {
+Phoenix.bind('\\', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
     x: window.frame().x,
-    y: window.screen().frameWithoutDockOrMenu().y,
+    y: window.screen().frameInRectangle().y,
     width: window.frame().width,
-    height: window.screen().frameWithoutDockOrMenu().height
+    height: window.screen().frameInRectangle().height
   });
   heartbeat_window(window);
 });
 
 // Window Width
-api.bind('\\', mashShift, function() {
+Phoenix.bind('\\', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
     x: window.frame().x,
-    y: window.screen().frameWithoutDockOrMenu().y,
+    y: window.screen().frameInRectangle().y,
     width: DEFAULT_WIDTH,  // Mac width
     height: window.frame().height
   });
@@ -371,7 +389,7 @@ api.bind('\\', mashShift, function() {
 });
 
 // Window >
-api.bind('l', mashCtrl, function() {
+Phoenix.bind('l', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -384,7 +402,7 @@ api.bind('l', mashCtrl, function() {
 });
 
 // Window <
-api.bind('h', mashCtrl, function() {
+Phoenix.bind('h', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -397,7 +415,7 @@ api.bind('h', mashCtrl, function() {
 });
 
 // Window ^
-api.bind('k', mashCtrl, function() {
+Phoenix.bind('k', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -410,7 +428,7 @@ api.bind('k', mashCtrl, function() {
 });
 
 // Window v
-api.bind('j', mashCtrl, function() {
+Phoenix.bind('j', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -423,30 +441,30 @@ api.bind('j', mashCtrl, function() {
 });
 
 // Next Window in One Screen
-api.bind('k', mash, function() {
+Phoenix.bind('k', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
-    if (Window.visibleWindowsMostRecentFirst().length == 0) return;
-    Window.visibleWindowsMostRecentFirst()[0].focusWindow();
+    if (Window.visibleWindowsInOrder().length == 0) return;
+    Window.visibleWindowsInOrder()[0].focus();
     return;
   }
   save_mouse_position_for_window(window);
   var targetWindow = getNextWindowsOnSameScreen(window);
-  targetWindow.focusWindow();
+  targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
 });
 
 // Previous Window in One Screen
-api.bind('j', mash, function() {
+Phoenix.bind('j', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
-    if (Window.visibleWindowsMostRecentFirst().length == 0) return;
-    Window.visibleWindowsMostRecentFirst()[0].focusWindow();
+    if (Window.visibleWindowsInOrder().length == 0) return;
+    Window.visibleWindowsInOrder()[0].focus();
     return;
   }
   save_mouse_position_for_window(window);
   var targetWindow = getPreviousWindowsOnSameScreen(window);  // <- most time cost
-  targetWindow.focusWindow();
+  targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
 });
 
@@ -456,7 +474,7 @@ api.bind('j', mash, function() {
  */
 
 // Central Mouse
-api.bind('space', mash, function() {
+Phoenix.bind('space', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   set_mouse_position_for_window_center(window);
@@ -475,24 +493,27 @@ api.bind('space', mash, function() {
 
 
 // Test
-api.bind('0', mash, function() {
+Phoenix.bind('0', mash, function() {
   //var cw = Window.focusedWindow();
-  //_.map(App.runningApps(), function(app) { api.alert(app.title(), 5)});
-  //_.map([Window.focusedWindow()], function(window) { api.alert(window.title())});  // current one
-  //_.map(Window.allWindows(), function(window) { api.alert(window.title(), 5)});  // all, include hide
-  //_.map(Window.visibleWindows(), function(window) { api.alert(window.title())});  // all, no hide
-  //_.map(Window.visibleWindowsMostRecentFirst(), function(window) { api.alert(window.title())});
-  //_.map(Window.focusedWindow().otherWindowsOnAllScreens(), function(window) { api.alert(window.title())});  // no space
+  //_.map(App.runningApps(), function(app) { Modal.show(app.title(), 5)});
+  //_.map([Window.focusedWindow()], function(window) { Modal.show(window.title())});  // current one
+  //_.map(Window.windows(), function(window) { Modal.show(window.title(), 5)});  // all, include hide
+  //_.map(Window.visibleWindows(), function(window) { Modal.show(window.title())});  // all, no hide
+  //_.map(Window.visibleWindowsInOrder(), function(window) { Modal.show(window.title())});
+  //_.map(Window.focusedWindow().otherWindowsOnAllScreens(), function(window) { Modal.show(window.title())});  // no space
   //_.map(Window.focusedWindow().windowsOnOtherScreen(), alert_title);
   //_.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
   //_.map(cw.windowsOnOtherScreen(), alert_title);
-  //api.alert(Window.focusedWindow().screen());
+  //Modal.show(Window.focusedWindow().screen());
 
 
-  //_.chain(Window.allWindows()).difference(Window.visibleWindows()).map(function(window) { api.alert(window.title())});  // all, include hide
-  //api.alert(_.chain(Window.allWindows()).difference(Window.visibleWindows()).value().length);
-  //api.alert(_.chain(Window.allWindows()).value().length);
+  //_.chain(Window.windows()).difference(Window.visibleWindows()).map(function(window) { Modal.show(window.title())});  // all, include hide
+  //Modal.show(_.chain(Window.windows()).difference(Window.visibleWindows()).value().length);
+  //Modal.show(_.chain(Window.windows()).value().length);
   //hide_inactiveWindow(Window.focusedWindow().otherWindowsOnAllScreens());
-  api.alert('F!');
+  var modal = new Modal();
+  modal.message = 'F!';
+  modal.duration = 2;
+  modal.show();
 });
 
