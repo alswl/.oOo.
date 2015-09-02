@@ -26,6 +26,12 @@ function alert(message) {
   modal.show();
 }
 
+function assert(condition, message) {
+  if (!condition) {
+    throw message || "Assertion failed";
+  }
+}
+
 var alert_title = function(window) { Modal.show(window.title()); };
 
 function sortByMostRecent(windows) {
@@ -191,11 +197,8 @@ function restore_mouse_position_for_now() {
  */
 
 function launchOrFocus(appName) {
-  var app = _.find(App.runningApps(), function(x) { return x.name() == appName});
-  if (app === undefined) {
-    app = App.launch(appName);
-  }
-  app.activate();
+  var app = App.launch(appName);
+  assert(app !== undefined);
   app.focus();
   return app;
 }
