@@ -193,20 +193,21 @@ function restore_mouse_position_for_now() {
 function launchOrFocus(appName) {
   var app = _.find(App.runningApps(), function(x) { return x.name() == appName});
   if (app === undefined) {
-    App.launch(appName);
+    app = App.launch(appName);
   }
+  app.activate();
   app.focus();
+  return app;
 }
 
 //switch app, and remember mouse position
-function switchApp(appName) {
+function callApp(appName) {
   var window = Window.focusedWindow();
   if (window) {
     save_mouse_position_for_window(window);
   }
   //App.launch(appName);
-  launchOrFocus(appName);
-  var newWindow = Window.focusedWindow();
+  var newWindow = _.first(launchOrFocus(appName).windows());
   if (newWindow && window !== newWindow) {
     restore_mouse_position_for_window(newWindow);
   }
@@ -218,23 +219,23 @@ function switchApp(appName) {
  */
 
 // Launch App
-Phoenix.bind('`', mash, function() { switchApp('iTerm'); });
-Phoenix.bind('1', mash, function() { switchApp('Firefox'); });
-Phoenix.bind('2', mash, function() { switchApp('Google Chrome'); });
-Phoenix.bind('3', mash, function() { switchApp('QQ'); });
-Phoenix.bind('e', mash, function() { switchApp('Preview'); });
-Phoenix.bind('a', mash, function() { switchApp('MacVim'); });
-Phoenix.bind('s', mash, function() { switchApp('IntelliJ IDEA 14'); });
-//Phoenix.bind('z', mash, function() { switchApp('Mou'); });
-Phoenix.bind('z', mash, function() { switchApp('Macdown'); });
-//Phoenix.bind('z', mash, function() { switchApp('Typora'); });
-//Phoenix.bind('z', mash, function() { switchApp('Atom'); });
-Phoenix.bind(',', mash, function() { switchApp('Google Chrome'); });
-Phoenix.bind('9', mash, function() { switchApp('NeteaseMusic'); });
-//Phoenix.bind(',', mash, function() { switchApp('Sparrow'); });
-//Phoenix.bind(',', mash, function() { switchApp('Inky'); });
-Phoenix.bind('.', mash, function() { switchApp('Evernote'); });
-Phoenix.bind('/', mash, function() { switchApp('Finder'); });
+Phoenix.bind('`', mash, function() { callApp('iTerm'); });
+Phoenix.bind('1', mash, function() { callApp('Firefox'); });
+Phoenix.bind('2', mash, function() { callApp('Google Chrome'); });
+Phoenix.bind('3', mash, function() { callApp('QQ'); });
+Phoenix.bind('e', mash, function() { callApp('Preview'); });
+Phoenix.bind('a', mash, function() { callApp('MacVim'); });
+Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); });
+//Phoenix.bind('z', mash, function() { callApp('Mou'); });
+Phoenix.bind('z', mash, function() { callApp('Macdown'); });
+//Phoenix.bind('z', mash, function() { callApp('Typora'); });
+//Phoenix.bind('z', mash, function() { callApp('Atom'); });
+Phoenix.bind(',', mash, function() { callApp('Google Chrome'); });
+Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); });
+//Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
+//Phoenix.bind(',', mash, function() { callApp('Inky'); });
+Phoenix.bind('.', mash, function() { callApp('Evernote'); });
+Phoenix.bind('/', mash, function() { callApp('Finder'); });
 
 
 /**
