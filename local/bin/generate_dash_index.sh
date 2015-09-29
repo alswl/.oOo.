@@ -16,6 +16,8 @@ ls $HOME/Library/Application\ Support/Dash/User\ Contributed/*/*/Contents/Resour
 ls $HOME/Library/Application\ Support/Dash/Cheat\ Sheets/*/*/Contents/Resources/Documents/index.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
 
 
+ls $HOME/Library/Application\ Support/Dash/Java\ DocSets/*/*/Contents/Resources/Documents/dash_javadoc/index.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
+
 awk -F '/' '{printf("<li class=\"pull-left\" style=\"width: 240px\"><a href=\"%s\">%s</a></li>", $0, $2);}' "$TEMP_INDEX_PATH" > "$BODY_INDEX_PATH"
 
 echo -n '' > "$FINAL_INDEX_PATH"

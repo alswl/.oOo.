@@ -73,8 +73,8 @@ function moveToScreen(window, screen) {
   if (!screen) return;
 
   var frame = window.frame();
-  var oldScreenRect = window.screen().frameInRectangle();
-  var newScreenRect = screen.frameInRectangle();
+  var oldScreenRect = window.screen().visibleFrameInRectangle();
+  var newScreenRect = screen.visibleFrameInRectangle();
   var xRatio = newScreenRect.width / oldScreenRect.width;
   var yRatio = newScreenRect.height / oldScreenRect.height;
 
@@ -224,6 +224,7 @@ function callApp(appName) {
 // Launch App
 Phoenix.bind('`', mash, function() { callApp('iTerm'); });
 Phoenix.bind('1', mash, function() { callApp('Firefox'); });
+//Phoenix.bind('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
 Phoenix.bind('2', mash, function() { callApp('Google Chrome'); });
 Phoenix.bind('3', mash, function() { callApp('QQ'); });
 Phoenix.bind('e', mash, function() { callApp('Preview'); });
@@ -233,7 +234,7 @@ Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); });
 Phoenix.bind('z', mash, function() { callApp('Macdown'); });
 //Phoenix.bind('z', mash, function() { callApp('Typora'); });
 //Phoenix.bind('z', mash, function() { callApp('Atom'); });
-Phoenix.bind(',', mash, function() { callApp('Google Chrome'); });
+Phoenix.bind(',', mash, function() { callApp('Airmail 2'); });
 Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); });
 //Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
 //Phoenix.bind(',', mash, function() { callApp('Inky'); });

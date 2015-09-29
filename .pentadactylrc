@@ -13,10 +13,10 @@
 "map k <C-u>
 "map J <C-f>
 "map K <C-b>
-map -builtin j 5j
-map -builtin k 5k
-"noremap j 5j
-"noremap k 5k
+"map -builtin j 10j
+"map -builtin k 10k
+noremap j 5j
+noremap k 5k
 map w <C-d>
 map e <C-u>
 map W <C-f>
