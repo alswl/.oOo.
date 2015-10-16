@@ -225,7 +225,9 @@ function callApp(appName) {
 Phoenix.bind('`', mash, function() { callApp('iTerm'); });
 Phoenix.bind('1', mash, function() { callApp('Firefox'); });
 //Phoenix.bind('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
-Phoenix.bind('2', mash, function() { callApp('Google Chrome'); });
+Phoenix.bind('2', mash, function() { callApp('Safari'); });
+Phoenix.bind('2', mashShift, function() { callApp('Google Chrome'); });
+//Phoenix.bind('2', mashShift, function() { callApp('Chromium'); });
 Phoenix.bind('3', mash, function() { callApp('QQ'); });
 Phoenix.bind('e', mash, function() { callApp('Preview'); });
 Phoenix.bind('a', mash, function() { callApp('MacVim'); });
