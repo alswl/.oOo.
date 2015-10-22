@@ -178,6 +178,10 @@ hash -d desktop="/Users/alswl/Desktop/"
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 # }}}
 
+# arc {{{
+[[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
+# }}}
+
 # key binding {{{
 bindkey '\e.' insert-last-word
 
