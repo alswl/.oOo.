@@ -222,27 +222,27 @@ function callApp(appName) {
  */
 
 // Launch App
-Phoenix.bind('`', mash, function() { callApp('iTerm'); });
-Phoenix.bind('1', mash, function() { callApp('Firefox'); });
-//Phoenix.bind('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
-Phoenix.bind('2', mash, function() { callApp('Safari'); });
-Phoenix.bind('2', mashShift, function() { callApp('Google Chrome'); });
-//Phoenix.bind('2', mashShift, function() { callApp('Chromium'); });
-Phoenix.bind('3', mash, function() { callApp('QQ'); });
-Phoenix.bind('e', mash, function() { callApp('Preview'); });
-Phoenix.bind('a', mash, function() { callApp('MacVim'); });
-Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); });
-//Phoenix.bind('z', mash, function() { callApp('Mou'); });
-Phoenix.bind('z', mash, function() { callApp('Macdown'); });
-//Phoenix.bind('z', mash, function() { callApp('Typora'); });
-//Phoenix.bind('z', mash, function() { callApp('Typora'); });
-//Phoenix.bind('z', mash, function() { callApp('Atom'); });
-Phoenix.bind(',', mash, function() { callApp('Airmail 2'); });
-Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); });
-//Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
-//Phoenix.bind(',', mash, function() { callApp('Inky'); });
-Phoenix.bind('.', mash, function() { callApp('Evernote'); });
-Phoenix.bind('/', mash, function() { callApp('Finder'); });
+var handler_mash_backquote = Phoenix.bind('`', mash, function() { callApp('iTerm'); });
+var handler_mash_1 = Phoenix.bind('1', mash, function() { callApp('Firefox'); });
+//var handler_mash_1 = Phoenix.bind('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
+var handler_mash_2 = Phoenix.bind('2', mash, function() { callApp('Safari'); });
+var handler_mashShift_2 = Phoenix.bind('2', mashShift, function() { callApp('Google Chrome'); });
+//var handler_mashShift_2 = Phoenix.bind('2', mashShift, function() { callApp('Chromium'); });
+var handler_mash_3 = Phoenix.bind('3', mash, function() { callApp('QQ'); });
+var handler_mash_e = Phoenix.bind('e', mash, function() { callApp('Preview'); });
+var handler_mash_a = Phoenix.bind('a', mash, function() { callApp('MacVim'); });
+var handler_mash_s = Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); });
+//var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Mou'); });
+var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Macdown'); });
+//var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Typora'); });
+//var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Typora'); });
+//var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Atom'); });
+var handler_mash_comma = Phoenix.bind(',', mash, function() { callApp('Airmail 2'); });
+var handler_mash_9 = Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); });
+//var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
+//var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Inky'); });
+var handler_mash_dot = Phoenix.bind('.', mash, function() { callApp('Evernote'); });
+var handler_mash_slash = Phoenix.bind('/', mash, function() { callApp('Finder'); });
 
 
 /**
@@ -250,7 +250,7 @@ Phoenix.bind('/', mash, function() { callApp('Finder'); });
  */
 
 // Next screen, now only support 2 display // TODO
-Phoenix.bind('l', mash, function() {
+var handler_mash_l = Phoenix.bind('l', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -266,7 +266,7 @@ Phoenix.bind('l', mash, function() {
 });
 
 // Previous Screen, now only support 2 display // TODO
-Phoenix.bind('h', mash, function() {
+var handler_mash_h = Phoenix.bind('h', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -282,7 +282,7 @@ Phoenix.bind('h', mash, function() {
 });
 
 // Move Current Window to Next Screen
-Phoenix.bind('l', mashShift, function() {
+var handler_mashShift_l = Phoenix.bind('l', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -293,7 +293,7 @@ Phoenix.bind('l', mashShift, function() {
 });
 
 // Move Current Window to Previous Screen
-Phoenix.bind('h', mashShift, function() {
+var handler_mashShift_h = Phoenix.bind('h', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -309,14 +309,14 @@ Phoenix.bind('h', mashShift, function() {
  */
 
 // Window Hide Inactive
-Phoenix.bind('delete', mash, function() {
+var handler_mash_d = Phoenix.bind('delete', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   heartbeat_window(window);
   hide_inactiveWindow(window.otherWindowsOnAllScreens());
 });
 
-//Phoenix.bind('h', CMD_BTN, function() {
+//var handler_CMD_BTN_h = Phoenix.bind('h', CMD_BTN, function() {
   //var window = Window.focusedWindow();
   //if (!window) return;
   //window.app().hide();
@@ -327,7 +327,7 @@ Phoenix.bind('delete', mash, function() {
 //});
 
 // Window Maximize
-Phoenix.bind('m', mashShift, function() {
+var handler_mashShift_m = Phoenix.bind('m', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.maximize();
@@ -336,7 +336,7 @@ Phoenix.bind('m', mashShift, function() {
 });
 
 // Window Smaller
-Phoenix.bind('-', mash, function() {
+var handler_mash_minus = Phoenix.bind('-', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   var oldFrame = window.frame();
@@ -349,7 +349,7 @@ Phoenix.bind('-', mash, function() {
 });
 
 // Window Larger
-Phoenix.bind('=', mash, function() {
+var handler_mash_equal = Phoenix.bind('=', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   var frame = getLargerFrame(window.frame());
@@ -363,14 +363,14 @@ Phoenix.bind('=', mash, function() {
 });
 
 // Window Central
-Phoenix.bind('m', mash, function() {
+var handler_mash_m = Phoenix.bind('m', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   setWindowCentral(window);
 });
 
 // Window Height
-Phoenix.bind('\\', mash, function() {
+var handler_mash_backslash = Phoenix.bind('\\', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -383,7 +383,7 @@ Phoenix.bind('\\', mash, function() {
 });
 
 // Window Width
-Phoenix.bind('\\', mashShift, function() {
+var handler_mashShift_backslash = Phoenix.bind('\\', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -396,7 +396,7 @@ Phoenix.bind('\\', mashShift, function() {
 });
 
 // Window >
-Phoenix.bind('l', mashCtrl, function() {
+var handler_mashCtrl_l = Phoenix.bind('l', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -409,7 +409,7 @@ Phoenix.bind('l', mashCtrl, function() {
 });
 
 // Window <
-Phoenix.bind('h', mashCtrl, function() {
+var handler_mashCtrl_h = Phoenix.bind('h', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -422,7 +422,7 @@ Phoenix.bind('h', mashCtrl, function() {
 });
 
 // Window ^
-Phoenix.bind('k', mashCtrl, function() {
+var handler_mashCtrl_k = Phoenix.bind('k', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -435,7 +435,7 @@ Phoenix.bind('k', mashCtrl, function() {
 });
 
 // Window v
-Phoenix.bind('j', mashCtrl, function() {
+var handler_mashCtrl_j = Phoenix.bind('j', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -448,7 +448,7 @@ Phoenix.bind('j', mashCtrl, function() {
 });
 
 // Next Window in One Screen
-Phoenix.bind('k', mash, function() {
+var handler_mash_k = Phoenix.bind('k', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
     if (Window.visibleWindowsInOrder().length == 0) return;
@@ -462,7 +462,7 @@ Phoenix.bind('k', mash, function() {
 });
 
 // Previous Window in One Screen
-Phoenix.bind('j', mash, function() {
+var handler_mash_j = Phoenix.bind('j', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
     if (Window.visibleWindowsInOrder().length == 0) return;
@@ -481,7 +481,7 @@ Phoenix.bind('j', mash, function() {
  */
 
 // Central Mouse
-Phoenix.bind('space', mash, function() {
+var handler_mash_space = Phoenix.bind('space', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   set_mouse_position_for_window_center(window);
@@ -500,7 +500,7 @@ Phoenix.bind('space', mash, function() {
 
 
 // Test
-Phoenix.bind('0', mash, function() {
+var handler_mash_0 = Phoenix.bind('0', mash, function() {
   //var cw = Window.focusedWindow();
   //_.map(App.runningApps(), function(app) { Modal.show(app.title(), 5)});
   //_.map([Window.focusedWindow()], function(window) { Modal.show(window.title())});  // current one
