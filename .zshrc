@@ -119,6 +119,7 @@ alias gbr='git br'
 alias gf='git f'
 alias gs='git status'
 alias gdf='git df'
+alias gfuck='git reset --hard origin/master && git clean -fd'
 alias v=vim
 alias mk=mkdir
 alias le=less
