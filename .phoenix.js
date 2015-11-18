@@ -231,6 +231,7 @@ var handler_mashShift_2 = Phoenix.bind('2', mashShift, function() { callApp('Goo
 var handler_mash_3 = Phoenix.bind('3', mash, function() { callApp('QQ'); });
 var handler_mash_e = Phoenix.bind('e', mash, function() { callApp('Preview'); });
 var handler_mash_a = Phoenix.bind('a', mash, function() { callApp('MacVim'); });
+//var handler_mash_s = Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 15 CE'); });
 var handler_mash_s = Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); });
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Mou'); });
 var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Macdown'); });
