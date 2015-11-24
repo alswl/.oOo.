@@ -5,6 +5,8 @@
  * Global Settings
  */
 
+var keys = [];
+
 var mash = ["alt"];
 var mashShift = ["alt", "shift"];
 var mashCtrl = ["alt", "ctrl"];
@@ -222,29 +224,29 @@ function callApp(appName) {
  */
 
 // Launch App
-var handler_mash_backquote = Phoenix.bind('`', mash, function() { callApp('iTerm'); });
-var handler_mash_1 = Phoenix.bind('1', mash, function() { callApp('Firefox'); });
+keys.push(Phoenix.bind('`', mash, function() { callApp('iTerm'); }));
+keys.push(Phoenix.bind('1', mash, function() { callApp('Google Chrome'); }));
 //var handler_mash_1 = Phoenix.bind('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
-var handler_mash_2 = Phoenix.bind('2', mash, function() { callApp('Safari'); });
-var handler_mashShift_2 = Phoenix.bind('2', mashShift, function() { callApp('Google Chrome'); });
+keys.push(Phoenix.bind('2', mash, function() { callApp('Safari'); }));
+keys.push(Phoenix.bind('2', mashShift, function() { callApp('Firefox'); }));
 //var handler_mashShift_2 = Phoenix.bind('2', mashShift, function() { callApp('Chromium'); });
-var handler_mash_3 = Phoenix.bind('3', mash, function() { callApp('QQ'); });
-var handler_mash_e = Phoenix.bind('e', mash, function() { callApp('Preview'); });
-var handler_mash_a = Phoenix.bind('a', mash, function() { callApp('MacVim'); });
+keys.push(Phoenix.bind('3', mash, function() { callApp('QQ'); }));
+keys.push(Phoenix.bind('e', mash, function() { callApp('Preview'); }));
+keys.push(Phoenix.bind('a', mash, function() { callApp('MacVim'); }));
 //var handler_mash_s = Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 15 CE'); });
-var handler_mash_s = Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); });
+keys.push(Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); }));
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Mou'); });
-var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Macdown'); });
+keys.push(Phoenix.bind('z', mash, function() { callApp('Macdown'); }));
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Typora'); });
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Typora'); });
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Atom'); });
 //var handler_mash_comma = Phoenix.bind(',', mash, function() { callApp('Airmail 2'); });
-var handler_mash_comma = Phoenix.bind(',', mash, function() { callApp('Mail'); });
-var handler_mash_9 = Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); });
+keys.push(Phoenix.bind(',', mash, function() { callApp('Mail'); }));
+keys.push(Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); }));
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Inky'); });
-var handler_mash_dot = Phoenix.bind('.', mash, function() { callApp('Evernote'); });
-var handler_mash_slash = Phoenix.bind('/', mash, function() { callApp('Finder'); });
+keys.push(Phoenix.bind('.', mash, function() { callApp('Evernote'); }));
+keys.push(Phoenix.bind('/', mash, function() { callApp('Finder'); }));
 
 
 /**
@@ -252,7 +254,7 @@ var handler_mash_slash = Phoenix.bind('/', mash, function() { callApp('Finder');
  */
 
 // Next screen, now only support 2 display // TODO
-var handler_mash_l = Phoenix.bind('l', mash, function() {
+keys.push(Phoenix.bind('l', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -265,10 +267,10 @@ var handler_mash_l = Phoenix.bind('l', mash, function() {
     nextScreenWindows[0].focus();
     restore_mouse_position_for_window(nextScreenWindows[0]);
   }
-});
+}));
 
 // Previous Screen, now only support 2 display // TODO
-var handler_mash_h = Phoenix.bind('h', mash, function() {
+keys.push(Phoenix.bind('h', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -281,10 +283,10 @@ var handler_mash_h = Phoenix.bind('h', mash, function() {
     nextScreenWindows[0].focus();
     restore_mouse_position_for_window(nextScreenWindows[0]);
   }
-});
+}));
 
 // Move Current Window to Next Screen
-var handler_mashShift_l = Phoenix.bind('l', mashShift, function() {
+keys.push(Phoenix.bind('l', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -292,10 +294,10 @@ var handler_mashShift_l = Phoenix.bind('l', mashShift, function() {
     return;
   }
   moveToScreen(window, window.screen().next());
-});
+}));
 
 // Move Current Window to Previous Screen
-var handler_mashShift_h = Phoenix.bind('h', mashShift, function() {
+keys.push(Phoenix.bind('h', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   if (window.screen() === window.screen().next()) return;
@@ -303,7 +305,7 @@ var handler_mashShift_h = Phoenix.bind('h', mashShift, function() {
     return;
   }
   moveToScreen(window, window.screen().previous());
-});
+}));
 
 
 /**
@@ -311,12 +313,12 @@ var handler_mashShift_h = Phoenix.bind('h', mashShift, function() {
  */
 
 // Window Hide Inactive
-var handler_mash_d = Phoenix.bind('delete', mash, function() {
+keys.push(Phoenix.bind('delete', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   heartbeat_window(window);
   hide_inactiveWindow(window.otherWindowsOnAllScreens());
-});
+}));
 
 //var handler_CMD_BTN_h = Phoenix.bind('h', CMD_BTN, function() {
   //var window = Window.focusedWindow();
@@ -329,16 +331,16 @@ var handler_mash_d = Phoenix.bind('delete', mash, function() {
 //});
 
 // Window Maximize
-var handler_mashShift_m = Phoenix.bind('m', mashShift, function() {
+keys.push(Phoenix.bind('m', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.maximize();
   setWindowCentral(window);
   //heartbeat_window(window);
-});
+}));
 
 // Window Smaller
-var handler_mash_minus = Phoenix.bind('-', mash, function() {
+keys.push(Phoenix.bind('-', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   var oldFrame = window.frame();
@@ -348,10 +350,10 @@ var handler_mash_minus = Phoenix.bind('-', mash, function() {
     window.setFrame(oldFrame);
   }
   //heartbeat_window(window);
-});
+}));
 
 // Window Larger
-var handler_mash_equal = Phoenix.bind('=', mash, function() {
+keys.push(Phoenix.bind('=', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   var frame = getLargerFrame(window.frame());
@@ -362,17 +364,17 @@ var handler_mash_equal = Phoenix.bind('=', mash, function() {
     window.setFrame(frame);
   }
   //heartbeat_window(window);
-});
+}));
 
 // Window Central
-var handler_mash_m = Phoenix.bind('m', mash, function() {
+keys.push(Phoenix.bind('m', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   setWindowCentral(window);
-});
+}));
 
 // Window Height
-var handler_mash_backslash = Phoenix.bind('\\', mash, function() {
+keys.push(Phoenix.bind('\\', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -382,10 +384,10 @@ var handler_mash_backslash = Phoenix.bind('\\', mash, function() {
     height: window.screen().frameInRectangle().height
   });
   heartbeat_window(window);
-});
+}));
 
 // Window Width
-var handler_mashShift_backslash = Phoenix.bind('\\', mashShift, function() {
+keys.push(Phoenix.bind('\\', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -395,10 +397,10 @@ var handler_mashShift_backslash = Phoenix.bind('\\', mashShift, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-});
+}));
 
 // Window >
-var handler_mashCtrl_l = Phoenix.bind('l', mashCtrl, function() {
+keys.push(Phoenix.bind('l', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -408,10 +410,10 @@ var handler_mashCtrl_l = Phoenix.bind('l', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-});
+}));
 
 // Window <
-var handler_mashCtrl_h = Phoenix.bind('h', mashCtrl, function() {
+keys.push(Phoenix.bind('h', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -421,10 +423,10 @@ var handler_mashCtrl_h = Phoenix.bind('h', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-});
+}));
 
 // Window ^
-var handler_mashCtrl_k = Phoenix.bind('k', mashCtrl, function() {
+keys.push(Phoenix.bind('k', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -434,10 +436,10 @@ var handler_mashCtrl_k = Phoenix.bind('k', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-});
+}));
 
 // Window v
-var handler_mashCtrl_j = Phoenix.bind('j', mashCtrl, function() {
+keys.push(Phoenix.bind('j', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
@@ -447,10 +449,10 @@ var handler_mashCtrl_j = Phoenix.bind('j', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-});
+}));
 
 // Next Window in One Screen
-var handler_mash_k = Phoenix.bind('k', mash, function() {
+keys.push(Phoenix.bind('k', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
     if (Window.visibleWindowsInOrder().length == 0) return;
@@ -461,10 +463,10 @@ var handler_mash_k = Phoenix.bind('k', mash, function() {
   var targetWindow = getNextWindowsOnSameScreen(window);
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
-});
+}));
 
 // Previous Window in One Screen
-var handler_mash_j = Phoenix.bind('j', mash, function() {
+keys.push(Phoenix.bind('j', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
     if (Window.visibleWindowsInOrder().length == 0) return;
@@ -475,7 +477,7 @@ var handler_mash_j = Phoenix.bind('j', mash, function() {
   var targetWindow = getPreviousWindowsOnSameScreen(window);  // <- most time cost
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
-});
+}));
 
 
 /**
@@ -483,11 +485,11 @@ var handler_mash_j = Phoenix.bind('j', mash, function() {
  */
 
 // Central Mouse
-var handler_mash_space = Phoenix.bind('space', mash, function() {
+keys.push(Phoenix.bind('space', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   set_mouse_position_for_window_center(window);
-});
+}));
 
 
 /**
@@ -502,7 +504,7 @@ var handler_mash_space = Phoenix.bind('space', mash, function() {
 
 
 // Test
-var handler_mash_0 = Phoenix.bind('0', mash, function() {
+keys.push(Phoenix.bind('0', mash, function() {
   //var cw = Window.focusedWindow();
   //_.map(App.runningApps(), function(app) { Modal.show(app.title(), 5)});
   //_.map([Window.focusedWindow()], function(window) { Modal.show(window.title())});  // current one
@@ -524,5 +526,5 @@ var handler_mash_0 = Phoenix.bind('0', mash, function() {
   modal.message = 'F!';
   modal.duration = 2;
   modal.show();
-});
+}));
 
