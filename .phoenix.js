@@ -246,6 +246,7 @@ keys.push(Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); }));
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Inky'); });
 keys.push(Phoenix.bind('.', mash, function() { callApp('Evernote'); }));
+//keys.push(Phoenix.bind('.', mash, function() { callApp('Alternote'); }));
 keys.push(Phoenix.bind('/', mash, function() { callApp('Finder'); }));
 
 
