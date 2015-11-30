@@ -170,7 +170,9 @@ function setWindowCentral(window) {
 function save_mouse_position_for_window(window) {
   if (!window) return;
   heartbeat_window(window);
-  mousePositions[window.title()] = Mouse.location();
+  var pos = Mouse.location()
+  pos.y = 800 - pos.y;  // fix phoenix 2.x bug
+  mousePositions[window.title()] = pos;
 }
 
 function set_mouse_position_for_window_center(window) {
