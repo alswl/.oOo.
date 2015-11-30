@@ -178,10 +178,10 @@ function restore_mouse_position_for_window(window) {
   }
   var pos = mousePositions[window.title()];
   var rect = window.frame();
-  if (pos.x < rect.x || pos.x > (rect.x + rect.width) || pos.y < rect.y || pos. y > (rect.y + rect.height)) {
-    set_mouse_position_for_window_center(window);
-    return;
-  }
+  //if (pos.x < rect.x || pos.x > (rect.x + rect.width) || pos.y < rect.y || pos. y > (rect.y + rect.height)) {
+    //set_mouse_position_for_window_center(window);
+    //return;
+  //}
   Mouse.moveTo(pos);
   heartbeat_window(window);
 }
@@ -254,7 +254,7 @@ keys.push(Phoenix.bind('/', mash, function() { callApp('Finder'); }));
  * My Configuartion Screen
  */
 
-// Next screen, now only support 2 display // TODO
+// Next screen
 keys.push(Phoenix.bind('l', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
@@ -264,26 +264,29 @@ keys.push(Phoenix.bind('l', mash, function() {
   }
   save_mouse_position_for_window(window);
   var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());
-  if (nextScreenWindows.length > 0) {
-    nextScreenWindows[0].focus();
-    restore_mouse_position_for_window(nextScreenWindows[0]);
+  if (nextScreenWindows.length == 0) {
+    return;
   }
+  var nextWindow = nextScreenWindows[0]
+  nextWindow.focus();
+  restore_mouse_position_for_window(nextWindow);
 }));
 
-// Previous Screen, now only support 2 display // TODO
+// Previous Screen
 keys.push(Phoenix.bind('h', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
-  if (window.screen() === window.screen().next()) return;
-  if (window.screen().next().frameInRectangle().x > window.screen().frameInRectangle().x) {
+  if (window.screen() === window.screen().previous()) return;
+  if (window.screen().previous().frameInRectangle().x > window.screen().frameInRectangle().x) {
     return;
   }
   save_mouse_position_for_window(window);
-  var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());  // find it!!! cost !!!
-  if (nextScreenWindows.length > 0) {
-    nextScreenWindows[0].focus();
-    restore_mouse_position_for_window(nextScreenWindows[0]);
+  var previousScreenWindows = sortByMostRecent(windowsOnOtherScreen());  // find it!!! cost !!!
+  if (previousScreenWindows.length == 0) {
+    return
   }
+  previousScreenWindows[0].focus();
+  restore_mouse_position_for_window(previousScreenWindows[0]);
 }));
 
 // Move Current Window to Next Screen
