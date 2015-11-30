@@ -34,6 +34,18 @@ function assert(condition, message) {
   }
 }
 
+if (!String.format) {
+  String.format = function(format) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return format.replace(/{(\d+)}/g, function(match, number) { 
+      return typeof args[number] != 'undefined'
+      ? args[number] 
+      : match
+      ;
+    });
+  };
+}
+
 var alert_title = function(window) { Modal.show(window.title()); };
 
 function sortByMostRecent(windows) {
@@ -94,7 +106,6 @@ function moveToScreen(window, screen) {
 function windowsOnOtherScreen() {
   var start = new Date().getTime();
   var otherWindowsOnSameScreen = Window.focusedWindow().otherWindowsOnSameScreen();  // slow
-  Phoenix.log('windowsOnOtherScreen 0.1: ' + (new Date().getTime() - start));
   var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen , function(w) { return w.title(); });
   var return_value = _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
     .filter(function(window) { return ! _.contains(otherWindowTitlesOnSameScreen, window.title()); })
@@ -128,7 +139,6 @@ function heartbeat_window(window) {
 function getAnotherWindowsOnSameScreen(window, offset) {
   var start = new Date().getTime();
   var windows = window.otherWindowsOnSameScreen(); // slow, makes `Saved spin report for Phoenix version 1.2 (1.2) to /Library/Logs/DiagnosticReports/Phoenix_2015-05-30-170354_majin.spin`
-  Phoenix.log('getAnotherWindowsOnSameScreen 1: ' + (new Date().getTime() - start));
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
     return [window.frame().x, window.frame().y, window.app().pid, window.title()].join('_');
@@ -172,16 +182,17 @@ function set_mouse_position_for_window_center(window) {
 }
 
 function restore_mouse_position_for_window(window) {
-  if (!mousePositions[window.title()]) {
+  if (!mousePositions[window.hash()]) {
     set_mouse_position_for_window_center(window);
     return;
   }
-  var pos = mousePositions[window.title()];
+  var pos = mousePositions[window.hash()];
   var rect = window.frame();
   //if (pos.x < rect.x || pos.x > (rect.x + rect.width) || pos.y < rect.y || pos. y > (rect.y + rect.height)) {
     //set_mouse_position_for_window_center(window);
     //return;
   //}
+  //Phoenix.log(String.format('x: {0}, y: {1}', pos.x, pos.y));
   Mouse.moveTo(pos);
   heartbeat_window(window);
 }
@@ -526,9 +537,13 @@ keys.push(Phoenix.bind('0', mash, function() {
   //Modal.show(_.chain(Window.windows()).difference(Window.visibleWindows()).value().length);
   //Modal.show(_.chain(Window.windows()).value().length);
   //hide_inactiveWindow(Window.focusedWindow().otherWindowsOnAllScreens());
-  var modal = new Modal();
-  modal.message = 'F!';
-  modal.duration = 2;
-  modal.show();
+  //var modal = new Modal();
+  //modal.message = 'F!';
+  //modal.duration = 2;
+  //modal.show();
+  var window = Window.focusedWindow();
+  var pos = mousePositions[window.hash()];
+  var curPos = Mouse.location();
+  Phoenix.log(String.format('x: {0}, y: {1}, c: {2}, {3}', pos.x, pos.y, curPos.x, curPos.y));
 }));
 
