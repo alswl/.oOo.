@@ -190,10 +190,10 @@ function restore_mouse_position_for_window(window) {
   }
   var pos = mousePositions[window.hash()];
   var rect = window.frame();
-  //if (pos.x < rect.x || pos.x > (rect.x + rect.width) || pos.y < rect.y || pos. y > (rect.y + rect.height)) {
-    //set_mouse_position_for_window_center(window);
-    //return;
-  //}
+  if (pos.x < rect.x || pos.x > (rect.x + rect.width) || pos.y < rect.y || pos. y > (rect.y + rect.height)) {
+    set_mouse_position_for_window_center(window);
+    return;
+  }
   //Phoenix.log(String.format('x: {0}, y: {1}', pos.x, pos.y));
   Mouse.moveTo(pos);
   heartbeat_window(window);
@@ -546,6 +546,6 @@ keys.push(Phoenix.bind('0', mash, function() {
   var window = Window.focusedWindow();
   var pos = mousePositions[window.hash()];
   var curPos = Mouse.location();
-  Phoenix.log(String.format('x: {0}, y: {1}, c: {2}, {3}', pos.x, pos.y, curPos.x, curPos.y));
+  //Phoenix.log(String.format('x: {0}, y: {1}, c: {2}, {3}', pos.x, pos.y, curPos.x, curPos.y));
 }));
 
