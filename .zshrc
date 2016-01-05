@@ -50,7 +50,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autojump bower brew brew-cask colored-man compleat django docker fabric gem git git-flow go golang history history-substring-search mvn npm osx pip python redis-cli rsync rvm sbt scala screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper xcode zsh_reload)
+plugins=(autojump bower brew brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python redis-cli rsync rvm sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -65,7 +65,7 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR=vim
 if [ `uname` = 'Darwin' ]; then
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
+	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
@@ -120,6 +120,7 @@ alias gf='git f'
 alias gs='git status'
 alias gdf='git df'
 alias gfuck='git reset --hard origin/master && git clean -fd'
+alias gn='git number --column'
 alias v=vim
 alias mk=mkdir
 alias le=less
@@ -137,10 +138,8 @@ alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
 alias vh='sudo vi /etc/hosts'
-alias cnpm="npm --registry=https://registry.npm.taobao.org \
-	--cache=$HOME/.npm/.cache/cnpm \
-	--disturl=https://npm.taobao.org/dist \
-	--userconfig=$HOME/.cnpmrc"""
+alias cnpm="npm --registry=https://registry.npm.taobao.org --cache=$HOME/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist --userconfig=$HOME/.cnpmrc"
+alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
 alias k='kill'
@@ -156,6 +155,7 @@ if [ `uname` = 'Darwin' ]; then
 	alias -g C='| pbcopy'
 	alias -g P='pbpaste'
 fi
+alias girl='man'
 
 # }}}
 

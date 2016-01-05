@@ -10,7 +10,7 @@ var keys = [];
 var mash = ["alt"];
 var mashShift = ["alt", "shift"];
 var mashCtrl = ["alt", "ctrl"];
-var CMD_BTN = ["cmd"];
+var mashCmd = ["alt", "cmd"];
 var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
 var ACTIVE_WINDOWS_TIMES = {};
@@ -171,7 +171,7 @@ function save_mouse_position_for_window(window) {
   if (!window) return;
   heartbeat_window(window);
   var pos = Mouse.location()
-  pos.y = 800 - pos.y;  // fix phoenix 2.x bug
+  //pos.y = 800 - pos.y;  // fix phoenix 2.x bug
   mousePositions[window.hash()] = pos;
 }
 
@@ -244,10 +244,13 @@ keys.push(Phoenix.bind('2', mash, function() { callApp('Safari'); }));
 keys.push(Phoenix.bind('2', mashShift, function() { callApp('Firefox'); }));
 //var handler_mashShift_2 = Phoenix.bind('2', mashShift, function() { callApp('Chromium'); });
 keys.push(Phoenix.bind('3', mash, function() { callApp('QQ'); }));
+keys.push(Phoenix.bind('4', mash, function() { callApp('BearyChat'); }));
+keys.push(Phoenix.bind('8', mash, function() { callApp('Wechat'); }));
 keys.push(Phoenix.bind('e', mash, function() { callApp('Preview'); }));
 keys.push(Phoenix.bind('a', mash, function() { callApp('MacVim'); }));
 //var handler_mash_s = Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 15 CE'); });
-keys.push(Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); }));
+//keys.push(Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); }));
+keys.push(Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 15'); }));
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Mou'); });
 keys.push(Phoenix.bind('z', mash, function() { callApp('Macdown'); }));
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Typora'); });
@@ -258,8 +261,8 @@ keys.push(Phoenix.bind(',', mash, function() { callApp('Mail'); }));
 keys.push(Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); }));
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Inky'); });
-keys.push(Phoenix.bind('.', mash, function() { callApp('Evernote'); }));
-//keys.push(Phoenix.bind('.', mash, function() { callApp('Alternote'); }));
+//keys.push(Phoenix.bind('.', mash, function() { callApp('Evernote'); }));
+keys.push(Phoenix.bind('.', mash, function() { callApp('Alternote'); }));
 keys.push(Phoenix.bind('/', mash, function() { callApp('Finder'); }));
 
 
@@ -336,16 +339,6 @@ keys.push(Phoenix.bind('delete', mash, function() {
   heartbeat_window(window);
   hide_inactiveWindow(window.otherWindowsOnAllScreens());
 }));
-
-//var handler_CMD_BTN_h = Phoenix.bind('h', CMD_BTN, function() {
-  //var window = Window.focusedWindow();
-  //if (!window) return;
-  //window.app().hide();
-  //var window = Window.focusedWindow();
-  //Modal.show(window.title());  // TODO need delay
-  //if (!window) return;
-  //restore_mouse_position_for_window(window);
-//});
 
 // Window Maximize
 keys.push(Phoenix.bind('m', mashShift, function() {
