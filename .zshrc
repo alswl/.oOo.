@@ -50,7 +50,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autojump bower brew brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python redis-cli rsync rvm sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload)
+plugins=(autojump aws bower brew brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python redis-cli rsync rvm sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -118,6 +118,7 @@ alias gsps='git sps'
 alias gbr='git br'
 alias gf='git f'
 alias gs='git status'
+alias gnst='git number status'
 alias gdf='git df'
 alias gfuck='git reset --hard origin/master && git clean -fd'
 alias gn='git number --column'
