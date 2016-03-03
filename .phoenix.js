@@ -50,10 +50,10 @@ var alert_title = function(window) { Modal.show(window.title()); };
 
 function sortByMostRecent(windows) {
   var visibleAppMostRecentFirst = _.map(Window.visibleWindowsInOrder(),
-                                        function(w) { return w.app().name(); });
+                                        function(w) { return w.hash(); });
   var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
                                                      _.range(visibleAppMostRecentFirst.length));
-  return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.app().name()]; });
+  return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.hash()]; });
 };
 
 function getNewFrame(frame, oldScreenRect, newScreenRect) {
@@ -104,7 +104,6 @@ function moveToScreen(window, screen) {
 };
 
 function windowsOnOtherScreen() {
-  var start = new Date().getTime();
   var otherWindowsOnSameScreen = Window.focusedWindow().otherWindowsOnSameScreen();  // slow
   var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen , function(w) { return w.title(); });
   var return_value = _.chain(Window.focusedWindow().otherWindowsOnAllScreens())
@@ -137,7 +136,6 @@ function heartbeat_window(window) {
 }
 
 function getAnotherWindowsOnSameScreen(window, offset) {
-  var start = new Date().getTime();
   var windows = window.otherWindowsOnSameScreen(); // slow, makes `Saved spin report for Phoenix version 1.2 (1.2) to /Library/Logs/DiagnosticReports/Phoenix_2015-05-30-170354_majin.spin`
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
@@ -527,7 +525,6 @@ keys.push(Phoenix.bind('0', mash, function() {
   //_.map(cw.windowsOnOtherScreen(), alert_title);
   //Modal.show(Window.focusedWindow().screen());
 
-
   //_.chain(Window.windows()).difference(Window.visibleWindows()).map(function(window) { Modal.show(window.title())});  // all, include hide
   //Modal.show(_.chain(Window.windows()).difference(Window.visibleWindows()).value().length);
   //Modal.show(_.chain(Window.windows()).value().length);
@@ -536,9 +533,16 @@ keys.push(Phoenix.bind('0', mash, function() {
   //modal.message = 'F!';
   //modal.duration = 2;
   //modal.show();
-  var window = Window.focusedWindow();
-  var pos = mousePositions[window.hash()];
-  var curPos = Mouse.location();
+  //var window = Window.focusedWindow();
+  //var pos = mousePositions[window.hash()];
+  //var curPos = Mouse.location();
   //Phoenix.log(String.format('x: {0}, y: {1}, c: {2}, {3}', pos.x, pos.y, curPos.x, curPos.y));
+
+  var visibleAppMostRecentFirst = _.map(Window.visibleWindowsInOrder(), function(w) { return w.hash(); });
+  var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
+                                                     _.range(visibleAppMostRecentFirst.length));
+  alert(visibleAppMostRecentFirst);
+  //alert(visibleAppMostRecentFirstWithWeight['Google Chrome']);
+  //alert(visibleAppMostRecentFirstWithWeight['MacDown']);
 }));
 
