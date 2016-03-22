@@ -512,10 +512,12 @@ keys.push(Phoenix.bind('space', mash, function() {
 keys.push(Phoenix.bind('i', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
-  var all = Space.spaces();
   var current = Space.activeSpace();
-  var pos = _.indexOf(_.map(all, function(x) { return x.hash(); }), current.hash());
-  var prev = all[(pos - 1) % all.length];
+  var spacesInScreen = _.filter(Space.spaces(), function(x) { return x.screen().hash() == current.screen().hash(); });
+  var pos = _.indexOf(_.map(spacesInScreen, function(x) { return x.hash(); }), current.hash());
+  if (pos - 1 < 0) return;
+  var prev = spacesInScreen[pos - 1];
+  if (prev.hash() == current.hash()) return;
   current.removeWindows([window]);
   prev.addWindows([window]);
 }));
@@ -524,10 +526,12 @@ keys.push(Phoenix.bind('i', mashCtrl, function() {
 keys.push(Phoenix.bind('o', mashCtrl, function() {
   var window = Window.focusedWindow();
   if (!window) return;
-  var all = Space.spaces();
   var current = Space.activeSpace();
-  var pos = _.indexOf(_.map(all, function(x) { return x.hash(); }), current.hash());
-  var next = all[(pos + 1) % all.length];
+  var spacesInScreen = _.filter(Space.spaces(), function(x) { return x.screen().hash() == current.screen().hash(); });
+  var pos = _.indexOf(_.map(spacesInScreen, function(x) { return x.hash(); }), current.hash());
+  if (pos + 1 == spacesInScreen.length) return;
+  var next = spacesInScreen[pos + 1];
+  if (next.hash() == current.hash()) return;
   current.removeWindows([window]);
   next.addWindows([window]);
 }));
