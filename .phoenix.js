@@ -248,7 +248,7 @@ keys.push(Phoenix.bind('e', mash, function() { callApp('Preview'); }));
 keys.push(Phoenix.bind('a', mash, function() { callApp('MacVim'); }));
 //var handler_mash_s = Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 15 CE'); });
 //keys.push(Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 14'); }));
-keys.push(Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA 15'); }));
+keys.push(Phoenix.bind('s', mash, function() { callApp('IntelliJ IDEA'); }));
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Mou'); });
 keys.push(Phoenix.bind('z', mash, function() { callApp('Macdown'); }));
 //var handler_mash_z = Phoenix.bind('z', mash, function() { callApp('Typora'); });
@@ -508,6 +508,29 @@ keys.push(Phoenix.bind('space', mash, function() {
 // mash + i
 // mash + o
 
+// move window to prev space
+keys.push(Phoenix.bind('i', mashCtrl, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  var all = Space.spaces();
+  var current = Space.activeSpace();
+  var pos = _.indexOf(_.map(all, function(x) { return x.hash(); }), current.hash());
+  var prev = all[(pos - 1) % all.length];
+  current.removeWindows([window]);
+  prev.addWindows([window]);
+}));
+
+// move window to next space
+keys.push(Phoenix.bind('o', mashCtrl, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  var all = Space.spaces();
+  var current = Space.activeSpace();
+  var pos = _.indexOf(_.map(all, function(x) { return x.hash(); }), current.hash());
+  var next = all[(pos + 1) % all.length];
+  current.removeWindows([window]);
+  next.addWindows([window]);
+}));
 
 
 
