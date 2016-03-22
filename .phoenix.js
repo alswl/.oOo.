@@ -15,6 +15,7 @@ var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
 var ACTIVE_WINDOWS_TIMES = {};
 var DEFAULT_WIDTH = 1280;
+var PARK_SPACE_INDEX = 1;
 
 
 /**
@@ -536,6 +537,24 @@ keys.push(Phoenix.bind('o', mashCtrl, function() {
   next.addWindows([window]);
 }));
 
+
+// move window to park space
+keys.push(Phoenix.bind('delete', mash, function() {
+  var window = Window.focusedWindow();
+  if (!window) return;
+  var allSpaces = Space.spaces();
+  if (PARK_SPACE_INDEX >= allSpaces.length) return;
+
+  var parkSpace = Space.spaces()[PARK_SPACE_INDEX];
+  var currentSpace = Space.activeSpace();
+
+  currentSpace.removeWindows([window]);
+  parkSpace.addWindows([window]);
+  if (currentSpace.screen().hash() != parkSpace.screen().hash()) {
+	  alert(parkSpace.screen());
+	  moveToScreen(window, parkSpace.screen());
+  }
+}));
 
 
 // Test
