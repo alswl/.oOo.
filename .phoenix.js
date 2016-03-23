@@ -15,7 +15,7 @@ var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
 var ACTIVE_WINDOWS_TIMES = {};
 var DEFAULT_WIDTH = 1280;
-var PARK_SPACE_INDEX = 1;
+var PARK_SPACE_INDEX = 2;
 
 
 /**
@@ -145,11 +145,11 @@ function getAnotherWindowsOnSameScreen(window, offset) {
   return windows[(_.indexOf(windows, window) + offset + windows.length) % windows.length];
 }
 
-function getNextWindowsOnSameScreen(window) {
+function getPreviousWindowsOnSameScreen(window) {
   return getAnotherWindowsOnSameScreen(window, -1)
 };
 
-function getPreviousWindowsOnSameScreen(window) {
+function getNextWindowsOnSameScreen(window) {
   return getAnotherWindowsOnSameScreen(window, 1)
 };
 
@@ -460,7 +460,7 @@ keys.push(Phoenix.bind('j', mashCtrl, function() {
   heartbeat_window(window);
 }));
 
-// Next Window in One Screen
+// Previous Window in One Screen
 keys.push(Phoenix.bind('k', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
@@ -469,12 +469,12 @@ keys.push(Phoenix.bind('k', mash, function() {
     return;
   }
   save_mouse_position_for_window(window);
-  var targetWindow = getNextWindowsOnSameScreen(window);
+  var targetWindow = getPreviousWindowsOnSameScreen(window);
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
 }));
 
-// Previous Window in One Screen
+// Next Window in One Screen
 keys.push(Phoenix.bind('j', mash, function() {
   var window = Window.focusedWindow();
   if (!window) {
@@ -483,7 +483,7 @@ keys.push(Phoenix.bind('j', mash, function() {
     return;
   }
   save_mouse_position_for_window(window);
-  var targetWindow = getPreviousWindowsOnSameScreen(window);  // <- most time cost
+  var targetWindow = getNextWindowsOnSameScreen(window);  // <- most time cost
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
 }));
@@ -542,6 +542,7 @@ keys.push(Phoenix.bind('o', mashCtrl, function() {
 keys.push(Phoenix.bind('delete', mash, function() {
   var window = Window.focusedWindow();
   if (!window) return;
+  var nextWindow = getNextWindowsOnSameScreen(window);
   var allSpaces = Space.spaces();
   if (PARK_SPACE_INDEX >= allSpaces.length) return;
 
@@ -551,9 +552,12 @@ keys.push(Phoenix.bind('delete', mash, function() {
   currentSpace.removeWindows([window]);
   parkSpace.addWindows([window]);
   if (currentSpace.screen().hash() != parkSpace.screen().hash()) {
-	  alert(parkSpace.screen());
 	  moveToScreen(window, parkSpace.screen());
   }
+  if (nextWindow) {
+	  nextWindow.focus();
+	  restore_mouse_position_for_window(nextWindow);
+  };
 }));
 
 

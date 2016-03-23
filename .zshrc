@@ -70,6 +70,8 @@ fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
+export GOPATH=$HOME/.gopath
+
 # personal script {{{
 [ -f $HOME/.personal.sh ] && . $HOME/.personal.sh
 # }}}
