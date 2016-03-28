@@ -313,6 +313,7 @@ keys.push(Phoenix.bind('l', mashShift, function() {
     return;
   }
   moveToScreen(window, window.screen().next());
+  restore_mouse_position_for_window(window);
 }));
 
 // Move Current Window to Previous Screen
@@ -324,6 +325,7 @@ keys.push(Phoenix.bind('h', mashShift, function() {
     return;
   }
   moveToScreen(window, window.screen().previous());
+  restore_mouse_position_for_window(window);
 }));
 
 
