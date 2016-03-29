@@ -15,7 +15,13 @@ var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
 var ACTIVE_WINDOWS_TIMES = {};
 var DEFAULT_WIDTH = 1280;
+var WORK_SPACE_INDEX = 3;
 var PARK_SPACE_INDEX = 2;
+var PARK_INDEX_MAP = {};
+PARK_INDEX_MAP['iTerm'] = 0;
+PARK_INDEX_MAP['Safari'] = 1;
+PARK_INDEX_MAP['QQ'] = 1;
+PARK_INDEX_MAP['BearyChat'] = 1;
 
 
 /**
@@ -238,6 +244,7 @@ function callApp(appName) {
 // Launch App
 keys.push(Phoenix.bind('`', mash, function() { callApp('iTerm'); }));
 keys.push(Phoenix.bind('1', mash, function() { callApp('Google Chrome'); }));
+//keys.push(Phoenix.bind('1', mash, function() { callApp('Chromium'); }));
 //var handler_mash_1 = Phoenix.bind('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
 keys.push(Phoenix.bind('2', mash, function() { callApp('Safari'); }));
 keys.push(Phoenix.bind('2', mashShift, function() { callApp('Firefox'); }));
@@ -260,8 +267,8 @@ keys.push(Phoenix.bind(',', mash, function() { callApp('Mail'); }));
 keys.push(Phoenix.bind('9', mash, function() { callApp('NeteaseMusic'); }));
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Sparrow'); });
 //var handler_mash_, = Phoenix.bind(',', mash, function() { callApp('Inky'); });
-keys.push(Phoenix.bind('.', mash, function() { callApp('Evernote'); }));
-//keys.push(Phoenix.bind('.', mash, function() { callApp('Alternote'); }));
+//keys.push(Phoenix.bind('.', mash, function() { callApp('Evernote'); }));
+keys.push(Phoenix.bind('.', mash, function() { callApp('Alternote'); }));
 keys.push(Phoenix.bind('/', mash, function() { callApp('Finder'); }));
 
 
@@ -552,26 +559,44 @@ keys.push(Phoenix.bind('o', mashCtrl, function() {
 }));
 
 
-// move window to park space
-keys.push(Phoenix.bind('delete', mash, function() {
-  var window = Window.focusedWindow();
-  if (!window) return;
-  var nextWindow = getNextWindowsOnSameScreen(window);
-  var allSpaces = Space.spaces();
-  if (PARK_SPACE_INDEX >= allSpaces.length) return;
-
-  var parkSpace = Space.spaces()[PARK_SPACE_INDEX];
+function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
+  var targetSpace = allSpaces[spaceIndex];
   var currentSpace = Space.activeSpace();
 
   currentSpace.removeWindows([window]);
-  parkSpace.addWindows([window]);
-  if (currentSpace.screen().hash() != parkSpace.screen().hash()) {
-	  moveToScreen(window, parkSpace.screen());
+  targetSpace.addWindows([window]);
+  if (currentSpace.screen().hash() != targetSpace.screen().hash()) {
+	  moveToScreen(window, targetSpace.screen());
   }
   if (nextWindow) {
 	  nextWindow.focus();
 	  restore_mouse_position_for_window(nextWindow);
   };
+};
+
+// move window to park space
+keys.push(Phoenix.bind('delete', mash, function() {
+	var isFollow = false;
+	var window = Window.focusedWindow();
+	if (!window) return;
+	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+	var allSpaces = Space.spaces();
+	//alert(nextWindow);
+	var allSpaces = Space.spaces();
+	var parkSpaceIndex = PARK_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX;
+	if (parkSpaceIndex >= allSpaces.length) return;
+	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
+}));
+
+// move window to work space
+keys.push(Phoenix.bind('return', mash, function() {
+	var isFollow = true;
+	var window = Window.focusedWindow();
+	if (!window) return;
+	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+	var allSpaces = Space.spaces();
+	if (WORK_SPACE_INDEX >= allSpaces.length) return;
+	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX);
 }));
 
 
