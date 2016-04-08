@@ -276,39 +276,49 @@ keys.push(Phoenix.bind('/', mash, function() { callApp('Finder'); }));
  * My Configuartion Screen
  */
 
+function focusAnotherScreen(window, targetScreen) {
+  if (!window) return;
+  var currentScreen = window.screen();
+  if (window.screen() === targetScreen) return;
+  //if (targetScreen.frameInRectangle().x < currentScreen.frameInRectangle().x) {
+    //return;
+  //}
+  save_mouse_position_for_window(window);
+  var targetScreenWindows = sortByMostRecent(targetScreen.windows());
+  //alert(_.map(targetScreenWindows, function(x) { return x.title();}));
+  if (targetScreenWindows.length == 0) {
+    return;
+  }
+  var targetWindow = targetScreenWindows[0]
+  //alert(targetWindow.title());
+  targetWindow.focus();  // bug, two window in two space, focus will focus in same space first
+  restore_mouse_position_for_window(targetWindow);
+}
+
 // Next screen
 keys.push(Phoenix.bind('l', mash, function() {
   var window = Window.focusedWindow();
-  if (!window) return;
-  if (window.screen() === window.screen().next()) return;
-  if (window.screen().next().frameInRectangle().x < window.screen().frameInRectangle().x) {
-    return;
-  }
-  save_mouse_position_for_window(window);
-  var nextScreenWindows = sortByMostRecent(windowsOnOtherScreen());
-  if (nextScreenWindows.length == 0) {
-    return;
-  }
-  var nextWindow = nextScreenWindows[0]
-  nextWindow.focus();
-  restore_mouse_position_for_window(nextWindow);
+  var allScreens = Screen.screens();
+  var currentScreen = window.screen();
+  var targetScreen = window.screen().next();
+  if (_.indexOf(_.map(allScreens, function(x) { return x.hash(); }), targetScreen.hash())
+	  >= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
+		return;
+	  }
+	  focusAnotherScreen(window, targetScreen);
 }));
 
 // Previous Screen
 keys.push(Phoenix.bind('h', mash, function() {
   var window = Window.focusedWindow();
-  if (!window) return;
-  if (window.screen() === window.screen().previous()) return;
-  if (window.screen().previous().frameInRectangle().x > window.screen().frameInRectangle().x) {
-    return;
-  }
-  save_mouse_position_for_window(window);
-  var previousScreenWindows = sortByMostRecent(windowsOnOtherScreen());  // find it!!! cost !!!
-  if (previousScreenWindows.length == 0) {
-    return
-  }
-  previousScreenWindows[0].focus();
-  restore_mouse_position_for_window(previousScreenWindows[0]);
+  var allScreens = Screen.screens();
+  var currentScreen = window.screen();
+  var targetScreen = window.screen().previous();
+  if (_.indexOf(_.map(allScreens, function(x) { return x.hash(); }), targetScreen.hash())
+	  <= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
+		return;
+	  }
+  focusAnotherScreen(window, targetScreen);
 }));
 
 // Move Current Window to Next Screen
@@ -635,3 +645,4 @@ keys.push(Phoenix.bind('0', mash, function() {
   //alert(visibleAppMostRecentFirstWithWeight['MacDown']);
 }));
 
+// vim: set ft=javascript sw=2:
