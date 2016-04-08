@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<root>
+	<!--<item>-->
+		<!--<name>Key Press [Fn+Esc] to Fn_Lock</name>-->
+		<!--<identifier>private.fn_esc_to_fnlock</identifier>-->
+		<!--<autogen>__KeyOverlaidModifier__ KeyCode::FN, KeyCode::ESCAPE, KeyCode::VK_LOCK_FN</autogen>-->
+	<!--</item>-->
+	<!--<item>-->
+		<!--<name>Key Press [Fn+Space] to Fn_Lock</name>-->
+		<!--<identifier>private.fn_space_to_fnlock</identifier>-->
+		<!--<autogen>__KeyOverlaidModifier__ KeyCode::FN, KeyCode::SPACE, KeyCode::VK_LOCK_FN</autogen>-->
+	<!--</item>-->
+	<!--<item>-->
+		<!--<name>Key Press [Command_L+Esc] to Fn_Lock</name>-->
+		<!--<identifier>private.command_l_esc_to_fnlock</identifier>-->
+		<!--<autogen>__SimultaneousKeyPresses__ KeyCode::COMMAND_L, KeyCode::ESCAPE, KeyCode::VK_LOCK_FN</autogen>-->
+	<!--</item>-->
+	<item>
+		<name>Key Press Ins to Fn_Lock</name>
+		<identifier>private.ins_to_fnlock</identifier>
+		<autogen>__KeyToKey__ KeyCode::HELP, KeyCode::VK_LOCK_FN</autogen>
+	</item>
+	<item>
+		<name>Key Press Application to Fn_Lock</name>
+		<identifier>private.application_to_fnlock</identifier>
+		<autogen>__KeyToKey__ KeyCode::PC_APPLICATION, KeyCode::VK_LOCK_FN</autogen>
+	</item>
+	<item>
+		<name>fn+[/;' to Arrow Keys(HHKB)</name>
+      <identifier>remap.fn_hhkb_diamond_to_arrow_keys</identifier>
+      <autogen>
+        __KeyToKey__
+        KeyCode::BRACKET_LEFT, ModifierFlag::FN,
+        KeyCode::CURSOR_UP
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::SLASH, ModifierFlag::FN,
+        KeyCode::CURSOR_DOWN
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::SEMICOLON, ModifierFlag::FN,
+        KeyCode::CURSOR_LEFT
+      </autogen>
+      <autogen>
+        __KeyToKey__
+        KeyCode::QUOTE, ModifierFlag::FN,
+        KeyCode::CURSOR_RIGHT
+      </autogen>
+    </item>
+</root>
