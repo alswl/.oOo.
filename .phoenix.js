@@ -15,13 +15,17 @@ var mousePositions = {};
 var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
 var ACTIVE_WINDOWS_TIMES = {};
 var DEFAULT_WIDTH = 1280;
-var WORK_SPACE_INDEX = 3;
-var PARK_SPACE_INDEX = 2;
-var PARK_INDEX_MAP = {};
-PARK_INDEX_MAP['iTerm'] = 0;
-PARK_INDEX_MAP['Safari'] = 1;
-PARK_INDEX_MAP['QQ'] = 1;
-PARK_INDEX_MAP['BearyChat'] = 1;
+var WORK_SPACE_INDEX_MAP = {};  // is a dict, key is display count, val is work space
+WORK_SPACE_INDEX_MAP[1] = 0;  // one display case
+WORK_SPACE_INDEX_MAP[2] = 3;  // two display case
+var PARK_SPACE_INDEX_MAP = {};
+PARK_SPACE_INDEX_MAP[0] = 2;
+PARK_SPACE_INDEX_MAP[1] = 2;
+var PARK_SPACE_APP_INDEX_MAP = {};
+PARK_SPACE_APP_INDEX_MAP['iTerm'] = 0;
+PARK_SPACE_APP_INDEX_MAP['Safari'] = 1;
+PARK_SPACE_APP_INDEX_MAP['QQ'] = 1;
+PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
 
 
 /**
@@ -593,7 +597,8 @@ keys.push(Phoenix.bind('delete', mash, function() {
 	var allSpaces = Space.spaces();
 	//alert(nextWindow);
 	var allSpaces = Space.spaces();
-	var parkSpaceIndex = PARK_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX;
+    var screenCount = Screen.screens().length;
+	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
 	if (parkSpaceIndex >= allSpaces.length) return;
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
 }));
@@ -605,8 +610,9 @@ keys.push(Phoenix.bind('return', mash, function() {
 	if (!window) return;
 	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
 	var allSpaces = Space.spaces();
-	if (WORK_SPACE_INDEX >= allSpaces.length) return;
-	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX);
+    var screenCount = Screen.screens().length;
+	if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
+	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
 }));
 
 
