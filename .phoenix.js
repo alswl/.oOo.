@@ -289,12 +289,10 @@ function focusAnotherScreen(window, targetScreen) {
   //}
   save_mouse_position_for_window(window);
   var targetScreenWindows = sortByMostRecent(targetScreen.windows());
-  //alert(_.map(targetScreenWindows, function(x) { return x.title();}));
   if (targetScreenWindows.length == 0) {
     return;
   }
   var targetWindow = targetScreenWindows[0]
-  //alert(targetWindow.title());
   targetWindow.focus();  // bug, two window in two space, focus will focus in same space first
   restore_mouse_position_for_window(targetWindow);
 }
@@ -595,7 +593,6 @@ keys.push(Phoenix.bind('delete', mash, function() {
 	if (!window) return;
 	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
 	var allSpaces = Space.spaces();
-	//alert(nextWindow);
 	var allSpaces = Space.spaces();
     var screenCount = Screen.screens().length;
 	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
@@ -613,6 +610,22 @@ keys.push(Phoenix.bind('return', mash, function() {
     var screenCount = Screen.screens().length;
 	if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
+}));
+
+// move other window in this space to park space
+keys.push(Phoenix.bind('return', mashCtrl, function() {
+	var isFollow = false;
+	var window = Window.focusedWindow();
+	if (!window) return;
+	var nextWindow = window;
+	var allSpaces = Space.spaces();
+    var otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) {return x.hash() != window.hash(); });
+    var screenCount = Screen.screens().length;
+	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
+	if (parkSpaceIndex >= allSpaces.length) return;
+    _.each(otherWindowsInSameSpace, function(parkedWindow) {
+      moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces, parkSpaceIndex);
+    })
 }));
 
 
