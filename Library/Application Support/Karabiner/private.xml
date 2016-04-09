@@ -4,17 +4,17 @@
 		<!--<name>Key Press [Fn+Esc] to Fn_Lock</name>-->
 		<!--<identifier>private.fn_esc_to_fnlock</identifier>-->
 		<!--<autogen>__KeyOverlaidModifier__ KeyCode::FN, KeyCode::ESCAPE, KeyCode::VK_LOCK_FN</autogen>-->
-	<!--</item>-->
+		<!--</item>-->
 	<!--<item>-->
 		<!--<name>Key Press [Fn+Space] to Fn_Lock</name>-->
 		<!--<identifier>private.fn_space_to_fnlock</identifier>-->
 		<!--<autogen>__KeyOverlaidModifier__ KeyCode::FN, KeyCode::SPACE, KeyCode::VK_LOCK_FN</autogen>-->
-	<!--</item>-->
+		<!--</item>-->
 	<!--<item>-->
 		<!--<name>Key Press [Command_L+Esc] to Fn_Lock</name>-->
 		<!--<identifier>private.command_l_esc_to_fnlock</identifier>-->
 		<!--<autogen>__SimultaneousKeyPresses__ KeyCode::COMMAND_L, KeyCode::ESCAPE, KeyCode::VK_LOCK_FN</autogen>-->
-	<!--</item>-->
+		<!--</item>-->
 	<item>
 		<name>Key Press Ins to Fn_Lock</name>
 		<identifier>private.ins_to_fnlock</identifier>
@@ -26,27 +26,71 @@
 		<autogen>__KeyToKey__ KeyCode::PC_APPLICATION, KeyCode::VK_LOCK_FN</autogen>
 	</item>
 	<item>
-		<name>fn+[/;' to Arrow Keys(HHKB)</name>
-      <identifier>remap.fn_hhkb_diamond_to_arrow_keys</identifier>
-      <autogen>
-        __KeyToKey__
-        KeyCode::BRACKET_LEFT, ModifierFlag::FN,
-        KeyCode::CURSOR_UP
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::SLASH, ModifierFlag::FN,
-        KeyCode::CURSOR_DOWN
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::SEMICOLON, ModifierFlag::FN,
-        KeyCode::CURSOR_LEFT
-      </autogen>
-      <autogen>
-        __KeyToKey__
-        KeyCode::QUOTE, ModifierFlag::FN,
-        KeyCode::CURSOR_RIGHT
-      </autogen>
-    </item>
+		<name>Fn+[/;' to Arrow Keys(HHKB)</name>
+		<identifier>private.remap.fn_hhkb_diamond_to_arrow_keys</identifier>
+		<autogen>
+			__KeyToKey__
+			KeyCode::BRACKET_LEFT, ModifierFlag::FN,
+			KeyCode::CURSOR_UP
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::SLASH, ModifierFlag::FN,
+			KeyCode::CURSOR_DOWN
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::SEMICOLON, ModifierFlag::FN,
+			KeyCode::CURSOR_LEFT
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::QUOTE, ModifierFlag::FN,
+			KeyCode::CURSOR_RIGHT
+		</autogen>
+	</item>
+	<item>
+		<name>Fn+EDSF to Arrow Keys</name>
+		<identifier>private.remap.fn_edsf_diamond_to_arrow_keys</identifier>
+		<autogen>
+			__KeyToKey__
+			KeyCode::E, ModifierFlag::FN,
+			KeyCode::CURSOR_UP
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::D, ModifierFlag::FN,
+			KeyCode::CURSOR_DOWN
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::S, ModifierFlag::FN,
+			KeyCode::CURSOR_LEFT
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F, ModifierFlag::FN,
+			KeyCode::CURSOR_RIGHT
+		</autogen>
+	</item>
+	<item>
+		<name>Fn+spacem,.jkluio to 0123456789</name>
+		<identifier>private.remap.fn_space_m_j_k_l_u_i_o_to_number</identifier>
+		<autogen>__KeyToKey__ KeyCode::SPACE, ModifierFlag::FN, KeyCode::KEYPAD_0</autogen>
+		<autogen>__KeyToKey__ KeyCode::M, ModifierFlag::FN, KeyCode::KEYPAD_1</autogen>
+		<autogen>__KeyToKey__ KeyCode::COMMA, ModifierFlag::FN, KeyCode::KEYPAD_2</autogen>
+		<autogen>__KeyToKey__ KeyCode::DOT, ModifierFlag::FN, KeyCode::KEYPAD_3</autogen>
+		<autogen>__KeyToKey__ KeyCode::J, ModifierFlag::FN, KeyCode::KEYPAD_4</autogen>
+		<autogen>__KeyToKey__ KeyCode::K, ModifierFlag::FN, KeyCode::KEYPAD_5</autogen>
+		<autogen>__KeyToKey__ KeyCode::L, ModifierFlag::FN, KeyCode::KEYPAD_6</autogen>
+		<autogen>__KeyToKey__ KeyCode::U, ModifierFlag::FN, KeyCode::KEYPAD_7</autogen>
+		<autogen>__KeyToKey__ KeyCode::I, ModifierFlag::FN, KeyCode::KEYPAD_8</autogen>
+		<autogen>__KeyToKey__ KeyCode::O, ModifierFlag::FN, KeyCode::KEYPAD_9</autogen>
+		<autogen>__KeyToKey__ KeyCode::N, ModifierFlag::FN, KeyCode::KEYPAD_DOT</autogen>
+		<autogen>__KeyToKey__ KeyCode::DELETE, ModifierFlag::FN, KeyCode::DELETE</autogen>
+		<autogen>__KeyToKey__ KeyCode::MINUS, ModifierFlag::FN, KeyCode::KEYPAD_MINUS</autogen>
+		<autogen>__KeyToKey__ KeyCode::KEY_8, ModifierFlag::FN, KeyCode::KEYPAD_MULTIPLY</autogen>
+		<autogen>__KeyToKey__ KeyCode::EQUAL, ModifierFlag::FN, KeyCode::KEYPAD_PLUS</autogen>
+		<autogen>__KeyToKey__ KeyCode::B, ModifierFlag::FN, KeyCode::KEYPAD_SLASH</autogen>
+	</item>
 </root>
