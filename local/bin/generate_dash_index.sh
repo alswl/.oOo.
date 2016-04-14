@@ -12,7 +12,7 @@ ls $HOME/Library/Application\ Support/Dash/DocSets/*/*/Contents/Resources/Docume
 
 ls $HOME/Library/Application\ Support/Dash/User\ Contributed/*/*/Contents/Resources/Documents/index.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
 ls $HOME/Library/Application\ Support/Dash/User\ Contributed/*/*/Contents/Resources/Documents/configuration.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
-ls $HOME/Library/Application\ Support/Dash/DocSets/AngularJS/AngularJS.docset/Contents/Resources/Documents/angularjs/code.angularjs.org/1.4.8/docs.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
+# ls $HOME/Library/Application\ Support/Dash/DocSets/AngularJS/AngularJS.docset/Contents/Resources/Documents/angularjs/code.angularjs.org/1.4.8/docs.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
 
 ls $HOME/Library/Application\ Support/Dash/Cheat\ Sheets/*/*/Contents/Resources/Documents/index.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
 

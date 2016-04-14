@@ -240,6 +240,14 @@ function callApp(appName) {
   }
 }
 
+/**
+ * My Configuartion Global
+ */
+
+Phoenix.set({
+    'daemon': true,
+    'openAtLogin': true
+});
 
 /**
  * My Configuartion App
