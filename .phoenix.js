@@ -245,7 +245,7 @@ function callApp(appName) {
  */
 
 Phoenix.set({
-    'daemon': true,
+    'daemon': false,
     'openAtLogin': true
 });
 
@@ -263,6 +263,7 @@ keys.push(Phoenix.bind('2', mashShift, function() { callApp('Firefox'); }));
 //var handler_mashShift_2 = Phoenix.bind('2', mashShift, function() { callApp('Chromium'); });
 keys.push(Phoenix.bind('3', mash, function() { callApp('QQ'); }));
 keys.push(Phoenix.bind('4', mash, function() { callApp('BearyChat'); }));
+keys.push(Phoenix.bind('7', mash, function() { callApp('钉钉'); }));
 keys.push(Phoenix.bind('8', mash, function() { callApp('Wechat'); }));
 keys.push(Phoenix.bind('e', mash, function() { callApp('Preview'); }));
 keys.push(Phoenix.bind('a', mash, function() { callApp('MacVim'); }));
