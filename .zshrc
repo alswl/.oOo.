@@ -71,6 +71,8 @@ fi
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
 export GOPATH=$HOME/.gopath
+export HOMEBREW_NO_ANALYTICS=1
+export ANSIBLE_NOCOWS=1
 
 # personal script {{{
 [ -f $HOME/.personal.sh ] && . $HOME/.personal.sh
