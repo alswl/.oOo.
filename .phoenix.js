@@ -362,12 +362,12 @@ keys.push(Phoenix.bind('h', mashShift, function() {
  */
 
 // Window Hide Inactive
-keys.push(Phoenix.bind('delete', mash, function() {
-  var window = Window.focusedWindow();
-  if (!window) return;
-  heartbeat_window(window);
-  hide_inactiveWindow(window.otherWindowsOnAllScreens());
-}));
+//keys.push(Phoenix.bind('delete', mash, function() {
+  //var window = Window.focusedWindow();
+  //if (!window) return;
+  //heartbeat_window(window);
+  //hide_inactiveWindow(window.otherWindowsOnAllScreens());
+//}));
 
 // Window Maximize
 keys.push(Phoenix.bind('m', mashShift, function() {
@@ -606,7 +606,9 @@ keys.push(Phoenix.bind('delete', mash, function() {
     var screenCount = Screen.screens().length;
 	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
 	if (parkSpaceIndex >= allSpaces.length) return;
-	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
+	_.each(window.app().windows(), function(window) {
+	  moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
+	});
 }));
 
 // move window to work space
