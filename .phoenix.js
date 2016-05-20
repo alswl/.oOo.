@@ -620,7 +620,9 @@ keys.push(Phoenix.bind('return', mash, function() {
 	var allSpaces = Space.spaces();
     var screenCount = Screen.screens().length;
 	if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
-	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
+	_.each(window.app().windows(), function(window) {
+	  moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
+	});
 }));
 
 // move other window in this space to park space
