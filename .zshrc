@@ -189,6 +189,11 @@ hash -d desktop="/Users/alswl/Desktop/"
 [[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
 # }}}
 
+# ansible {{{
+#[[ -s $HOME/local/ansible/hacking/env-setup ]] && source $HOME/local/ansible/hacking/env-setup -q
+# }}}
+
+
 # key binding {{{
 bindkey '\e.' insert-last-word
 
