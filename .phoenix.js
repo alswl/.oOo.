@@ -431,9 +431,9 @@ keys.push(Phoenix.bind('\\', mashShift, function() {
   var window = Window.focusedWindow();
   if (!window) return;
   window.setFrame({
-    x: window.frame().x,
-    y: window.screen().frameInRectangle().y,
-    width: DEFAULT_WIDTH,  // Mac width
+    x: window.screen().frameInRectangle().x,
+    y: window.frame().y,
+    width: window.screen().frameInRectangle().width,
     height: window.frame().height
   });
   heartbeat_window(window);
@@ -558,6 +558,7 @@ keys.push(Phoenix.bind('i', mashCtrl, function() {
   }
   current.removeWindows([window]);
   previous.addWindows([window]);
+  getNextWindowsOnSameScreen(window).focus();
 }));
 
 // move window to next space
@@ -578,6 +579,7 @@ keys.push(Phoenix.bind('o', mashCtrl, function() {
   }
   current.removeWindows([window]);
   next.addWindows([window]);
+  getNextWindowsOnSameScreen(window).focus();
 }));
 
 
