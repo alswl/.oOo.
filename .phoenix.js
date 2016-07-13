@@ -150,7 +150,7 @@ function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   var windows = _.filter(window.others({ screen: window.screen() }), function(x) { return x.screen() === window.screen()});
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
-    return [window.frame().x, window.frame().y, window.app().pid, window.title()].join('_');
+    return [window.frame().y, window.frame().x, window.app().pid, window.title()].join('_');
   }).value().reverse();
   if (isCycle) {
 	var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
@@ -559,8 +559,8 @@ keys.push(new Key('i', mashCtrl, function() {
   var window = Window.focused();
   if (!window) return;
   if (window.isFullScreen() || window.isMinimized()) return;
-  var current = Space.activeSpace();
-  var allSpaces = Space.spaces();
+  var current = Space.active();
+  var allSpaces = Space.all();
   var previous = current.previous();
   if (previous.isFullScreen()) return;
   if (previous.screen().hash() != current.screen().hash()) {
@@ -580,8 +580,8 @@ keys.push(new Key('o', mashCtrl, function() {
   var window = Window.focused();
   if (!window) return;
   if (window.isFullScreen() || window.isMinimized()) return;
-  var current = Space.activeSpace();
-  var allSpaces = Space.spaces();
+  var current = Space.active();
+  var allSpaces = Space.all();
   var next = current.next();
   if (next.isFullScreen()) return;
   if (next.screen().hash() != current.screen().hash()) {
@@ -599,7 +599,7 @@ keys.push(new Key('o', mashCtrl, function() {
 
 function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
   var targetSpace = allSpaces[spaceIndex];
-  var currentSpace = Space.activeSpace();
+  var currentSpace = Space.active();
 
   currentSpace.removeWindows([window]);
   targetSpace.addWindows([window]);
@@ -618,8 +618,8 @@ keys.push(new Key('delete', mash, function() {
 	var window = Window.focused();
 	if (!window) return;
 	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
-	var allSpaces = Space.spaces();
-	var allSpaces = Space.spaces();
+	var allSpaces = Space.all();
+	var allSpaces = Space.all();
     var screenCount = Screen.all().length;
 	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
 	if (parkSpaceIndex >= allSpaces.length) return;
@@ -634,7 +634,7 @@ keys.push(new Key('return', mash, function() {
 	var window = Window.focused();
 	if (!window) return;
 	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
-	var allSpaces = Space.spaces();
+	var allSpaces = Space.all();
     var screenCount = Screen.all().length;
 	if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
 	_.each(window.app().windows(), function(window) {
@@ -648,7 +648,7 @@ keys.push(new Key('return', mashCtrl, function() {
 	var window = Window.focused();
 	if (!window) return;
 	var nextWindow = window;
-	var allSpaces = Space.spaces();
+	var allSpaces = Space.all();
     var otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) {return x.hash() != window.hash(); });
     var screenCount = Screen.all().length;
 	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
