@@ -148,7 +148,6 @@ function heartbeat_window(window) {
 
 function getAnotherWindowsOnSameScreen(window, offset) {
   var windows = _.filter(window.others({ screen: window.screen() }), function(x) { return x.screen() === window.screen()});
-  alert(_.map(windows, function(x) { return x.title()}).join(','));
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
     return [window.frame().x, window.frame().y, window.app().pid, window.title()].join('_');
