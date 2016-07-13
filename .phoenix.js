@@ -147,16 +147,22 @@ function heartbeat_window(window) {
 }
 
 function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
-  var windows = _.filter(window.others({ screen: window.screen() }), function(x) { return x.screen() === window.screen()});
+  var windows = _.filter(
+	window.others({ screen: window.screen() }),
+	function(x) { return x.isVisible(); }
+  );
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
     return [window.frame().y, window.frame().x, window.app().pid, window.title()].join('_');
-  }).value().reverse();
+  }).value();
   if (isCycle) {
 	var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
   } else {
 	var index = _.indexOf(windows, window) + offset;
   }
+  //alert(windows.length);
+  //alert(_.map(windows, function(x) {return x.title();}).join(','));
+  //alert(_.map(windows, function(x) {return x.app().name();}).join(','));
   if (index >= windows.length || index < 0) {
 	return;
   }
@@ -564,15 +570,18 @@ keys.push(new Key('i', mashCtrl, function() {
   var previous = current.previous();
   if (previous.isFullScreen()) return;
   if (previous.screen().hash() != current.screen().hash()) {
-    return;
+	return;
   }
   if (_.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), previous.hash())
-      >= _.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), current.hash())) {
-    return;
+	  >= _.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), current.hash())) {
+	return;
   }
   current.removeWindows([window]);
   previous.addWindows([window]);
-  getNextWindowsOnSameScreen(window).focus();
+  var prevWindow = getPreviousWindowsOnSameScreen(window);
+  if (prevWindow) {
+	prevWindow.focus();
+  }
 }));
 
 // move window to next space
@@ -585,15 +594,18 @@ keys.push(new Key('o', mashCtrl, function() {
   var next = current.next();
   if (next.isFullScreen()) return;
   if (next.screen().hash() != current.screen().hash()) {
-    return;
+	return;
   }
   if (_.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), next.hash())
-      <= _.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), current.hash())) {
-    return;
+	  <= _.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), current.hash())) {
+	return;
   }
   current.removeWindows([window]);
   next.addWindows([window]);
-  getNextWindowsOnSameScreen(window).focus();
+  var nextWindow = getNextWindowsOnSameScreen(window);
+  if (nextWindow) {
+	nextWindow.focus();
+  }
 }));
 
 
@@ -618,7 +630,6 @@ keys.push(new Key('delete', mash, function() {
 	var window = Window.focused();
 	if (!window) return;
 	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
-	var allSpaces = Space.all();
 	var allSpaces = Space.all();
     var screenCount = Screen.all().length;
 	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
@@ -662,7 +673,7 @@ keys.push(new Key('return', mashCtrl, function() {
 // Test
 keys.push(new Key('0', mash, function() {
   //var cw = Window.focused();
-  //_.map(App.runningApps(), function(app) { Modal.show(app.title(), 5)});
+  //_.map(App.all(), function(app) { Modal.show(app.title(), 5)});
   //_.map([Window.focused()], function(window) { Modal.show(window.title())});  // current one
   //_.map(Window.all(), function(window) { Modal.show(window.title(), 5)});  // all, include hide
   //_.map(Window.all({visible: true}), function(window) { Modal.show(window.title())});  // all, no hide
