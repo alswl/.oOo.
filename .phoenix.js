@@ -146,21 +146,29 @@ function heartbeat_window(window) {
   //hide_inactiveWindow(window.otherWindowsOnSameScreen());
 }
 
-function getAnotherWindowsOnSameScreen(window, offset) {
+function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   var windows = _.filter(window.others({ screen: window.screen() }), function(x) { return x.screen() === window.screen()});
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
     return [window.frame().x, window.frame().y, window.app().pid, window.title()].join('_');
   }).value().reverse();
-  return windows[(_.indexOf(windows, window) + offset + windows.length) % windows.length];
+  if (isCycle) {
+	var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
+  } else {
+	var index = _.indexOf(windows, window) + offset;
+  }
+  if (index >= windows.length || index < 0) {
+	return;
+  }
+  return windows[index];
 }
 
 function getPreviousWindowsOnSameScreen(window) {
-  return getAnotherWindowsOnSameScreen(window, -1)
+  return getAnotherWindowsOnSameScreen(window, -1, false)
 };
 
 function getNextWindowsOnSameScreen(window) {
-  return getAnotherWindowsOnSameScreen(window, 1)
+  return getAnotherWindowsOnSameScreen(window, 1, false)
 };
 
 function setWindowCentral(window) {
@@ -501,6 +509,9 @@ keys.push(new Key('k', mash, function() {
   }
   save_mouse_position_for_window(window);
   var targetWindow = getPreviousWindowsOnSameScreen(window);
+  if (!targetWindow) {
+	return;
+  }
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
 }));
@@ -515,6 +526,9 @@ keys.push(new Key('j', mash, function() {
   }
   save_mouse_position_for_window(window);
   var targetWindow = getNextWindowsOnSameScreen(window);  // <- most time cost
+  if (!targetWindow) {
+	return;
+  }
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
 }));
