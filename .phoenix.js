@@ -57,7 +57,7 @@ if (!String.format) {
   };
 }
 
-var alert_title = function(window) { Modal.show(window.title()); };
+var alert_title = function(window) { alert(window.title()); };
 
 function sortByMostRecent(windows) {
   var visibleAppMostRecentFirst = _.map(Window.recent(),
@@ -147,7 +147,8 @@ function heartbeat_window(window) {
 }
 
 function getAnotherWindowsOnSameScreen(window, offset) {
-  var windows = window.others({ screen: window.screen() }); // slow, makes `Saved spin report for Phoenix version 1.2 (1.2) to /Library/Logs/DiagnosticReports/Phoenix_2015-05-30-170354_majin.spin`
+  var windows = _.filter(window.others({ screen: window.screen() }), function(x) { return x.screen() === window.screen()});
+  alert(_.map(windows, function(x) { return x.title()}).join(','));
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
     return [window.frame().x, window.frame().y, window.app().pid, window.title()].join('_');
