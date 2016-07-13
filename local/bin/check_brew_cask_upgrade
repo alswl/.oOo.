@@ -1,3 +1,5 @@
 #!/bin/bash
 
-for c in `brew cask list | grep -v "alfred"` ; do ! brew cask info $c | grep -qF "Not installed" || echo brew cask install $c; done
+#for c in `brew cask list | grep -v "alfred"` ; do ! brew cask info $c | grep -qF "Not installed" || echo brew cask install $c; done
+
+for c in `brew cask list | grep -v "alfred"` ; do ! brew cask install $c; done
