@@ -26,6 +26,7 @@ PARK_SPACE_APP_INDEX_MAP['iTerm'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Safari'] = 1;
 PARK_SPACE_APP_INDEX_MAP['QQ'] = 1;
 PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
+var A_BIG_PIXEL = 100000;
 
 
 /**
@@ -150,7 +151,7 @@ function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   var windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
   windows = _.chain(windows).sortBy(function(window) {
-    return [window.frame().y, window.frame().x, window.app().pid, window.title()].join('_');
+    return [A_BIG_PIXEL + window.frame().y, A_BIG_PIXEL + window.frame().x, window.app().pid, window.title()].join('_');
   }).value();
   if (isCycle) {
 	var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
