@@ -26,7 +26,7 @@ PARK_SPACE_APP_INDEX_MAP['iTerm'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Safari'] = 1;
 PARK_SPACE_APP_INDEX_MAP['QQ'] = 1;
 PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
-var A_BIG_PIXEL = 100000;
+var A_BIG_PIXEL = 10000;
 
 
 /**
@@ -150,8 +150,11 @@ function heartbeat_window(window) {
 function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   var windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
+  var screen = window.screen();
   windows = _.chain(windows).sortBy(function(window) {
-    return [A_BIG_PIXEL + window.frame().y, A_BIG_PIXEL + window.frame().x, window.app().pid, window.title()].join('_');
+    return [(A_BIG_PIXEL + window.frame().y - screen.frameInRectangle().y) +
+	  (A_BIG_PIXEL + window.frame().x - screen.frameInRectangle().y),
+	  window.app().pid, window.title()].join('');
   }).value();
   if (isCycle) {
 	var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
@@ -355,6 +358,7 @@ keys.push(new Key('l', mashShift, function() {
   }
   moveToScreen(window, window.screen().next());
   restore_mouse_position_for_window(window);
+  window.focus();
 }));
 
 // Move Current Window to Previous Screen
@@ -367,6 +371,7 @@ keys.push(new Key('h', mashShift, function() {
   }
   moveToScreen(window, window.screen().previous());
   restore_mouse_position_for_window(window);
+  window.focus();
 }));
 
 
