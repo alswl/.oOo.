@@ -1,0 +1,228 @@
+"source $VIMRUNTIME/vimrc_example.vim
+
+"""""""""""""""""""""""""""""""""""""""
+"Gerneral
+"""""""""""""""""""""""""""""""""""""""
+" Enable filetype plugin
+filetype plugin on
+filetype indent on
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" 编辑vimrc之后，重新加载
+autocmd! bufwritepost .vimrc source ~/.vimrc
+
+" 禁用Vi的兼容模式
+set nocompatible
+
+" 设定状态栏多显示信息
+set laststatus=2
+
+set noscrollbind
+set nocursorbind
+
+set noimdisable
+autocmd! InsertLeave * set imdisable|set iminsert=0
+autocmd! InsertEnter * set noimdisable|set iminsert=0
+"autocmd! FocusGained * set imdisable|set iminsert=0
+
+
+"""""""""""""""""""""""""""""""""""""""
+"VIM user interface
+"""""""""""""""""""""""""""""""""""""""
+" use chinese help
+"set helplang=cn
+
+"set the menu & the message to English
+set langmenu=en_US
+let $LANG="en_US.UTF-8"
+
+set ruler "右下角显示当前光标
+
+"set cmdheight=2 "The commandbar height
+
+" Set backspace config
+set backspace=eol,start,indent
+"set whichwrap+=<,>,h,l
+
+set ignorecase "Ignore case when searching
+set smartcase
+"set nowrapscan
+
+" 使用正统的搜索正则
+"nnoremap / /\v
+"vnoremap / /\v
+
+set hlsearch "Highlight search things
+
+set incsearch "在输入部分查找模式时显示相应的匹配点。
+"set nolazyredraw "Don't redraw while executing macros 
+
+set magic "Set magic on, for regular expressions
+
+set showmatch "Show matching bracets when text indicator is over them
+
+set sidescroll=10 "左右移动边距
+
+"set list " 显示制表符/回车符
+set listchars=tab:>-,trail:$ " 行尾符号
+
+set showcmd "显示右下角命令
+set cursorline
+
+set noerrorbells
+set novisualbell
+
+"set iskeyword=@,48-57,192-255
+
+if ! has("gui_running")
+	set mouse-=a
+endif
+
+set equalalways "分割窗口时保持相等的宽/高
+
+set guitablabel=%N.%t " 设定标签上显示序号
+
+set foldmethod=syntax
+set foldcolumn=0
+
+"""""""""""""""""""""""""""""""""""""""
+"Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""
+syntax enable "Enable syntax hl
+
+set ambiwidth=double " 设定某些标点符号为宽字符
+
+" 设定行首tab为灰色
+highlight LeaderTab guifg=#666666
+
+"""""""""""""""""""""""""""""""""""""""
+"Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""
+" Turn backup off, since most stuff is in SVN, git anyway...
+set nobackup
+set nowb
+"set noswapfile
+set backupext=.bak
+
+"设置编码
+set fileencodings=utf-8,gbk,ucs-bom,default,latin1
+set termencoding=utf-8
+set encoding=utf-8
+
+"""""""""""""""""""""""""""""""""""""""
+"Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""
+
+"set expandtab
+set noexpandtab "是否使用Tab缩进 默认使用
+
+set shiftwidth=4
+set tabstop=4
+set smarttab
+
+set ai "Auto indent
+set si "Smart indet
+set wrap "Wrap lines
+
+set showmatch " show matching bracets
+
+
+"""""""""""""""""""""""""""""""""""""""
+"Moving around, tabs and buffers
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+"Visual Cues
+"""""""""""""""""""""""""""""""""""""""
+set number " 显示行号
+set numberwidth=2 "行号栏的宽度
+" set foldclose=all
+
+"function! MarkPoint()
+	"mark `
+"endfunction
+
+"autocmd CursorMoved * call MarkPoint()
+
+"""""""""""""""""""""""""""""""""""""""
+" Text Formatting/Layout
+"""""""""""""""""""""""""""""""""""""""
+
+set formatoptions+=mB
+set lbr "智能换行
+"set tw=500 "自动换行 超过n列
+
+"""""""""""""""""""""""""""""""""""""""
+" Plugin
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+" Map
+"""""""""""""""""""""""""""""""""""""""
+"map <F2> :Tlist<cr>
+"代码折叠快捷方式
+map <F3> zR
+map <F4> zM
+
+" 标签设置
+map <C-h> gT
+map <C-l> gt
+imap <F7> <Esc>gT
+imap <F8> <Esc>gt
+nnoremap <C-h> gT
+nnoremap <C-l> gt
+
+map Q :q<CR>
+
+" 用 * / # 匹配选中
+vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
+vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
+
+" html缩进
+let g:html_indent_inctags = "p,li,dt,dd"
+
+" 模拟 Emacs 键绑定
+" Move
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+" inoremap <C-p> <Up>
+" inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <M-b> <C-o>b
+inoremap <M-f> <C-o>w
+" Rubout word / line and enter insert mode
+" use <Esc><Right> instead of <C-o>
+inoremap <C-w> <Esc>dbcl
+" delete
+inoremap <C-u> <Esc>d0cl
+inoremap <C-k> <Esc><Right>C
+inoremap <C-d> <Esc><Right>s
+inoremap <M-d> <C-o>de
+
+"let g:pep8_map='<leader>8' " PEP8 Check
+map <leader>f :NERDTreeToggle<CR>
+
+" diff
+map <leader>d /^[=<>]\{7\}<CR>
+
+" noremap <silent> <leader>b :BufExplorer<CR>
+" noremap <silent> <leader>s :BufExplorerVerticalSplit<CR>
+" noremap <silent> <leader>h :BufExplorerHorizontalSplit<CR>
+
+" imap <C-\> <Esc>:split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR>
+" nmap <C-\> :split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR>
+
+nmap <silent> <leader>t :tabe %<CR>
+nmap <silent> <leader>\ :split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR><C-]>
+
+inoremap <silent> <leader>p "*p<CR>
+noremap <silent> <leader>p "*p<CR>
+
+inoremap <silent> <leader>q :q<CR>
+noremap <silent> <leader>q :q<CR>
+
+inoremap <silent> <leader>w :w<CR>
+noremap <silent> <leader>w :w<CR>
