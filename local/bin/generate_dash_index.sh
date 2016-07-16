@@ -22,8 +22,8 @@ echo -n '' > "$TEMP_INDEX_PATH"
 ## dash
 #ls $HOME/Library/Application\ Support/Dash/Java\ DocSets/*/*/Contents/Resources/Documents/dash_javadoc/index.html | sed "s/\\/Users\\/$WHOAMI\\/Library\\/Application Support\\/Dash\\///g" >> "$TEMP_INDEX_PATH"
 
-rm -Rf /Users/$WHOAMI/Documents/doc/
 mkdir -p /Users/$WHOAMI/Documents/doc/
+rm -Rf /Users/$WHOAMI/Documents/doc/*
 
 pushd /Users/$WHOAMI/Documents/doc/
 
