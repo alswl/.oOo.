@@ -1,0 +1,50 @@
+" let configpath = '/Users/alswl/.cvimrc'
+" set localconfig
+
+let mapleader = ","
+
+set noautofocus " The opposite of autofocus; this setting stops
+
+map h gT
+map l gt
+map s gq
+
+iunmap <C-i>
+iunmap <C-e>
+iunmap <C-u>
+iunmap <C-o>
+iunmap <C-y>
+iunmap <C-p>
+iunmap <C-h>
+iunmap <C-l>
+iunmap <C-f>
+iunmap <C-b>
+iunmap <C-j>
+iunmap <C-k>
+
+
+let searchengine t = "https://twitter.com/search/%s"
+let searchengine we = "http://en.wikipedia.org/wiki/Special:Search?search=%s"
+let searchengine zh = "http://www.zhihu.com/search?q=%s"
+let searchengine tb = "http://s.taobao.com/search?q=%s"
+let searchengine h = "http://dict.cn/search.php?q=%s"
+let searchengine k = "http://www.amazon.cn/s/ref=nb_sb_noss?__mk_zh_CN=%E4%BA%9A%E9%A9%AC%E9%80%8A%E7%BD%91%E7%AB%99&url=node%3D116169071&field-keywords=%s"
+let searchengine bing = "http://www.bing.com/search?q=%s&pc=MOZI"
+let searchengine etao = "http://s.etao.com/search?q=%s"
+let searchengine db = "http://www.douban.com/search?q=%s"
+let searchengine gh = "https://github.com/search?q=%s&ref=opensearch"
+let searchengine ip = "http://www.ip138.com/ips138.asp?ip=%s&action=2"
+let searchengine wb = "http://s.weibo.com/weibo/%s?topnav=1&wvr=6&b=1"
+let searchengine w = "https://wiki.***REMOVED***.net/dosearchsite.action?queryString=%s"
+let searchengine g = "https://www.google.com/#q=%s"
+let searchengine b = "https://www.baidu.com/s?wd=%s"
+let searchengine wc = "https://zh.wikipedia.org/w/index.php?title=Special:%E6%90%9C%E7%B4%A2&search=%s"
+let searchengine jd = "http://search.jd.com/Search?keyword=%s&enc=utf-8&wq=%s"
+let searchengine idc = "http://idc.***REMOVED***.net/?page=search&last_page=index&last_tab=default&q=%s"
+let searchengine dk = "https://duckduckgo.com/?q=%s&atb=v17"
+let searchengine b = "http://www.baidu.com/#ie={inputEncoding}&wd=%s"
+let searchengine sogou = "http://www.sogou.com/web?ie={inputEncoding}&query=%s"
+let searchengine g = "https://www.google.com/search?q=%s"
+let searchengine google = "https://www.google.com/search?q=%s"
+
+
