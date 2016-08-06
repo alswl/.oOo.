@@ -273,7 +273,7 @@ keys.push(new Key('`', mash, function() { callApp('iTerm'); }));
 keys.push(new Key('1', mash, function() { callApp('Google Chrome'); }));
 //keys.push(new Key('1', mash, function() { callApp('Chromium'); }));
 //var handler_mash_1 = new Key('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
-keys.push(new Key('2', mash, function() { callApp('Safari'); }));
+//keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 keys.push(new Key('2', mashShift, function() { callApp('Firefox'); }));
 //var handler_mashShift_2 = new Key('2', mashShift, function() { callApp('Chromium'); });
 keys.push(new Key('3', mash, function() { callApp('QQ'); }));
@@ -665,9 +665,9 @@ keys.push(new Key('return', mashCtrl, function() {
 	var allSpaces = Space.all();
     var otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) {return x.hash() != window.hash(); });
     var screenCount = Screen.all().length;
-	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
-	if (parkSpaceIndex >= allSpaces.length) return;
     _.each(otherWindowsInSameSpace, function(parkedWindow) {
+	  var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
+	  if (parkSpaceIndex >= allSpaces.length) return;
       moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces, parkSpaceIndex);
     })
 }));
