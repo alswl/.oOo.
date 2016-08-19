@@ -153,7 +153,7 @@ alias k9='kill -9 '
 alias -g L='| less'
 alias -g G='| grep --color=auto'
 alias -g H='| head'
-alias -g J='| json_pp | less'
+alias -g J='| jq . | less'
 alias -g W='| wc -l'
 alias -g V='| vim -'
 if [ `uname` = 'Darwin' ]; then
