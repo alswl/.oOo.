@@ -701,12 +701,16 @@ keys.push(new Key('0', mash, function() {
   //var curPos = Mouse.location();
   //Phoenix.log(String.format('x: {0}, y: {1}, c: {2}, {3}', pos.x, pos.y, curPos.x, curPos.y));
 
-  var visibleAppMostRecentFirst = _.map(Window.recent(), function(w) { return w.hash(); });
-  var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
-                                                     _.range(visibleAppMostRecentFirst.length));
-  alert(visibleAppMostRecentFirst);
+  //var visibleAppMostRecentFirst = _.map(Window.recent(), function(w) { return w.hash(); });
+  //var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
+                                                     //_.range(visibleAppMostRecentFirst.length));
+  //alert(visibleAppMostRecentFirst);
   //alert(visibleAppMostRecentFirstWithWeight['Google Chrome']);
   //alert(visibleAppMostRecentFirstWithWeight['MacDown']);
+  Mouse.move({
+	x: 991,
+	y: 385
+  });
 }));
 
 // vim: set ft=javascript sw=2:
