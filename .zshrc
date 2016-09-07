@@ -127,6 +127,7 @@ alias gdf='git df'
 alias gfuck='git reset --hard origin/master && git clean -fd'
 alias gn='git number --column'
 alias v=vim
+alias vv=mvim
 alias mk=mkdir
 alias le=less
 alias psg='ps -ef | grep '

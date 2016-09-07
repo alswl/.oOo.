@@ -91,6 +91,17 @@ function getLargerFrame(frame) {
   return getResizeFrame(frame, 1.1);
 }
 
+function getCurrentWindow() {
+  var window = Window.focused();
+  if (window === undefined) {
+	window = App.focused().mainWindow();
+  }
+  if (window === undefined) {
+	return;
+  }
+  return window;
+}
+
 /**
  * Screen Functions
  */
@@ -325,7 +336,10 @@ function focusAnotherScreen(window, targetScreen) {
 
 // Next screen
 keys.push(new Key('l', mash, function() {
-  var window = Window.focused();
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   var allScreens = Screen.all();
   var currentScreen = window.screen();
   var targetScreen = window.screen().next();
@@ -338,7 +352,10 @@ keys.push(new Key('l', mash, function() {
 
 // Previous Screen
 keys.push(new Key('h', mash, function() {
-  var window = Window.focused();
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   var allScreens = Screen.all();
   var currentScreen = window.screen();
   var targetScreen = window.screen().previous();
@@ -351,8 +368,10 @@ keys.push(new Key('h', mash, function() {
 
 // Move Current Window to Next Screen
 keys.push(new Key('l', mashShift, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   if (window.screen() === window.screen().next()) return;
   if (window.screen().next().frameInRectangle().x < 0) {
     return;
@@ -364,8 +383,10 @@ keys.push(new Key('l', mashShift, function() {
 
 // Move Current Window to Previous Screen
 keys.push(new Key('h', mashShift, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   if (window.screen() === window.screen().next()) return;
   if (window.screen().next().frameInRectangle().x == 0) {
     return;
@@ -390,8 +411,11 @@ keys.push(new Key('h', mashShift, function() {
 
 // Window Maximize
 keys.push(new Key('m', mashShift, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
+
   window.maximize();
   setWindowCentral(window);
   //heartbeat_window(window);
@@ -399,8 +423,10 @@ keys.push(new Key('m', mashShift, function() {
 
 // Window Smaller
 keys.push(new Key('-', mash, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   var oldFrame = window.frame();
   var frame = getSmallerFrame(oldFrame);
   window.setFrame(frame);
@@ -412,8 +438,10 @@ keys.push(new Key('-', mash, function() {
 
 // Window Larger
 keys.push(new Key('=', mash, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   var frame = getLargerFrame(window.frame());
   if (frame.width > window.screen().frameInRectangle().width ||
       frame.height > window.screen().frameInRectangle().height) {
@@ -426,15 +454,19 @@ keys.push(new Key('=', mash, function() {
 
 // Window Central
 keys.push(new Key('m', mash, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   setWindowCentral(window);
 }));
 
 // Window Height
 keys.push(new Key('\\', mash, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   window.setFrame({
     x: window.frame().x,
     y: window.screen().frameInRectangle().y,
@@ -446,8 +478,10 @@ keys.push(new Key('\\', mash, function() {
 
 // Window Width
 keys.push(new Key('\\', mashShift, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   window.setFrame({
     x: window.screen().frameInRectangle().x,
     y: window.frame().y,
@@ -459,8 +493,10 @@ keys.push(new Key('\\', mashShift, function() {
 
 // Window >
 keys.push(new Key('l', mashCtrl, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   window.setFrame({
     x: window.frame().x + 100,
     y: window.frame().y,
@@ -472,8 +508,10 @@ keys.push(new Key('l', mashCtrl, function() {
 
 // Window <
 keys.push(new Key('h', mashCtrl, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   window.setFrame({
     x: window.frame().x - 100,
     y: window.frame().y,
@@ -485,8 +523,10 @@ keys.push(new Key('h', mashCtrl, function() {
 
 // Window ^
 keys.push(new Key('k', mashCtrl, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   window.setFrame({
     x: window.frame().x,
     y: window.frame().y - 100,
@@ -498,8 +538,10 @@ keys.push(new Key('k', mashCtrl, function() {
 
 // Window v
 keys.push(new Key('j', mashCtrl, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   window.setFrame({
     x: window.frame().x,
     y: window.frame().y + 100,
@@ -550,8 +592,10 @@ keys.push(new Key('j', mash, function() {
 
 // Central Mouse
 keys.push(new Key('space', mash, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   set_mouse_position_for_window_center(window);
 }));
 
@@ -566,8 +610,10 @@ keys.push(new Key('space', mash, function() {
 
 // move window to prev space
 keys.push(new Key('i', mashCtrl, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   if (window.isFullScreen() || window.isMinimized()) return;
   var current = Space.active();
   var allSpaces = Space.all();
@@ -590,8 +636,10 @@ keys.push(new Key('i', mashCtrl, function() {
 
 // move window to next space
 keys.push(new Key('o', mashCtrl, function() {
-  var window = Window.focused();
-  if (!window) return;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
   if (window.isFullScreen() || window.isMinimized()) return;
   var current = Space.active();
   var allSpaces = Space.all();
@@ -630,47 +678,53 @@ function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
 
 // move window to park space
 keys.push(new Key('delete', mash, function() {
-	var isFollow = false;
-	var window = Window.focused();
-	if (!window) return;
-	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
-	var allSpaces = Space.all();
-    var screenCount = Screen.all().length;
-	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
-	if (parkSpaceIndex >= allSpaces.length) return;
-	_.each(window.app().windows(), function(window) {
-	  moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
-	});
+  var isFollow = false;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
+  var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+  var allSpaces = Space.all();
+  var screenCount = Screen.all().length;
+  var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
+  if (parkSpaceIndex >= allSpaces.length) return;
+  _.each(window.app().windows(), function(window) {
+	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
+  });
 }));
 
 // move window to work space
 keys.push(new Key('return', mash, function() {
-	var isFollow = true;
-	var window = Window.focused();
-	if (!window) return;
-	var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
-	var allSpaces = Space.all();
-    var screenCount = Screen.all().length;
-	if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
-	_.each(window.app().windows(), function(window) {
-	  moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
-	});
+  var isFollow = true;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
+  var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+  var allSpaces = Space.all();
+  var screenCount = Screen.all().length;
+  if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
+  _.each(window.app().windows(), function(window) {
+	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
+  });
 }));
 
 // move other window in this space to park space
 keys.push(new Key('return', mashCtrl, function() {
-	var isFollow = false;
-	var window = Window.focused();
-	if (!window) return;
-	var nextWindow = window;
-	var allSpaces = Space.all();
-    var otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) {return x.hash() != window.hash(); });
-    var screenCount = Screen.all().length;
-    _.each(otherWindowsInSameSpace, function(parkedWindow) {
-	  var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
-	  if (parkSpaceIndex >= allSpaces.length) return;
-      moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces, parkSpaceIndex);
-    })
+  var isFollow = false;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
+  var nextWindow = window;
+  var allSpaces = Space.all();
+  var otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) {return x.hash() != window.hash(); });
+  var screenCount = Screen.all().length;
+  _.each(otherWindowsInSameSpace, function(parkedWindow) {
+	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
+	if (parkSpaceIndex >= allSpaces.length) return;
+	moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces, parkSpaceIndex);
+  })
 }));
 
 
