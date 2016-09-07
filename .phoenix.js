@@ -51,10 +51,7 @@ if (!String.format) {
   String.format = function(format) {
     var args = Array.prototype.slice.call(arguments, 1);
     return format.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined'
-      ? args[number] 
-      : match
-      ;
+      return typeof args[number] != 'undefined' ? args[number] : match;
     });
   };
 }
@@ -62,10 +59,12 @@ if (!String.format) {
 var alert_title = function(window) { alert(window.title()); };
 
 function sortByMostRecent(windows) {
-  var visibleAppMostRecentFirst = _.map(Window.recent(),
-                                        function(w) { return w.hash(); });
-  var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
-                                                     _.range(visibleAppMostRecentFirst.length));
+  var visibleAppMostRecentFirst = _.map(
+	Window.recent(), function(w) { return w.hash(); }
+  );
+  var visibleAppMostRecentFirstWithWeight = _.object(
+	visibleAppMostRecentFirst, _.range(visibleAppMostRecentFirst.length)
+  );
   return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.hash()]; });
 };
 
@@ -761,10 +760,21 @@ keys.push(new Key('0', mash, function() {
   //alert(visibleAppMostRecentFirst);
   //alert(visibleAppMostRecentFirstWithWeight['Google Chrome']);
   //alert(visibleAppMostRecentFirstWithWeight['MacDown']);
-  Mouse.move({
-	x: 991,
-	y: 385
+  //Mouse.move({
+	//x: 991,
+	//y: 385
+  //});
+  Task.run('/usr/local/bin/cliclick', ['c:991,385'], function(handler) {
   });
+  Timer.after(0.5, function() {
+	Task.run('/usr/local/bin/cliclick', ['c:971,385'], function(handler) {
+	});
+  });
+  Timer.after(1, function() {
+	Task.run('/usr/local/bin/cliclick', ['c:941,385'], function(handler) {
+	});
+  })
+  
 }));
 
 // vim: set ft=javascript sw=2:
