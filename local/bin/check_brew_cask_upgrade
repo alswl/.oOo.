@@ -7,3 +7,10 @@ for c in `brew cask list | grep -v "alfred"` ; do
 	fi
 done
 
+
+for c in `ls /usr/local/Caskroom | grep -v "alfred"` ; do
+	LATEST=`brew cask info $c | head -n 1 | awk '{print $2}'`
+	if [ `brew cask info $c | tail -n +2 | grep $LATEST | wc -l | awk '{print $1}'` -eq 0 ]; then
+		echo $c
+	fi
+done
