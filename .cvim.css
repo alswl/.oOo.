@@ -129,7 +129,7 @@
 
 
 #cVim-hud {
-  background-color: rgba(28,28,28,0.9);
+  background-color: lightgreen;
   position: fixed !important;
   transition: right 0.2s ease-out;
   z-index: 24724289;
