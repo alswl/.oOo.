@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for c in `brew cask list | grep -v "alfred"` ; do
+for c in `brew cask list | grep -v "alfred" | grep -v flash` ; do
 	LATEST=`brew cask info $c | head -n 1 | awk '{print $2}'`
 	if [ `brew cask info $c | tail -n +2 | grep $LATEST | wc -l | awk '{print $1}'` -eq 0 ]; then
 		echo $c
@@ -8,7 +8,7 @@ for c in `brew cask list | grep -v "alfred"` ; do
 done
 
 
-for c in `ls /usr/local/Caskroom | grep -v "alfred"` ; do
+for c in `ls /usr/local/Caskroom | grep -v "alfred" | grep -v flash` ; do
 	LATEST=`brew cask info $c | head -n 1 | awk '{print $2}'`
 	if [ `brew cask info $c | tail -n +2 | grep $LATEST | wc -l | awk '{print $1}'` -eq 0 ]; then
 		echo $c
