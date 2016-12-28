@@ -63,7 +63,7 @@ function sortByMostRecent(windows) {
   var visibleAppMostRecentFirst = _.map(
 	Window.recent(), function(w) { return w.hash(); }
   );
-  var visibleAppMostRecentFirstWithWeight = _.object(
+  var visibleAppMostRecentFirstWithWeight = _.zipObject(
 	visibleAppMostRecentFirst, _.range(visibleAppMostRecentFirst.length)
   );
   return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.hash()]; });
@@ -131,7 +131,7 @@ function windowsOnOtherScreen() {
   var otherWindowsOnSameScreen = Window.focused().others({ screen: Window.focused().screen() });  // slow
   var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen , function(w) { return w.title(); });
   var return_value = _.chain(Window.focused().others())
-    .filter(function(window) { return ! _.contains(otherWindowTitlesOnSameScreen, window.title()); })
+    .filter(function(window) { return ! _.includes(otherWindowTitlesOnSameScreen, window.title()); })
     .value();
   return return_value;
 };
@@ -285,7 +285,7 @@ keys.push(new Key('`', mash, function() { callApp('iTerm'); }));
 keys.push(new Key('1', mash, function() { callApp('Google Chrome'); }));
 //keys.push(new Key('1', mash, function() { callApp('Chromium'); }));
 //var handler_mash_1 = new Key('1', mash, function() { callApp('FirefoxDeveloperEdition'); });
-//keys.push(new Key('2', mash, function() { callApp('Safari'); }));
+keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 keys.push(new Key('2', mashShift, function() { callApp('Firefox'); }));
 //var handler_mashShift_2 = new Key('2', mashShift, function() { callApp('Chromium'); });
 keys.push(new Key('3', mash, function() { callApp('QQ'); }));
@@ -299,11 +299,12 @@ keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
 keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
 //var handler_mash_z = new Key('z', mash, function() { callApp('Mou'); });
 keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
+//keys.push(new Key('z', mash, function() { callApp('Typora'); }));
 //var handler_mash_z = new Key('z', mash, function() { callApp('Typora'); });
 //var handler_mash_z = new Key('z', mash, function() { callApp('Typora'); });
 //var handler_mash_z = new Key('z', mash, function() { callApp('Atom'); });
-//keys.push(new Key(',', mash, function() { callApp('Airmail 3'); }));
-keys.push(new Key(',', mash, function() { callApp('Mail'); }));
+keys.push(new Key(',', mash, function() { callApp('Airmail 3'); }));
+//keys.push(new Key(',', mash, function() { callApp('Mail'); }));
 //keys.push(new Key(',', mash, function() { callApp('Nylas N1'); }));
 keys.push(new Key('9', mash, function() { callApp('NeteaseMusic'); }));
 //var handler_mash_, = new Key(',', mash, function() { callApp('Sparrow'); });
@@ -756,7 +757,7 @@ keys.push(new Key('0', mash, function() {
   //Phoenix.log(String.format('x: {0}, y: {1}, c: {2}, {3}', pos.x, pos.y, curPos.x, curPos.y));
 
   //var visibleAppMostRecentFirst = _.map(Window.recent(), function(w) { return w.hash(); });
-  //var visibleAppMostRecentFirstWithWeight = _.object(visibleAppMostRecentFirst,
+  //var visibleAppMostRecentFirstWithWeight = _.zipObject(visibleAppMostRecentFirst,
                                                      //_.range(visibleAppMostRecentFirst.length));
   //alert(visibleAppMostRecentFirst);
   //alert(visibleAppMostRecentFirstWithWeight['Google Chrome']);
