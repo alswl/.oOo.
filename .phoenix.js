@@ -343,7 +343,10 @@ keys.push(new Key('l', mash, function() {
   }
   var allScreens = Screen.all();
   var currentScreen = window.screen();
-  var targetScreen = window.screen().next();
+  if (currentScreen === undefined) {
+	return; // TODO use mouse to find current screen
+  }
+  var targetScreen = currentScreen.next();
   if (_.indexOf(_.map(allScreens, function(x) { return x.hash(); }), targetScreen.hash())
 	  >= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
 		return;
@@ -359,7 +362,10 @@ keys.push(new Key('h', mash, function() {
   }
   var allScreens = Screen.all();
   var currentScreen = window.screen();
-  var targetScreen = window.screen().previous();
+  if (currentScreen === undefined) {
+	return; // TODO use mouse to find current screen
+  }
+  var targetScreen = currentScreen.previous();
   if (_.indexOf(_.map(allScreens, function(x) { return x.hash(); }), targetScreen.hash())
 	  <= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
 		return;
