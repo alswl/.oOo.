@@ -164,8 +164,8 @@ function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   windows.push(window);
   var screen = window.screen();
   windows = _.chain(windows).sortBy(function(window) {
-    return [(A_BIG_PIXEL + window.frame().y - screen.frameInRectangle().y) +
-	  (A_BIG_PIXEL + window.frame().x - screen.frameInRectangle().y),
+    return [(A_BIG_PIXEL + window.frame().y - screen.flippedFrame().y) +
+	  (A_BIG_PIXEL + window.frame().x - screen.flippedFrame().y),
 	  window.app().pid, window.title()].join('');
   }).value();
   if (isCycle) {
@@ -192,8 +192,8 @@ function getNextWindowsOnSameScreen(window) {
 
 function setWindowCentral(window) {
   window.setTopLeft({
-    x: (window.screen().frameInRectangle().width - window.size().width) / 2 + window.screen().frameInRectangle().x,
-    y: (window.screen().frameInRectangle().height - window.size().height) / 2 + window.screen().frameInRectangle().y
+    x: (window.screen().flippedFrame().width - window.size().width) / 2 + window.screen().flippedFrame().x,
+    y: (window.screen().flippedFrame().height - window.size().height) / 2 + window.screen().flippedFrame().y
   });
   heartbeat_window(window);
 };
@@ -322,7 +322,7 @@ function focusAnotherScreen(window, targetScreen) {
   if (!window) return;
   var currentScreen = window.screen();
   if (window.screen() === targetScreen) return;
-  //if (targetScreen.frameInRectangle().x < currentScreen.frameInRectangle().x) {
+  //if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
     //return;
   //}
   save_mouse_position_for_window(window);
@@ -380,7 +380,7 @@ keys.push(new Key('l', mashShift, function() {
 	return;
   }
   if (window.screen() === window.screen().next()) return;
-  if (window.screen().next().frameInRectangle().x < 0) {
+  if (window.screen().next().flippedFrame().x < 0) {
     return;
   }
   moveToScreen(window, window.screen().next());
@@ -395,7 +395,7 @@ keys.push(new Key('h', mashShift, function() {
 	return;
   }
   if (window.screen() === window.screen().next()) return;
-  if (window.screen().next().frameInRectangle().x == 0) {
+  if (window.screen().next().flippedFrame().x == 0) {
     return;
   }
   moveToScreen(window, window.screen().previous());
@@ -450,8 +450,8 @@ keys.push(new Key('=', mash, function() {
 	return;
   }
   var frame = getLargerFrame(window.frame());
-  if (frame.width > window.screen().frameInRectangle().width ||
-      frame.height > window.screen().frameInRectangle().height) {
+  if (frame.width > window.screen().flippedFrame().width ||
+      frame.height > window.screen().flippedFrame().height) {
     window.maximize();
   } else {
     window.setFrame(frame);
@@ -476,9 +476,9 @@ keys.push(new Key('\\', mash, function() {
   }
   window.setFrame({
     x: window.frame().x,
-    y: window.screen().frameInRectangle().y,
+    y: window.screen().flippedFrame().y,
     width: window.frame().width,
-    height: window.screen().frameInRectangle().height
+    height: window.screen().flippedFrame().height
   });
   heartbeat_window(window);
 }));
@@ -490,9 +490,9 @@ keys.push(new Key('\\', mashShift, function() {
 	return;
   }
   window.setFrame({
-    x: window.screen().frameInRectangle().x,
+    x: window.screen().flippedFrame().x,
     y: window.frame().y,
-    width: window.screen().frameInRectangle().width,
+    width: window.screen().flippedFrame().width,
     height: window.frame().height
   });
   heartbeat_window(window);
