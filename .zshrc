@@ -10,7 +10,6 @@ PATH=$PATH:/Users/alswl/Library/Python/2.7/bin
 	#PATH=$p/bin:$PATH
 #done
 
-# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export PATH
 # }}}
 
@@ -50,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autojump aws bower brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python rbenv redis-cli rsync rvm sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload adb)
+plugins=(autojump aws bower brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python rbenv redis-cli rsync sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload adb)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -151,6 +150,10 @@ alias wo='workon'
 alias ta='tmux attach -t'
 alias k='kill'
 alias k9='kill -9 '
+alias cnpm="npm --registry=https://registry.npm.taobao.org \
+--cache=$HOME/.npm/.cache/cnpm \
+--disturl=https://npm.taobao.org/dist \
+--userconfig=$HOME/.cnpmrc"
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
@@ -184,7 +187,7 @@ hash -d desktop="/Users/alswl/Desktop/"
 #}}}
 
 # rvm {{{
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+#[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 # }}}
 
 # arc {{{

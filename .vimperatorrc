@@ -47,7 +47,7 @@ noremap b :bmarks
 set nextpattern=\s*下一页|下一张|下一篇|下页|后页\s*,^\bnext\b,\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b
 set previouspattern=\s*上一页|上一张|上一篇|上页|前页\s*,^\bprev|previous\b,\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$
 
-set gui=nonavigation
+"set gui=nonavigation
 
 "surround com and net可以直接先输入网站名,再用<CTRL>+<ENTER>快捷输入.com/.net
 "cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>

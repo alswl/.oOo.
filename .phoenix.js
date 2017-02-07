@@ -28,6 +28,7 @@ PARK_SPACE_APP_INDEX_MAP['QQ'] = 1;
 PARK_SPACE_APP_INDEX_MAP['WeChat'] = 1;
 PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
 PARK_SPACE_APP_INDEX_MAP['Mail'] = 2;
+PARK_SPACE_APP_INDEX_MAP['Airmail'] = 2;
 var A_BIG_PIXEL = 10000;
 
 
@@ -764,9 +765,9 @@ keys.push(new Key('0', mash, function() {
 	//x: 991,
 	//y: 385
   //});
-  Task.run('/usr/local/bin/cliclick', [
-		   '-w 200', 'c:847,732', 'kp:delete', 'kp:delete', 'kp:delete', 'c:989,623'
-  ], function(handler) { });
+  //Task.run('/usr/local/bin/cliclick', [
+		   //'-w 200', 'c:847,732', 'kp:delete', 'kp:delete', 'kp:delete', 'c:989,623'
+  //], function(handler) { });
   //Timer.after(0.5, function() {
 	//Task.run('/usr/local/bin/cliclick', ['c:971,385'], function(handler) {
 	//});
