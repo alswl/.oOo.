@@ -49,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autojump aws bower brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python rbenv redis-cli rsync sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload adb)
+plugins=(autojump aws bower brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python rvm redis-cli rsync sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload adb)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -124,7 +124,7 @@ alias gf='git f'
 alias gs='git status'
 alias gnst='git number status'
 alias gdf='git df'
-alias gfuck='git reset --hard origin/master && git clean -fd'
+alias gfuck='git reset --hard ORIG_HEAD && git clean -fd'
 alias gn='git number --column'
 alias v=vim
 alias vv=mvim
@@ -187,7 +187,7 @@ hash -d desktop="/Users/alswl/Desktop/"
 #}}}
 
 # rvm {{{
-#[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 # }}}
 
 # arc {{{
