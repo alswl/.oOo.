@@ -294,7 +294,7 @@ keys.push(new Key('7', mash, function() { callApp('钉钉'); }));
 keys.push(new Key('8', mash, function() { callApp('Wechat'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
-keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
+//keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
 keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
 //keys.push(new Key('z', mash, function() { callApp('Typora'); }));
 //var handler_mash_z = new Key('z', mash, function() { callApp('Typora'); });
