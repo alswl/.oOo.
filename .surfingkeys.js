@@ -10,6 +10,11 @@ unmap('<Ctrl-i>');
 map('<Ctrl-i>', '<Alt-s>');  // FIXME it not works https://github.com/brookhong/Surfingkeys/issues/290
 //map('<Ctrl-i>', '<Meta-s>');
 
+// Insert mode
+
+iunmap('<Ctrl-f>');
+iunmap('<Ctrl-e>');
+
 // Navigator
 
 map('h', 'E');  // tab focus left
@@ -20,6 +25,7 @@ map('O', 'H');  // open in current tab
 
 map('H', 'S');  // backward
 map('L', 'D');  // forward
+map('T', 'on');
 
 
 // Action
