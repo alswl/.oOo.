@@ -20,7 +20,7 @@ map('h', 'E');  // tab focus left
 map('l', 'R');  // tab focus right
 map('u', 'e');  // ⬆️
 
-map('O', 'H');  // open in current tab
+map('o', 'go');  // open in current tab
 
 map('H', 'S');  // backward
 map('L', 'D');  // forward
