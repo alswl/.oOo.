@@ -8,7 +8,6 @@ map('?', 'u');
 //map('gI', 'I');
 unmap('<Ctrl-i>');
 map('<Ctrl-i>', '<Alt-s>');  // FIXME it not works https://github.com/brookhong/Surfingkeys/issues/290
-//map('<Ctrl-i>', '<Meta-s>');
 
 // Insert mode
 
