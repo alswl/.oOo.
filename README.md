@@ -8,18 +8,24 @@ The old version of Linux is [here](https://github.com/alswl/.oOo./tree/ubuntu-fi
 
 目前的配置文件包括：
 
-* awesome # moved to [awesome][]
-* zsh
-* vim # moved to [miv][]
-* vimperator
-* Xmodmap # depleted
-* font
-* tmux / screen
-* xmonad # depleted
-* xmobar # depleted
-* xsession # depleted
-* .gitconfig
-* local/bin # svn diff / git diff / gbk unzip / speedfox
+These configuration Includes: 
+
+*   awesome # moved to [awesome][]
+*   zsh
+*   vim # moved to [miv][]
+*   vimperator
+*   Vimium
+*   CVim
+*   Sufingkeys
+*   Xmodmap # depleted
+*   font
+*   tmux / screen
+*   xmonad # depleted
+*   xmobar # depleted
+*   xsession # depleted
+*   .gitconfig
+*   local/bin # svn diff / git diff / gbk unzip / speedfox
+
 
 ## Usage ##
 
