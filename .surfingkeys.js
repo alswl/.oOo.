@@ -30,7 +30,8 @@ map('T', 'on');
 // Action
 
 map('`', "'");
-map('F', 'af');
+// map('F', 'af'); // open in new tab
+map('F', 'gf'); // open in new unactive tab
 mapkey('p', "Open the clipboard's URL in the current tab", function() {
     Front.getContentFromClipboard(function(response) {
         window.location.href = response.data;

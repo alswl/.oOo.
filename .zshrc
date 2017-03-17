@@ -69,6 +69,9 @@ fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
+# [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source'/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+# [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+
 export GOPATH=$HOME/.gopath
 export HOMEBREW_NO_ANALYTICS=1
 export ANSIBLE_NOCOWS=1
