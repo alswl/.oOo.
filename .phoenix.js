@@ -290,7 +290,7 @@ keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 //var handler_mashShift_2 = new Key('2', mashShift, function() { callApp('Chromium'); });
 keys.push(new Key('3', mash, function() { callApp('QQ'); }));
 //keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
-keys.push(new Key('7', mash, function() { callApp('钉钉'); }));
+keys.push(new Key('7', mash, function() { callApp('CCTalk'); }));
 keys.push(new Key('8', mash, function() { callApp('Wechat'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));

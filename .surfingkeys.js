@@ -55,6 +55,11 @@ mapkey('gi', '#1Go to edit box', function() {
     }
 });
 
+mapkey('ym', "#7Copy current page's URL as markdown", function() {
+  Front.writeClipboard('[' + document.title + '](' + window.location.href + ')');
+});
+
+
 
 // Search Engine
 
@@ -73,7 +78,7 @@ addSearchAlias('wb', 'weibo', 'http://s.weibo.com/weibo/');
 addSearchAlias('jd', 'jd', 'http://search.jd.com/Search?keyword=');
 addSearchAlias('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
 
-addSearchAlias('w', 'wiki', 'https://wiki.***REMOVED***.net/dosearchsite.action?queryString=');
+addSearchAlias('w', 'wiki', 'http://wiki.yeshj.com/dosearchsite.action?queryString=');
 addSearchAlias('idc', 'idc', 'http://idc.***REMOVED***.net/?page=search&last_page=index&last_tab=default&q=');
 
 
