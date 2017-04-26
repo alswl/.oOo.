@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ `tmux ls | grep sa | wc -l` -gt 0 ]; then
+	tmux attach -t sa
+	exit
+fi
+
+tmux new -s sa -d
+for host in 12
+do
+	cmd='echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" > /home/admin/alswl/.ssh/auth_sock.sh && chmod 755 /home/admin/alswl/.ssh/auth_sock.sh && screen -rD sa_d'
+	tmux neww -d -t $host -n "s$host" "ssh s$host -t '$cmd'"
+done
+tmux killw -t 0
+
+tmux attach -t sa

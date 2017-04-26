@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ `tmux ls | grep remote | wc -l` -gt 0 ]; then
+	tmux attach -t remote
+	exit
+fi
+
+tmux new -s remote -d
+for host in {2..47}
+do
+	cmd='echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" > /home/admin/alswl/.ssh/auth_sock.sh; chmod 755 /home/admin/alswl/.ssh/auth_sock.sh; screen -rD alswl'
+	tmux neww -d -t $host -n "s$host" "ssh s$host -X -t '$cmd'"
+done
+
+
+for host in {50..57}
+do
+	cmd='echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" > /home/admin/alswl/.ssh/auth_sock.sh; chmod 755 /home/admin/alswl/.ssh/auth_sock.sh; screen -rD alswl'
+	tmux neww -d -t $host -n "s$host" "ssh wpr-app-0$host.***REMOVED***.com -X -t '$cmd'"
+done
+
+
+for host in {1..2}
+do
+	cmd='echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" > /home/admin/alswl/.ssh/auth_sock.sh; chmod 755 /home/admin/alswl/.ssh/auth_sock.sh; screen -rD alswl'
+	tmux neww -d -t $host -n "s$host" "ssh wpr-storage-00$host.***REMOVED***.com -X -t '$cmd'"
+done
+
+tmux killw -t 0
+
+
+tmux attach -t remote

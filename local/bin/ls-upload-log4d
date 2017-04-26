@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pushd ~/Dropbox/Public/upload_dropbox; ls */* | awk '{print "!["$0"](http://upload-log4d.qiniudn.com/upload_dropbox/"$0")"}'; popd
