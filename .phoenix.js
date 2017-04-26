@@ -18,6 +18,9 @@ var DEFAULT_WIDTH = 1280;
 var WORK_SPACE_INDEX_MAP = {};  // is a dict, key is display count, val is work space
 WORK_SPACE_INDEX_MAP[1] = 0;  // one display case
 WORK_SPACE_INDEX_MAP[2] = 3;  // two display case
+var SECOND_WORK_SPACE_INDEX_MAP = {};  // is a dict, key is display count, val is work space
+SECOND_WORK_SPACE_INDEX_MAP[1] = 0;  // one display case
+SECOND_WORK_SPACE_INDEX_MAP[2] = 0;  // two display case
 var PARK_SPACE_INDEX_MAP = {};
 PARK_SPACE_INDEX_MAP[1] = 2;
 PARK_SPACE_INDEX_MAP[2] = 2;
@@ -295,10 +298,11 @@ keys.push(new Key('8', mash, function() { callApp('Wechat'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
 keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
-keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
+keys.push(new Key('d', mash, function() { callApp('Visual Studio Code'); }));
+//keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
 //keys.push(new Key('z', mash, function() { callApp('Typora'); }));
-//var handler_mash_z = new Key('z', mash, function() { callApp('Typora'); });
-//var handler_mash_z = new Key('z', mash, function() { callApp('Atom'); });
+//keys.push(new Key('z', mash, function() { callApp('Atom'); }));
+keys.push(new Key('z', mash, function() { callApp('Sublime Text'); }));
 keys.push(new Key(',', mash, function() { callApp('Airmail 3'); }));
 //keys.push(new Key(',', mash, function() { callApp('Mail'); }));
 keys.push(new Key('9', mash, function() { callApp('NeteaseMusic'); }));
@@ -326,6 +330,7 @@ function focusAnotherScreen(window, targetScreen) {
   var targetWindow = targetScreenWindows[0]
   targetWindow.focus();  // bug, two window in two space, focus will focus in same space first
   restore_mouse_position_for_window(targetWindow);
+  //App.get('Finder').focus(); // Hack for Screen unfocus
 }
 
 // Next screen
@@ -378,6 +383,7 @@ keys.push(new Key('l', mashShift, function() {
   }
   moveToScreen(window, window.screen().next());
   restore_mouse_position_for_window(window);
+  //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
 }));
 
@@ -393,6 +399,7 @@ keys.push(new Key('h', mashShift, function() {
   }
   moveToScreen(window, window.screen().previous());
   restore_mouse_position_for_window(window);
+  //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
 }));
 
@@ -665,12 +672,13 @@ function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
   var targetSpace = allSpaces[spaceIndex];
   var currentSpace = Space.active();
 
-  currentSpace.removeWindows([window]);
-  targetSpace.addWindows([window]);
   if (currentSpace.screen().hash() != targetSpace.screen().hash()) {
 	  moveToScreen(window, targetSpace.screen());
   }
+  currentSpace.removeWindows([window]);
+  targetSpace.addWindows([window]);
   if (nextWindow) {
+      //App.get('Finder').focus(); // Hack for Screen unfocus
 	  nextWindow.focus();
 	  restore_mouse_position_for_window(nextWindow);
   };
@@ -709,8 +717,24 @@ keys.push(new Key('return', mash, function() {
   });
 }));
 
+// move window to sencond work space
+keys.push(new Key('return', mashShift, function() {
+  var isFollow = true;
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
+  var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+  var allSpaces = Space.all();
+  var screenCount = Screen.all().length;
+  if (SECOND_WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
+  _.each(window.app().windows(), function(window) {
+	moveWindowToTargetSpace(window, nextWindow, allSpaces, SECOND_WORK_SPACE_INDEX_MAP[screenCount]);
+  });
+}));
+
 // move other window in this space to park space
-keys.push(new Key('return', mashCtrl, function() {
+keys.push(new Key('delete', mashShift, function() {
   var isFollow = false;
   var window = getCurrentWindow();
   if (window === undefined) {
