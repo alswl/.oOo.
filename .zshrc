@@ -169,6 +169,7 @@ if [ `uname` = 'Darwin' ]; then
 	alias -g P='pbpaste'
 fi
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
+alias -g HG='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
 alias girl='man'
 
 # }}}
