@@ -13,21 +13,38 @@ These configuration Includes:
 *   awesome # moved to [awesome][]
 *   zsh
 *   vim # moved to [miv][]
-*   vimperator
-*   Vimium
-*   CVim
+*   vimperator  # deprecated
+*   pentadactyl  # deprecated
+*   Vimium  # deprecated
+*   CVim  # deprecated
+*   VimFx  # deprecated
 *   Sufingkeys
-*   Xmodmap # depleted
+*   Xmodmap # deprecated
 *   font
 *   tmux / screen
-*   xmonad # depleted
-*   xmobar # depleted
-*   xsession # depleted
+*   xmonad # deprecated
+*   xmobar # deprecated
+*   xsession # deprecated
+*   ideavimrc
 *   .gitconfig
-*   local/bin # svn diff / git diff / gbk unzip / speedfox
+*   phoenix
+*   mjolnir # deprecated
+*   local/bin
+    *   svn diff
+    *   git diff
+    *   gbk unzip
+    *   speedfox
+    *   gh-md-toc
+    *   bing wallpaper downloader
+    *   rime dict manage
+    *   git proxy wrapper
+    *   url diff
+    *   viscosity to ios connect
+    *   etc.
 
 
 ## Usage ##
+
 
 ``` bash
 git clone https://github.com/alswl/.oOo.
@@ -49,9 +66,7 @@ git checkout -b centos origin/centos
 
 * [miv][] vim configuration
 * [awesome][] awesome configuration
-* [.oOo. mirror][] Mirror @ GitCafe
 
 [.oOo.]: https://github.com/alswl/.oOo.
-[.oOo. mirror]: https://gitcafe.com/alswl/.oOo.
 [awesome]: https://github.com/alswl/awesome
 [miv]: https://github.com/alswl/miv
