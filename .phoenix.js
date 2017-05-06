@@ -616,7 +616,7 @@ keys.push(new Key('space', mash, function() {
 // mash + o
 
 // move window to prev space
-keys.push(new Key('i', mashCtrl, function() {
+keys.push(new Key('i', mashShift, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -642,7 +642,7 @@ keys.push(new Key('i', mashCtrl, function() {
 }));
 
 // move window to next space
-keys.push(new Key('o', mashCtrl, function() {
+keys.push(new Key('o', mashShift, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -673,15 +673,16 @@ function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
   var currentSpace = Space.active();
 
   if (currentSpace.screen().hash() != targetSpace.screen().hash()) {
-	  moveToScreen(window, targetSpace.screen());
+    moveToScreen(window, targetSpace.screen());
   }
   currentSpace.removeWindows([window]);
   targetSpace.addWindows([window]);
   if (nextWindow) {
       //App.get('Finder').focus(); // Hack for Screen unfocus
+	  //nextWindow.raise();
 	  nextWindow.focus();
 	  restore_mouse_position_for_window(nextWindow);
-  };
+  }
 };
 
 // move window to park space
@@ -729,6 +730,7 @@ keys.push(new Key('return', mashShift, function() {
   var screenCount = Screen.all().length;
   if (SECOND_WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
   _.each(window.app().windows(), function(window) {
+    //alert(allSpaces[SECOND_WORK_SPACE_INDEX_MAP[screenCount]].hash());
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, SECOND_WORK_SPACE_INDEX_MAP[screenCount]);
   });
 }));
@@ -745,6 +747,9 @@ keys.push(new Key('delete', mashShift, function() {
   var otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) {return x.hash() != window.hash(); });
   var screenCount = Screen.all().length;
   _.each(otherWindowsInSameSpace, function(parkedWindow) {
+    if (window.app().hash() === parkedWindow.app().hash()) {
+      return;
+    }
 	var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
 	if (parkSpaceIndex >= allSpaces.length) return;
 	moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces, parkSpaceIndex);
@@ -754,7 +759,7 @@ keys.push(new Key('delete', mashShift, function() {
 
 // Test
 keys.push(new Key('0', mash, function() {
-  //var cw = Window.focused();
+  var cw = Window.focused();
   //_.map(App.all(), function(app) { Modal.show(app.title(), 5)});
   //_.map([Window.focused()], function(window) { Modal.show(window.title())});  // current one
   //_.map(Window.all(), function(window) { Modal.show(window.title(), 5)});  // all, include hide
@@ -800,6 +805,13 @@ keys.push(new Key('0', mash, function() {
 	//Task.run('/usr/local/bin/cliclick', ['c:941,385'], function(handler) {
 	//});
   //})
+  //alert(cw.spaces().length);
+  //App.get('Finder').focus(); // Hack for Screen unfocus
+  alert(
+  cw.spaces()[0].hash()
+  );
+  //cw.focus();
+  //cw.focus();
   
 }));
 

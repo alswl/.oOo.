@@ -167,12 +167,12 @@ map <F3> zR
 map <F4> zM
 
 " 标签设置
-map <C-h> gT
-map <C-l> gt
+"map <C-h> gT
+"map <C-l> gt
 imap <F7> <Esc>gT
 imap <F8> <Esc>gt
-nnoremap <C-h> gT
-nnoremap <C-l> gt
+"nnoremap <C-h> gT
+"nnoremap <C-l> gt
 
 map Q :q<CR>
 
