@@ -112,7 +112,7 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
-alias grep='grep --exclude-dir=".svn" --color=auto'
+alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
 alias tmux='tmux -2'
 alias g=git
 alias gc='git c'
