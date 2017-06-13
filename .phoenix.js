@@ -294,6 +294,7 @@ keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 keys.push(new Key('3', mash, function() { callApp('QQ'); }));
 //keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
 keys.push(new Key('7', mash, function() { callApp('CCTalk'); }));
+//keys.push(new Key('8', mash, function() { callApp('Electronic Wechat'); }));
 keys.push(new Key('8', mash, function() { callApp('Wechat'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));

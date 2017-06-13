@@ -169,7 +169,7 @@ if [ `uname` = 'Darwin' ]; then
 	alias -g P='pbpaste'
 fi
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
-alias -g HG='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
+alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
 alias girl='man'
 
 # }}}
@@ -178,7 +178,8 @@ alias girl='man'
 #hash -d WWW="/srv/http/" # use http instead
 hash -d dt="/Users/alswl/***REMOVED***/"
 hash -d hj="/Users/alswl/hj/"
-hash -d desktop="/Users/alswl/Desktop/"
+hash -d md="/Users/alswl/Desktop/md"
+hash -d d="/Users/alswl/Desktop/"
 # }}}
 
 # virtual wrapper {{{
