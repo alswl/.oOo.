@@ -5,6 +5,7 @@
 #done
 PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$PATH:/Users/alswl/Library/Python/2.7/bin
+PATH=$PATH:/Library/TeX/texbin/
 
 #for p in `find /usr/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 	#PATH=$p/bin:$PATH
