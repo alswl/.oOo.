@@ -13,22 +13,21 @@ These configuration Includes:
 *   awesome # moved to [awesome][]
 *   zsh
 *   vim # moved to [miv][]
-*   vimperator  # deprecated
-*   pentadactyl  # deprecated
-*   Vimium  # deprecated
-*   CVim  # deprecated
-*   VimFx  # deprecated
+*   vimperator  # deprecated, use Sufingkeys in Chrome
+*   pentadactyl  # deprecated, use Sufingkeys in Chrome
+*   Vimium  # deprecated, use Sufingkeys
+*   CVim  # deprecated, use Sufingkeys
+*   VimFx  # deprecated, use Sufingkeys in Chrome
 *   Sufingkeys
-*   Xmodmap # deprecated
+*   Xmodmap # deprecated, use Ergodox
 *   font
 *   tmux / screen
-*   xmonad # deprecated
-*   xmobar # deprecated
-*   xsession # deprecated
+*   xmonad # deprecated, use awesome
+*   xmobar # deprecated, use awesome
 *   ideavimrc
 *   .gitconfig
 *   phoenix
-*   mjolnir # deprecated
+*   mjolnir # deprecated, use phoenix
 *   local/bin
     *   svn diff
     *   git diff
