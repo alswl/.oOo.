@@ -12,6 +12,7 @@ PATH=$PATH:/Library/TeX/texbin/
 #done
 
 export PATH
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2  # for zsh plugin virtualenvwrapper
 # }}}
 
 
