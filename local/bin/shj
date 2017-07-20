@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# shortcut command for ssh login
+# ssh-agent
+# tmux
+# tmux set window title
+# usage: shj 192.168.1.1
+
+SHORTCUT=$1
+#SHORTCUT=`echo $SHORTCUT | sed 's/^192\.168\.//g'`
+#SHORTCUT=`echo $SHORTCUT | sed 's/^192\.168\.//g'`
+
+# set tmux window title
+printf "\033k$SHORTCUT\033\\"
+
+ssh $SHORTCUT -A -t 'echo "export SSH_AUTH_SOCK=$SSH_AUTH_SOCK" > /home/hjdjc/.ssh/auth_sock.sh && chmod 755 /home/hjdjc/.ssh/auth_sock.sh && screen -RDU alswl'
+
+exit
