@@ -197,6 +197,10 @@ hash -d d="/Users/alswl/Desktop/"
 [[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
 # }}}
 
+# gitlab {{{
+[[ -s $HOME/.gitlabrc ]] && source $HOME/.gitlabrc
+# }}}
+
 # ansible {{{
 #[[ -s $HOME/local/ansible/hacking/env-setup ]] && source $HOME/local/ansible/hacking/env-setup -q
 # }}}

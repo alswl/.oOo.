@@ -1,3 +1,4 @@
+// vim: set ft=javascript tabstop=4 shiftwidth=4 expandtab:
 // Global
 
 settings.hintAlign = "left";
@@ -36,10 +37,22 @@ map('`', "'");
 map('F', 'gf'); // open in new unactive tab
 mapkey('p', "Open the clipboard's URL in the current tab", function() {
     Front.getContentFromClipboard(function(response) {
-        window.location.href = response.data;
+        if (response.data.startsWith("http://") || response.data.startsWith("https://")) {
+            window.location = response.data;
+        } else {
+            window.location = response.data = "https://www.google.com/search?q=" + response.data;
+        }
     });
 });
-map('P', 'cc');
+mapkey('P', 'Open link from clipboard', function() {
+    Front.getContentFromClipboard(function(response) {
+        if (response.data.startsWith("http://") || response.data.startsWith("https://")) {
+            tabOpenLink(response.data);
+        } else {
+            tabOpenLink("https://www.google.com/search?q=" + response.data);
+        }
+    });
+});
 
 // source: https://gist.github.com/Echostream/fe560aa30271172398cf432b7b281fd5
 mapkey('gi', '#1Go to edit box', function() {
