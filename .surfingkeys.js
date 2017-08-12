@@ -94,7 +94,6 @@ addSearchAliasX('jd', 'jd', 'http://search.jd.com/Search?keyword=');
 addSearchAliasX('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
 
 addSearchAliasX('w', 'wiki', 'http://wiki.yeshj.com/dosearchsite.action?queryString=');
-addSearchAliasX('idc', 'idc', 'http://idc.***REMOVED***.net/?page=search&last_page=index&last_tab=default&q=');
 
 
 
