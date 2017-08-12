@@ -114,7 +114,11 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
-alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
+if [ `uname` = 'Darwin' ]; then
+	alias grep='ggrep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
+else
+	alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
+fi
 alias tmux='tmux -2'
 alias g=git
 alias gc='git c'
@@ -159,6 +163,8 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org \
 --cache=$HOME/.npm/.cache/cnpm \
 --disturl=https://npm.taobao.org/dist \
 --userconfig=$HOME/.cnpmrc"
+alias mssql='rlwrap mssql'
+alias scheme='rlwrap -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
