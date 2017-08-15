@@ -163,7 +163,7 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org \
 --cache=$HOME/.npm/.cache/cnpm \
 --disturl=https://npm.taobao.org/dist \
 --userconfig=$HOME/.cnpmrc"
-alias mssql='rlwrap mssql'
+alias mssql='rlwrap -r mssql'
 alias scheme='rlwrap -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 
 alias -g L='| less'
