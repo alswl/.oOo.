@@ -252,12 +252,6 @@ function restore_mouse_position_for_now() {
  * App Functions
  */
 
-function launchOrFocus(appName) {
-  var app = App.launch(appName);
-  assert(app !== undefined);
-  app.focus();
-  return app;
-}
 
 //switch app, and remember mouse position
 function callApp(appName) {
@@ -265,11 +259,14 @@ function callApp(appName) {
   if (window) {
     save_mouse_position_for_window(window);
   }
-  //App.launch(appName);
-  var newWindow = _.first(launchOrFocus(appName).windows());
-  if (newWindow && window !== newWindow) {
-    restore_mouse_position_for_window(newWindow);
-  }
+  var app = App.launch(appName);
+  Timer.after(0.300, function() {
+    app.focus();
+    var newWindow = _.first(app.windows());
+    if (newWindow && window !== newWindow) {
+      restore_mouse_position_for_window(newWindow);
+    }
+  })
 }
 
 /**
@@ -293,17 +290,19 @@ keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 //keys.push(new Key('2', mashShift, function() { callApp('Firefox'); }));
 //var handler_mashShift_2 = new Key('2', mashShift, function() { callApp('Chromium'); });
 keys.push(new Key('3', mash, function() { callApp('Wechat'); }));
+//keys.push(new Key('3', mash, function() { callApp('Electronic WeChat'); }));
 //keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
+keys.push(new Key('6', mash, function() { callApp('企业微信'); }));
 keys.push(new Key('7', mash, function() { callApp('CCTalk'); }));
 keys.push(new Key('8', mash, function() { callApp('QQ'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
 keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
 keys.push(new Key('d', mash, function() { callApp('Visual Studio Code'); }));
-//keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
+keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
 //keys.push(new Key('z', mash, function() { callApp('Typora'); }));
 //keys.push(new Key('z', mash, function() { callApp('Atom'); }));
-keys.push(new Key('z', mash, function() { callApp('Sublime Text'); }));
+//keys.push(new Key('z', mash, function() { callApp('Sublime Text'); }));
 keys.push(new Key(',', mash, function() { callApp('Airmail 3'); }));
 //keys.push(new Key(',', mash, function() { callApp('Mail'); }));
 keys.push(new Key('9', mash, function() { callApp('NeteaseMusic'); }));
@@ -808,9 +807,6 @@ keys.push(new Key('0', mash, function() {
   //})
   //alert(cw.spaces().length);
   //App.get('Finder').focus(); // Hack for Screen unfocus
-  alert(
-  cw.spaces()[0].hash()
-  );
   //cw.focus();
   //cw.focus();
   
