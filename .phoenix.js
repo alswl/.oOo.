@@ -27,9 +27,9 @@ PARK_SPACE_INDEX_MAP[2] = 2;
 var PARK_SPACE_APP_INDEX_MAP = {};
 PARK_SPACE_APP_INDEX_MAP['iTerm'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Google Chrome'] = 0;
-PARK_SPACE_APP_INDEX_MAP['Safari'] = 1;
+//PARK_SPACE_APP_INDEX_MAP['Safari'] = 1;
 PARK_SPACE_APP_INDEX_MAP['QQ'] = 1;
-PARK_SPACE_APP_INDEX_MAP['WeChat'] = 1;
+PARK_SPACE_APP_INDEX_MAP['WeChat'] = 2;
 PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
 PARK_SPACE_APP_INDEX_MAP['Mail'] = 2;
 PARK_SPACE_APP_INDEX_MAP['Airmail'] = 2;
@@ -293,7 +293,7 @@ keys.push(new Key('3', mash, function() { callApp('Wechat'); }));
 //keys.push(new Key('3', mash, function() { callApp('Electronic WeChat'); }));
 //keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
 keys.push(new Key('6', mash, function() { callApp('企业微信'); }));
-keys.push(new Key('7', mash, function() { callApp('CCTalk'); }));
+keys.push(new Key('7', mash, function() { callApp('CCtalk'); }));
 keys.push(new Key('8', mash, function() { callApp('QQ'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
@@ -695,7 +695,8 @@ keys.push(new Key('delete', mash, function() {
   var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
   var allSpaces = Space.all();
   var screenCount = Screen.all().length;
-  var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
+  var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];  // TODO fix bug
+  //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) return;
   _.each(window.app().windows(), function(window) {
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
