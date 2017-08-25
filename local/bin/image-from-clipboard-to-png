@@ -1,7 +1,7 @@
 #!/bin/bash
 
-IMAGE_DIR="./asserts"
-URL_PREFIX="./asserts"
+IMAGE_DIR="./assets"
+URL_PREFIX="./assets"
 test -d $IMAGE_DIR || mkdir -p $IMAGE_DIR
 
 FILE_NAME=$1
