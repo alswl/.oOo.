@@ -1,10 +1,15 @@
 #!/bin/bash
 
-IMAGE_DIR="./assets"
-URL_PREFIX="./assets"
+DOC_NAME=$1
+if [ -z $DOC_NAME ]; then
+	exit 1
+fi
+
+IMAGE_DIR="./${DOC_NAME}.assets"
+URL_PREFIX=$IMAGE_DIR
 test -d $IMAGE_DIR || mkdir -p $IMAGE_DIR
 
-FILE_NAME=$1
+FILE_NAME=$2
 
 if [ -z $FILE_NAME ]; then
     FILE_NAME="paste_`date '+%Y%m%d-%H%M'`.png"
