@@ -119,6 +119,7 @@ if [ `uname` = 'Darwin' ]; then
 else
 	alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
 fi
+alias ag='ag --pager "less -R"'
 alias tmux='tmux -2'
 alias g=git
 alias gc='git c'
@@ -187,7 +188,9 @@ alias girl='man'
 hash -d dt="/Users/alswl/***REMOVED***/"
 hash -d hj="/Users/alswl/hj/"
 hash -d md="/Users/alswl/Desktop/md"
-hash -d d="/Users/alswl/Desktop/"
+hash -d wl="/Users/alswl/Desktop/md/work-log"
+hash -d ib="/Users/alswl/Desktop/md/inbox"
+hash -d ib="/Users/alswl/Desktop/md/inbox"
 # }}}
 
 # virtual wrapper {{{
