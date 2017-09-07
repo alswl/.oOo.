@@ -1,17 +1,21 @@
 let mapleader = ","
 
-noremap <C-b> <C-b>
-noremap <C-y> <C-y>
-noremap <C-a> <Ins><C-a><Ins>
-noremap <C-c> <Ins><C-c><Ins>
-noremap <C-v> <Ins><C-v><Ins>
-inoremap <C-y> <Ins><C-y><Ins>
-inoremap <C-a> <Ins><C-a><Ins>
-inoremap <C-c> <Ins><C-c><Ins>
-inoremap <C-v> <Ins><C-v><Ins>
+"noremap <C-b> <C-b>
+"noremap <C-y> <C-y>
+"noremap <C-a> <Ins><C-a><Ins>
+"noremap <C-c> <Ins><C-c><Ins>
+"noremap <C-v> <Ins><C-v><Ins>
+"inoremap <C-y> <Ins><C-y><Ins>
+"inoremap <C-a> <Ins><C-a><Ins>
+"inoremap <C-c> <Ins><C-c><Ins>
+"inoremap <C-v> <Ins><C-v><Ins>
 
-noremap j 4j
-noremap k 4k
+"noremap j 4j
+"noremap k 4k
+noremap x d
+noremap d <C-d>
+noremap j 5j
+noremap k 5k
 noremap J <C-d>
 noremap K <C-u>
 noremap w <C-d>
@@ -21,8 +25,7 @@ noremap E <C-b>
 noremap h gT
 noremap l gt
 noremap s :stop<CR>
-
-noremap <leader>+ :open javascript:void((function(){var%20d=document,e=d.createElement(%22script%22);e.setAttribute(%22charset%22,%22UTF-8%22);e.setAttribute(%22src%22,%22http://www.***REMOVED***.com/js/core/no/collectit.js?%22+Math.floor(new%20Date/1E7));d.body.appendChild(e)})());<CR>
+noremap <C-i> <S-Esc>
 
 noremap <leader>da :tabopen about:addons<CR>
 noremap <leader>dp :dialog preferences<CR>
@@ -34,8 +37,9 @@ noremap <leader>di :dialog pageinfo<CR>
 " use b for bookmarks
 noremap b :bmarks 
 
-"干掉一些快捷键
-" map <C-d> <Nop>
+map S :source ~/.vimperatorrc<cr>:echo 'rc reloaded!'<cr>
+
+"map <C-d> <Nop>
 " map <C-u> <Nop>
 
 " set titlestring=Mozilla\ Firefox
@@ -53,7 +57,7 @@ set previouspattern=\s*上一页|上一张|上一篇|上页|前页\s*,^\bprev|pr
 "cnoremap<S-Return> <End>.org<Home><C-Right><Right>www.<CR>
 cnoremap<C-Return> <C-e>.com<CR>
 
-set 'editor=/bin/bash -lc "mvim -f \$*" mvim '
+set 'editor=/usr/local/bin/mvim -f'
 set yankencodedurl=true
 
 " ignorekeys add https://www.toodledo.com/tasks/index.php

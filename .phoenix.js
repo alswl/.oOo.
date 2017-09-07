@@ -27,6 +27,7 @@ PARK_SPACE_INDEX_MAP[2] = 2;
 var PARK_SPACE_APP_INDEX_MAP = {};
 PARK_SPACE_APP_INDEX_MAP['iTerm'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Google Chrome'] = 0;
+PARK_SPACE_APP_INDEX_MAP['Firefox'] = 0;
 //PARK_SPACE_APP_INDEX_MAP['Safari'] = 1;
 PARK_SPACE_APP_INDEX_MAP['QQ'] = 1;
 PARK_SPACE_APP_INDEX_MAP['WeChat'] = 2;
@@ -285,6 +286,7 @@ Phoenix.set({
 // Launch App
 keys.push(new Key('`', mash, function() { callApp('iTerm'); }));
 keys.push(new Key('1', mash, function() { callApp('Google Chrome'); }));
+//keys.push(new Key('1', mash, function() { callApp('Firefox'); }));
 //keys.push(new Key('1', mash, function() { callApp('Chromium'); }));
 keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 //keys.push(new Key('2', mashShift, function() { callApp('Firefox'); }));
