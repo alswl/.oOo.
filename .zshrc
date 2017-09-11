@@ -153,7 +153,7 @@ alias f='find . -name '
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
-alias vh='sudo vi /etc/hosts'
+alias vh='sudo vim /etc/hosts'
 alias cnpm="npm --registry=https://registry.npm.taobao.org --cache=$HOME/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist --userconfig=$HOME/.cnpmrc"
 alias fff='fuck'
 alias wo='workon'
