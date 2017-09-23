@@ -67,7 +67,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 if [ `uname` = 'Darwin' ]; then
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+	export JAVA_HOME=`/usr/libexec/java_home -v 9`
 fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
@@ -165,8 +165,8 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org \
 --cache=$HOME/.npm/.cache/cnpm \
 --disturl=https://npm.taobao.org/dist \
 --userconfig=$HOME/.cnpmrc"
-alias rlmssql='rlwrap -n -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
-alias rlscheme='rlwrap -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
+alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
+alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
