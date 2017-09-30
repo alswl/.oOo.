@@ -7,7 +7,7 @@ test -d $IMAGE_DIR || mkdir -p $IMAGE_DIR
 FILE_NAME=$1
 
 if [ -z $FILE_NAME ]; then
-    FILE_NAME="paste_`date '+%Y%m%d-%H%M'`.png"
+    FILE_NAME="paste_`date '+%Y%m%d-%H%M%S'`.png"
 fi
 
 PNGPASTE_BIN="/usr/local/bin/pngpaste"
