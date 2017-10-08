@@ -150,7 +150,7 @@ alias screen='TERM=xterm-256color screen'
 alias s='sudo '
 alias vd='vimdiff'
 alias vdiff='vimdiff'
-alias f='find . -name '
+alias f=fd
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
