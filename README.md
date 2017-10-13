@@ -31,7 +31,7 @@ These configuration Includes:
 *   local/bin
     *   svn diff
     *   git diff
-    *   gbk unzip
+    *   unzip-gbk
     *   speedfox
     *   gh-md-toc
     *   bing wallpaper downloader
