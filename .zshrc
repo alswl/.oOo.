@@ -187,7 +187,7 @@ alias girl='man'
 # 路径别名 {{{
 #hash -d WWW="/srv/http/" # use http instead
 hash -d dt="/Users/alswl/***REMOVED***/"
-hash -d hj="/Users/alswl/hj/"
+hash -d hj="/Users/alswl/hujiang/"
 hash -d md="/Users/alswl/Desktop/md"
 hash -d wl="/Users/alswl/Desktop/md/work-log"
 hash -d ib="/Users/alswl/Desktop/md/inbox"

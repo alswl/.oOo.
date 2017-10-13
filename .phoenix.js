@@ -698,6 +698,7 @@ keys.push(new Key('delete', mash, function() {
   var allSpaces = Space.all();
   var screenCount = Screen.all().length;
   var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];  // TODO fix bug
+  //alert(parkSpaceIndex);
   //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) return;
   _.each(window.app().windows(), function(window) {
@@ -812,6 +813,9 @@ keys.push(new Key('0', mash, function() {
   //App.get('Finder').focus(); // Hack for Screen unfocus
   //cw.focus();
   //cw.focus();
+  //
+
+  //alert(_.each(Space.all(), function(x) { x.hash() }));
   
 }));
 
