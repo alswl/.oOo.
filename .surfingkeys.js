@@ -28,7 +28,7 @@ map('L', 'D');  // forward
 map('T', 'on');
 
 settings.smartPageBoundary = false;
-
+iunmap(":"); // disable emoji input
 
 // Action
 
@@ -72,6 +72,10 @@ mapkey('gi', '#1Go to edit box', function() {
 
 mapkey('ym', "#7Copy current page's URL as markdown", function() {
   Front.writeClipboard('[' + document.title + '](' + window.location.href + ')');
+});
+
+mapkey('yM', "#7Copy current page's URL as markdown with space", function() {
+  Front.writeClipboard('[' + document.title + ']( ' + window.location.href + ' )');
 });
 
 
