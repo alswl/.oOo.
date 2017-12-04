@@ -8,7 +8,7 @@
 #done
 
 
-for c in `ls /usr/local/Caskroom | grep -v "istat-menus" `; do
+for c in `ls /usr/local/Caskroom `; do
 	#echo $c
 	INFO=`brew cask info $c`
 	LATEST=`echo $INFO | head -n 1 | awk '{print $2}'`
