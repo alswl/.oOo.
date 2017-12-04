@@ -36,7 +36,7 @@ map('`', "'");
 // map('F', 'af'); // open in new tab
 map('F', 'gf'); // open in new unactive tab
 mapkey('p', "Open the clipboard's URL in the current tab", function() {
-    Front.getContentFromClipboard(function(response) {
+    Clipboard.read(function(response) {
         if (response.data.startsWith("http://") || response.data.startsWith("https://")) {
             window.location = response.data;
         } else {
@@ -45,7 +45,7 @@ mapkey('p', "Open the clipboard's URL in the current tab", function() {
     });
 });
 mapkey('P', 'Open link from clipboard', function() {
-    Front.getContentFromClipboard(function(response) {
+    Clipboard.read(function(response) {
         if (response.data.startsWith("http://") || response.data.startsWith("https://")) {
             tabOpenLink(response.data);
         } else {
@@ -71,11 +71,11 @@ mapkey('gi', '#1Go to edit box', function() {
 });
 
 mapkey('ym', "#7Copy current page's URL as markdown", function() {
-  Front.writeClipboard('[' + document.title + '](' + window.location.href + ')');
+  Clipboard.write('[' + document.title + '](' + window.location.href + ')');
 });
 
 mapkey('yM', "#7Copy current page's URL as markdown with space", function() {
-  Front.writeClipboard('[' + document.title + ']( ' + window.location.href + ' )');
+  Clipboard.write('[' + document.title + ']( ' + window.location.href + ' )');
 });
 
 
