@@ -52,7 +52,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autojump aws bower brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python rvm redis-cli rsync sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload adb)
+plugins=(autojump aws bower brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python rvm redis-cli rsync sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload adb nvm)
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -71,7 +71,8 @@ if [ `uname` = 'Darwin' ]; then
 	export JAVA_HOME=`/usr/libexec/java_home -v 9`
 fi
 
-[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+#[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+#[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh
 
 # [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source'/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 # [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
@@ -171,7 +172,7 @@ alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
-alias -g H='| head'
+#alias -g H='| head'
 alias -g J='| jq . | less'
 alias -g W='| wc -l'
 alias -g V='| vim -'

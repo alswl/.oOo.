@@ -546,7 +546,7 @@
                 }
             ],
             "name": "123",
-            "selected": true,
+            "selected": false,
             "simple_modifications": [
                 {
                     "from": {
@@ -983,7 +983,7 @@
                 }
             ],
             "name": "",
-            "selected": false,
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": {
