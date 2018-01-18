@@ -52,7 +52,15 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(autojump aws bower brew-cask colored-man compleat django docker docker-compose fabric gem git git-flow go golang gradle history history-substring-search httpie mvn nmap npm osx pip python rvm redis-cli rsync sbt scala screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload adb nvm)
+plugins=( \
+	auadb autojump aws bower colored-man compleat django docker docker-compose fabric gem git git-flow go golang \
+	gradle history history-substring-search httpie mvn nmap npm nvm pip python redis-cli rsync rvm sbt scala \
+	screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload \
+	)
+[ -f /etc/redhat-release ] && plugins+=( yum )
+[ -f /etc/debian_version ] && plugins+=( apt-get debian ubuntu )
+[ -f /etc/arch-release ] && plugins+=( archlinux )
+[[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew brew-cask )
 # virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
@@ -188,12 +196,7 @@ alias girl='man'
 
 # 路径别名 {{{
 #hash -d WWW="/srv/http/" # use http instead
-hash -d dt="/Users/alswl/***REMOVED***/"
-hash -d hj="/Users/alswl/hujiang/"
-hash -d md="/Users/alswl/Desktop/md"
-hash -d wl="/Users/alswl/Desktop/md/work-log"
-hash -d ib="/Users/alswl/Desktop/md/inbox"
-hash -d ib="/Users/alswl/Desktop/md/inbox"
+#hash -d ib="/Users/alswl/Desktop/md/inbox"
 # }}}
 
 # virtual wrapper {{{
