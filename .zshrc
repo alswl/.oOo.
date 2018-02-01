@@ -3,6 +3,9 @@
 #for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 	#PATH=$p/bin:$PATH
 #done
+
+PATH=$HOME/.jenv/bin:$PATH
+
 PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$PATH:/Users/alswl/Library/Python/2.7/bin
 PATH=$PATH:/Library/TeX/texbin/
@@ -284,4 +287,4 @@ LC_ALL="zh_CN.UTF-8"
 [[ -s /usr/local/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
 
 #. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
-#eval "$(jenv init -)"
+eval "$(jenv init -)"

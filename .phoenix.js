@@ -673,6 +673,7 @@ keys.push(new Key('o', mashShift, function() {
 function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
   var targetSpace = allSpaces[spaceIndex];
   var currentSpace = Space.active();
+  //_.map(targetSpace.windows(), function(w) { alert(w.title()); } );
 
   if (currentSpace.screen().hash() != targetSpace.screen().hash()) {
     moveToScreen(window, targetSpace.screen());
@@ -697,8 +698,9 @@ keys.push(new Key('delete', mash, function() {
   var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
   var allSpaces = Space.all();
   var screenCount = Screen.all().length;
-  var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];  // TODO fix bug
+  var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
   //alert(parkSpaceIndex);
+  //alert(allSpaces.length);
   //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) return;
   _.each(window.app().windows(), function(window) {
