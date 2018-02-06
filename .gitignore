@@ -10,3 +10,5 @@ Session.vim
 
 .vimperator/info/
 .pentadactyl/info/
+.pip/pip.log
+.pip/zsh-cache
