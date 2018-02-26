@@ -54,11 +54,18 @@ mkdir -p ~/local/bin && cd ~/local/bin
 ln -s /your/.oOo./local/bin/* .
 ```
 
-use at cent os(linux):
+Mac
+
+```bash
+ln -s /your/.oOo./mac/.* ~
+ln -s /your/.oOo./mac/_Library/Application\ Support/Karabiner/private.xml ~/Library/Application\ Support/Karabiner/private.xml
+ln -s /your/.oOo./mac/_config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
 ```
-git clone git@github.com:alswl/.oOo..git
-ZDOTDIR=/home/admin/ddd/.oOo./ zsh
-git checkout -b centos origin/centos
+
+Linux
+
+```
+ln -s /your/.oOo./linux/.* ~
 ```
 
 ## Related ##
