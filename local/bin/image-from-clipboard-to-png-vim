@@ -17,8 +17,12 @@ else
     FILE_NAME=$FILE_NAME".png"
 fi
 
-PNGPASTE_BIN="/usr/local/bin/pngpaste"
+if [ `uname` = 'Darwin' ]; then
+	PNGPASTE_BIN="/usr/local/bin/pngpaste"
+	$PNGPASTE_BIN "$IMAGE_DIR/$FILE_NAME"
+	echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | pbcopy
+elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
+	xclip -selection clipboard -t image/png -o > "$IMAGE_DIR/$FILE_NAME"
+	echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | xclip -selection clipboard
+fi
 
-$PNGPASTE_BIN "$IMAGE_DIR/$FILE_NAME"
-
-echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | pbcopy

@@ -4,6 +4,8 @@ autodetach on # default:on
 
 shell zsh
 
+encoding UTF-8
+
 caption always "%{=b}%{b}%{C}[stream]%{-}  %+010=%-w%8L>%{uB .my}*%n %t%{-}%+w%-014<  %-012=%{b m} "
 
 term screen-256color

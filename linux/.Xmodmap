@@ -1,0 +1,18 @@
+! clear
+
+!clear lock
+!clear control
+!clear mod1
+!clear mod4
+
+! modify physical keycode to logical button
+
+!keycode 64 = Super_L Super_L Super_L Super_L
+!keycode 108 = Super_R Super_R Super_R Super_R
+!keycode 133 = Control_L Control_L Control_L Control_L
+!keycode 134 = Control_R Control_R Control_R Control_R
+
+! add logical button to logical modifier group
+
+!add control = Caps_Lock Control_L Control_R
+!add mod4 = Super_L Super_R

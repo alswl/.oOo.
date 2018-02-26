@@ -1,0 +1,24 @@
+#!/bin/sh
+
+xrandr --output HDMI1 --brightness 0.85
+xset r rate 180 50
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+
+xscreensaver -no-splash &
+numlockx &
+fcitx &
+#ibus-daemon -drx
+dropbox &
+copyq &
+xclip &
+albert &
+rescuetime &
+shutter --min_at_startup &
+
+/usr/bin/feh --randomize --bg-scale $HOME/Pictures/bing-wallpapers.all
+
+exec awesome
+#exec i3

@@ -1,9 +1,9 @@
 [color]
     diff = auto 
 	ui = true
-	status = always
-	diff = always
-	branch = always
+	status = auto
+	diff = auto
+	branch = auto
 [diff]
 	external = git_diff_wrapper
 [pager]
