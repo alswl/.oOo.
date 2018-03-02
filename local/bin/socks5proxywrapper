@@ -1,2 +1,19 @@
 #!/bin/sh
-connect -S 127.0.0.1:1234 "$@"
+
+if [ 0 = $# ]; then
+  echo "export GIT_PROXY_COMMAND='`which $0`'"
+  exit 0
+fi
+
+SOCKS_SERVER=127.0.0.1
+SOCKS_PORT=1234
+
+if [ `uname` = 'Darwin' ]; then
+	connect -S 127.0.0.1:1234 "$@"
+elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
+	# openbsd-netcat
+	exec nc -x${SOCKS_SERVER}:${SOCKS_PORT} -X5 $@
+fi
+
+# socat
+# exec socat STDIO SOCKS4:${SOCKS_SERVER}:$1:$2,socksport=${SOCKS_PORT}

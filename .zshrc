@@ -7,7 +7,7 @@ PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
 PATH=$PATH:/Users/alswl/Library/Python/2.7/bin
 PATH=$PATH:/Library/TeX/texbin/
-PATH=$PATH:/Users/alswl/.virtualenvs/sys/bin/
+PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 
 #for p in `find /usr/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 	#PATH=$p/bin:$PATH
@@ -167,7 +167,7 @@ fi
 alias mk=mkdir
 alias le=less
 alias psg='ps -ef | grep '
-alias ipy=/Users/alswl/.virtualenvs/7/bin/ipython
+alias ipy=$HOME/.virtualenvs/7/bin/ipython
 alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'
@@ -214,7 +214,7 @@ alias girl='man'
 
 # 路径别名 {{{
 #hash -d WWW="/srv/http/" # use http instead
-#hash -d ib="/Users/alswl/Desktop/md/inbox"
+#hash -d ib="$HOME/Desktop/md/inbox"
 # }}}
 
 # virtual wrapper {{{
