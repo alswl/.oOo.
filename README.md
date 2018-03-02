@@ -1,10 +1,8 @@
 # Alswl's .oOo. #
 
-这里是我的 Mac OS 配置文件，有兴趣的可以参考。
+这里是我的 Linux / Mac OS 配置文件，有兴趣的可以参考。
 
-This is my Mac OS configuration.
-
-The old version of Linux is [here](https://github.com/alswl/.oOo./tree/ubuntu-final)
+This is my Linux / Mac OS configuration.
 
 目前的配置文件包括：
 
@@ -54,17 +52,24 @@ mkdir -p ~/local/bin && cd ~/local/bin
 ln -s /your/.oOo./local/bin/* .
 ```
 
-use at cent os(linux):
+Mac
+
+```bash
+ln -s /your/.oOo./mac/.* ~
+ln -s /your/.oOo./mac/_Library/Application\ Support/Karabiner/private.xml ~/Library/Application\ Support/Karabiner/private.xml
+ln -s /your/.oOo./mac/_config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
 ```
-git clone git@github.com:alswl/.oOo..git
-ZDOTDIR=/home/admin/ddd/.oOo./ zsh
-git checkout -b centos origin/centos
+
+Linux
+
+```
+ln -s /your/.oOo./linux/.* ~
 ```
 
 ## Related ##
 
-* [miv][] vim configuration
-* [awesome][] awesome configuration
+*   [miv][] vim configuration
+*   [awesome][] awesome configuration
 
 [.oOo.]: https://github.com/alswl/.oOo.
 [awesome]: https://github.com/alswl/awesome

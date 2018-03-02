@@ -9,6 +9,13 @@ PATH=$PATH:/Users/alswl/Library/Python/2.7/bin
 PATH=$PATH:/Library/TeX/texbin/
 PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 
+# virtual wrapper {{{
+[ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
+[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
+[ -f /usr/local/bin/python2 ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2  # for zsh plugin virtualenvwrapper
+#}}}
+
+
 #for p in `find /usr/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 	#PATH=$p/bin:$PATH
 #done
@@ -19,11 +26,7 @@ if [[ -f /home/soft ]]; then
 		PATH=$p/bin:$PATH
 	done
 fi
-
 export PATH
-
-#[ -f /usr/local/bin/python2 ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2  # for zsh plugin virtualenvwrapper
-
 # }}}
 
 
@@ -72,7 +75,6 @@ plugins=( \
 [ -f /etc/debian_version ] && plugins+=( apt-get debian ubuntu )
 [ -f /etc/debian_version ] && plugins+=( pacman )
 [[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew brew-cask )
-# virtualenvwrapper 
 
 source $ZSH/oh-my-zsh.sh
 
@@ -216,11 +218,6 @@ alias girl='man'
 #hash -d WWW="/srv/http/" # use http instead
 #hash -d ib="$HOME/Desktop/md/inbox"
 # }}}
-
-# virtual wrapper {{{
-#[ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
-#[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
-#}}}
 
 # rvm {{{
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
