@@ -5,14 +5,13 @@
 #done
 PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
-PATH=$PATH:/Users/alswl/Library/Python/2.7/bin
 PATH=$PATH:/Library/TeX/texbin/
 PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 
 # virtual wrapper {{{
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
 [ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
-[ -f /usr/local/bin/python2 ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2  # for zsh plugin virtualenvwrapper
+[ -f /usr/local/opt/python2/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python2/libexec/bin/python  # for mac
 #}}}
 
 
