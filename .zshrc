@@ -67,7 +67,7 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=( \
 	auadb autojump aws bower colored-man compleat django docker docker-compose fabric gem git git-flow go golang \
-	gradle history history-substring-search httpie mvn nmap npm nvm pip python redis-cli rsync rvm sbt scala \
+	gradle history history-substring-search httpie mvn nmap npm nvm pip python rbenv redis-cli rsync rvm sbt scala \
 	screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )

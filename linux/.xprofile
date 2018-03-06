@@ -1,7 +1,11 @@
 #!/bin/sh
 
 xrandr --output HDMI1 --brightness 0.85
-xset r rate 200 25
+xrandr --output DP1 --brightness 0.85
+xrandr --output HDMI1  --primary
+xrandr --output DP1 --rotate normal --right-of HDMI1
+
+xset r rate 200 30
 
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
