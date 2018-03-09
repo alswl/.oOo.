@@ -9,6 +9,7 @@ SOCKS_SERVER=127.0.0.1
 SOCKS_PORT=1234
 
 if [ `uname` = 'Darwin' ]; then
+	# https://bitbucket.org/gotoh/connect
 	connect -S 127.0.0.1:1234 "$@"
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	# openbsd-netcat
