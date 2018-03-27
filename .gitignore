@@ -14,3 +14,5 @@ Session.vim
 .pip/zsh-cache
 
 .gitmessage.txt
+.fonts/.uuid
+.fonts/ttf-dejavu-powerline/.uuid
