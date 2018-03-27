@@ -5,6 +5,7 @@
 #done
 PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
+PATH=$PATH:$HOME/.luarocks/bin/
 PATH=$PATH:/Library/TeX/texbin/
 PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 
