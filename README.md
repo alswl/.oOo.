@@ -11,12 +11,12 @@ These configuration Includes:
 *   awesome # moved to [awesome][]
 *   zsh
 *   vim # moved to [miv][]
-*   vimperator  # deprecated, use Sufingkeys in Chrome
-*   pentadactyl  # deprecated, use Sufingkeys in Chrome
-*   Vimium  # deprecated, use Sufingkeys
-*   CVim  # deprecated, use Sufingkeys
-*   VimFx  # deprecated, use Sufingkeys in Chrome
-*   Sufingkeys
+*   vimperator  # deprecated, use Surfingkeys in Chrome
+*   pentadactyl  # deprecated, use Surfingkeys in Chrome
+*   Vimium  # deprecated, use Surfingkeys
+*   CVim  # deprecated, use Surfingkeys
+*   VimFx  # deprecated, use Surfingkeys in Chrome
+*   Surfingkeys
 *   Xmodmap # deprecated, use Ergodox
 *   font
 *   tmux / screen
