@@ -48,8 +48,11 @@ git clone https://github.com/alswl/.oOo.
 ln -s /your/.oOo./.* ~/
 cp /your/.oOo./_.gitconfig ~/.gitconfig
 
-mkdir -p ~/local/bin && cd ~/local/bin
-ln -s /your/.oOo./local/bin/* .
+mkdir -p ~/local/bin
+mkdir -p ~/local/etc
+cd ~/local/
+ln -s /your/.oOo./local/bin/* ./bin/
+ln -s /your/.oOo./local/etc/* ./etc/
 ```
 
 Mac
