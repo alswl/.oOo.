@@ -1,9 +1,9 @@
 #!/bin/sh
 
 xrandr --output HDMI1 --brightness 0.85
-xrandr --output DP1 --brightness 0.85
+xrandr --output DP2 --brightness 0.85
 xrandr --output HDMI1  --primary
-xrandr --output DP1 --rotate normal --right-of HDMI1
+xrandr --output DP2 --rotate normal --right-of HDMI1
 
 xset r rate 200 30
 
@@ -24,5 +24,5 @@ shutter --min_at_startup &
 
 /usr/bin/feh --randomize --bg-scale $HOME/Pictures/bing-wallpapers.all
 
-exec awesome
+#exec awesome
 #exec i3
