@@ -1,0 +1,9 @@
+#!/bin/bash
+
+FILE_NAME=$1
+
+if [ -z $FILE_NAME ]; then
+	exit 0;
+fi
+
+mv $FILE_NAME ${FILE_NAME%.*}.$( cat $FILE_NAME | gmd5sum | cut -c -7 ).${FILE_NAME##*.}
