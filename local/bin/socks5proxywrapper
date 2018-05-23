@@ -8,9 +8,14 @@ fi
 SOCKS_SERVER=127.0.0.1
 SOCKS_PORT=1234
 
+# sniproxy
+#SOCKS_SERVER=192.168.203.11
+#SOCKS_PORT=80
+#SOCKS_PORT=443
+
 if [ `uname` = 'Darwin' ]; then
 	# https://bitbucket.org/gotoh/connect
-	connect -S 127.0.0.1:1234 "$@"
+	connect -S ${SOCKS_SERVER}:${SOCKS_PORT} "$@"
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	# openbsd-netcat
 	exec nc -x${SOCKS_SERVER}:${SOCKS_PORT} -X5 $@

@@ -92,8 +92,9 @@ if [ `uname` = 'Darwin' ]; then
 	export JAVA_HOME=`/usr/libexec/java_home -v 10`
 fi
 
-#[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
-#[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh
+[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh  # ubuntu linux
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh  # arch linux
 
 # [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source'/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 # [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
@@ -205,7 +206,7 @@ alias -g V='| vim -'
 if [ `uname` = 'Linux' ]; then
 	alias pbcopy='xclip -selection clipboard'
 	alias pbpaste='xclip -selection clipboard -o'
-	alias open='gnome-open'
+	alias open='mimeopen'
 fi
 alias -g C='| pbcopy'
 alias -g P='pbpaste'

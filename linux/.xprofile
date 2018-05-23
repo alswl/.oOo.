@@ -23,6 +23,7 @@ rescuetime &
 shutter --min_at_startup &
 
 /usr/bin/feh --randomize --bg-scale $HOME/Pictures/bing-wallpapers.all
+wmname LG3D
 
 #exec awesome
 #exec i3
