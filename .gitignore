@@ -16,3 +16,4 @@ Session.vim
 .gitmessage.txt
 .fonts/.uuid
 .fonts/ttf-dejavu-powerline/.uuid
+*.generated.html
