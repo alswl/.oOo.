@@ -17,3 +17,4 @@ Session.vim
 .fonts/.uuid
 .fonts/ttf-dejavu-powerline/.uuid
 *.generated.html
+.DS_Store

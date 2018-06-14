@@ -203,6 +203,7 @@ alias -g G='| grep --color=auto'
 alias -g J='| jq . | less'
 alias -g W='| wc -l'
 alias -g V='| vim -'
+alias wanip="dig +short myip.opendns.com @resolver1.opendns.com"
 if [ `uname` = 'Linux' ]; then
 	alias pbcopy='xclip -selection clipboard'
 	alias pbpaste='xclip -selection clipboard -o'
