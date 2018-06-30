@@ -6,9 +6,11 @@
 	<string>com.alswl.edit-server</string>
 	<key>LaunchOnlyOnce</key>
 	<true/>
+	<key>RunAtLoad</key>
+	<true/>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/alswl/local/bin/edit-server</string>
+		<string>$HOME/local/bin/edit-server</string>
 	</array>
 </dict>
 </plist>
