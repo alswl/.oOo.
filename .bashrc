@@ -107,3 +107,5 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 export EDITOR=vim
+
+PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
