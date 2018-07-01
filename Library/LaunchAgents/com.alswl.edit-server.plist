@@ -10,6 +10,8 @@
 	<true/>
 	<key>ProgramArguments</key>
 	<array>
+		<string>/bin/bash</string>
+		<string>-c</string>
 		<string>$HOME/local/bin/edit-server</string>
 	</array>
 </dict>
