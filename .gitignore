@@ -18,3 +18,4 @@ Session.vim
 .fonts/ttf-dejavu-powerline/.uuid
 *.generated.html
 .DS_Store
+.java-version
