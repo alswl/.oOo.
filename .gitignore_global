@@ -1,0 +1,13 @@
+## Vim ##
+
+*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+## Global ##
+
+*.generated.html
+.DS_Store
+.java-version

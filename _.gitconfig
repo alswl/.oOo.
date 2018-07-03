@@ -43,7 +43,7 @@
 [push]
 	default = simple
 [core]
-	excludesfile = /Users/alswl/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
