@@ -100,6 +100,8 @@ addSearchAliasX('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
 addSearchAliasX('w', 'wiki', 'http://wiki.yeshj.com/dosearchsite.action?queryString=');
 
 
+// settings.blacklistPattern = /https?:\/\/domain.com\/.*\.pptx/i
+
 
 // Style
 

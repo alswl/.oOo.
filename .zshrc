@@ -16,19 +16,12 @@ PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 #}}}
 
 
-#for p in `find /usr/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
-	#PATH=$p/bin:$PATH
-#done
-
-# for H.J.
-if [[ -f /home/soft ]]; then
-	for p in `find /home/soft/ -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
+if [[ -d $HOME/local ]]; then
+	for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 		PATH=$p/bin:$PATH
 	done
+	export PATH
 fi
-export PATH
-# }}}
-
 
 # ZSH Config {{{
 
@@ -69,7 +62,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=( \
 	auadb autojump aws bower colored-man compleat django docker docker-compose fabric gem git git-flow go golang \
 	gradle history history-substring-search httpie mvn nmap npm nvm pip python rbenv redis-cli rsync rvm sbt scala \
-	screen ssh-agent sudo svn thefuck tmux urltools vagrant virtualenvwrapper xcode zsh_reload \
+	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper xcode zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( apt-get debian ubuntu )
@@ -315,3 +308,10 @@ SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 
 #. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
 eval "$(jenv init -)"
+
+# local setting
+if [[ -d $HOME/.zshrc.etc.d/ ]]; then
+	for p in `ls $HOME/.zshrc.etc.d/*.zshrc`; do
+		source p;
+	done
+fi
