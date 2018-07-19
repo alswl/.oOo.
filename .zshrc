@@ -311,7 +311,7 @@ eval "$(jenv init -)"
 
 # local setting
 if [[ -d $HOME/.zshrc.etc.d/ ]]; then
-	for p in `ls $HOME/.zshrc.etc.d/*.zshrc`; do
-		source p;
+	for RC in `ls $HOME/.zshrc.etc.d/*.zshrc`; do
+		source $RC;
 	done
 fi
