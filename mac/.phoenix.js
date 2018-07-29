@@ -288,19 +288,15 @@ Phoenix.set({
 // Launch App
 keys.push(new Key('`', mash, function() { callApp('iTerm'); }));
 keys.push(new Key('1', mash, function() { callApp('Google Chrome'); }));
-//keys.push(new Key('1', mash, function() { callApp('Firefox'); }));
 //keys.push(new Key('1', mash, function() { callApp('Chromium'); }));
 keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 //keys.push(new Key('2', mashShift, function() { callApp('Firefox'); }));
-//var handler_mashShift_2 = new Key('2', mashShift, function() { callApp('Chromium'); });
 keys.push(new Key('3', mash, function() { callApp('DingTalk'); }));
-//keys.push(new Key('3', mash, function() { callApp('Wechat'); }));
 //keys.push(new Key('3', mash, function() { callApp('Electronic WeChat'); }));
 //keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
+keys.push(new Key('4', mash, function() { callApp('Wechat'); }));
 //keys.push(new Key('6', mash, function() { callApp('企业微信'); }));
-//keys.push(new Key('7', mash, function() { callApp('CCtalk'); }));
-keys.push(new Key('8', mash, function() { callApp('DingTalk'); }));
-//keys.push(new Key('8', mash, function() { callApp('QQ'); }));
+keys.push(new Key('8', mash, function() { callApp('QQ'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
 keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
