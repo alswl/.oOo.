@@ -79,6 +79,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
+# use bash style for in
+# setopt sh_word_split
+
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 if [ `uname` = 'Darwin' ]; then

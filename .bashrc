@@ -108,6 +108,8 @@ fi
 
 export EDITOR=vim
 
+[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+
 PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.

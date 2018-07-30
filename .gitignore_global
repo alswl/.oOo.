@@ -11,3 +11,4 @@ Session.vim
 *.generated.html
 .DS_Store
 .java-version
+~*
