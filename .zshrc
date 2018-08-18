@@ -154,7 +154,7 @@ alias gbr='git br'
 alias gf='git f'
 alias gs='git status'
 alias gnst='git number status'
-alias gdf='git df'
+alias gdf='git diff --no-ext-diff --color | diff-so-fancy | less'
 alias gfuck='git reset --hard ORIG_HEAD && git clean -fd'
 alias gn='git number --column'
 alias v=vim
@@ -212,6 +212,7 @@ alias -g P='pbpaste'
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
 alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
 alias girl='man'
+alias sshg='luit -encoding gbk ssh' 
 
 # }}}
 

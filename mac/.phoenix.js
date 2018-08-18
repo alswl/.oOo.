@@ -286,6 +286,7 @@ Phoenix.set({
  */
 
 // Launch App
+keys.push(new Key('escape', mash, function() { callApp('iTerm'); }));
 keys.push(new Key('`', mash, function() { callApp('iTerm'); }));
 keys.push(new Key('1', mash, function() { callApp('Google Chrome'); }));
 //keys.push(new Key('1', mash, function() { callApp('Chromium'); }));
