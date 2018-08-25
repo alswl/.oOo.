@@ -166,7 +166,7 @@ fi
 alias mk=mkdir
 alias le=less
 alias psg='ps -ef | grep '
-alias ipy=$HOME/.virtualenvs/7/bin/ipython
+alias ipy=$HOME/.virtualenvs/sys/bin/ipython
 alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'

@@ -6,8 +6,11 @@ if [ 0 = $# ]; then
 fi
 
 SOCKS_SERVER=127.0.0.1
-PORT=`networksetup -getsocksfirewallproxy Wi-Fi | grep 'Port' | cut -d ' ' -f2`
-SOCKS_PORT=$PORT
+SOCKS_PORT=1234
+SYSTEM_PROXY_PORT=`networksetup -getsocksfirewallproxy Wi-Fi | grep 'Port' | cut -d ' ' -f2`
+if [ $SYSTEM_PROXY_PORT != "0" ]; then
+	SOCKS_PORT=$SYSTEM_PROXY_PORT
+fi
 
 # sniproxy
 #SOCKS_SERVER=192.168.203.11
