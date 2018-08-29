@@ -1,8 +1,8 @@
 # Alswl's .oOo. #
 
-这里是我的 Linux / Mac OS 配置文件，有兴趣的可以参考。
+这里是我的 Linux / macOS 配置文件，有兴趣的可以参考。
 
-This is my Linux / Mac OS configuration.
+This is my Linux / macOS configuration.
 
 目前的配置文件包括：
 
@@ -55,7 +55,7 @@ ln -s /your/.oOo./local/bin/* ./bin/
 ln -s /your/.oOo./local/etc/* ./etc/
 ```
 
-Mac
+macOS:
 
 ```bash
 ln -s /your/.oOo./mac/.* ~
