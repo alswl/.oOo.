@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p .output
+ls *.md | sed 's/.md//g' | grep -v summary | awk '{print "- ["$0"]("$0")"}' > .output/summary.md
