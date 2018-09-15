@@ -20,8 +20,8 @@ if [[ -d $HOME/local ]]; then
 	for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 		PATH=$p/bin:$PATH
 	done
-	export PATH
 fi
+export PATH
 
 # ZSH Config {{{
 
@@ -289,18 +289,25 @@ export LS_COLORS
 export LESSCHARSET=utf8
 
 # LANG
-LC_COLLATE="en_US.UTF-8"
-LC_CTYPE="en_US.UTF-8"
-LC_MESSAGES="en_US.UTF-8"
-LC_MONETARY="en_US.UTF-8"
-LC_NUMERIC="en_US.UTF-8"
-LC_TIME="en_US.UTF-8"
-LC_ALL="en_US.UTF-8"
+export LC_COLLATE="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_MONETARY="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
+export LC_TIME="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+#LC_COLLATE="C"
+#LC_CTYPE="C"
+#LC_MESSAGES="C"
+#LC_MONETARY="C"
+#LC_NUMERIC="C"
+#LC_TIME="C"
+#LC_ALL="C"
 
-LANG="en_US.UTF-8"
 #LANG="zh_CN.UTF-8"
-LANGUAGE="en_US.UTF--8"
-SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF--8"
+export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 #LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 #SUPPORTED="zh_CN.UTF-8:zh_CN:zh"
 #SUPPORTED="zh_CN.UTF-8"

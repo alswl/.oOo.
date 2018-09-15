@@ -22,4 +22,4 @@ for ASSETS_DIR in `find . -type d -name "*.md.assets"`; do
     rsync -q -avr $ASSETS_DIR/ $OUTPUT_DIR/$ASSETS_DIR/
 done
 
-generate-summary-md
+generate-output-summary-md
