@@ -85,7 +85,8 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 if [ `uname` = 'Darwin' ]; then
-	export JAVA_HOME=`/usr/libexec/java_home -v 10`
+	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+	#export JAVA_HOME=`/usr/libexec/java_home -v 11`
 fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh

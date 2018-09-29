@@ -278,7 +278,7 @@ function callApp(appName) {
 
 Phoenix.set({
     'daemon': true,
-    'openAtLogin': true
+    'openAtLogin': false
 });
 
 /**
