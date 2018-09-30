@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pbpaste | pandoc -f html --atx-headers --column=180 -t "markdown_github+pipe_tables-simple_tables-multiline_tables+grid_tables-raw_html-link_attributes"
