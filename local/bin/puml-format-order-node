@@ -1,0 +1,17 @@
+#!/bin/bash
+# format plantuml file for ording description.
+# eg.
+#
+# original file:
+#
+# BigFish -> Bateway:          0. Request
+# Bateway -> openmonitor:      0.Forward
+#
+# after file:
+#
+# BigFish -> Bateway:          1. Request
+# Bateway -> openmonitor:      2.Forward
+
+cat $1 | sponge | perl -pe 's/(: +)(\d+)\. +/"$1".++$i.". "/e' | sponge $1
+
+# vim: set ft=sh:
