@@ -299,7 +299,8 @@ keys.push(new Key('4', mash, function() { callApp('Wechat'); }));
 //keys.push(new Key('6', mash, function() { callApp('企业微信'); }));
 keys.push(new Key('8', mash, function() { callApp('QQ'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
-keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
+//keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
+keys.push(new Key('a', mash, function() { callApp('Terminal'); }));
 keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
 keys.push(new Key('d', mash, function() { callApp('Visual Studio Code'); }));
 keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
@@ -704,9 +705,7 @@ keys.push(new Key('delete', mash, function() {
   //alert(allSpaces.length);
   //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) return;
-  _.each(window.app().windows(), function(window) {
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
-  });
 }));
 
 // move window to work space
@@ -720,9 +719,7 @@ keys.push(new Key('return', mash, function() {
   var allSpaces = Space.all();
   var screenCount = Screen.all().length;
   if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
-  _.each(window.app().windows(), function(window) {
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
-  });
 }));
 
 // move window to sencond work space
