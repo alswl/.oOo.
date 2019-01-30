@@ -239,6 +239,10 @@ alias sshg='luit -encoding gbk ssh'
 # }}}
 
 
+# sdkman
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
 # key binding {{{
 bindkey '\e.' insert-last-word
 
