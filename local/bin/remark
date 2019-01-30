@@ -11,7 +11,9 @@ fi
 
 FILE_NAME=$1
 
-if [ -z $FILE_NAME ]; then
+if [ ! -f $FILE_NAME ]; then
+	echo "warnning: $FILE_NAME not exist!"
+	echo ''
 	echo 'Usage:'
 	echo 'remark example.md'
 	exit 0;
@@ -62,6 +64,8 @@ cat >> $OUTPUT_FILE_NAME << EOF
   </body>
 </html>
 EOF
+
+echo "Generate $OUTPUT_FILE_NAME successful."
 
 
 #vim: set expandtab:
