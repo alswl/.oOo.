@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# render markdown file with remark https://github.com/gnab/remark
+
+
+if [ `uname` = 'Darwin' ]; then
+	SED_BIN="gsed"
+elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
+	SED_BIN="sed"
+fi
+
+FILE_NAME=$1
+
+if [ -z $FILE_NAME ]; then
+	echo 'Usage:'
+	echo 'remark example.md'
+	exit 0;
+fi
+
+OUTPUT_FILE_NAME=$FILE_NAME.remark.generated.html
+
+cat > $OUTPUT_FILE_NAME << EOF
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      img {
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+EOF
+
+cat $FILE_NAME | $SED_BIN 's/^##/---\n\n#/g' >> $OUTPUT_FILE_NAME
+
+cat >> $OUTPUT_FILE_NAME << EOF
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/FitText.js/1.2.0/jquery.fittext.min.js"></script>
+
+    <script>
+        var slideshow = remark.create();
+        \$('.remark-slide-content').fitText(1.2, { minFontSize: '14px', maxFontSize: '36px' });
+    </script>
+  </body>
+</html>
+EOF
+
+
+#vim: set expandtab:
