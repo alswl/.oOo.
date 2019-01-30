@@ -51,8 +51,8 @@ cat $FILE_NAME | $SED_BIN 's/^##/---\n\n#/g' >> $OUTPUT_FILE_NAME
 cat >> $OUTPUT_FILE_NAME << EOF
 
     </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/remark/0.14.0/remark.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/FitText.js/1.2.0/jquery.fittext.min.js"></script>
 
     <script>
