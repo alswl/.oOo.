@@ -28,18 +28,13 @@ cat > $OUTPUT_FILE_NAME << EOF
     <title>$FILE_NAME</title>
     <meta charset="utf-8">
     <style>
-      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-
-      body { font-family: 'Droid Serif'; }
-      h1, h2, h3 {
-        font-family: 'Yanone Kaffeesatz';
-        font-weight: normal;
-      }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-slide-content {
+        padding: 1em;
+      }
       img {
         max-width: 100%;
+        max-height: 100%;
       }
     </style>
   </head>
@@ -48,7 +43,7 @@ cat > $OUTPUT_FILE_NAME << EOF
 
 EOF
 
-cat $FILE_NAME | $SED_BIN 's/^##/---\n\n#/g' >> $OUTPUT_FILE_NAME
+cat $FILE_NAME | $SED_BIN 's/^##/---\n\n#/g' | $SED_BIN -E 's/^(!\[.+\]\(.+\))$/\n\n---\n\n\1\n\n---\n\n/g'  >> $OUTPUT_FILE_NAME
 
 cat >> $OUTPUT_FILE_NAME << EOF
 
@@ -59,7 +54,9 @@ cat >> $OUTPUT_FILE_NAME << EOF
 
     <script>
         var slideshow = remark.create();
-        \$('.remark-slide-content').fitText(1.2, { minFontSize: '14px', maxFontSize: '36px' });
+        \$(function() {
+            \$('.remark-slide-content').not(\$('.remark-slide-number')).fitText(1.2, { minFontSize: '14px', maxFontSize: '36px' });
+        });
     </script>
   </body>
 </html>
