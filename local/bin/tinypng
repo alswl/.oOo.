@@ -1,0 +1,17 @@
+#!/bin/sh
+
+FILE_NAME=$1
+
+if [ -z $FILE_NAME ]; then
+	echo "Useage: tinypng filename"
+	exit 0;
+fi
+
+export http_proxy=http://127.0.0.1:1235
+export https_proxy=http://127.0.0.1:1235
+
+cp $FILE_NAME ${FILE_NAME}.bak
+URL=$(curl --user api:${TINYPNG_API_SECRECT} --data-binary @$FILE_NAME https://api.tinify.com/shrink | jq -r '.output.url')
+wget $URL -O $FILE_NAME
+
+# vim: set ft=sh:

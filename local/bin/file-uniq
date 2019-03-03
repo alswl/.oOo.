@@ -3,6 +3,7 @@
 FILE_NAME=$1
 
 if [ -z $FILE_NAME ]; then
+	echo "Useage: file-uniq filename"
 	exit 0;
 fi
 
