@@ -1,18 +1,32 @@
 #!/bin/bash
 
-#for c in `brew cask list | grep -v "alfred" | grep -v flash` ; do
-	#LATEST=`brew cask info $c | head -n 1 | awk '{print $2}'`
-	#if [ `brew cask info $c | tail -n +2 | grep $LATEST | wc -l | awk '{print $1}'` -eq 0 ]; then
-		#echo $c
+#set -x
+set -e
+
+get_version_by_info () {
+	local __cask=$1
+	local __info=`brew cask info $__cask`
+	local __latest=`echo $__info | head -n 1 | awk '{print $2}'`
+	echo $__latest
+}
+
+get_version_by_cat () {
+	local __cask=$1
+	local __latest=$(cat /usr/local/Homebrew/Library/Taps/homebrew/*/Casks/$__cask.rb | ggrep -Po "version '\K.+(?=')" | sort -gr | head -n 1)
+	echo $__latest
+}
+
+for CASK in `ls /usr/local/Caskroom `; do
+	#LATEST="$(get_version_by_info $CASK)"
+	if [ ! -f /usr/local/Homebrew/Library/Taps/homebrew/*/Casks/$CASK.rb ]; then
+		echo Cannot find $CASK, maybe this cask is not in homebrew/casks
+		continue
+	fi
+	LATEST="$(get_version_by_cat $CASK)"
+	#if [ `brew cask info $CASK | tail -n +2 | grep $LATEST | wc -l | awk '{print $1}'` -eq 0 ]; then
+		#echo $CASK
 	#fi
-#done
-
-
-for c in `ls /usr/local/Caskroom `; do
-	#echo $c
-	INFO=`brew cask info $c`
-	LATEST=`echo $INFO | head -n 1 | awk '{print $2}'`
-	if [ `brew cask info $c | tail -n +2 | grep $LATEST | wc -l | awk '{print $1}'` -eq 0 ]; then
-		echo $c
+	if [ ! -d /usr/local/Caskroom/$CASK/$LATEST ]; then
+		echo $CASK
 	fi
 done
