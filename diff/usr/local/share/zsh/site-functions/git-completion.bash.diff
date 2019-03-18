@@ -1,0 +1,16 @@
+--- /usr/local/etc/bash_completion.d/git-completion.bash	2019-03-18 17:29:54.000000000 +0800
++++ /usr/local/share/zsh/site-functions/git-completion.bash	2019-03-18 17:29:47.000000000 +0800
+@@ -1329,7 +1329,12 @@
+ 		   [ -n "$(__git_find_on_cmdline "$flags")" ]; then
+ 			track_opt=''
+ 		fi
+-		__git_complete_refs $track_opt
++		#__git_complete_refs $track_opt
++		if [ "$command" = "checkoutr" ]; then
++			__git_complete_refs $track_opt
++		else
++			__gitcomp_nl "$(__git_heads '' $track)"
++		fi
+ 		;;
+ 	esac
+ }
