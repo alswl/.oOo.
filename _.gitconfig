@@ -36,9 +36,11 @@
 	ci = commit
 	civ = commit -v
 	co = checkout
+	cor = checkoutr
 	spl = svn rebase
 	sps = svn dcommit
 	rs = reset
+	checkoutr = checkout
 [merge]
 	tool = vimdiff
 [push]
