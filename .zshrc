@@ -157,7 +157,9 @@ alias gs='git status'
 alias gnst='git number status'
 alias gdf='git diff --no-ext-diff --color | diff-so-fancy | less'
 alias gfuck='git reset --hard ORIG_HEAD && git clean -fd'
+alias gbrm='git branch --merged'
 alias gn='git number --column'
+alias gmnf='git merge --no-ff'
 alias v=vim
 if [ `uname` = 'Darwin' ]; then
 	alias vv=mvim
@@ -165,6 +167,10 @@ elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	alias vv=gvim
 fi
 alias mk=mkdir
+alias m=mvn
+alias mc='mvn clean'
+alias mcc='mvn clean compile'
+alias mcp='mvn clean package'
 alias le=less
 alias psg='ps -ef | grep '
 alias ipy=$HOME/.virtualenvs/sys/bin/ipython
