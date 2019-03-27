@@ -68,9 +68,11 @@ if (!String.format) {
 var alert_title = function(window) { alert(window.title()); };
 
 function sortByMostRecent(windows) {
+  //var start = new Date().getTime();
   var visibleAppMostRecentFirst = _.map(
 	Window.recent(), function(w) { return w.hash(); }
   );
+  //Phoenix.log('Time s0: ' + (new Date().getTime() - start));
   var visibleAppMostRecentFirstWithWeight = _.zipObject(
 	visibleAppMostRecentFirst, _.range(visibleAppMostRecentFirst.length)
   );
@@ -293,9 +295,9 @@ keys.push(new Key('1', mash, function() { callApp('Google Chrome'); }));
 keys.push(new Key('2', mash, function() { callApp('Safari'); }));
 //keys.push(new Key('2', mashShift, function() { callApp('Firefox'); }));
 keys.push(new Key('3', mash, function() { callApp('DingTalk'); }));
-//keys.push(new Key('3', mash, function() { callApp('Electronic WeChat'); }));
+keys.push(new Key('4', mash, function() { callApp('Electronic WeChat'); }));
 //keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
-keys.push(new Key('4', mash, function() { callApp('Wechat'); }));
+//keys.push(new Key('4', mash, function() { callApp('Wechat'); }));
 //keys.push(new Key('6', mash, function() { callApp('企业微信'); }));
 keys.push(new Key('8', mash, function() { callApp('虾米音乐'); }));
 keys.push(new Key('9', mash, function() { callApp('NeteaseMusic'); }));
@@ -310,7 +312,7 @@ keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
 //keys.push(new Key('z', mash, function() { callApp('Sublime Text'); }));
 //keys.push(new Key(',', mash, function() { callApp('Airmail 3'); }));
 keys.push(new Key(',', mash, function() { callApp('Mail'); }));
-keys.push(new Key('.', mash, function() { callApp('Evernote'); }));
+//keys.push(new Key('.', mash, function() { callApp('Evernote'); }));
 //keys.push(new Key('.', mash, function() { callApp('Alternote'); }));
 keys.push(new Key('/', mash, function() { callApp('Finder'); }));
 
@@ -360,18 +362,18 @@ keys.push(new Key('l', mash, function() {
 keys.push(new Key('h', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
-	return;
+    return;
   }
   var allScreens = Screen.all();
   var currentScreen = window.screen();
   if (currentScreen === undefined) {
-	return; // TODO use mouse to find current screen
+    return; // TODO use mouse to find current screen
   }
   var targetScreen = currentScreen.previous();
   if (_.indexOf(_.map(allScreens, function(x) { return x.hash(); }), targetScreen.hash())
-	  <= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
-		return;
-	  }
+      <= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
+        return;
+      }
   focusAnotherScreen(window, targetScreen);
 }));
 
@@ -709,7 +711,7 @@ keys.push(new Key('delete', mash, function() {
 }));
 
 // move window to work space
-keys.push(new Key('return', mash, function() {
+keys.push(new Key('return', mashCtrl, function() {
   var isFollow = true;
   var window = getCurrentWindow();
   if (window === undefined) {
