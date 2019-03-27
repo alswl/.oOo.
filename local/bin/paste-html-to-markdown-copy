@@ -1,0 +1,6 @@
+#!/bin/bash
+
+./paste-html-to-markdown | pbcopy
+
+# vim: set ft=sh:
+

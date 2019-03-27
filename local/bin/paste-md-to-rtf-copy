@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./paste-md-to-rtf | pbcopy
+
+# vim: set ft=sh:

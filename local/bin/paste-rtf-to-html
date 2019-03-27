@@ -1,4 +1,7 @@
 #!/bin/bash
 
-osascript -e 'the clipboard as "HTML"'|perl -ne 'print chr foreach unpack("C*",pack("H*",substr($_,11,-3)))'
+osascript -e 'the clipboard as "HTML"' \
+	| perl -ne 'print chr foreach unpack("C*",pack("H*",substr($_,11,-3)))' \
+	| pandoc -f html --atx-headers --wrap none -t "markdown_github+pipe_tables-simple_tables-multiline_tables+grid_tables-raw_html-link_attributes"
 
+# vim: set ft=sh:

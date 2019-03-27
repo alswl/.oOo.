@@ -1,3 +1,6 @@
 #!/bin/bash
 
-pbpaste | pandoc -f html --atx-headers --column=180 -t "markdown_github+pipe_tables-simple_tables-multiline_tables+grid_tables-raw_html-link_attributes"
+pbpaste \
+	| pandoc -f html -t markdown --atx-headers --wrap=none -t "markdown_github+pipe_tables-simple_tables-multiline_tables+grid_tables-raw_html-link_attributes"
+
+# vim: set ft=sh:
