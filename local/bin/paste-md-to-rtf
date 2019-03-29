@@ -1,7 +1,6 @@
 #!/bin/bash
 
-pbpaste \
-	| pandoc -f markdown -t html \
+./paste-md-to-html \
 	| textutil -stdin -inputencoding utf-8 -encoding utf-8 -format html -convert rtf -stdout
 
 # vim: set ft=sh:

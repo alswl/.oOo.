@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./paste-md-to-html | pbcopy
+
+# vim: set ft=sh:
