@@ -1,7 +1,15 @@
 #!/bin/bash
 
-./paste-rtf-to-html \
-	| pandoc -f html --atx-headers --wrap none -t "markdown+pipe_tables-simple_tables-multiline_tables-raw_html-link_attributes"
-	#| grep -v '^:::'
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+$DIR/paste-rtf-to-html \
+	| pandoc -f html --atx-headers --wrap none -t "markdown+pipe_tables-simple_tables-multiline_tables-raw_html-link_attributes" \
+	| gsed -E '/^<div>$/d' \
+	| gsed -E '/^<\/div>$/d' \
+	| gsed -E '/\s*:::\s*$/d' \
+	| gsed -E '/\s*:::\s* \{.+\}$/d' \
+	| gsed -E 's/\{\s?(\s*(\.[a-zA-Z0-9\-]+)*|([a-zA-Z0-9\-]+="[^"]+")*\s*)+\}//g' \
+	| gsed -E 's/\s+$//g' \
+	| gsed -E '/^$/N;/^\n$/D'
 
 # vim: set ft=sh:

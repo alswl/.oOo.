@@ -1,6 +1,8 @@
 #!/bin/bash
 
-./paste-md-to-html \
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+$DIR/paste-md-to-html \
 	| textutil -stdin -inputencoding utf-8 -encoding utf-8 -format html -convert rtf -stdout
 
 # vim: set ft=sh:
