@@ -10,9 +10,6 @@ $DIR/paste-rtf-to-html \
 	| gsed -E '/\s*:::\s* \{.+\}$/d' \
 	| gsed -E 's/\{\s?(\s*(#\S+)*|(\.[a-zA-Z0-9\-]+)*|([a-zA-Z0-9\-]+="[^"]+")*\s*)+\}//g' \
 	| gsed -E 's/\s+$//g' \
-	| gsed -E '/^$/N;/^\n$/D' \
-	| gsed -E 's/ / /g' \
-	| gsed -E 's/​//g'
-	| gsed -E 's///g'
+	| gsed -E '/^$/N;/^\n$/D'
 
 # vim: set ft=sh:
