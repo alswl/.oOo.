@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -x
+set -e
+
 if [ 0 = $# ]; then
   echo "export GIT_PROXY_COMMAND='`which $0`'"
   exit 0
