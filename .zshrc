@@ -60,14 +60,14 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=( \
-	auadb autojump aws bower colored-man compleat django docker docker-compose fabric gem git git-flow go golang \
+	autojump aws bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang \
 	gradle history history-substring-search httpie mvn nmap npm nvm pip python rbenv redis-cli rsync rvm sbt scala \
 	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper xcode zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( apt-get debian ubuntu )
 [ -f /etc/debian_version ] && plugins+=( pacman )
-[[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew brew-cask )
+[[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew )
 
 source $ZSH/oh-my-zsh.sh
 

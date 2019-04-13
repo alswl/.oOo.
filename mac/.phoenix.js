@@ -312,7 +312,7 @@ keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
 //keys.push(new Key('z', mash, function() { callApp('Sublime Text'); }));
 //keys.push(new Key(',', mash, function() { callApp('Airmail 3'); }));
 keys.push(new Key(',', mash, function() { callApp('Mail'); }));
-//keys.push(new Key('.', mash, function() { callApp('Evernote'); }));
+keys.push(new Key('.', mash, function() { callApp('Evernote'); }));
 //keys.push(new Key('.', mash, function() { callApp('Alternote'); }));
 keys.push(new Key('/', mash, function() { callApp('Finder'); }));
 
