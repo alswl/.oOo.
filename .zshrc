@@ -96,7 +96,8 @@ fi
 # [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source'/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 # [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
-export GOPATH=$HOME/.gopath
+export GOPATH=$HOME/dev/go
+#export GO111MODULE=on
 export HOMEBREW_NO_ANALYTICS=1
 export ANSIBLE_NOCOWS=1
 export ANDROID_HOME=/usr/local/opt/android-sdk
