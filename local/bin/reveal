@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# render markdown file with reveal https://github.com/hakimel/reveal.js#markdown
+
+
+if [ `uname` = 'Darwin' ]; then
+	SED_BIN="gsed"
+elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
+	SED_BIN="sed"
+fi
+
+FILE_NAME=$1
+
+if [ ! -f $FILE_NAME ]; then
+	echo "warnning: $FILE_NAME not exist!"
+	echo ''
+	echo 'Usage:'
+	echo 'reveal example.md'
+	exit 0;
+fi
+
+OUTPUT_FILE_NAME=$FILE_NAME.reveal.generated.html
+
+cat > $OUTPUT_FILE_NAME << EOF
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="https://cdn.staticfile.org/reveal.js/3.8.0/css/reset.css">
+		<link rel="stylesheet" href="https://cdn.staticfile.org/reveal.js/3.8.0/css/reveal.css">
+		<!--<link rel="stylesheet" href="https://cdn.staticfile.org/reveal.js/3.8.0/css/theme/black.css">-->
+		<link rel="stylesheet" href="https://cdn.staticfile.org/reveal.js/3.8.0/css/theme/league.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="https://cdn.staticfile.org/reveal.js/3.8.0/lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'https://cdn.staticfile.org/reveal.js/3.8.0/css/print/pdf.css' : 'https://cdn.staticfile.org/reveal.js/3.8.0/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+EOF
+
+cat >> $OUTPUT_FILE_NAME << EOF
+				<section data-markdown>
+					<textarea data-template>
+EOF
+
+cat $FILE_NAME | \
+	$SED_BIN -E 's/^(\* +.*)$/\1<!-- .element: class="fragment" -->/g' | \
+	$SED_BIN 's/^##/				<\/textarea>\n				<\/section>\n				<section data-markdown>\n					<textarea data-template>\n##/g'  >> $OUTPUT_FILE_NAME
+
+
+cat >> $OUTPUT_FILE_NAME << EOF
+					</textarea>
+				</section>
+EOF
+
+cat >> $OUTPUT_FILE_NAME << EOF
+			</div>
+		</div>
+
+		<script src="https://cdn.staticfile.org/reveal.js/3.8.0/js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'https://cdn.staticfile.org/reveal.js/3.8.0/plugin/markdown/marked.js' },
+					{ src: 'https://cdn.staticfile.org/reveal.js/3.8.0/plugin/markdown/markdown.js' },
+					{ src: 'https://cdn.staticfile.org/reveal.js/3.8.0/plugin/notes/notes.js', async: true },
+					{ src: 'https://cdn.staticfile.org/reveal.js/3.8.0/plugin/highlight/highlight.js', async: true },
+					{ src: 'https://cdn.staticfile.org/reveal.js/3.8.0/plugin/math/math.js', async: true },
+					{ src: 'https://cdn.staticfile.org/reveal.js/3.8.0/plugin/zoom-js/zoom.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
+
+EOF
+
+echo "Generate $OUTPUT_FILE_NAME successful."
+
+
+#vim: set expandtab:
