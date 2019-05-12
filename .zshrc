@@ -69,6 +69,7 @@ plugins=( \
 [ -f /etc/debian_version ] && plugins+=( pacman )
 [[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew )
 
+DISABLE_MAGIC_FUNCTIONS=true
 source $ZSH/oh-my-zsh.sh
 
 #export POWERLINE_RIGHT_B="none"
