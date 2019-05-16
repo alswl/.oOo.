@@ -5,26 +5,25 @@
  * Global Settings
  */
 
-var keys = [];
+const keys = [];
 
-var mash = ["alt"];
-var mashShift = ["alt", "shift"];
-var mashCtrl = ["alt", "ctrl"];
-var mashCmd = ["alt", "cmd"];
-var mousePositions = {};
-var HIDE_INACTIVE_WINDOW_TIME = 10;  // minitus
-var ACTIVE_WINDOWS_TIMES = {};
-var DEFAULT_WIDTH = 1280;
-var WORK_SPACE_INDEX_MAP = {};  // is a dict, key is display count, val is work space
-WORK_SPACE_INDEX_MAP[1] = 0;  // one display case
-WORK_SPACE_INDEX_MAP[2] = 3;  // two display case
-var SECOND_WORK_SPACE_INDEX_MAP = {};  // is a dict, key is display count, val is work space
-SECOND_WORK_SPACE_INDEX_MAP[1] = 0;  // one display case
-SECOND_WORK_SPACE_INDEX_MAP[2] = 0;  // two display case
-var PARK_SPACE_INDEX_MAP = {};
+const mash = ['alt'];
+const mashShift = ['alt', 'shift'];
+const mashCtrl = ['alt', 'ctrl'];
+const mousePositions = {};
+const HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
+const ACTIVE_WINDOWS_TIMES = {};
+const DEFAULT_WIDTH = 1280;
+const WORK_SPACE_INDEX_MAP = {}; // is a dict, key is display count, val is work space
+WORK_SPACE_INDEX_MAP[1] = 0; // one display case
+WORK_SPACE_INDEX_MAP[2] = 3; // two display case
+const SECOND_WORK_SPACE_INDEX_MAP = {}; // is a dict, key is display count, val is work space
+SECOND_WORK_SPACE_INDEX_MAP[1] = 0; // one display case
+SECOND_WORK_SPACE_INDEX_MAP[2] = 0; // two display case
+const PARK_SPACE_INDEX_MAP = {};
 PARK_SPACE_INDEX_MAP[1] = 2;
 PARK_SPACE_INDEX_MAP[2] = 2;
-var PARK_SPACE_APP_INDEX_MAP = {};
+const PARK_SPACE_APP_INDEX_MAP = {};
 PARK_SPACE_APP_INDEX_MAP['iTerm'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Google Chrome'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Chromium'] = 0;
@@ -36,7 +35,7 @@ PARK_SPACE_APP_INDEX_MAP['WeChat'] = 2;
 PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
 PARK_SPACE_APP_INDEX_MAP['Mail'] = 2;
 PARK_SPACE_APP_INDEX_MAP['Airmail'] = 2;
-var A_BIG_PIXEL = 10000;
+const A_BIG_PIXEL = 10000;
 
 
 /**
@@ -52,7 +51,7 @@ function alert(message) {
 
 function assert(condition, message) {
   if (!condition) {
-    throw message || "Assertion failed";
+    throw message || 'Assertion failed';
   }
 }
 
@@ -68,11 +67,11 @@ if (!String.format) {
 var alert_title = function(window) { alert(window.title()); };
 
 function sortByMostRecent(windows) {
-  //var start = new Date().getTime();
+ //var start = new Date().getTime();
   var visibleAppMostRecentFirst = _.map(
 	Window.recent(), function(w) { return w.hash(); }
   );
-  //Phoenix.log('Time s0: ' + (new Date().getTime() - start));
+ //Phoenix.log('Time s0: ' + (new Date().getTime() - start));
   var visibleAppMostRecentFirstWithWeight = _.zipObject(
 	visibleAppMostRecentFirst, _.range(visibleAppMostRecentFirst.length)
   );
@@ -138,7 +137,7 @@ function moveToScreen(window, screen) {
 };
 
 function windowsOnOtherScreen() {
-  var otherWindowsOnSameScreen = Window.focused().others({ screen: Window.focused().screen() });  // slow
+  var otherWindowsOnSameScreen = Window.focused().others({ screen: Window.focused().screen() }); // slow
   var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen , function(w) { return w.title(); });
   var return_value = _.chain(Window.focused().others())
     .filter(function(window) { return ! _.includes(otherWindowTitlesOnSameScreen, window.title()); })
@@ -160,13 +159,13 @@ function hide_inactiveWindow(windows) {
     } return true;
   }).filter(function(window) {
     return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> HIDE_INACTIVE_WINDOW_TIME * 60;
-    //return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
+   //return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
   }).map(function(window) {window.app().hide()});
 }
 
 function heartbeat_window(window) {
   ACTIVE_WINDOWS_TIMES[window.app().pid] = new Date().getTime() / 1000;
-  //hide_inactiveWindow(window.otherWindowsOnSameScreen());
+ //hide_inactiveWindow(window.otherWindowsOnSameScreen());
 }
 
 function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
@@ -183,9 +182,9 @@ function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   } else {
 	var index = _.indexOf(windows, window) + offset;
   }
-  //alert(windows.length);
-  //alert(_.map(windows, function(x) {return x.title();}).join(','));
-  //alert(_.map(windows, function(x) {return x.app().name();}).join(','));
+ //alert(windows.length);
+ //alert(_.map(windows, function(x) {return x.title();}).join(','));
+ //alert(_.map(windows, function(x) {return x.app().name();}).join(','));
   if (index >= windows.length || index < 0) {
 	return;
   }
@@ -217,7 +216,7 @@ function save_mouse_position_for_window(window) {
   if (!window) return;
   heartbeat_window(window);
   var pos = Mouse.location()
-  //pos.y = 800 - pos.y;  // fix phoenix 2.x bug
+ //pos.y = 800 - pos.y; // fix phoenix 2.x bug
   mousePositions[window.hash()] = pos;
 }
 
@@ -240,7 +239,7 @@ function restore_mouse_position_for_window(window) {
     set_mouse_position_for_window_center(window);
     return;
   }
-  //Phoenix.log(String.format('x: {0}, y: {1}', pos.x, pos.y));
+ //Phoenix.log(String.format('x: {0}, y: {1}', pos.x, pos.y));
   Mouse.move(pos);
   heartbeat_window(window);
 }
@@ -323,20 +322,20 @@ keys.push(new Key('/', mash, function() { callApp('Finder'); }));
 
 function focusAnotherScreen(window, targetScreen) {
   if (!window) return;
-  var currentScreen = window.screen();
+  const currentScreen = window.screen();
   if (window.screen() === targetScreen) return;
-  //if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
-    //return;
-  //}
+ //if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
+   //return;
+ //}
   save_mouse_position_for_window(window);
   var targetScreenWindows = sortByMostRecent(targetScreen.windows());
   if (targetScreenWindows.length == 0) {
     return;
   }
   var targetWindow = targetScreenWindows[0]
-  targetWindow.focus();  // bug, two window in two space, focus will focus in same space first
+  targetWindow.focus(); // bug, two window in two space, focus will focus in same space first
   restore_mouse_position_for_window(targetWindow);
-  //App.get('Finder').focus(); // Hack for Screen unfocus
+ //App.get('Finder').focus(); // Hack for Screen unfocus
 }
 
 // Next screen
@@ -389,7 +388,7 @@ keys.push(new Key('l', mashShift, function() {
   }
   moveToScreen(window, window.screen().next());
   restore_mouse_position_for_window(window);
-  //App.get('Finder').focus(); // Hack for Screen unfocus
+ //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
 }));
 
@@ -405,7 +404,7 @@ keys.push(new Key('h', mashShift, function() {
   }
   moveToScreen(window, window.screen().previous());
   restore_mouse_position_for_window(window);
-  //App.get('Finder').focus(); // Hack for Screen unfocus
+ //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
 }));
 
@@ -416,10 +415,10 @@ keys.push(new Key('h', mashShift, function() {
 
 // Window Hide Inactive
 //keys.push(new Key('delete', mash, function() {
-  //var window = Window.focused();
-  //if (!window) return;
-  //heartbeat_window(window);
-  //hide_inactiveWindow(window.others());
+ //var window = Window.focused();
+ //if (!window) return;
+ //heartbeat_window(window);
+ //hide_inactiveWindow(window.others());
 //}));
 
 // Window Maximize
@@ -431,7 +430,7 @@ keys.push(new Key('m', mashShift, function() {
 
   window.maximize();
   setWindowCentral(window);
-  //heartbeat_window(window);
+ //heartbeat_window(window);
 }));
 
 // Window Smaller
@@ -446,7 +445,7 @@ keys.push(new Key('-', mash, function() {
   if (window.frame().width == oldFrame.width || window.frame().height == oldFrame.height) {
     window.setFrame(oldFrame);
   }
-  //heartbeat_window(window);
+ //heartbeat_window(window);
 }));
 
 // Window Larger
@@ -462,7 +461,7 @@ keys.push(new Key('=', mash, function() {
   } else {
     window.setFrame(frame);
   }
-  //heartbeat_window(window);
+ //heartbeat_window(window);
 }));
 
 // Window Central
@@ -590,7 +589,7 @@ keys.push(new Key('j', mash, function() {
     return;
   }
   save_mouse_position_for_window(window);
-  var targetWindow = getNextWindowsOnSameScreen(window);  // <- most time cost
+  var targetWindow = getNextWindowsOnSameScreen(window); // <- most time cost
   if (!targetWindow) {
 	return;
   }
@@ -677,7 +676,7 @@ keys.push(new Key('o', mashShift, function() {
 function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
   var targetSpace = allSpaces[spaceIndex];
   var currentSpace = Space.active();
-  //_.map(targetSpace.windows(), function(w) { alert(w.title()); } );
+ //_.map(targetSpace.windows(), function(w) { alert(w.title()); } );
 
   if (currentSpace.screen().hash() != targetSpace.screen().hash()) {
     moveToScreen(window, targetSpace.screen());
@@ -685,8 +684,8 @@ function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
   currentSpace.removeWindows([window]);
   targetSpace.addWindows([window]);
   if (nextWindow) {
-      //App.get('Finder').focus(); // Hack for Screen unfocus
-	  //nextWindow.raise();
+     //App.get('Finder').focus(); // Hack for Screen unfocus
+	 //nextWindow.raise();
 	  nextWindow.focus();
 	  restore_mouse_position_for_window(nextWindow);
   }
@@ -703,9 +702,9 @@ keys.push(new Key('delete', mash, function() {
   var allSpaces = Space.all();
   var screenCount = Screen.all().length;
   var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
-  //alert(parkSpaceIndex);
-  //alert(allSpaces.length);
-  //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
+ //alert(parkSpaceIndex);
+ //alert(allSpaces.length);
+ //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) return;
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
 }));
@@ -736,7 +735,7 @@ keys.push(new Key('return', mashShift, function() {
   var screenCount = Screen.all().length;
   if (SECOND_WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
   _.each(window.app().windows(), function(window) {
-    //alert(allSpaces[SECOND_WORK_SPACE_INDEX_MAP[screenCount]].hash());
+   //alert(allSpaces[SECOND_WORK_SPACE_INDEX_MAP[screenCount]].hash());
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, SECOND_WORK_SPACE_INDEX_MAP[screenCount]);
   });
 }));
@@ -766,16 +765,16 @@ keys.push(new Key('delete', mashShift, function() {
 // Test
 keys.push(new Key('0', mash, function() {
   var cw = Window.focused();
-  //_.map(App.all(), function(app) { Modal.show(app.title(), 5)});
-  //_.map([Window.focused()], function(window) { Modal.show(window.title())});  // current one
-  //_.map(Window.all(), function(window) { Modal.show(window.title(), 5)});  // all, include hide
-  //_.map(Window.all({visible: true}), function(window) { Modal.show(window.title())});  // all, no hide
-  //_.map(Window.recent(), function(window) { Modal.show(window.title())});
-  //_.map(Window.focused().others(), function(window) { Modal.show(window.title())});  // no space
-  //_.map(Window.focused().windowsOnOtherScreen(), alert_title);
-  //_.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
-  //_.map(cw.windowsOnOtherScreen(), alert_title);
-  //Modal.show(Window.focused().screen());
+ //_.map(App.all(), function(app) { Modal.show(app.title(), 5)});
+ //_.map([Window.focused()], function(window) { Modal.show(window.title())}); // current one
+ //_.map(Window.all(), function(window) { Modal.show(window.title(), 5)}); // all, include hide
+ //_.map(Window.all({visible: true}), function(window) { Modal.show(window.title())}); // all, no hide
+ //_.map(Window.recent(), function(window) { Modal.show(window.title())});
+ //_.map(Window.focused().others(), function(window) { Modal.show(window.title())}); // no space
+ //_.map(Window.focused().windowsOnOtherScreen(), alert_title);
+ //_.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
+ //_.map(cw.windowsOnOtherScreen(), alert_title);
+ //Modal.show(Window.focused().screen());
 
   //_.chain(Window.all()).difference(Window.all(visible: true)).map(function(window) { Modal.show(window.title())});  // all, include hide
   //Modal.show(_.chain(Window.all()).difference(Window.all(visible: true)).value().length);
