@@ -37,10 +37,6 @@ ZSH_THEME="robbyrussell"
 #ZSH_THEME="minial"
 #ZSH_THEME="candy"
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"
 
@@ -62,14 +58,17 @@ COMPLETION_WAITING_DOTS="true"
 plugins=( \
 	autojump aws bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang \
 	gradle history history-substring-search httpie mvn nmap npm nvm pip python rbenv redis-cli rsync rvm sbt scala \
-	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper xcode zsh_reload \
+	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( apt-get debian ubuntu )
-[ -f /etc/debian_version ] && plugins+=( pacman )
-[[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew )
+[ -f /etc/pacman.d/mirrorlist ] && plugins+=( pacman )
+[[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew xcode )
 
+# disable zsh substitution/autocomplete with URL and backslashes
+# https://stackoverflow.com/questions/25614613/how-to-disable-zsh-substitution-autocomplete-with-url-and-backslashes/
 DISABLE_MAGIC_FUNCTIONS=true
+
 source $ZSH/oh-my-zsh.sh
 
 #export POWERLINE_RIGHT_B="none"
@@ -94,8 +93,8 @@ fi
 [ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh  # ubuntu linux
 [ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh  # arch linux
 
-# [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source'/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-# [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source'/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 export GOPATH=$HOME/dev/go
 #export GO111MODULE=on
@@ -103,11 +102,7 @@ export HOMEBREW_NO_ANALYTICS=1
 export ANSIBLE_NOCOWS=1
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
-# personal script {{{
-[ -f $HOME/.personal.sh ] && . $HOME/.personal.sh
-# }}}
-
-# 常用alias {{{
+# alias {{{
 if [ `uname` = 'Darwin' ]; then
 	alias ls='ls -Gv'
 	alias b=brew
@@ -163,9 +158,7 @@ alias gdf='git diff --no-ext-diff --color | diff-so-fancy | less'
 alias gfuck='git reset --hard ORIG_HEAD && git clean -fd'
 alias gmnf='git merge --no-ff'
 alias gmod='git merge origin/develop'
-#alias gbm='git branch --merged'
 alias gn='git number --column'
-#alias gmnf='git merge --no-ff'
 alias v=vim
 if [ `uname` = 'Darwin' ]; then
 	alias vv=mvim
@@ -229,7 +222,7 @@ alias sshg='luit -encoding gbk ssh'
 
 # }}}
 
-# 路径别名 {{{
+# Hash Alias {{{
 #hash -d WWW="/srv/http/" # use http instead
 #hash -d ib="$HOME/Desktop/md/inbox"
 # }}}
