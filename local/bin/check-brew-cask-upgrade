@@ -1,7 +1,12 @@
 #!/bin/bash
 
 #set -x
-set -e
+#set -e
+
+if ! [ -x "$(command -v ggrep)" ]; then
+	echo 'Error: Required GNU grep, try brew install grep'
+	exit 1;
+fi
 
 get_version_by_info () {
 	local __cask=$1
