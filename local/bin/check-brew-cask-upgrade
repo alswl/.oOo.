@@ -3,10 +3,14 @@
 #set -x
 #set -e
 
-if ! [ -x "$(command -v ggrep)" ]; then
-	echo 'Error: Required GNU grep, try brew install grep'
-	exit 1;
-fi
+check_command_installed () {
+	NAME=$1
+	BREW_NAME=$2
+	if ! [ -x "$(command -v $NAME)" ]; then
+		echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
+		exit 1;
+	fi
+}
 
 get_version_by_info () {
 	local __cask=$1
@@ -20,6 +24,10 @@ get_version_by_cat () {
 	local __latest=$(cat /usr/local/Homebrew/Library/Taps/homebrew/*/Casks/$__cask.rb | ggrep -Po "version '\K.+(?=')" | sort -r --version-sort | head -n 1)
 	echo $__latest
 }
+
+if [ `uname` = 'Darwin' ]; then
+	check_command_installed ggrep grep
+fi
 
 for CASK in `ls /usr/local/Caskroom `; do
 	#LATEST="$(get_version_by_info $CASK)"

@@ -21,6 +21,10 @@ fi
 
 OUTPUT_FILE_NAME=$FILE_NAME.reveal.generated.html
 
+if [ `uname` = 'Darwin' ]; then
+	check_command_installed gsed gnu-sed
+fi
+
 cat > $OUTPUT_FILE_NAME << EOF
 <!doctype html>
 <html>

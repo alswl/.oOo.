@@ -2,13 +2,24 @@
 
 FILE_NAME=$1
 
+export http_proxy=http://127.0.0.1:1235
+export https_proxy=http://127.0.0.1:1235
+
+check_command_installed () {
+	NAME=$1
+	BREW_NAME=$2
+	if ! [ -x "$(command -v $NAME)" ]; then
+		echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
+		exit 1;
+	fi
+}
+
 if [ -z $FILE_NAME ]; then
 	echo "Useage: tinypng filename"
 	exit 0;
 fi
+check_command_installed jq jq
 
-export http_proxy=http://127.0.0.1:1235
-export https_proxy=http://127.0.0.1:1235
 
 cp $FILE_NAME ${FILE_NAME}.bak
 URL=$(curl --user api:${TINYPNG_API_SECRECT} --data-binary @$FILE_NAME https://api.tinify.com/shrink | jq -r '.output.url')

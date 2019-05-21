@@ -21,6 +21,19 @@ fi
 
 OUTPUT_FILE_NAME=$FILE_NAME.remark.generated.html
 
+check_command_installed () {
+	NAME=$1
+	BREW_NAME=$2
+	if ! [ -x "$(command -v $NAME)" ]; then
+		echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
+		exit 1;
+	fi
+}
+
+if [ `uname` = 'Darwin' ]; then
+	check_command_installed gsed gnu-sed
+fi
+
 cat > $OUTPUT_FILE_NAME << EOF
 <!DOCTYPE html>
 <html>
