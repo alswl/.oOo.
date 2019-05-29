@@ -298,8 +298,8 @@ keys.push(new Key('3', mash, function() { callApp('DingTalk'); }));
 //keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
 keys.push(new Key('4', mash, function() { callApp('Wechat'); }));
 //keys.push(new Key('6', mash, function() { callApp('企业微信'); }));
-keys.push(new Key('8', mash, function() { callApp('虾米音乐'); }));
-keys.push(new Key('9', mash, function() { callApp('NeteaseMusic'); }));
+//keys.push(new Key('8', mash, function() { callApp('虾米音乐'); }));
+keys.push(new Key('8', mash, function() { callApp('NeteaseMusic'); }));
 keys.push(new Key('e', mash, function() { callApp('Preview'); }));
 keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
 //keys.push(new Key('a', mash, function() { callApp('Terminal'); }));
@@ -561,6 +561,81 @@ keys.push(new Key('j', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
+}));
+
+// Window ^ half
+keys.push(new Key('up', mash, function() {
+  var screen = Screen.main().flippedVisibleFrame();
+  var window = Window.focused();
+
+  if (window === undefined) {
+    return;
+  }
+
+    //x: screen.x + (screen.width / 2) - (window.frame().width / 2),
+    //y: screen.y + (screen.height / 2) - (window.frame().height / 2)
+  window.setTopLeft({
+    x: screen.x,
+    y: screen.y
+  });
+  window.setSize({
+    width: screen.width,
+    height: screen.height / 2
+  });
+}));
+
+// Window v half
+keys.push(new Key('down', mash, function() {
+  var screen = Screen.main().flippedVisibleFrame();
+  var window = Window.focused();
+
+  if (window === undefined) {
+    return;
+  }
+  window.setTopLeft({
+    x: screen.x,
+    y: screen.y + (screen.height / 2)
+  });
+  window.setSize({
+    width: screen.width,
+    height: screen.height / 2
+  });
+}));
+
+// Window < half
+keys.push(new Key('left', mash, function() {
+  var screen = Screen.main().flippedVisibleFrame();
+  var window = Window.focused();
+
+  if (window === undefined) {
+    return;
+  }
+  window.setTopLeft({
+    x: screen.x,
+    y: screen.y
+  });
+  window.setSize({
+    width: screen.width / 2,
+    height: screen.height
+  });
+}));
+
+// Window > half
+keys.push(new Key('right', mash, function() {
+  var screen = Screen.main().flippedVisibleFrame();
+  var window = Window.focused();
+
+  if (window === undefined) {
+    return;
+  }
+  window.setTopLeft({
+    x: screen.x + screen.width / 2,
+    y: screen.y
+  });
+  window.setSize({
+    width: screen.width / 2,
+    height: screen.height
+  });
 }));
 
 // Previous Window in One Screen
