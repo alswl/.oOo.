@@ -489,19 +489,19 @@ keys.push(new Key('\\', mash, function() {
 }));
 
 // Window Width
-keys.push(new Key('\\', mashShift, function() {
-  var window = getCurrentWindow();
-  if (window === undefined) {
-	return;
-  }
-  window.setFrame({
-    x: window.screen().flippedFrame().x,
-    y: window.frame().y,
-    width: window.screen().flippedFrame().width,
-    height: window.frame().height
-  });
-  heartbeat_window(window);
-}));
+//keys.push(new Key('\\', mashShift, function() {
+  //var window = getCurrentWindow();
+  //if (window === undefined) {
+	//return;
+  //}
+  //window.setFrame({
+    //x: window.screen().flippedFrame().x,
+    //y: window.frame().y,
+    //width: window.screen().flippedFrame().width,
+    //height: window.frame().height
+  //});
+  //heartbeat_window(window);
+//}));
 
 // Window >
 keys.push(new Key('l', mashCtrl, function() {
@@ -564,7 +564,7 @@ keys.push(new Key('j', mashCtrl, function() {
 }));
 
 // Window ^ half
-keys.push(new Key('up', mash, function() {
+keys.push(new Key('up', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -585,7 +585,7 @@ keys.push(new Key('up', mash, function() {
 }));
 
 // Window v half
-keys.push(new Key('down', mash, function() {
+keys.push(new Key('down', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -603,7 +603,7 @@ keys.push(new Key('down', mash, function() {
 }));
 
 // Window < half
-keys.push(new Key('left', mash, function() {
+keys.push(new Key('left', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -621,7 +621,7 @@ keys.push(new Key('left', mash, function() {
 }));
 
 // Window > half
-keys.push(new Key('right', mash, function() {
+keys.push(new Key('right', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -637,6 +637,25 @@ keys.push(new Key('right', mash, function() {
     height: screen.height
   });
 }));
+
+// window auto range by recent
+keys.push(new Key('\\', mashShift, function() {
+  var screen = Screen.main()
+  var rectangle = screen.flippedVisibleFrame();
+
+  const windows = sortByMostRecent(screen.windows({visible: true}));
+  _.map(windows, (window, index) => {
+    window.setTopLeft({
+      x: rectangle.x + index * 100,
+      y: rectangle.y
+    });
+    window.setSize({
+      width: window.size().width,
+      height: rectangle.height
+    });
+  });
+}));
+
 
 // Previous Window in One Screen
 keys.push(new Key('k', mash, function() {
