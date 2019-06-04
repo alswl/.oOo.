@@ -1,0 +1,56 @@
+#!/usr/bin/env python2
+# coding=utf-8
+"""
+convert `tree` command output to file path output
+"""
+
+from __future__ import unicode_literals, absolute_import, print_function
+
+import fileinput
+import re
+import urllib
+import sys
+
+
+REGEX_MATCH = r'([\| ]?   )*[\||``]-- \[.+]\  (.+)'
+
+def main():
+    last_level = 0
+    parents = []
+    last_name = None
+    endpoint = None
+
+    for line in fileinput.input():
+        line = line.decode('utf-8')
+        if endpoint is None:
+            endpoint = line.strip()
+
+        match = re.match(REGEX_MATCH, line)
+        if not match:
+            continue
+        if len(match.groups()) != 2:
+            continue
+
+        level = len((match.groups()[0] or '')) / 4
+        name = match.groups()[1]
+        if level > last_level:
+            parents.append(last_name)
+        elif level < last_level:
+            parents.pop()
+
+        output = endpoint + '/' + '/'.join(parents + [name]) + '\n'
+        output += '    => ' + endpoint + '/' + '/'.join([urllib.quote(x.encode('gbk')) for x in parents + [name]]) + '\n'
+        print(output.encode('utf-8'), end='')
+
+        last_name = name
+        last_level = level
+    sys.stdout.flush()
+
+if __name__ == '__main__':
+    try:
+        main()
+    except IOError:
+        pass
+
+
+# vim: set ft=python:
