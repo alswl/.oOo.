@@ -44,7 +44,7 @@ const A_BIG_PIXEL = 10000;
 
 function alert(message) {
   var modal = new Modal();
-  modal.message = message;
+  modal.text = message;
   modal.duration = 2;
   modal.show();
 }
@@ -168,6 +168,7 @@ function heartbeat_window(window) {
  //hide_inactiveWindow(window.otherWindowsOnSameScreen());
 }
 
+// TODO use a state save status
 function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   var windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
@@ -473,7 +474,7 @@ keys.push(new Key('m', mash, function() {
   setWindowCentral(window);
 }));
 
-// Window Height
+// Window Height Max
 keys.push(new Key('\\', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
@@ -488,7 +489,7 @@ keys.push(new Key('\\', mash, function() {
   heartbeat_window(window);
 }));
 
-// Window Width
+// Window Width Max
 //keys.push(new Key('\\', mashShift, function() {
   //var window = getCurrentWindow();
   //if (window === undefined) {
@@ -502,6 +503,55 @@ keys.push(new Key('\\', mash, function() {
   //});
   //heartbeat_window(window);
 //}));
+
+// Window width <<
+keys.push(new Key(',', mashShift, function() {
+  var screen = Screen.main()
+  var rectangle = screen.flippedVisibleFrame();
+  var window = Window.focused();
+  if (window === undefined) {
+    return;
+  }
+
+  window.setTopLeft({
+    x: window.topLeft().x - 200,
+    y: window.topLeft().y
+  });
+  window.setSize({
+    width: window.size().width + 200,
+    height: window.size().height
+  });
+}));
+
+// Window width >>
+keys.push(new Key('.', mashShift, function() {
+  var screen = Screen.main()
+  var rectangle = screen.flippedVisibleFrame();
+  var window = Window.focused();
+  if (window === undefined) {
+    return;
+  }
+
+  window.setSize({
+    width: window.size().width + 200,
+    height: window.size().height
+  });
+}));
+
+// Window <
+keys.push(new Key('h', mashCtrl, function() {
+  var window = getCurrentWindow();
+  if (window === undefined) {
+	return;
+  }
+  window.setFrame({
+    x: window.frame().x - 100,
+    y: window.frame().y,
+    width: window.frame().width,
+    height: window.frame().height
+  });
+  heartbeat_window(window);
+}));
 
 // Window >
 keys.push(new Key('l', mashCtrl, function() {
@@ -659,19 +709,23 @@ keys.push(new Key('\\', mashShift, function() {
 
 // Previous Window in One Screen
 keys.push(new Key('k', mash, function() {
-  var window = Window.focused();
+  const window = Window.focused();
   if (!window) {
     if (Window.recent().length == 0) return;
     Window.recent()[0].focus();
     return;
   }
+  const screen = Screen.main()
+  const visibleWindows= screen.windows({visible: true});
+  const rectangle = screen.flippedVisibleFrame();
   save_mouse_position_for_window(window);
-  var targetWindow = getPreviousWindowsOnSameScreen(window);
+  const targetWindow = getPreviousWindowsOnSameScreen(window);
   if (!targetWindow) {
 	return;
   }
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
+  display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
 }));
 
 // Next Window in One Screen
@@ -682,6 +736,9 @@ keys.push(new Key('j', mash, function() {
     Window.recent()[0].focus();
     return;
   }
+  const screen = Screen.main()
+  const visibleWindows= screen.windows({visible: true});
+  const rectangle = screen.flippedVisibleFrame();
   save_mouse_position_for_window(window);
   var targetWindow = getNextWindowsOnSameScreen(window); // <- most time cost
   if (!targetWindow) {
@@ -689,6 +746,7 @@ keys.push(new Key('j', mash, function() {
   }
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
+  display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
 }));
 
 
@@ -855,10 +913,37 @@ keys.push(new Key('delete', mashShift, function() {
   })
 }));
 
+// TODO WIP
+Event.on('appDidActivate', (app) => {
+  // alert(app.name());
+});
+//Event.on('windowDidOpen', (window) => {
+  //alert(window.title());
+//});
+
+function display_all_visiable_window_modal(windows, window, rectangle) {
+  const modal = Modal.build({
+    appearance: 'dark',
+    text: _.chain(windows)
+      .map(x => window.hash() === x.hash() ? '[[' + x.app().name() + ']]' : ' ' + x.app().name() + ' ')
+      .join('     ')
+      .value(),
+    duration: 1,
+    animationDuration: 0,
+    weight: 18,
+    origin: function(frame) {
+      return {
+        x: rectangle.x + (rectangle.width / 2) - (frame.width / 2),
+        //y: rectangle.y + (rectangle.height / 2) - (frame.height / 2)
+        y: rectangle.y + rectangle.height - (frame.height / 2)
+      }
+    }
+  }).show();
+};
+
 
 // Test
 keys.push(new Key('0', mash, function() {
-  var cw = Window.focused();
  //_.map(App.all(), function(app) { Modal.show(app.title(), 5)});
  //_.map([Window.focused()], function(window) { Modal.show(window.title())}); // current one
  //_.map(Window.all(), function(window) { Modal.show(window.title(), 5)}); // all, include hide
