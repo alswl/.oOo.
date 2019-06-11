@@ -19,6 +19,15 @@ if [ ! -f $FILE_NAME ]; then
 	exit 0;
 fi
 
+check_command_installed () {
+	NAME=$1
+	BREW_NAME=$2
+	if ! [ -x "$(command -v $NAME)" ]; then
+		echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
+		exit 1;
+	fi
+}
+
 OUTPUT_FILE_NAME=$FILE_NAME.reveal.generated.html
 
 if [ `uname` = 'Darwin' ]; then
