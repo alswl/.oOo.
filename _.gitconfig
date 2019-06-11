@@ -5,7 +5,10 @@
 	diff = auto
 	branch = auto
 [diff]
-	external = git_diff_wrapper
+	#external = git_diff_wrapper
+	tool = vimdiff
+[difftool]
+	prompt = false
 [pager]
 	diff =
 	branch = false
@@ -31,7 +34,8 @@
 	pl = pull
 	ps = push
 	df = diff
-	dr = diff --no-ext-diff
+	dt = difftool
+	#dr = diff --no-ext-diff
 	dn = diff --name-only
 	ci = commit
 	civ = commit -v

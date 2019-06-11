@@ -159,6 +159,7 @@ alias gfuck='git reset --hard ORIG_HEAD && git clean -fd'
 alias gmnf='git merge --no-ff'
 alias gmod='git merge origin/develop'
 alias gn='git number --column'
+alias gdt='git difftool'
 alias v=vim
 if [ `uname` = 'Darwin' ]; then
 	alias vv=mvim
