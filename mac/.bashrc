@@ -116,5 +116,6 @@ PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 #PATH="$PATH:$HOME/.rvm/bin"
 
 export PATH
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 launchctl setenv PATH $PATH
 
