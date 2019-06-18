@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ag --markdown '^#.*' | grep $1
+
+# vim: set ft=sh:
