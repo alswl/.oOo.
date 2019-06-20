@@ -1,5 +1,7 @@
 #!/bin/bash
 
-ag --markdown '^#.*' | grep $1
+TEXT=$1
+
+ag --markdown "^#(.*$TEXT.*)"
 
 # vim: set ft=sh:

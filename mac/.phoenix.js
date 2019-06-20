@@ -688,6 +688,34 @@ keys.push(new Key('right', mashShift, function() {
   });
 }));
 
+// Window < 0 margin
+keys.push(new Key('left', mashCtrl, function() {
+  var screen = Screen.main().flippedVisibleFrame();
+  var window = Window.focused();
+
+  if (window === undefined) {
+    return;
+  }
+  window.setTopLeft({
+    x: screen.x,
+    y: screen.y
+  });
+}));
+
+// Window > 0 margin
+keys.push(new Key('right', mashCtrl, function() {
+  var screen = Screen.main().flippedVisibleFrame();
+  var window = Window.focused();
+
+  if (window === undefined) {
+    return;
+  }
+  window.setTopLeft({
+    x: screen.x + (screen.width - window.size().width),
+    y: screen.y
+  });
+}));
+
 // window auto range by recent
 keys.push(new Key('\\', mashShift, function() {
   var screen = Screen.main()

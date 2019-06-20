@@ -33,9 +33,14 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="powerline"
-ZSH_THEME="robbyrussell"
-#ZSH_THEME="minial"
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="robbyrussell-alswl"
+#ZSH_THEME="minimal"
+#ZSH_THEME="bira"  # two lines
 #ZSH_THEME="candy"
+#ZSH_THEME="imajes"  # minial
+#ZSH_THEME="kardan"
+
 
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"
