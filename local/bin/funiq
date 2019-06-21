@@ -1,4 +1,5 @@
 #!/bin/bash
+# funiq = file uniq
 
 FILE_NAME=$1
 

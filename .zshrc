@@ -110,6 +110,9 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 # alias {{{
 if [ `uname` = 'Darwin' ]; then
 	alias ls='ls -Gv'
+	alias ll='gls --color=auto -l'
+	alias llh='gls --color=auto -lh'
+	alias la='gls --color=auto -a'
 	alias b=brew
 	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 	alias find=gfind
@@ -126,11 +129,11 @@ if [ `uname` = 'Darwin' ]; then
 	alias sort='gsort'
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	alias ls="ls --color=auto"
+	alias ll='ls -l'
+	alias llh='ls -lh'
+	alias la='ls -a'
 fi
 alias c='cat'
-alias ll='ls -l'
-alias llh='ls -lh'
-alias la='ls -a'
 alias mkdir='mkdir -p'
 alias rmm='rm -R'
 alias ..='cd ..'
@@ -202,10 +205,18 @@ alias cnpm="npm --registry=https://registry.npm.taobao.org \
 --disturl=https://npm.taobao.org/dist \
 --userconfig=$HOME/.cnpmrc"
 alias po=popd
-
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
 alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 alias rllua='rlwrap -i -r -c -a lua'
+alias phmc=paste-html-to-md-copy
+alias pmh=paste-md-to-html
+alias pmhc=paste-md-to-html-copy
+alias pmr=paste-md-to-rtf
+alias pmrc=paste-md-to-rtf-copy
+alias prh=paste-rtf-to-html
+alias prhc=paste-rtf-to-html-copy
+alias prm=paste-rtf-to-md
+alias prmc=paste-rtf-to-md-copy
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'

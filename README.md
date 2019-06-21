@@ -33,7 +33,7 @@ These configuration Includes:
     -   crash # crash link
     -   edit-server  # script for TextAid, use vim in Chorme, https://chrome.google.com/webstore/detail/ppoadiihggafnhokfkpphojggcdigllp
     -   fcitx-remote-osa  # use osa switch macOS Input Method
-    -   file-uniq # generate hash for file
+    -   funiq # file uniq, generate hash for file
     -   format-gfm  # format file with github flavor markdown
     -   format-markdown  # format file with markdown
     -   generate-output-summary-md  # generate .output for yuque
@@ -51,7 +51,7 @@ These configuration Includes:
     -   lark-gen-markdown  # yuque markdown generate .output
     -   ls-upload-log4d
     -   markdown2ctags.py
-    -   md-search  # mardkown file search by title
+    -   mdsearch  # markdown search, mardkown file search by title
     -   mouse_restore.sh
     -   mov2gif
     -   mysql2sqlite.sh

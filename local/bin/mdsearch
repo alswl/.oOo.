@@ -1,4 +1,5 @@
 #!/bin/bash
+# mdsearch = markdown search
 
 TEXT=$1
 
