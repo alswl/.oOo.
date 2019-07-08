@@ -1,6 +1,5 @@
 #!/bin/sh
 
-set -x
 set -e
 
 if [ 0 = $# ]; then
@@ -10,8 +9,9 @@ fi
 
 SOCKS_SERVER=127.0.0.1
 SOCKS_PORT=1234
+SYSTEM_PROXY_ENABLED=`networksetup -getsocksfirewallproxy Wi-Fi | grep '^Enabled' | cut -d ' ' -f2`
 SYSTEM_PROXY_PORT=`networksetup -getsocksfirewallproxy Wi-Fi | grep 'Port' | cut -d ' ' -f2`
-if [ $SYSTEM_PROXY_PORT != "0" ]; then
+if [[ $SYSTEM_PROXY_ENABLED = "Yes" ]] && [[ $SYSTEM_PROXY_PORT != "0" ]]; then
 	SOCKS_PORT=$SYSTEM_PROXY_PORT
 fi
 

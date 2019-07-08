@@ -103,6 +103,8 @@ addSearchAliasX('w', 'work', 'https://work.alipay-corp.com/nwpipe/search?type=al
 
 // settings.blacklistPattern = /https?:\/\/domain.com\/.*\.pptx/i
 
+settings.prevLinkRegex = /(\b(prev|previous)\b)|上页|上一页|前页|<<|«/i;
+settings.nextLinkRegex = /(\b(next)\b)|下页|下一页|后页|>>|»/i;
 
 // Style
 
