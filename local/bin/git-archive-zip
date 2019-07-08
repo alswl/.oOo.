@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BRANCH=master
+
+if [ ! -z $1 ]; then
+	BRANCH=$1
+fi
+
+git archive --format zip --output ../$(basename "$PWD").$(git rev-parse --short "$BRANCH").zip "$BRANCH"
