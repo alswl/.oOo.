@@ -1,1 +1,1 @@
-nohup /Users/alswl/.virtualenvs/7/bin/rsocks --config=/Users/alswl/.rsocks.toml > /dev/null &
+nohup $HOME/.virtualenvs/7/bin/rsocks --config=$HOME/.rsocks.toml > /dev/null &
