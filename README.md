@@ -24,7 +24,7 @@ These configuration Includes:
 -   xmobar # deprecated, use awesome
 -   ideavimrc
 -   .gitconfig
--   phoenix
+-   mac/.phoenix
 -   mjolnir # deprecated, use phoenix
 -   local/bin
     -   SimpleHTTPServerWithUpload.py  # simple HTTPS Server with Upload
@@ -93,6 +93,8 @@ These configuration Includes:
     -   unzip-gbk  # unizp gbk file in Linux / macOS
     -   url_diff
     -   viscosity-to-ios-connect.rb
+-   mac/Library/LaunchAgents/com.alswl.edit-server.plist
+    -   com.alswl.edit-server.plist  # TextAid server for https://chrome.google.com/webstore/detail/textaid/ppoadiihggafnhokfkpphojggcdigllp?hl=en
 
 
 ## Usage ##

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#set -e
-set -x
+set -e
+#set -x
 
 killall privoxy
 PORT=`networksetup -getsocksfirewallproxy Wi-Fi | grep 'Port' | cut -d ' ' -f2`
