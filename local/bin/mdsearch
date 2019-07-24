@@ -3,6 +3,6 @@
 
 TEXT=$1
 
-ag --markdown "^#(.*$TEXT.*)"
+ag -i --markdown "^#(.*$TEXT.*)"
 
 # vim: set ft=sh:
