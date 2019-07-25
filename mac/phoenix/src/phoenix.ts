@@ -7,11 +7,10 @@
 import * as _ from "lodash";
 import { callApp } from './app';
 import * as config from './config';
-import { restoreMousePositionForWindow, saveMousePositionForWindow, setMousePositionForWindowCenter } from './mouse';
-import { focusAnotherScreen, getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveToScreen } from './screen';
-import { moveWindowToTargetSpace } from './space';
-import { display_all_visiable_window_modal } from './util';
-import { getCurrentWindow, getLargerFrame, getSmallerFrame, heartbeatWindow, setWindowCentral, sortByMostRecent } from './window';
+import { setMousePositionForWindowCenter } from './mouse';
+import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveCurrentWindowToScreen, switchScrren } from './screen';
+import { moveWindowToSpace, moveWindowToTargetSpace } from './space';
+import { autoRangeByRecent, focusWindowInSameScreen, getCurrentWindow, getLargerFrame, getSmallerFrame, heartbeatWindow, setWindowCentral, marginWindow } from './window';
 
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
 const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
@@ -32,91 +31,53 @@ Phoenix.set({
  */
 
 // Launch App
-Key.on('escape', config.MASH, () => { callApp('iTerm'); });
-Key.on('`', config.MASH, () => { callApp('iTerm'); });
-Key.on('1', config.MASH, () => { callApp('Google Chrome'); });
-// Key.on('1', mash, () => { callApp('Chromium'); });
-Key.on('2', config.MASH, () => { callApp('Safari'); });
-// Key.on('2', mashShift, () => { callApp('Firefox'); });
-Key.on('3', config.MASH, () => { callApp('DingTalk'); });
-Key.on('4', config.MASH, () => { callApp('Electronic WeChat'); });
-// Key.on('4', mash, () => { callApp('BearyChat'); });
-// Key.on('4', mash, () => { callApp('Wechat'); });
-// Key.on('6', mash, () => { callApp('企业微信'); });
-// Key.on('8', mash, () => { callApp('虾米音乐'); });
-Key.on('8', config.MASH, () => { callApp('NeteaseMusic'); });
-Key.on('e', config.MASH, () => { callApp('Preview'); });
-Key.on('a', config.MASH, () => { callApp('MacVim'); });
-// Key.on('a', mash, () => { callApp('Terminal'); });
-Key.on('s', config.MASH, () => { callApp('IntelliJ IDEA'); });
-Key.on('d', config.MASH, () => { callApp('Visual Studio Code'); });
-Key.on('z', config.MASH, () => { callApp('Macdown'); });
-// Key.on('z', mash, () => { callApp('Typora'); });
-// Key.on('z', mash, () => { callApp('Atom'); });
-// Key.on('z', mash, () => { callApp('Sublime Text'); });
-// Key.on(',', mash, () => { callApp('Airmail 3'); });
-Key.on(',', config.MASH, () => { callApp('Mail'); });
-// Key.on('.', mash, () => { callApp('Evernote'); });
-Key.on('.', config.MASH, () => { callApp('Tusk'); });
-// Key.on('.', mash, () => { callApp('Alternote'); });
-Key.on('/', config.MASH, () => { callApp('Finder'); });
+Key.on('escape', config.MASH, () => callApp('iTerm'));
+Key.on('`', config.MASH, () => callApp('iTerm'));
+Key.on('1', config.MASH, () => callApp('Google Chrome'));
+// Key.on('1', mash, () => callApp('Chromium'));
+Key.on('2', config.MASH, () => callApp('Safari'));
+// Key.on('2', mashShift, () => callApp('Firefox'));
+Key.on('3', config.MASH, () => callApp('DingTalk'));
+Key.on('4', config.MASH, () => callApp('Electronic WeChat'));
+// Key.on('4', mash, () => callApp('BearyChat'));
+// Key.on('4', mash, () => callApp('Wechat'));
+// Key.on('6', mash, () => callApp('企业微信'));
+// Key.on('8', mash, () => callApp('虾米音乐'));
+Key.on('8', config.MASH, () => callApp('NeteaseMusic'));
+Key.on('e', config.MASH, () => callApp('Preview'));
+Key.on('a', config.MASH, () => callApp('MacVim'));
+// Key.on('a', mash, () => callApp('Terminal'));
+Key.on('s', config.MASH, () => callApp('IntelliJ IDEA'));
+Key.on('d', config.MASH, () => callApp('Visual Studio Code'));
+Key.on('z', config.MASH, () => callApp('Macdown'));
+// Key.on('z', mash, () => callApp('Typora'));
+// Key.on('z', mash, () => callApp('Atom'));
+// Key.on('z', mash, () => callApp('Sublime Text'));
+// Key.on(',', mash, () => callApp('Airmail 3'));
+Key.on(',', config.MASH, () => callApp('Mail'));
+// Key.on('.', mash, () => callApp('Evernote'));
+Key.on('.', config.MASH, () => callApp('Tusk'));
+// Key.on('.', mash, () => callApp('Alternote'));
+Key.on('/', config.MASH, () => callApp('Finder'));
 
 // Next screen
 Key.on('l', config.MASH, () => {
-  const window = getCurrentWindow();
-  const allScreens = Screen.all();
-  const currentScreen = window.screen();
-  if (currentScreen === undefined) {
-    return; // TODO use mouse to find current screen
-  }
-  const targetScreen = currentScreen.next();
-  if (_.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
-    >= _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash())) {
-    return;
-  }
-  focusAnotherScreen(window, targetScreen);
+  switchScrren(getCurrentWindow(), (screen: Screen) => screen.next());
 });
 
 // Previous Screen
 Key.on('h', config.MASH, () => {
-  const window = getCurrentWindow();
-  const allScreens = Screen.all();
-  const currentScreen = window.screen();
-  if (currentScreen === undefined) {
-    return; // TODO use mouse to find current screen
-  }
-  const targetScreen = currentScreen.previous();
-  if (_.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
-    <= _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash())) {
-    return;
-  }
-  focusAnotherScreen(window, targetScreen);
+    switchScrren(getCurrentWindow(), (screen: Screen) => screen.previous());
 });
 
 // Move Current Window to Next Screen
 Key.on('l', config.MASH_SHIFT, () => {
-  const window = getCurrentWindow();
-  if (window.screen() === window.screen().next()) { return; }
-  if (window.screen().next().flippedFrame().x < 0) {
-    return;
-  }
-  moveToScreen(window, window.screen().next());
-  restoreMousePositionForWindow(window);
-  // App.get('Finder').focus(); // Hack for Screen unfocus
-  window.focus();
+  moveCurrentWindowToScreen((window: Window) => window.screen().next());
 });
 
 // Move Current Window to Previous Screen
 Key.on('h', config.MASH_SHIFT, () => {
-  const window = getCurrentWindow();
-  if (window.screen() === window.screen().next()) { return; }
-  if (window.screen().next().flippedFrame().x === 0) {
-    return;
-  }
-  moveToScreen(window, window.screen().previous());
-  restoreMousePositionForWindow(window);
-  // App.get('Finder').focus(); // Hack for Screen unfocus
-  window.focus();
+  moveCurrentWindowToScreen((window: Window) => window.screen().previous());
 });
 
 /**
@@ -367,91 +328,32 @@ Key.on('right', config.MASH_SHIFT, () => {
 
 // Window < 0 margin
 Key.on('left', config.MASH_CTRL, () => {
-  const screen = Screen.main().flippedVisibleFrame();
-  const window = Window.focused();
-
-  if (window === undefined) {
-    return;
-  }
-  window.setTopLeft({
-    x: screen.x,
-    y: screen.y,
-  });
+  marginWindow((window: Window, frame: Rectangle) => {
+    window.setTopLeft({
+      x: frame.x,
+      y: window.topLeft().y,
+    });
+  })
 });
 
 // Window > 0 margin
 Key.on('right', config.MASH_CTRL, () => {
-  const screen = Screen.main().flippedVisibleFrame();
-  const window = Window.focused();
-
-  if (window === undefined) {
-    return;
-  }
-  window.setTopLeft({
-    x: screen.x + (screen.width - window.size().width),
-    y: screen.y,
-  });
+  marginWindow((window: Window, frame: Rectangle) => {
+    window.setTopLeft({
+      x: frame.x + (frame.width - window.size().width),
+      y: window.topLeft().y,
+    });
+  })
 });
 
 // window auto range by recent
-Key.on('\\', config.MASH_SHIFT, () => {
-  const screen = Screen.main()
-  const rectangle = screen.flippedVisibleFrame();
-
-  const windows: Window[] = sortByMostRecent(screen.windows({ visible: true }));
-  _.map(windows, (window, index) => {
-    window.setTopLeft({
-      x: rectangle.x + index * 100,
-      y: rectangle.y,
-    });
-    window.setSize({
-      width: window.size().width,
-      height: rectangle.height,
-    });
-  });
-});
+Key.on('\\', config.MASH_SHIFT, () => autoRangeByRecent());
 
 // Previous Window in One Screen
-Key.on('k', config.MASH, () => {
-  const window = Window.focused();
-  if (!window) {
-    if (Window.recent().length === 0) { return; }
-    Window.recent()[0].focus();
-    return;
-  }
-  const screen = Screen.main()
-  const visibleWindows = screen.windows({ visible: true });
-  const rectangle = screen.flippedVisibleFrame();
-  saveMousePositionForWindow(window);
-  const targetWindow = getPreviousWindowsOnSameScreen(window);
-  if (!targetWindow) {
-    return;
-  }
-  targetWindow.focus();
-  restoreMousePositionForWindow(targetWindow);
-  display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
-});
+Key.on('k', config.MASH, () => focusWindowInSameScreen(getPreviousWindowsOnSameScreen));
 
 // Next Window in One Screen
-Key.on('j', config.MASH, () => {
-  const window = Window.focused();
-  if (!window) {
-    if (Window.recent().length === 0) { return; }
-    Window.recent()[0].focus();
-    return;
-  }
-  const screen = Screen.main()
-  const visibleWindows = screen.windows({ visible: true });
-  const rectangle = screen.flippedVisibleFrame();
-  saveMousePositionForWindow(window);
-  const targetWindow = getNextWindowsOnSameScreen(window); // <- most time cost
-  if (!targetWindow) {
-    return;
-  }
-  targetWindow.focus();
-  restoreMousePositionForWindow(targetWindow);
-  display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
-});
+Key.on('j', config.MASH, () => focusWindowInSameScreen(getNextWindowsOnSameScreen));
 
 /**
  * My Configuartion Mouse
@@ -472,66 +374,10 @@ Key.on('space', config.MASH, () => {
 // mash + o
 
 // move window to prev space
-Key.on('i', config.MASH_SHIFT, () => {
-  const window = getCurrentWindow();
-  if (window.isFullScreen() || window.isMinimized()) { return; }
-  const currentOptional: Space | undefined = Space.active();
-  if (currentOptional === undefined) {
-    return;
-  }
-  const current = currentOptional;
-  const allSpaces: Space[] = Space.all();
-  const previousOptinal = current.previous();
-  if (previousOptinal === undefined) {
-    return;
-  }
-  const previous = previousOptinal;
-  if (previous.isFullScreen()) { return; }
-  if (previous.screens().length === 0) { return; }
-  if (previous.screens()[0].hash() !== current.screens()[0].hash()) {
-    return;
-  }
-  if (_.indexOf(_.map(allSpaces, (x) => x.hash()), previous.hash())
-    >= _.indexOf(_.map(allSpaces, (x) => x.hash()), current.hash())) {
-    return;
-  }
-  current.removeWindows([window]);
-  previous.addWindows([window]);
-  const prevWindow = getPreviousWindowsOnSameScreen(window);
-  if (prevWindow) {
-    prevWindow.focus();
-  }
-});
+Key.on('i', config.MASH_SHIFT, () => moveWindowToSpace((space: Space) => space.previous()));
 
 // move window to next space
-Key.on('o', config.MASH_SHIFT, () => {
-  const window = getCurrentWindow();
-  if (window.isFullScreen() || window.isMinimized()) { return; }
-  const currentOptional: Space | undefined = Space.active();
-  if (currentOptional === undefined) {
-    return;
-  }
-  const current = currentOptional;
-  const allSpaces = Space.all();
-  const nextOptional: Space | undefined = current.next();
-  if (nextOptional === undefined) { return; }
-  const next = nextOptional;
-  if (next.isFullScreen()) { return; }
-  if (next.screens().length === 0) { return; }
-  if (next.screens()[0].hash() !== current.screens()[0].hash()) {
-    return;
-  }
-  if (_.indexOf(_.map(allSpaces, (x) => x.hash()), next.hash())
-    <= _.indexOf(_.map(allSpaces, (x) => x.hash()), current.hash())) {
-    return;
-  }
-  current.removeWindows([window]);
-  next.addWindows([window]);
-  const nextWindow = getNextWindowsOnSameScreen(window);
-  if (nextWindow) {
-    nextWindow.focus();
-  }
-});
+Key.on('o', config.MASH_SHIFT, () => moveWindowToSpace((space: Space) => space.next()));
 
 // move window to park space
 Key.on('delete', config.MASH, () => {

@@ -1,5 +1,8 @@
 import * as _ from "lodash";
 import * as config from './config';
+import { saveMousePositionForWindow, restoreMousePositionForWindow } from "./mouse";
+import { getPreviousWindowsOnSameScreen } from "./screen";
+import { display_all_visiable_window_modal } from "./util";
 
 const HIDE_INACTIVE_WINDOW_TIME = config.HIDE_INACTIVE_WINDOW_TIME
 const ACTIVE_WINDOWS_TIMES = config.ACTIVE_WINDOWS_TIMES
@@ -66,3 +69,51 @@ export function setWindowCentral(window: Window) {
     });
     heartbeatWindow(window);
 };
+
+export function autoRangeByRecent() {
+  const screen = Screen.main()
+  const rectangle = screen.flippedVisibleFrame();
+
+  const windows: Window[] = sortByMostRecent(screen.windows({ visible: true }));
+  _.map(windows, (window, index) => {
+    window.setTopLeft({
+      x: rectangle.x + index * 100,
+      y: rectangle.y,
+    });
+    window.setSize({
+      width: window.size().width,
+      height: rectangle.height,
+    });
+  });
+}
+
+export function focusWindowInSameScreen(selectFn: (window: Window) => Window | null) {
+    const window = Window.focused();
+    if (!window) {
+      if (Window.recent().length === 0) { return; }
+      Window.recent()[0].focus();
+      return;
+    }
+    const screen = Screen.main()
+    const visibleWindows = screen.windows({ visible: true });
+    const rectangle = screen.flippedVisibleFrame();
+    saveMousePositionForWindow(window);
+    const targetWindow = selectFn(window);
+    // const targetWindow = getPreviousWindowsOnSameScreen(window);
+    if (!targetWindow) {
+      return;
+    }
+    targetWindow.focus();
+    restoreMousePositionForWindow(targetWindow);
+    display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
+}
+
+export function marginWindow(postionFn: (window: Window, frame: Rectangle) => any) {
+    const frame = Screen.main().flippedVisibleFrame();
+    const window = Window.focused();
+  
+    if (window === undefined) {
+      return;
+    }
+    postionFn(window, frame);
+}

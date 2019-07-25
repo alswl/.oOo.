@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { A_BIG_PIXEL } from "./config";
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
-import { sortByMostRecent } from "./window";
+import { sortByMostRecent, getCurrentWindow } from "./window";
 
 export function moveToScreen(window: Window, screen: Screen) {
   if (!window) { return; }
@@ -87,3 +87,31 @@ export function getPreviousWindowsOnSameScreen(window: Window): Window | null {
 export function getNextWindowsOnSameScreen(window: Window): Window | null {
   return getAnotherWindowsOnSameScreen(window, 1, false)
 };
+
+export function switchScrren(current: Window, targetScreenFn: (screen: Screen) => Screen) {
+  const window = current;
+  const allScreens = Screen.all();
+  const currentScreen = window.screen();
+  if (currentScreen === undefined) {
+    return; // TODO use mouse to find current screen
+  }
+  const targetScreen = targetScreenFn(currentScreen);
+  if (_.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
+    >= _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash())) {
+    return;
+  }
+  focusAnotherScreen(window, targetScreen);
+}
+
+export function moveCurrentWindowToScreen(targetScreenFn: (window: Window) => Screen) {
+  const window = getCurrentWindow();
+  const targetScreen = targetScreenFn(window);
+  if (window.screen() === targetScreen) { return; }
+  if (targetScreen.flippedFrame().x < 0) {
+    return;
+  }
+  moveToScreen(window, targetScreen);
+  restoreMousePositionForWindow(window);
+  // App.get('Finder').focus(); // Hack for Screen unfocus
+  window.focus();
+}
