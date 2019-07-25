@@ -1,17 +1,8 @@
 import * as _ from "lodash";
 import * as config from './config';
 
-const mash = config.mash
-const mashShift = config.mashShift
-const mashCtrl = config.mashCtrl
-const mousePositions = config.MOUSE_POSITIONS
 const HIDE_INACTIVE_WINDOW_TIME = config.HIDE_INACTIVE_WINDOW_TIME
 const ACTIVE_WINDOWS_TIMES = config.ACTIVE_WINDOWS_TIMES
-const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
-const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
-const PARK_SPACE_INDEX_MAP: { [name: number]: number } = config.PARK_SPACE_APP_INDEX_MAP
-const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = config.PARK_SPACE_APP_INDEX_MAP
-const A_BIG_PIXEL = config.A_BIG_PIXEL
 
 export function sortByMostRecent(windows: Window[]): Window[] {
     // var start = new Date().getTime();
@@ -26,8 +17,6 @@ export function sortByMostRecent(windows: Window[]): Window[] {
 };
 
 export function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
-    const mid_pos_x = frame.x + 0.5 * frame.width;
-    const mid_pos_y = frame.y + 0.5 * frame.height;
     return {
         x: Math.round(frame.x + frame.width / 2 * (1 - ratio)),
         y: Math.round(frame.y + frame.height / 2 * (1 - ratio)),

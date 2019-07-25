@@ -1,32 +1,34 @@
-const mash: Phoenix.ModifierKey[] = ['alt'];
-const mashShift: Phoenix.ModifierKey[] = ['alt', 'shift'];
-const mashCtrl: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
+const MASH: Phoenix.ModifierKey[] = ['alt'];
+const MASH_SHIFT: Phoenix.ModifierKey[] = ['alt', 'shift'];
+const MASH_CTRL: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
 const MOUSE_POSITIONS: { [name: number]: Point } = {};
 const HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
 const ACTIVE_WINDOWS_TIMES: { [name: number]: number } = {};
 const DEFAULT_WIDTH = 1280;
-const WORK_SPACE_INDEX_MAP: { [name: number]: number } = {}; // is a dict, key is display count, val is work space
-WORK_SPACE_INDEX_MAP[1] = 0; // one display case
-WORK_SPACE_INDEX_MAP[2] = 3; // two display case
-const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = {}; // is a dict, key is display count, val is work space
-SECOND_WORK_SPACE_INDEX_MAP[1] = 0; // one display case
-SECOND_WORK_SPACE_INDEX_MAP[2] = 0; // two display case
-const PARK_SPACE_INDEX_MAP: { [name: number]: number } = {};
-PARK_SPACE_INDEX_MAP[1] = 2;
-PARK_SPACE_INDEX_MAP[2] = 2;
-const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = {};
-PARK_SPACE_APP_INDEX_MAP.iTerm = 0;
-PARK_SPACE_APP_INDEX_MAP['Google Chrome'] = 0;
-PARK_SPACE_APP_INDEX_MAP.Chromium = 0;
-PARK_SPACE_APP_INDEX_MAP.Firefox = 0;
-// PARK_SPACE_APP_INDEX_MAP['Safari'] = 1;
-PARK_SPACE_APP_INDEX_MAP.QQ = 1;
-PARK_SPACE_APP_INDEX_MAP.Dingtalk = 1;
-PARK_SPACE_APP_INDEX_MAP.WeChat = 2;
-PARK_SPACE_APP_INDEX_MAP['Electronic WeChat'] = 2;
-PARK_SPACE_APP_INDEX_MAP.BearyChat = 1;
-PARK_SPACE_APP_INDEX_MAP.Mail = 2;
-PARK_SPACE_APP_INDEX_MAP.Airmail = 2;
+const WORK_SPACE_INDEX_MAP: { [name: number]: number } = {
+    1: 0, // one display case
+    2: 3, // two display case
+}; // is a dict, key is display count, val is work space
+const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = {
+    1: 0, // one display case
+    2: 0, // two display case
+}; // is a dict, key is display count, val is work space
+const PARK_SPACE_INDEX_MAP: { [name: number]: number } = {
+    1: 2,
+    2: 2,
+};
+const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = {
+    iTerm: 0,
+    'Google Chrome': 0,
+    Chromium: 0,
+    Firefox: 0,
+    QQ: 1,
+    Dingtalk: 1,
+    WeChat: 2,
+    'Electronic WeChat': 2,
+    Mail: 2,
+    Airmail: 2,
+};
 const A_BIG_PIXEL = 10000;
 
-export { mash, mashShift, mashCtrl, MOUSE_POSITIONS, HIDE_INACTIVE_WINDOW_TIME, ACTIVE_WINDOWS_TIMES, DEFAULT_WIDTH, WORK_SPACE_INDEX_MAP, SECOND_WORK_SPACE_INDEX_MAP, PARK_SPACE_APP_INDEX_MAP, A_BIG_PIXEL };
+export { MASH, MASH_SHIFT, MASH_CTRL, MOUSE_POSITIONS, HIDE_INACTIVE_WINDOW_TIME, ACTIVE_WINDOWS_TIMES, DEFAULT_WIDTH, WORK_SPACE_INDEX_MAP, SECOND_WORK_SPACE_INDEX_MAP, PARK_SPACE_APP_INDEX_MAP, A_BIG_PIXEL };
