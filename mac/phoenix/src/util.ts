@@ -1,15 +1,15 @@
-export { alert, stringify, alert_title, assert };
+import * as _ from "lodash";
 
-function alert(message: string) {
+export function alert(message: string) {
   var modal = new Modal();
   modal.text = message;
   modal.duration = 2;
   modal.show();
 }
 
-var alert_title = function (window: Window) { alert(window.title()); };
+export function alert_title(window: Window) { alert(window.title()); };
 
-function stringify(value: any) {
+export function stringify(value: any) {
   if (value instanceof Error) {
     let stack = '';
     if (value.stack) {
@@ -30,8 +30,29 @@ function stringify(value: any) {
   }
 }
 
-function assert(condition: boolean, message: string) {
+export function assert(condition: boolean, message: string) {
   if (!condition) {
     throw message || 'Assertion failed';
   }
 }
+
+
+export function display_all_visiable_window_modal(windows: Window[], window: Window, rectangle: Rectangle) {
+  const modal = Modal.build({
+    appearance: 'dark',
+    text: _.chain(windows)
+      .map(x => window.hash() === x.hash() ? '[[' + x.app().name() + ']]' : ' ' + x.app().name() + ' ')
+      .join('     ')
+      .value(),
+    duration: 1,
+    // animationDuration: 0,
+    weight: 18,
+    origin: function (frame) {
+      return {
+        x: rectangle.x + (rectangle.width / 2) - (frame.width / 2),
+        //y: rectangle.y + (rectangle.height / 2) - (frame.height / 2)
+        y: rectangle.y + rectangle.height - (frame.height / 2)
+      }
+    }
+  }).show();
+};

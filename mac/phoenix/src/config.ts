@@ -1,3 +1,6 @@
+export {mash, mashShift, mashCtrl, mousePositions, HIDE_INACTIVE_WINDOW_TIME, ACTIVE_WINDOWS_TIMES, DEFAULT_WIDTH,
+WORK_SPACE_INDEX_MAP, SECOND_WORK_SPACE_INDEX_MAP, PARK_SPACE_APP_INDEX_MAP, A_BIG_PIXEL}
+
 let mash: Phoenix.ModifierKey[] = ['alt'];
 let mashShift: Phoenix.ModifierKey[] = ['alt', 'shift'];
 let mashCtrl: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
