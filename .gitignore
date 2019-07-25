@@ -20,3 +20,7 @@ Session.vim
 .DS_Store
 .java-version
 .zshrc.etc.d/*.zshrc
+node_modules
+dist
+package-lock.json
+typings
