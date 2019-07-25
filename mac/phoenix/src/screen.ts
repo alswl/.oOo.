@@ -1,59 +1,57 @@
 import * as _ from "lodash";
-import { setMousePositionForWindowCenter, saveMousePositionForWindow, restoreMousePositionForNow, restoreMousePositionForWindow } from './mouse'
+import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
 import { sortByMostRecent } from "./window";
 
-
 export function moveToScreen(window: Window, screen: Screen) {
-  if (!window) return;
-  if (!screen) return;
+  if (!window) { return; }
+  if (!screen) { return; }
 
-  var frame = window.frame();
-  var oldScreenRect = window.screen().visibleFrame();
-  var newScreenRect = screen.visibleFrame();
-  var xRatio = newScreenRect.width / oldScreenRect.width;
-  var yRatio = newScreenRect.height / oldScreenRect.height;
+  const frame = window.frame();
+  const oldScreenRect = window.screen().visibleFrame();
+  const newScreenRect = screen.visibleFrame();
+  const xRatio = newScreenRect.width / oldScreenRect.width;
+  const yRatio = newScreenRect.height / oldScreenRect.height;
 
-  var mid_pos_x = frame.x + Math.round(0.5 * frame.width);
-  var mid_pos_y = frame.y + Math.round(0.5 * frame.height);
+  const mid_pos_x = frame.x + Math.round(0.5 * frame.width);
+  const mid_pos_y = frame.y + Math.round(0.5 * frame.height);
 
   window.setFrame({
     x: (mid_pos_x - oldScreenRect.x) * xRatio + newScreenRect.x - 0.5 * frame.width,
     y: (mid_pos_y - oldScreenRect.y) * yRatio + newScreenRect.y - 0.5 * frame.height,
     width: frame.width,
-    height: frame.height
+    height: frame.height,
   });
 };
 
 export function windowsOnOtherScreen(): Window[] {
-  let windowOptional = Window.focused();
+  const windowOptional = Window.focused();
   if (windowOptional === undefined) {
     return [];
   }
 
-  let window = windowOptional as Window;
-  var otherWindowsOnSameScreen = window.others({ screen: window.screen() }); // slow
-  var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen, function (w) { return w.title(); });
-  var return_value = _.chain(window.others())
-    .filter(function (window) { return !_.includes(otherWindowTitlesOnSameScreen, window.title()); })
+  const window = windowOptional;
+  const otherWindowsOnSameScreen = window.others({ screen: window.screen() }); // slow
+  const otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen, function(w) { return w.title(); });
+  const return_value = _.chain(window.others())
+    .filter(function(window: Window) { return !_.includes(otherWindowTitlesOnSameScreen, window.title()); })
     .value();
   return return_value;
 };
 
-
 export function focusAnotherScreen(window: Window, targetScreen: Screen) {
-  if (!window) return;
+  if (!window) { return; }
   const currentScreen = window.screen();
-  if (window.screen() === targetScreen) return;
-  //if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
-  //return;
-  //}
+  if (window.screen() === targetScreen) { return; }
+  // if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
+  // return;
+  // }
   saveMousePositionForWindow(window);
-  var targetScreenWindows = sortByMostRecent(targetScreen.windows());
+  const targetScreenWindows = sortByMostRecent(targetScreen.windows());
   if (targetScreenWindows.length == 0) {
     return;
   }
-  var targetWindow = targetScreenWindows[0]
+  const targetWindow = targetScreenWindows[0]
   targetWindow.focus(); // bug, two window in two space, focus will focus in same space first
   restoreMousePositionForWindow(targetWindow);
-  //App.get('Finder').focus(); // Hack for Screen unfocus
+  // App.get('Finder').focus(); // Hack for Screen unfocus
 }

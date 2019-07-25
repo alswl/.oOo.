@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 
 export function alert(message: string) {
-  var modal = new Modal();
+  const modal = new Modal();
   modal.text = message;
   modal.duration = 2;
   modal.show();
@@ -36,7 +36,6 @@ export function assert(condition: boolean, message: string) {
   }
 }
 
-
 export function display_all_visiable_window_modal(windows: Window[], window: Window, rectangle: Rectangle) {
   const modal = Modal.build({
     appearance: 'dark',
@@ -47,12 +46,12 @@ export function display_all_visiable_window_modal(windows: Window[], window: Win
     duration: 1,
     // animationDuration: 0,
     weight: 18,
-    origin: function (frame) {
+    origin(frame) {
       return {
         x: rectangle.x + (rectangle.width / 2) - (frame.width / 2),
-        //y: rectangle.y + (rectangle.height / 2) - (frame.height / 2)
-        y: rectangle.y + rectangle.height - (frame.height / 2)
+        // y: rectangle.y + (rectangle.height / 2) - (frame.height / 2)
+        y: rectangle.y + rectangle.height - (frame.height / 2),
       }
-    }
+    },
   }).show();
 };
