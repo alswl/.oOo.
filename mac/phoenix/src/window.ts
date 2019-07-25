@@ -70,37 +70,6 @@ export function heartbeatWindow(window: Window) {
     // hide_inactiveWindow(window.otherWindowsOnSameScreen());
 }
 
-// TODO use a state save status
-export function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: boolean): Window | null {
-    let windows = window.others({ visible: true, screen: window.screen() });
-    windows.push(window);
-    const screen = window.screen();
-    windows = _.chain(windows).sortBy((x) => {
-        return [(A_BIG_PIXEL + x.frame().y - screen.flippedFrame().y) +
-            (A_BIG_PIXEL + x.frame().x - screen.flippedFrame().y),
-        x.app().processIdentifier(), x.title()].join('');
-    }).value();
-    const index: number = isCycle ?
-        (_.indexOf(windows, window) + offset + windows.length) % windows.length
-        :
-        _.indexOf(windows, window) + offset;
-    // alert(windows.length);
-    // alert(_.map(windows, (x) => {return x.title();}).join(','));
-    // alert(_.map(windows, (x) => {return x.app().name();}).join(','));
-    if (index >= windows.length || index < 0) {
-        return null;
-    }
-    return windows[index];
-}
-
-export function getPreviousWindowsOnSameScreen(window: Window): Window | null {
-    return getAnotherWindowsOnSameScreen(window, -1, false)
-};
-
-export function getNextWindowsOnSameScreen(window: Window): Window | null {
-    return getAnotherWindowsOnSameScreen(window, 1, false)
-};
-
 export function setWindowCentral(window: Window) {
     window.setTopLeft({
         x: (window.screen().flippedFrame().width - window.size().width) / 2 + window.screen().flippedFrame().x,

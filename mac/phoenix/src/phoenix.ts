@@ -8,10 +8,10 @@ import * as _ from "lodash";
 import { callApp } from './app';
 import * as config from './config';
 import { restoreMousePositionForWindow, saveMousePositionForWindow, setMousePositionForWindowCenter } from './mouse';
-import { focusAnotherScreen, moveToScreen } from './screen';
+import { focusAnotherScreen, moveToScreen, getPreviousWindowsOnSameScreen, getNextWindowsOnSameScreen } from './screen';
 import { moveWindowToTargetSpace } from './space';
 import { display_all_visiable_window_modal } from './util';
-import { getCurrentWindow, getLargerFrame, getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, getSmallerFrame, heartbeatWindow, setWindowCentral, sortByMostRecent } from './window';
+import { getCurrentWindow, getLargerFrame, getSmallerFrame, heartbeatWindow, setWindowCentral, sortByMostRecent } from './window';
 
 const mash = config.mash
 const mashShift = config.mashShift
