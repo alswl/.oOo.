@@ -43,58 +43,36 @@ let A_BIG_PIXEL = 10000;
 
 
 /**
- * Utils Functions
- */
-
-
-if (!String.format) {
-  String.format = function(format) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined' ? args[number] : match;
-    });
-  };
-}
-
-
-
-/**
- * Screen Functions
- */
-
-
-
-/**
  * Window Functions
  */
 
 function hide_inactiveWindow(windows: Window[]) {
   var now = new Date().getTime() / 1000;
   _.chain(windows).filter(function(window) {
-    if (!ACTIVE_WINDOWS_TIMES[window.app().pid]) {
-      ACTIVE_WINDOWS_TIMES[window.app().pid] = now;
+    if (!ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
+      ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
       return false;
     } return true;
   }).filter(function(window) {
-    return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> HIDE_INACTIVE_WINDOW_TIME * 60;
+    return now - ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]> HIDE_INACTIVE_WINDOW_TIME * 60;
    //return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
   }).map(function(window) {window.app().hide()});
 }
 
 function heartbeat_window(window: Window) {
-  ACTIVE_WINDOWS_TIMES[window.app().pid] = new Date().getTime() / 1000;
+  ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = new Date().getTime() / 1000;
  //hide_inactiveWindow(window.otherWindowsOnSameScreen());
 }
 
 // TODO use a state save status
-function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: boolean) {
+function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: boolean): Window | null {
   var windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
   var screen = window.screen();
   windows = _.chain(windows).sortBy(function(window) {
     return [(A_BIG_PIXEL + window.frame().y - screen.flippedFrame().y) +
 	  (A_BIG_PIXEL + window.frame().x - screen.flippedFrame().y),
-	  window.app().pid, window.title()].join('');
+	  window.app().processIdentifier(), window.title()].join('');
   }).value();
   if (isCycle) {
 	var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
@@ -105,16 +83,16 @@ function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: 
  //alert(_.map(windows, function(x) {return x.title();}).join(','));
  //alert(_.map(windows, function(x) {return x.app().name();}).join(','));
   if (index >= windows.length || index < 0) {
-	return;
+	return null;
   }
   return windows[index];
 }
 
-function getPreviousWindowsOnSameScreen(window: Window) {
+function getPreviousWindowsOnSameScreen(window: Window): Window | null {
   return getAnotherWindowsOnSameScreen(window, -1, false)
 };
 
-function getNextWindowsOnSameScreen(window: Window) {
+function getNextWindowsOnSameScreen(window: Window): Window | null {
   return getAnotherWindowsOnSameScreen(window, 1, false)
 };
 
@@ -164,10 +142,11 @@ function restore_mouse_position_for_window(window: Window) {
 }
 
 function restore_mouse_position_for_now() {
-  if (Window.focused() === undefined) {
+  let window = Window.focused();
+  if (window === undefined) {
     return;
   }
-  restore_mouse_position_for_window(Window.focused());
+  restore_mouse_position_for_window(window as Window);
 }
 
 
@@ -178,18 +157,19 @@ function restore_mouse_position_for_now() {
 
 //switch app, and remember mouse position
 function callApp(appName: string) {
-  var window = Window.focused();
-  if (window) {
-    save_mouse_position_for_window(window);
+  var windowOptional = Window.focused();
+  if (windowOptional) {
+    save_mouse_position_for_window(windowOptional as Window);
   }
-  var app: App | undefined = App.launch(appName);
-  if (app === undefined) {
+  var appOptional: App | undefined = App.launch(appName);
+  if (appOptional === undefined) {
     return;
   };
+  let app = appOptional as App;
   Timer.after(0.300, function() {
     app.focus();
     var newWindow = _.first(app.windows());
-    if (newWindow && window !== newWindow) {
+    if (newWindow && windowOptional !== newWindow) {
       restore_mouse_position_for_window(newWindow);
     }
   })
@@ -362,8 +342,8 @@ Key.on('-', mash, function() {
   if (window === undefined) {
 	return;
   }
-  var oldFrame = window.frame();
-  var frame: {} = getSmallerFrame(oldFrame);
+  var oldFrame: Rectangle = window.frame();
+  var frame: Rectangle = getSmallerFrame(oldFrame);
   window.setFrame(frame);
   if (window.frame().width == oldFrame.width || window.frame().height == oldFrame.height) {
     window.setFrame(oldFrame);
@@ -729,12 +709,21 @@ Key.on('i', mashShift, function() {
 	return;
   }
   if (window.isFullScreen() || window.isMinimized()) return;
-  var current: Space | undefined = Space.active();
-  var allSpaces = Space.all();
-  var previous = current.previous();
+  var currentOptional: Space | undefined = Space.active();
+  if (currentOptional === undefined) {
+    return;
+  }
+  let current = currentOptional as Space;
+  var allSpaces: Space[] = Space.all();
+  var previousOptinal = current.previous();
+  if (previousOptinal === undefined) {
+    return;
+  }
+  let previous = previousOptinal as Space;
   if (previous.isFullScreen()) return;
-  if (previous.screen().hash() != current.screen().hash()) {
-	return;
+  if (previous.screens().length == 0) return;
+  if (previous.screens()[0].hash() != current.screens()[0].hash()) {
+  	return;
   }
   if (_.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), previous.hash())
 	  >= _.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), current.hash())) {
@@ -755,11 +744,18 @@ Key.on('o', mashShift, function() {
 	return;
   }
   if (window.isFullScreen() || window.isMinimized()) return;
-  var current = Space.active();
+  var currentOptional: Space | undefined = Space.active();
+  if (currentOptional === undefined) {
+    return;
+  }
+  let current = currentOptional as Space;
   var allSpaces = Space.all();
-  var next: Space | undefined = current.next();
+  var nextOptional: Space | undefined = current.next();
+  if (nextOptional === undefined) return;
+  let next = nextOptional as Space;
   if (next.isFullScreen()) return;
-  if (next.screen().hash() != current.screen().hash()) {
+  if (next.screens().length == 0) return;
+  if (next.screens()[0].hash() != current.screens()[0].hash()) {
 	return;
   }
   if (_.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), next.hash())
@@ -775,13 +771,15 @@ Key.on('o', mashShift, function() {
 });
 
 
-function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
+function moveWindowToTargetSpace(window: Window, nextWindow: Window | null, allSpaces: Space[], spaceIndex: number) {
   var targetSpace = allSpaces[spaceIndex];
-  var currentSpace = Space.active();
+  var currentSpaceOptional = Space.active();
+  if (currentSpaceOptional === undefined) return;
+  let currentSpace = currentSpaceOptional as Space;
  //_.map(targetSpace.windows(), function(w) { alert(w.title()); } );
 
-  if (currentSpace.screen().hash() != targetSpace.screen().hash()) {
-    moveToScreen(window, targetSpace.screen());
+  if (currentSpace.screens()[0].hash() != targetSpace.screens()[0].hash()) {
+    moveToScreen(window, targetSpace.screens()[0]);
   }
   currentSpace.removeWindows([window]);
   targetSpace.addWindows([window]);
@@ -796,11 +794,12 @@ function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
 // move window to park space
 Key.on('delete', mash, function() {
   var isFollow = false;
-  var window = getCurrentWindow();
-  if (window === undefined) {
+  var windowOptional = getCurrentWindow();
+  if (windowOptional === undefined) {
 	return;
   }
-  var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+  let window = windowOptional as Window;
+  var nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window);
   var allSpaces = Space.all();
   var screenCount = Screen.all().length;
   var parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
@@ -808,7 +807,7 @@ Key.on('delete', mash, function() {
  //alert(allSpaces.length);
  //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) return;
-	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
+	moveWindowToTargetSpace(window, nextWindowOptional, allSpaces, parkSpaceIndex);
 });
 
 // move window to work space
@@ -818,11 +817,11 @@ Key.on('return', mashCtrl, function() {
   if (window === undefined) {
 	return;
   }
-  var nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+  var nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window);
   var allSpaces = Space.all();
   var screenCount = Screen.all().length;
   if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
-	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
+	moveWindowToTargetSpace(window, nextWindowOptional, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
 });
 
 // move window to sencond work space
@@ -845,10 +844,11 @@ Key.on('return', mashShift, function() {
 // move other window in this space to park space
 Key.on('delete', mashShift, function() {
   var isFollow = false;
-  var window = getCurrentWindow();
-  if (window === undefined) {
+  var windowOptional: Window | undefined = getCurrentWindow();
+  if (windowOptional === undefined) {
 	return;
   }
+  let window = windowOptional as Window;
   var nextWindow = window;
   var allSpaces = Space.all();
   var otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) {return x.hash() != window.hash(); });
@@ -879,7 +879,7 @@ function display_all_visiable_window_modal(windows: Window[], window: Window, re
       .join('     ')
       .value(),
     duration: 1,
-    animationDuration: 0,
+    // animationDuration: 0,
     weight: 18,
     origin: function(frame) {
       return {

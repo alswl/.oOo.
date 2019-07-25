@@ -2,7 +2,7 @@ export { sortByMostRecent, getResizeFrame, getSmallerFrame, getLargerFrame, getC
 
 import * as _ from "lodash";
 
-function sortByMostRecent(windows: Window): Window[] {
+function sortByMostRecent(windows: Window[]): Window[] {
     //var start = new Date().getTime();
     var visibleAppMostRecentFirst = _.map(
         Window.recent(), function (w) { return w.hash(); }
@@ -15,7 +15,7 @@ function sortByMostRecent(windows: Window): Window[] {
 };
 
 
-function getResizeFrame(frame: Rectangle, ratio: number): {} {
+function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
     var mid_pos_x = frame.x + 0.5 * frame.width;
     var mid_pos_y = frame.y + 0.5 * frame.height;
     return {
@@ -26,11 +26,11 @@ function getResizeFrame(frame: Rectangle, ratio: number): {} {
     }
 }
 
-function getSmallerFrame(frame: Rectangle): {} {
+function getSmallerFrame(frame: Rectangle): Rectangle {
     return getResizeFrame(frame, 0.9);
 }
 
-function getLargerFrame(frame: Rectangle): {} {
+function getLargerFrame(frame: Rectangle): Rectangle {
     return getResizeFrame(frame, 1.1);
 }
 
