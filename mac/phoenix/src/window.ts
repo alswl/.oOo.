@@ -1,7 +1,3 @@
-export { getResizeFrame, getSmallerFrame, getLargerFrame, getCurrentWindow,
-    hide_inactiveWindow, heartbeat_window, getAnotherWindowsOnSameScreen, getPreviousWindowsOnSameScreen, getNextWindowsOnSameScreen,
-    setWindowCentral}
-
 import * as _ from "lodash";
 import * as config from './config';
 
@@ -9,9 +5,9 @@ import * as config from './config';
 let mash = config.mash
 let mashShift = config.mashShift
 let mashCtrl = config.mashCtrl
-let mousePositions = config.mousePositions
+let mousePositions = config.MOUSE_POSITIONS
 let HIDE_INACTIVE_WINDOW_TIME = config.HIDE_INACTIVE_WINDOW_TIME
-let ACTIVE_WINDOWS_TIMES  = config.ACTIVE_WINDOWS_TIMES
+let ACTIVE_WINDOWS_TIMES = config.ACTIVE_WINDOWS_TIMES
 let WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
 let SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
 let PARK_SPACE_INDEX_MAP: { [name: number]: number } = config.PARK_SPACE_APP_INDEX_MAP
@@ -32,7 +28,7 @@ export function sortByMostRecent(windows: Window[]): Window[] {
 };
 
 
-function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
+export function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
     var mid_pos_x = frame.x + 0.5 * frame.width;
     var mid_pos_y = frame.y + 0.5 * frame.height;
     return {
@@ -43,15 +39,15 @@ function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
     }
 }
 
-function getSmallerFrame(frame: Rectangle): Rectangle {
+export function getSmallerFrame(frame: Rectangle): Rectangle {
     return getResizeFrame(frame, 0.9);
 }
 
-function getLargerFrame(frame: Rectangle): Rectangle {
+export function getLargerFrame(frame: Rectangle): Rectangle {
     return getResizeFrame(frame, 1.1);
 }
 
-function getCurrentWindow(): Window {
+export function getCurrentWindow(): Window {
     var windowOptional = Window.focused();
     if (windowOptional != undefined) {
         return windowOptional as Window;
@@ -60,60 +56,60 @@ function getCurrentWindow(): Window {
 }
 
 
-function hide_inactiveWindow(windows: Window[]) {
+export function hideInactiveWindow(windows: Window[]) {
     var now = new Date().getTime() / 1000;
     _.chain(windows).filter(function (window) {
-      if (!ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
-        ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
-        return false;
-      } return true;
+        if (!ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
+            ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
+            return false;
+        } return true;
     }).filter(function (window) {
-      return now - ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] > HIDE_INACTIVE_WINDOW_TIME * 60;
-      //return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
+        return now - ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] > HIDE_INACTIVE_WINDOW_TIME * 60;
+        //return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
     }).map(function (window) { window.app().hide() });
-  }
-  
-  function heartbeat_window(window: Window) {
+}
+
+export function heartbeatWindow(window: Window) {
     ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = new Date().getTime() / 1000;
     //hide_inactiveWindow(window.otherWindowsOnSameScreen());
-  }
-  
-  // TODO use a state save status
-  function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: boolean): Window | null {
+}
+
+// TODO use a state save status
+export function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: boolean): Window | null {
     var windows = window.others({ visible: true, screen: window.screen() });
     windows.push(window);
     var screen = window.screen();
     windows = _.chain(windows).sortBy(function (window) {
-      return [(A_BIG_PIXEL + window.frame().y - screen.flippedFrame().y) +
-        (A_BIG_PIXEL + window.frame().x - screen.flippedFrame().y),
-      window.app().processIdentifier(), window.title()].join('');
+        return [(A_BIG_PIXEL + window.frame().y - screen.flippedFrame().y) +
+            (A_BIG_PIXEL + window.frame().x - screen.flippedFrame().y),
+        window.app().processIdentifier(), window.title()].join('');
     }).value();
     if (isCycle) {
-      var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
+        var index = (_.indexOf(windows, window) + offset + windows.length) % windows.length;
     } else {
-      var index = _.indexOf(windows, window) + offset;
+        var index = _.indexOf(windows, window) + offset;
     }
     //alert(windows.length);
     //alert(_.map(windows, function(x) {return x.title();}).join(','));
     //alert(_.map(windows, function(x) {return x.app().name();}).join(','));
     if (index >= windows.length || index < 0) {
-      return null;
+        return null;
     }
     return windows[index];
-  }
-  
-  function getPreviousWindowsOnSameScreen(window: Window): Window | null {
+}
+
+export function getPreviousWindowsOnSameScreen(window: Window): Window | null {
     return getAnotherWindowsOnSameScreen(window, -1, false)
-  };
-  
-  function getNextWindowsOnSameScreen(window: Window): Window | null {
+};
+
+export function getNextWindowsOnSameScreen(window: Window): Window | null {
     return getAnotherWindowsOnSameScreen(window, 1, false)
-  };
-  
-  function setWindowCentral(window: Window) {
+};
+
+export function setWindowCentral(window: Window) {
     window.setTopLeft({
-      x: (window.screen().flippedFrame().width - window.size().width) / 2 + window.screen().flippedFrame().x,
-      y: (window.screen().flippedFrame().height - window.size().height) / 2 + window.screen().flippedFrame().y
+        x: (window.screen().flippedFrame().width - window.size().width) / 2 + window.screen().flippedFrame().x,
+        y: (window.screen().flippedFrame().height - window.size().height) / 2 + window.screen().flippedFrame().y
     });
-    heartbeat_window(window);
-  };
+    heartbeatWindow(window);
+};

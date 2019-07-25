@@ -1,10 +1,12 @@
-export {mash, mashShift, mashCtrl, mousePositions, HIDE_INACTIVE_WINDOW_TIME, ACTIVE_WINDOWS_TIMES, DEFAULT_WIDTH,
-WORK_SPACE_INDEX_MAP, SECOND_WORK_SPACE_INDEX_MAP, PARK_SPACE_APP_INDEX_MAP, A_BIG_PIXEL}
+export {
+    mash, mashShift, mashCtrl, MOUSE_POSITIONS, HIDE_INACTIVE_WINDOW_TIME, ACTIVE_WINDOWS_TIMES, DEFAULT_WIDTH,
+    WORK_SPACE_INDEX_MAP, SECOND_WORK_SPACE_INDEX_MAP, PARK_SPACE_APP_INDEX_MAP, A_BIG_PIXEL
+}
 
 let mash: Phoenix.ModifierKey[] = ['alt'];
 let mashShift: Phoenix.ModifierKey[] = ['alt', 'shift'];
 let mashCtrl: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
-let mousePositions: { [name: number]: Point } = {};
+let MOUSE_POSITIONS: { [name: number]: Point } = {};
 let HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
 let ACTIVE_WINDOWS_TIMES: { [name: number]: number } = {};
 let DEFAULT_WIDTH = 1280;

@@ -8,11 +8,12 @@
 import { alert, alert_title, assert, display_all_visiable_window_modal } from './util';
 import * as _ from "lodash";
 import { moveToScreen, windowsOnOtherScreen, focusAnotherScreen } from './screen';
-import { sortByMostRecent, getResizeFrame, getSmallerFrame, getLargerFrame, getCurrentWindow,
-  hide_inactiveWindow, heartbeat_window, getAnotherWindowsOnSameScreen, getPreviousWindowsOnSameScreen, getNextWindowsOnSameScreen,
+import {
+  sortByMostRecent, getResizeFrame, getSmallerFrame, getLargerFrame, getCurrentWindow,
+  hideInactiveWindow, heartbeatWindow, getAnotherWindowsOnSameScreen, getPreviousWindowsOnSameScreen, getNextWindowsOnSameScreen,
   setWindowCentral
- } from './window';
-import {set_mouse_position_for_window_center, save_mouse_position_for_window, restore_mouse_position_for_now, restore_mouse_position_for_window} from './mouse'
+} from './window';
+import { setMousePositionForWindowCenter, saveMousePositionForWindow, restoreMousePositionForNow, restoreMousePositionForWindow } from './mouse'
 import * as config from './config';
 import { callApp } from './app';
 import { moveWindowToTargetSpace } from './space';
@@ -20,9 +21,9 @@ import { moveWindowToTargetSpace } from './space';
 let mash = config.mash
 let mashShift = config.mashShift
 let mashCtrl = config.mashCtrl
-let mousePositions = config.mousePositions
+let MOUSE_POSITIONS = config.MOUSE_POSITIONS
 let HIDE_INACTIVE_WINDOW_TIME = config.HIDE_INACTIVE_WINDOW_TIME
-let ACTIVE_WINDOWS_TIMES  = config.ACTIVE_WINDOWS_TIMES
+let ACTIVE_WINDOWS_TIMES = config.ACTIVE_WINDOWS_TIMES
 let WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
 let SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
 let PARK_SPACE_INDEX_MAP: { [name: number]: number } = config.PARK_SPACE_APP_INDEX_MAP
@@ -73,11 +74,6 @@ Key.on('.', mash, function () { callApp('Tusk'); });
 Key.on('/', mash, function () { callApp('Finder'); });
 
 
-/**
- * My Configuartion Screen
- */
-
-
 // Next screen
 Key.on('l', mash, function () {
   var window = getCurrentWindow();
@@ -118,7 +114,7 @@ Key.on('l', mashShift, function () {
     return;
   }
   moveToScreen(window, window.screen().next());
-  restore_mouse_position_for_window(window);
+  restoreMousePositionForWindow(window);
   //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
 });
@@ -131,7 +127,7 @@ Key.on('h', mashShift, function () {
     return;
   }
   moveToScreen(window, window.screen().previous());
-  restore_mouse_position_for_window(window);
+  restoreMousePositionForWindow(window);
   //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
 });
@@ -152,7 +148,7 @@ Key.on('h', mashShift, function () {
 // Window Maximize
 Key.on('m', mashShift, function () {
   var window = getCurrentWindow();
- 
+
   window.maximize();
   setWindowCentral(window);
   //heartbeat_window(window);
@@ -198,7 +194,7 @@ Key.on('\\', mash, function () {
     width: window.frame().width,
     height: window.screen().flippedFrame().height
   });
-  heartbeat_window(window);
+  heartbeatWindow(window);
 });
 
 // Window Width Max
@@ -259,7 +255,7 @@ Key.on('h', mashCtrl, function () {
     width: window.frame().width,
     height: window.frame().height
   });
-  heartbeat_window(window);
+  heartbeatWindow(window);
 });
 
 // Window >
@@ -271,7 +267,7 @@ Key.on('l', mashCtrl, function () {
     width: window.frame().width,
     height: window.frame().height
   });
-  heartbeat_window(window);
+  heartbeatWindow(window);
 });
 
 // Window <
@@ -283,7 +279,7 @@ Key.on('h', mashCtrl, function () {
     width: window.frame().width,
     height: window.frame().height
   });
-  heartbeat_window(window);
+  heartbeatWindow(window);
 });
 
 // Window ^
@@ -295,7 +291,7 @@ Key.on('k', mashCtrl, function () {
     width: window.frame().width,
     height: window.frame().height
   });
-  heartbeat_window(window);
+  heartbeatWindow(window);
 });
 
 // Window v
@@ -307,7 +303,7 @@ Key.on('j', mashCtrl, function () {
     width: window.frame().width,
     height: window.frame().height
   });
-  heartbeat_window(window);
+  heartbeatWindow(window);
 });
 
 // Window ^ half
@@ -443,13 +439,13 @@ Key.on('k', mash, function () {
   const screen = Screen.main()
   const visibleWindows = screen.windows({ visible: true });
   const rectangle = screen.flippedVisibleFrame();
-  save_mouse_position_for_window(window);
+  saveMousePositionForWindow(window);
   const targetWindow = getPreviousWindowsOnSameScreen(window);
   if (!targetWindow) {
     return;
   }
   targetWindow.focus();
-  restore_mouse_position_for_window(targetWindow);
+  restoreMousePositionForWindow(targetWindow);
   display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
 });
 
@@ -464,13 +460,13 @@ Key.on('j', mash, function () {
   const screen = Screen.main()
   const visibleWindows = screen.windows({ visible: true });
   const rectangle = screen.flippedVisibleFrame();
-  save_mouse_position_for_window(window);
+  saveMousePositionForWindow(window);
   var targetWindow = getNextWindowsOnSameScreen(window); // <- most time cost
   if (!targetWindow) {
     return;
   }
   targetWindow.focus();
-  restore_mouse_position_for_window(targetWindow);
+  restoreMousePositionForWindow(targetWindow);
   display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
 });
 
@@ -482,7 +478,7 @@ Key.on('j', mash, function () {
 // Central Mouse
 Key.on('space', mash, function () {
   var window = getCurrentWindow();
-  set_mouse_position_for_window_center(window);
+  setMousePositionForWindowCenter(window);
 });
 
 

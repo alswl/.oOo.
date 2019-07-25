@@ -1,7 +1,5 @@
-
-
 import * as _ from "lodash";
-import {set_mouse_position_for_window_center, save_mouse_position_for_window, restore_mouse_position_for_now, restore_mouse_position_for_window} from './mouse'
+import { setMousePositionForWindowCenter, saveMousePositionForWindow, restoreMousePositionForNow, restoreMousePositionForWindow } from './mouse'
 import { sortByMostRecent } from "./window";
 
 
@@ -49,13 +47,13 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
   //if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
   //return;
   //}
-  save_mouse_position_for_window(window);
+  saveMousePositionForWindow(window);
   var targetScreenWindows = sortByMostRecent(targetScreen.windows());
   if (targetScreenWindows.length == 0) {
     return;
   }
   var targetWindow = targetScreenWindows[0]
   targetWindow.focus(); // bug, two window in two space, focus will focus in same space first
-  restore_mouse_position_for_window(targetWindow);
+  restoreMousePositionForWindow(targetWindow);
   //App.get('Finder').focus(); // Hack for Screen unfocus
 }

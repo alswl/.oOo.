@@ -1,5 +1,5 @@
 import { moveToScreen } from './screen';
-import { restore_mouse_position_for_window } from './mouse';
+import { restoreMousePositionForWindow } from './mouse';
 
 export function moveWindowToTargetSpace(window: Window, nextWindow: Window | null, allSpaces: Space[], spaceIndex: number) {
   var targetSpace = allSpaces[spaceIndex];
@@ -17,6 +17,6 @@ export function moveWindowToTargetSpace(window: Window, nextWindow: Window | nul
     //App.get('Finder').focus(); // Hack for Screen unfocus
     //nextWindow.raise();
     nextWindow.focus();
-    restore_mouse_position_for_window(nextWindow);
+    restoreMousePositionForWindow(nextWindow);
   }
 }
