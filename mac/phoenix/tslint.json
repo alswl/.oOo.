@@ -1,22 +1,36 @@
 {
 	"defaultSeverity": "error",
-	"extends": ["tslint:recommended"],
+	"extends": [
+		"tslint:recommended"
+	],
 	"jsRules": {},
 	"rules": {
 		"arrow-parens": false,
 		"arrow-return-shorthand": true,
 		"callable-types": true,
 		"class-name": true,
-		"comment-format": [true, "check-space"],
+		"comment-format": [
+			true,
+			"check-space"
+		],
 		"curly": true,
 		"eofline": true,
 		"forin": true,
 		"import-spacing": true,
-		"indent": [false, "tabs"],
+		"indent": [
+			false,
+			"tabs"
+		],
 		"interface-over-type-literal": true,
-		"interface-name": [true, "never-prefix"],
+		"interface-name": [
+			true,
+			"never-prefix"
+		],
 		"label-position": true,
-		"max-line-length": [false, 120],
+		"max-line-length": [
+			false,
+			120
+		],
 		"member-access": false,
 		"member-ordering": [
 			true,
@@ -31,14 +45,19 @@
 		],
 		"no-arg": true,
 		"no-bitwise": true,
-		"no-console": [true],
+		"no-console": [
+			true
+		],
 		"no-construct": true,
 		"no-debugger": true,
 		"no-duplicate-super": true,
 		"no-empty": false,
 		"no-empty-interface": true,
 		"no-eval": true,
-		"no-inferrable-types": [true, "ignore-params"],
+		"no-inferrable-types": [
+			true,
+			"ignore-params"
+		],
 		"no-misused-new": true,
 		"no-non-null-assertion": true,
 		"no-shadowed-variable": true,
@@ -51,17 +70,28 @@
 		"no-use-before-declare": true,
 		"no-var-keyword": true,
 		"object-literal-sort-keys": false,
-		"one-line": [false],
+		"one-line": [
+			false
+		],
 		"prefer-const": [
 			true,
 			{
 				"destructuring": "all"
 			}
 		],
-		"quotemark": [false, "single"],
+		"quotemark": [
+			false,
+			"single"
+		],
 		"radix": true,
-		"semicolon": [false, "always"],
-		"triple-equals": [true, "allow-null-check"],
+		"semicolon": [
+			false,
+			"always"
+		],
+		"triple-equals": [
+			true,
+			"allow-null-check"
+		],
 		"typedef-whitespace": [
 			true,
 			{
@@ -75,7 +105,9 @@
 		"typeof-compare": true,
 		"unified-signatures": true,
 		"variable-name": false,
-		"whitespace": [false],
+		"whitespace": [
+			false
+		],
 		"ordered-imports": [
 			true,
 			{
@@ -90,7 +122,10 @@
 		"no-boolean-literal-compare": true,
 		"no-irregular-whitespace": true,
 		"no-unnecessary-qualifier": true,
-		"object-literal-key-quotes": [true, "as-needed"],
+		"object-literal-key-quotes": [
+			true,
+			"as-needed"
+		],
 		"object-literal-shorthand": true,
 		"prefer-method-signature": true
 	},
