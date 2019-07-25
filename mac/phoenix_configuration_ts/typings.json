@@ -1,0 +1,7 @@
+{
+  "name": "phoenix_configuration_ts",
+  "dependencies": {},
+  "globalDependencies": {
+    "phoenix-typings": "github:mafredri/phoenix-typings"
+  }
+}

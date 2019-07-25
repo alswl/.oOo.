@@ -5,6 +5,8 @@
  * Global Settings
  */
 
+import {alert} from './util';
+
 const keys = [];
 
 const mash = ['alt'];
@@ -32,6 +34,7 @@ PARK_SPACE_APP_INDEX_MAP['Firefox'] = 0;
 PARK_SPACE_APP_INDEX_MAP['QQ'] = 1;
 PARK_SPACE_APP_INDEX_MAP['Dingtalk'] = 1;
 PARK_SPACE_APP_INDEX_MAP['WeChat'] = 2;
+PARK_SPACE_APP_INDEX_MAP['Electronic WeChat'] = 2;
 PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
 PARK_SPACE_APP_INDEX_MAP['Mail'] = 2;
 PARK_SPACE_APP_INDEX_MAP['Airmail'] = 2;
@@ -42,12 +45,6 @@ const A_BIG_PIXEL = 10000;
  * Utils Functions
  */
 
-function alert(message) {
-  var modal = new Modal();
-  modal.text = message;
-  modal.duration = 2;
-  modal.show();
-}
 
 function assert(condition, message) {
   if (!condition) {
@@ -279,7 +276,7 @@ function callApp(appName) {
  */
 
 Phoenix.set({
-    'daemon': true,
+    'daemon': false,
     'openAtLogin': false
 });
 
@@ -288,33 +285,34 @@ Phoenix.set({
  */
 
 // Launch App
-keys.push(new Key('escape', mash, function() { callApp('iTerm'); }));
-keys.push(new Key('`', mash, function() { callApp('iTerm'); }));
-keys.push(new Key('1', mash, function() { callApp('Google Chrome'); }));
-//keys.push(new Key('1', mash, function() { callApp('Chromium'); }));
-keys.push(new Key('2', mash, function() { callApp('Safari'); }));
-//keys.push(new Key('2', mashShift, function() { callApp('Firefox'); }));
-keys.push(new Key('3', mash, function() { callApp('DingTalk'); }));
-//keys.push(new Key('4', mash, function() { callApp('Electronic WeChat'); }));
-//keys.push(new Key('4', mash, function() { callApp('BearyChat'); }));
-keys.push(new Key('4', mash, function() { callApp('Wechat'); }));
-//keys.push(new Key('6', mash, function() { callApp('企业微信'); }));
-//keys.push(new Key('8', mash, function() { callApp('虾米音乐'); }));
-keys.push(new Key('8', mash, function() { callApp('NeteaseMusic'); }));
-keys.push(new Key('e', mash, function() { callApp('Preview'); }));
-keys.push(new Key('a', mash, function() { callApp('MacVim'); }));
-//keys.push(new Key('a', mash, function() { callApp('Terminal'); }));
-keys.push(new Key('s', mash, function() { callApp('IntelliJ IDEA'); }));
-keys.push(new Key('d', mash, function() { callApp('Visual Studio Code'); }));
-keys.push(new Key('z', mash, function() { callApp('Macdown'); }));
-//keys.push(new Key('z', mash, function() { callApp('Typora'); }));
-//keys.push(new Key('z', mash, function() { callApp('Atom'); }));
-//keys.push(new Key('z', mash, function() { callApp('Sublime Text'); }));
-//keys.push(new Key(',', mash, function() { callApp('Airmail 3'); }));
-keys.push(new Key(',', mash, function() { callApp('Mail'); }));
-keys.push(new Key('.', mash, function() { callApp('Evernote'); }));
-//keys.push(new Key('.', mash, function() { callApp('Alternote'); }));
-keys.push(new Key('/', mash, function() { callApp('Finder'); }));
+Key.on('escape', mash, function() { callApp('iTerm'); });
+Key.on('`', mash, function() { callApp('iTerm'); });
+Key.on('1', mash, function() { callApp('Google Chrome'); });
+//Key.on('1', mash, function() { callApp('Chromium'); });
+Key.on('2', mash, function() { callApp('Safari'); });
+//Key.on('2', mashShift, function() { callApp('Firefox'); });
+Key.on('3', mash, function() { callApp('DingTalk'); });
+Key.on('4', mash, function() { callApp('Electronic WeChat'); });
+//Key.on('4', mash, function() { callApp('BearyChat'); });
+//Key.on('4', mash, function() { callApp('Wechat'); });
+//Key.on('6', mash, function() { callApp('企业微信'); });
+//Key.on('8', mash, function() { callApp('虾米音乐'); });
+Key.on('8', mash, function() { callApp('NeteaseMusic'); });
+Key.on('e', mash, function() { callApp('Preview'); });
+Key.on('a', mash, function() { callApp('MacVim'); });
+//Key.on('a', mash, function() { callApp('Terminal'); });
+Key.on('s', mash, function() { callApp('IntelliJ IDEA'); });
+Key.on('d', mash, function() { callApp('Visual Studio Code'); });
+Key.on('z', mash, function() { callApp('Macdown'); });
+//Key.on('z', mash, function() { callApp('Typora'); });
+//Key.on('z', mash, function() { callApp('Atom'); });
+//Key.on('z', mash, function() { callApp('Sublime Text'); });
+//Key.on(',', mash, function() { callApp('Airmail 3'); });
+Key.on(',', mash, function() { callApp('Mail'); });
+//Key.on('.', mash, function() { callApp('Evernote'); });
+Key.on('.', mash, function() { callApp('Tusk'); });
+//Key.on('.', mash, function() { callApp('Alternote'); });
+Key.on('/', mash, function() { callApp('Finder'); });
 
 
 /**
@@ -340,7 +338,7 @@ function focusAnotherScreen(window, targetScreen) {
 }
 
 // Next screen
-keys.push(new Key('l', mash, function() {
+Key.on('l', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -356,10 +354,10 @@ keys.push(new Key('l', mash, function() {
 		return;
 	  }
 	  focusAnotherScreen(window, targetScreen);
-}));
+});
 
 // Previous Screen
-keys.push(new Key('h', mash, function() {
+Key.on('h', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
     return;
@@ -375,10 +373,10 @@ keys.push(new Key('h', mash, function() {
         return;
       }
   focusAnotherScreen(window, targetScreen);
-}));
+});
 
 // Move Current Window to Next Screen
-keys.push(new Key('l', mashShift, function() {
+Key.on('l', mashShift, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -391,10 +389,10 @@ keys.push(new Key('l', mashShift, function() {
   restore_mouse_position_for_window(window);
  //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
-}));
+});
 
 // Move Current Window to Previous Screen
-keys.push(new Key('h', mashShift, function() {
+Key.on('h', mashShift, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -407,7 +405,7 @@ keys.push(new Key('h', mashShift, function() {
   restore_mouse_position_for_window(window);
  //App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
-}));
+});
 
 
 /**
@@ -415,15 +413,15 @@ keys.push(new Key('h', mashShift, function() {
  */
 
 // Window Hide Inactive
-//keys.push(new Key('delete', mash, function() {
+//Key.on('delete', mash, function() {
  //var window = Window.focused();
  //if (!window) return;
  //heartbeat_window(window);
  //hide_inactiveWindow(window.others());
-//}));
+//});
 
 // Window Maximize
-keys.push(new Key('m', mashShift, function() {
+Key.on('m', mashShift, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -432,10 +430,10 @@ keys.push(new Key('m', mashShift, function() {
   window.maximize();
   setWindowCentral(window);
  //heartbeat_window(window);
-}));
+});
 
 // Window Smaller
-keys.push(new Key('-', mash, function() {
+Key.on('-', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -447,10 +445,10 @@ keys.push(new Key('-', mash, function() {
     window.setFrame(oldFrame);
   }
  //heartbeat_window(window);
-}));
+});
 
 // Window Larger
-keys.push(new Key('=', mash, function() {
+Key.on('=', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -463,19 +461,19 @@ keys.push(new Key('=', mash, function() {
     window.setFrame(frame);
   }
  //heartbeat_window(window);
-}));
+});
 
 // Window Central
-keys.push(new Key('m', mash, function() {
+Key.on('m', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
   }
   setWindowCentral(window);
-}));
+});
 
 // Window Height Max
-keys.push(new Key('\\', mash, function() {
+Key.on('\\', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -487,10 +485,10 @@ keys.push(new Key('\\', mash, function() {
     height: window.screen().flippedFrame().height
   });
   heartbeat_window(window);
-}));
+});
 
 // Window Width Max
-//keys.push(new Key('\\', mashShift, function() {
+//Key.on('\\', mashShift, function() {
   //var window = getCurrentWindow();
   //if (window === undefined) {
 	//return;
@@ -502,10 +500,10 @@ keys.push(new Key('\\', mash, function() {
     //height: window.frame().height
   //});
   //heartbeat_window(window);
-//}));
+//});
 
 // Window width <<
-keys.push(new Key(',', mashShift, function() {
+Key.on(',', mashShift, function() {
   var screen = Screen.main()
   var rectangle = screen.flippedVisibleFrame();
   var window = Window.focused();
@@ -521,10 +519,10 @@ keys.push(new Key(',', mashShift, function() {
     width: window.size().width + 200,
     height: window.size().height
   });
-}));
+});
 
 // Window width >>
-keys.push(new Key('.', mashShift, function() {
+Key.on('.', mashShift, function() {
   var screen = Screen.main()
   var rectangle = screen.flippedVisibleFrame();
   var window = Window.focused();
@@ -536,10 +534,10 @@ keys.push(new Key('.', mashShift, function() {
     width: window.size().width + 200,
     height: window.size().height
   });
-}));
+});
 
 // Window <
-keys.push(new Key('h', mashCtrl, function() {
+Key.on('h', mashCtrl, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -551,10 +549,10 @@ keys.push(new Key('h', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-}));
+});
 
 // Window >
-keys.push(new Key('l', mashCtrl, function() {
+Key.on('l', mashCtrl, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -566,10 +564,10 @@ keys.push(new Key('l', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-}));
+});
 
 // Window <
-keys.push(new Key('h', mashCtrl, function() {
+Key.on('h', mashCtrl, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -581,10 +579,10 @@ keys.push(new Key('h', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-}));
+});
 
 // Window ^
-keys.push(new Key('k', mashCtrl, function() {
+Key.on('k', mashCtrl, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -596,10 +594,10 @@ keys.push(new Key('k', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-}));
+});
 
 // Window v
-keys.push(new Key('j', mashCtrl, function() {
+Key.on('j', mashCtrl, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -611,10 +609,10 @@ keys.push(new Key('j', mashCtrl, function() {
     height: window.frame().height
   });
   heartbeat_window(window);
-}));
+});
 
 // Window ^ half
-keys.push(new Key('up', mashShift, function() {
+Key.on('up', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -632,10 +630,10 @@ keys.push(new Key('up', mashShift, function() {
     width: screen.width,
     height: screen.height / 2
   });
-}));
+});
 
 // Window v half
-keys.push(new Key('down', mashShift, function() {
+Key.on('down', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -650,10 +648,10 @@ keys.push(new Key('down', mashShift, function() {
     width: screen.width,
     height: screen.height / 2
   });
-}));
+});
 
 // Window < half
-keys.push(new Key('left', mashShift, function() {
+Key.on('left', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -668,10 +666,10 @@ keys.push(new Key('left', mashShift, function() {
     width: screen.width / 2,
     height: screen.height
   });
-}));
+});
 
 // Window > half
-keys.push(new Key('right', mashShift, function() {
+Key.on('right', mashShift, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -686,10 +684,10 @@ keys.push(new Key('right', mashShift, function() {
     width: screen.width / 2,
     height: screen.height
   });
-}));
+});
 
 // Window < 0 margin
-keys.push(new Key('left', mashCtrl, function() {
+Key.on('left', mashCtrl, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -700,10 +698,10 @@ keys.push(new Key('left', mashCtrl, function() {
     x: screen.x,
     y: screen.y
   });
-}));
+});
 
 // Window > 0 margin
-keys.push(new Key('right', mashCtrl, function() {
+Key.on('right', mashCtrl, function() {
   var screen = Screen.main().flippedVisibleFrame();
   var window = Window.focused();
 
@@ -714,10 +712,10 @@ keys.push(new Key('right', mashCtrl, function() {
     x: screen.x + (screen.width - window.size().width),
     y: screen.y
   });
-}));
+});
 
 // window auto range by recent
-keys.push(new Key('\\', mashShift, function() {
+Key.on('\\', mashShift, function() {
   var screen = Screen.main()
   var rectangle = screen.flippedVisibleFrame();
 
@@ -732,11 +730,11 @@ keys.push(new Key('\\', mashShift, function() {
       height: rectangle.height
     });
   });
-}));
+});
 
 
 // Previous Window in One Screen
-keys.push(new Key('k', mash, function() {
+Key.on('k', mash, function() {
   const window = Window.focused();
   if (!window) {
     if (Window.recent().length == 0) return;
@@ -754,10 +752,10 @@ keys.push(new Key('k', mash, function() {
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
   display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
-}));
+});
 
 // Next Window in One Screen
-keys.push(new Key('j', mash, function() {
+Key.on('j', mash, function() {
   var window = Window.focused();
   if (!window) {
     if (Window.recent().length == 0) return;
@@ -775,7 +773,7 @@ keys.push(new Key('j', mash, function() {
   targetWindow.focus();
   restore_mouse_position_for_window(targetWindow);
   display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
-}));
+});
 
 
 /**
@@ -783,13 +781,13 @@ keys.push(new Key('j', mash, function() {
  */
 
 // Central Mouse
-keys.push(new Key('space', mash, function() {
+Key.on('space', mash, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
   }
   set_mouse_position_for_window_center(window);
-}));
+});
 
 
 /**
@@ -801,7 +799,7 @@ keys.push(new Key('space', mash, function() {
 // mash + o
 
 // move window to prev space
-keys.push(new Key('i', mashShift, function() {
+Key.on('i', mashShift, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -824,10 +822,10 @@ keys.push(new Key('i', mashShift, function() {
   if (prevWindow) {
 	prevWindow.focus();
   }
-}));
+});
 
 // move window to next space
-keys.push(new Key('o', mashShift, function() {
+Key.on('o', mashShift, function() {
   var window = getCurrentWindow();
   if (window === undefined) {
 	return;
@@ -850,7 +848,7 @@ keys.push(new Key('o', mashShift, function() {
   if (nextWindow) {
 	nextWindow.focus();
   }
-}));
+});
 
 
 function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
@@ -872,7 +870,7 @@ function moveWindowToTargetSpace(window, nextWindow, allSpaces, spaceIndex) {
 };
 
 // move window to park space
-keys.push(new Key('delete', mash, function() {
+Key.on('delete', mash, function() {
   var isFollow = false;
   var window = getCurrentWindow();
   if (window === undefined) {
@@ -887,10 +885,10 @@ keys.push(new Key('delete', mash, function() {
  //var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) return;
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, parkSpaceIndex);
-}));
+});
 
 // move window to work space
-keys.push(new Key('return', mashCtrl, function() {
+Key.on('return', mashCtrl, function() {
   var isFollow = true;
   var window = getCurrentWindow();
   if (window === undefined) {
@@ -901,10 +899,10 @@ keys.push(new Key('return', mashCtrl, function() {
   var screenCount = Screen.all().length;
   if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) return;
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
-}));
+});
 
 // move window to sencond work space
-keys.push(new Key('return', mashShift, function() {
+Key.on('return', mashShift, function() {
   var isFollow = true;
   var window = getCurrentWindow();
   if (window === undefined) {
@@ -918,10 +916,10 @@ keys.push(new Key('return', mashShift, function() {
    //alert(allSpaces[SECOND_WORK_SPACE_INDEX_MAP[screenCount]].hash());
 	moveWindowToTargetSpace(window, nextWindow, allSpaces, SECOND_WORK_SPACE_INDEX_MAP[screenCount]);
   });
-}));
+});
 
 // move other window in this space to park space
-keys.push(new Key('delete', mashShift, function() {
+Key.on('delete', mashShift, function() {
   var isFollow = false;
   var window = getCurrentWindow();
   if (window === undefined) {
@@ -939,7 +937,7 @@ keys.push(new Key('delete', mashShift, function() {
 	if (parkSpaceIndex >= allSpaces.length) return;
 	moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces, parkSpaceIndex);
   })
-}));
+});
 
 // TODO WIP
 Event.on('appDidActivate', (app) => {
@@ -971,7 +969,7 @@ function display_all_visiable_window_modal(windows, window, rectangle) {
 
 
 // Test
-keys.push(new Key('0', mash, function() {
+Key.on('0', mash, function() {
  //_.map(App.all(), function(app) { Modal.show(app.title(), 5)});
  //_.map([Window.focused()], function(window) { Modal.show(window.title())}); // current one
  //_.map(Window.all(), function(window) { Modal.show(window.title(), 5)}); // all, include hide
@@ -1025,6 +1023,7 @@ keys.push(new Key('0', mash, function() {
 
   //alert(_.each(Space.all(), function(x) { x.hash() }));
   
-}));
+});
 
 // vim: set ft=javascript sw=2:
+
