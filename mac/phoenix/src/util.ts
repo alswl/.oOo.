@@ -1,4 +1,4 @@
-export {alert, stringify, alert_title, assert};
+export { alert, stringify, alert_title, assert };
 
 function alert(message: string) {
   var modal = new Modal();
@@ -7,7 +7,7 @@ function alert(message: string) {
   modal.show();
 }
 
-var alert_title = function(window: Window) { alert(window.title()); };
+var alert_title = function (window: Window) { alert(window.title()); };
 
 function stringify(value: any) {
   if (value instanceof Error) {

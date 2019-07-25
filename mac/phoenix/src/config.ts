@@ -1,9 +1,9 @@
 let mash: Phoenix.ModifierKey[] = ['alt'];
-let mashShift: Phoenix.ModifierKey[]  = ['alt', 'shift'];
+let mashShift: Phoenix.ModifierKey[] = ['alt', 'shift'];
 let mashCtrl: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
-let mousePositions: {[name: number]: Point} = {};
+let mousePositions: { [name: number]: Point } = {};
 let HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
-let ACTIVE_WINDOWS_TIMES: {[name: number] : number} = {};
+let ACTIVE_WINDOWS_TIMES: { [name: number]: number } = {};
 let DEFAULT_WIDTH = 1280;
 let WORK_SPACE_INDEX_MAP: { [name: number]: number } = {}; // is a dict, key is display count, val is work space
 WORK_SPACE_INDEX_MAP[1] = 0; // one display case
