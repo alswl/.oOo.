@@ -16,13 +16,13 @@ const A_BIG_PIXEL = config.A_BIG_PIXEL
 export function sortByMostRecent(windows: Window[]): Window[] {
     // var start = new Date().getTime();
     const visibleAppMostRecentFirst = _.map(
-        Window.recent(), function (w) { return w.hash(); },
+        Window.recent(), (w) => w.hash(),
     );
     // Phoenix.log('Time s0: ' + (new Date().getTime() - start));
     const visibleAppMostRecentFirstWithWeight = _.zipObject(
         visibleAppMostRecentFirst, _.range(visibleAppMostRecentFirst.length),
     );
-    return _.sortBy(windows, function (window) { return visibleAppMostRecentFirstWithWeight[window.hash()]; });
+    return _.sortBy(windows, (window) => visibleAppMostRecentFirstWithWeight[window.hash()]);
 };
 
 export function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
@@ -54,15 +54,15 @@ export function getCurrentWindow(): Window {
 
 export function hideInactiveWindow(windows: Window[]) {
     const now = new Date().getTime() / 1000;
-    _.chain(windows).filter(function (window) {
+    _.chain(windows).filter((window) => {
         if (!ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
             ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
             return false;
-        } return true;
-    }).filter(function (window) {
+        } else { return true };
+    }).filter((window) => {
         return now - ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] > HIDE_INACTIVE_WINDOW_TIME * 60;
         // return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
-    }).map(function (window) { window.app().hide() });
+    }).map((window) => { window.app().hide() });
 }
 
 export function heartbeatWindow(window: Window) {
@@ -75,18 +75,18 @@ export function getAnotherWindowsOnSameScreen(window: Window, offset: number, is
     let windows = window.others({ visible: true, screen: window.screen() });
     windows.push(window);
     const screen = window.screen();
-    windows = _.chain(windows).sortBy(function (window) {
-        return [(A_BIG_PIXEL + window.frame().y - screen.flippedFrame().y) +
-            (A_BIG_PIXEL + window.frame().x - screen.flippedFrame().y),
-        window.app().processIdentifier(), window.title()].join('');
+    windows = _.chain(windows).sortBy((x) => {
+        return [(A_BIG_PIXEL + x.frame().y - screen.flippedFrame().y) +
+            (A_BIG_PIXEL + x.frame().x - screen.flippedFrame().y),
+        x.app().processIdentifier(), x.title()].join('');
     }).value();
     const index: number = isCycle ?
         (_.indexOf(windows, window) + offset + windows.length) % windows.length
         :
         _.indexOf(windows, window) + offset;
     // alert(windows.length);
-    // alert(_.map(windows, function(x) {return x.title();}).join(','));
-    // alert(_.map(windows, function(x) {return x.app().name();}).join(','));
+    // alert(_.map(windows, (x) => {return x.title();}).join(','));
+    // alert(_.map(windows, (x) => {return x.app().name();}).join(','));
     if (index >= windows.length || index < 0) {
         return null;
     }

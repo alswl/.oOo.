@@ -16,7 +16,7 @@ export function callApp(appName: string) {
     }
 
     const app = appOptional;
-    Timer.after(0.300, function() {
+    Timer.after(0.300, () => {
         app.focus();
         const newWindow = _.first(app.windows());
         if (newWindow && windowOptional !== newWindow) {

@@ -31,9 +31,9 @@ export function windowsOnOtherScreen(): Window[] {
 
   const window = windowOptional;
   const otherWindowsOnSameScreen = window.others({ screen: window.screen() }); // slow
-  const otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen, function(w) { return w.title(); });
+  const otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen, (w) => w.title());
   const return_value = _.chain(window.others())
-    .filter(function(window: Window) { return !_.includes(otherWindowTitlesOnSameScreen, window.title()); })
+    .filter((x: Window) => !_.includes(otherWindowTitlesOnSameScreen, x.title()))
     .value();
   return return_value;
 };
@@ -47,7 +47,7 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
   // }
   saveMousePositionForWindow(window);
   const targetScreenWindows = sortByMostRecent(targetScreen.windows());
-  if (targetScreenWindows.length == 0) {
+  if (targetScreenWindows.length === 0) {
     return;
   }
   const targetWindow = targetScreenWindows[0]

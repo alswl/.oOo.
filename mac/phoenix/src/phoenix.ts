@@ -40,36 +40,36 @@ Phoenix.set({
 
 // Launch App
 Key.on('escape', mash, () => { callApp('iTerm'); });
-Key.on('`', mash, function() { callApp('iTerm'); });
-Key.on('1', mash, function() { callApp('Google Chrome'); });
-// Key.on('1', mash, function() { callApp('Chromium'); });
-Key.on('2', mash, function() { callApp('Safari'); });
-// Key.on('2', mashShift, function() { callApp('Firefox'); });
-Key.on('3', mash, function() { callApp('DingTalk'); });
-Key.on('4', mash, function() { callApp('Electronic WeChat'); });
-// Key.on('4', mash, function() { callApp('BearyChat'); });
-// Key.on('4', mash, function() { callApp('Wechat'); });
-// Key.on('6', mash, function() { callApp('企业微信'); });
-// Key.on('8', mash, function() { callApp('虾米音乐'); });
-Key.on('8', mash, function() { callApp('NeteaseMusic'); });
-Key.on('e', mash, function() { callApp('Preview'); });
-Key.on('a', mash, function() { callApp('MacVim'); });
-// Key.on('a', mash, function() { callApp('Terminal'); });
-Key.on('s', mash, function() { callApp('IntelliJ IDEA'); });
-Key.on('d', mash, function() { callApp('Visual Studio Code'); });
-Key.on('z', mash, function() { callApp('Macdown'); });
-// Key.on('z', mash, function() { callApp('Typora'); });
-// Key.on('z', mash, function() { callApp('Atom'); });
-// Key.on('z', mash, function() { callApp('Sublime Text'); });
-// Key.on(',', mash, function() { callApp('Airmail 3'); });
-Key.on(',', mash, function() { callApp('Mail'); });
-// Key.on('.', mash, function() { callApp('Evernote'); });
-Key.on('.', mash, function() { callApp('Tusk'); });
-// Key.on('.', mash, function() { callApp('Alternote'); });
-Key.on('/', mash, function() { callApp('Finder'); });
+Key.on('`', mash, () => { callApp('iTerm'); });
+Key.on('1', mash, () => { callApp('Google Chrome'); });
+// Key.on('1', mash, () => { callApp('Chromium'); });
+Key.on('2', mash, () => { callApp('Safari'); });
+// Key.on('2', mashShift, () => { callApp('Firefox'); });
+Key.on('3', mash, () => { callApp('DingTalk'); });
+Key.on('4', mash, () => { callApp('Electronic WeChat'); });
+// Key.on('4', mash, () => { callApp('BearyChat'); });
+// Key.on('4', mash, () => { callApp('Wechat'); });
+// Key.on('6', mash, () => { callApp('企业微信'); });
+// Key.on('8', mash, () => { callApp('虾米音乐'); });
+Key.on('8', mash, () => { callApp('NeteaseMusic'); });
+Key.on('e', mash, () => { callApp('Preview'); });
+Key.on('a', mash, () => { callApp('MacVim'); });
+// Key.on('a', mash, () => { callApp('Terminal'); });
+Key.on('s', mash, () => { callApp('IntelliJ IDEA'); });
+Key.on('d', mash, () => { callApp('Visual Studio Code'); });
+Key.on('z', mash, () => { callApp('Macdown'); });
+// Key.on('z', mash, () => { callApp('Typora'); });
+// Key.on('z', mash, () => { callApp('Atom'); });
+// Key.on('z', mash, () => { callApp('Sublime Text'); });
+// Key.on(',', mash, () => { callApp('Airmail 3'); });
+Key.on(',', mash, () => { callApp('Mail'); });
+// Key.on('.', mash, () => { callApp('Evernote'); });
+Key.on('.', mash, () => { callApp('Tusk'); });
+// Key.on('.', mash, () => { callApp('Alternote'); });
+Key.on('/', mash, () => { callApp('Finder'); });
 
 // Next screen
-Key.on('l', mash, function() {
+Key.on('l', mash, () => {
   const window = getCurrentWindow();
   const allScreens = Screen.all();
   const currentScreen = window.screen();
@@ -77,15 +77,15 @@ Key.on('l', mash, function() {
     return; // TODO use mouse to find current screen
   }
   const targetScreen = currentScreen.next();
-  if (_.indexOf(_.map(allScreens, function(x) { return x.hash(); }), targetScreen.hash())
-    >= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
+  if (_.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
+    >= _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash())) {
     return;
   }
   focusAnotherScreen(window, targetScreen);
 });
 
 // Previous Screen
-Key.on('h', mash, function() {
+Key.on('h', mash, () => {
   const window = getCurrentWindow();
   const allScreens = Screen.all();
   const currentScreen = window.screen();
@@ -93,15 +93,15 @@ Key.on('h', mash, function() {
     return; // TODO use mouse to find current screen
   }
   const targetScreen = currentScreen.previous();
-  if (_.indexOf(_.map(allScreens, function(x) { return x.hash(); }), targetScreen.hash())
-    <= _.indexOf(_.map(allScreens, function(x) { return x.hash(); }), currentScreen.hash())) {
+  if (_.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
+    <= _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash())) {
     return;
   }
   focusAnotherScreen(window, targetScreen);
 });
 
 // Move Current Window to Next Screen
-Key.on('l', mashShift, function() {
+Key.on('l', mashShift, () => {
   const window = getCurrentWindow();
   if (window.screen() === window.screen().next()) { return; }
   if (window.screen().next().flippedFrame().x < 0) {
@@ -114,10 +114,10 @@ Key.on('l', mashShift, function() {
 });
 
 // Move Current Window to Previous Screen
-Key.on('h', mashShift, function() {
+Key.on('h', mashShift, () => {
   const window = getCurrentWindow();
   if (window.screen() === window.screen().next()) { return; }
-  if (window.screen().next().flippedFrame().x == 0) {
+  if (window.screen().next().flippedFrame().x === 0) {
     return;
   }
   moveToScreen(window, window.screen().previous());
@@ -131,7 +131,7 @@ Key.on('h', mashShift, function() {
  */
 
 // Window Hide Inactive
-// Key.on('delete', mash, function() {
+// Key.on('delete', mash, () => {
 // var window = Window.focused();
 // if (!window) return;
 // heartbeat_window(window);
@@ -139,7 +139,7 @@ Key.on('h', mashShift, function() {
 // });
 
 // Window Maximize
-Key.on('m', mashShift, function() {
+Key.on('m', mashShift, () => {
   const window = getCurrentWindow();
 
   window.maximize();
@@ -148,19 +148,19 @@ Key.on('m', mashShift, function() {
 });
 
 // Window Smaller
-Key.on('-', mash, function() {
+Key.on('-', mash, () => {
   const window = getCurrentWindow();
   const oldFrame: Rectangle = window.frame();
   const frame: Rectangle = getSmallerFrame(oldFrame);
   window.setFrame(frame);
-  if (window.frame().width == oldFrame.width || window.frame().height == oldFrame.height) {
+  if (window.frame().width === oldFrame.width || window.frame().height === oldFrame.height) {
     window.setFrame(oldFrame);
   }
   // heartbeat_window(window);
 });
 
 // Window Larger
-Key.on('=', mash, function() {
+Key.on('=', mash, () => {
   const window = getCurrentWindow();
   const frame = getLargerFrame(window.frame());
   if (frame.width > window.screen().flippedFrame().width ||
@@ -173,13 +173,13 @@ Key.on('=', mash, function() {
 });
 
 // Window Central
-Key.on('m', mash, function() {
+Key.on('m', mash, () => {
   const window = getCurrentWindow();
   setWindowCentral(window);
 });
 
 // Window Height Max
-Key.on('\\', mash, function() {
+Key.on('\\', mash, () => {
   const window = getCurrentWindow();
   window.setFrame({
     x: window.frame().x,
@@ -191,7 +191,7 @@ Key.on('\\', mash, function() {
 });
 
 // Window Width Max
-// Key.on('\\', mashShift, function() {
+// Key.on('\\', mashShift, () => {
 // var window = getCurrentWindow();
 // if (window === undefined) {
 // return;
@@ -206,7 +206,7 @@ Key.on('\\', mash, function() {
 // });
 
 // Window width <<
-Key.on(',', mashShift, function() {
+Key.on(',', mashShift, () => {
   const screen = Screen.main()
   const rectangle = screen.flippedVisibleFrame();
   const window = Window.focused();
@@ -225,7 +225,7 @@ Key.on(',', mashShift, function() {
 });
 
 // Window width >>
-Key.on('.', mashShift, function() {
+Key.on('.', mashShift, () => {
   const screen = Screen.main()
   const rectangle = screen.flippedVisibleFrame();
   const window = Window.focused();
@@ -240,7 +240,7 @@ Key.on('.', mashShift, function() {
 });
 
 // Window <
-Key.on('h', mashCtrl, function() {
+Key.on('h', mashCtrl, () => {
   const window = getCurrentWindow();
   window.setFrame({
     x: window.frame().x - 100,
@@ -252,7 +252,7 @@ Key.on('h', mashCtrl, function() {
 });
 
 // Window >
-Key.on('l', mashCtrl, function() {
+Key.on('l', mashCtrl, () => {
   const window = getCurrentWindow();
   window.setFrame({
     x: window.frame().x + 100,
@@ -264,7 +264,7 @@ Key.on('l', mashCtrl, function() {
 });
 
 // Window <
-Key.on('h', mashCtrl, function() {
+Key.on('h', mashCtrl, () => {
   const window = getCurrentWindow();
   window.setFrame({
     x: window.frame().x - 100,
@@ -276,7 +276,7 @@ Key.on('h', mashCtrl, function() {
 });
 
 // Window ^
-Key.on('k', mashCtrl, function() {
+Key.on('k', mashCtrl, () => {
   const window = getCurrentWindow();
   window.setFrame({
     x: window.frame().x,
@@ -288,7 +288,7 @@ Key.on('k', mashCtrl, function() {
 });
 
 // Window v
-Key.on('j', mashCtrl, function() {
+Key.on('j', mashCtrl, () => {
   const window = getCurrentWindow();
   window.setFrame({
     x: window.frame().x,
@@ -300,7 +300,7 @@ Key.on('j', mashCtrl, function() {
 });
 
 // Window ^ half
-Key.on('up', mashShift, function() {
+Key.on('up', mashShift, () => {
   const screen = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
@@ -321,7 +321,7 @@ Key.on('up', mashShift, function() {
 });
 
 // Window v half
-Key.on('down', mashShift, function() {
+Key.on('down', mashShift, () => {
   const screen = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
@@ -339,7 +339,7 @@ Key.on('down', mashShift, function() {
 });
 
 // Window < half
-Key.on('left', mashShift, function() {
+Key.on('left', mashShift, () => {
   const screen = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
@@ -357,7 +357,7 @@ Key.on('left', mashShift, function() {
 });
 
 // Window > half
-Key.on('right', mashShift, function() {
+Key.on('right', mashShift, () => {
   const screen = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
@@ -375,7 +375,7 @@ Key.on('right', mashShift, function() {
 });
 
 // Window < 0 margin
-Key.on('left', mashCtrl, function() {
+Key.on('left', mashCtrl, () => {
   const screen = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
@@ -389,7 +389,7 @@ Key.on('left', mashCtrl, function() {
 });
 
 // Window > 0 margin
-Key.on('right', mashCtrl, function() {
+Key.on('right', mashCtrl, () => {
   const screen = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
@@ -403,7 +403,7 @@ Key.on('right', mashCtrl, function() {
 });
 
 // window auto range by recent
-Key.on('\\', mashShift, function() {
+Key.on('\\', mashShift, () => {
   const screen = Screen.main()
   const rectangle = screen.flippedVisibleFrame();
 
@@ -421,10 +421,10 @@ Key.on('\\', mashShift, function() {
 });
 
 // Previous Window in One Screen
-Key.on('k', mash, function() {
+Key.on('k', mash, () => {
   const window = Window.focused();
   if (!window) {
-    if (Window.recent().length == 0) { return; }
+    if (Window.recent().length === 0) { return; }
     Window.recent()[0].focus();
     return;
   }
@@ -442,10 +442,10 @@ Key.on('k', mash, function() {
 });
 
 // Next Window in One Screen
-Key.on('j', mash, function() {
+Key.on('j', mash, () => {
   const window = Window.focused();
   if (!window) {
-    if (Window.recent().length == 0) { return; }
+    if (Window.recent().length === 0) { return; }
     Window.recent()[0].focus();
     return;
   }
@@ -467,7 +467,7 @@ Key.on('j', mash, function() {
  */
 
 // Central Mouse
-Key.on('space', mash, function() {
+Key.on('space', mash, () => {
   const window = getCurrentWindow();
   setMousePositionForWindowCenter(window);
 });
@@ -481,7 +481,7 @@ Key.on('space', mash, function() {
 // mash + o
 
 // move window to prev space
-Key.on('i', mashShift, function() {
+Key.on('i', mashShift, () => {
   const window = getCurrentWindow();
   if (window.isFullScreen() || window.isMinimized()) { return; }
   const currentOptional: Space | undefined = Space.active();
@@ -496,12 +496,12 @@ Key.on('i', mashShift, function() {
   }
   const previous = previousOptinal;
   if (previous.isFullScreen()) { return; }
-  if (previous.screens().length == 0) { return; }
-  if (previous.screens()[0].hash() != current.screens()[0].hash()) {
+  if (previous.screens().length === 0) { return; }
+  if (previous.screens()[0].hash() !== current.screens()[0].hash()) {
     return;
   }
-  if (_.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), previous.hash())
-    >= _.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), current.hash())) {
+  if (_.indexOf(_.map(allSpaces, (x) => x.hash()), previous.hash())
+    >= _.indexOf(_.map(allSpaces, (x) => x.hash()), current.hash())) {
     return;
   }
   current.removeWindows([window]);
@@ -513,7 +513,7 @@ Key.on('i', mashShift, function() {
 });
 
 // move window to next space
-Key.on('o', mashShift, function() {
+Key.on('o', mashShift, () => {
   const window = getCurrentWindow();
   if (window.isFullScreen() || window.isMinimized()) { return; }
   const currentOptional: Space | undefined = Space.active();
@@ -526,12 +526,12 @@ Key.on('o', mashShift, function() {
   if (nextOptional === undefined) { return; }
   const next = nextOptional;
   if (next.isFullScreen()) { return; }
-  if (next.screens().length == 0) { return; }
-  if (next.screens()[0].hash() != current.screens()[0].hash()) {
+  if (next.screens().length === 0) { return; }
+  if (next.screens()[0].hash() !== current.screens()[0].hash()) {
     return;
   }
-  if (_.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), next.hash())
-    <= _.indexOf(_.map(allSpaces, function(x) { return x.hash(); }), current.hash())) {
+  if (_.indexOf(_.map(allSpaces, (x) => x.hash()), next.hash())
+    <= _.indexOf(_.map(allSpaces, (x) => x.hash()), current.hash())) {
     return;
   }
   current.removeWindows([window]);
@@ -543,7 +543,7 @@ Key.on('o', mashShift, function() {
 });
 
 // move window to park space
-Key.on('delete', mash, function() {
+Key.on('delete', mash, () => {
   const isFollow = false;
   const window = getCurrentWindow();
   const nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window);
@@ -558,7 +558,7 @@ Key.on('delete', mash, function() {
 });
 
 // move window to work space
-Key.on('return', mashCtrl, function() {
+Key.on('return', mashCtrl, () => {
   const isFollow = true;
   const window = getCurrentWindow();
   const nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window);
@@ -569,7 +569,7 @@ Key.on('return', mashCtrl, function() {
 });
 
 // move window to sencond work space
-Key.on('return', mashShift, function() {
+Key.on('return', mashShift, () => {
   const isFollow = true;
   const window = getCurrentWindow();
   const nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
@@ -588,9 +588,9 @@ Key.on('delete', mashShift, () => {
   const window = getCurrentWindow();
   const nextWindow = window;
   const allSpaces = Space.all();
-  const otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), function(x) { return x.hash() != window.hash(); });
+  const otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), (x) => x.hash() !== window.hash());
   const screenCount = Screen.all().length;
-  _.each(otherWindowsInSameSpace, function(parkedWindow) {
+  _.each(otherWindowsInSameSpace, (parkedWindow) => {
     if (window.app().hash() === parkedWindow.app().hash()) {
       return;
     }
@@ -610,18 +610,18 @@ Event.on('appDidActivate', (app) => {
 
 // Test
 Key.on('0', mash, () => {
-  // _.map(App.all(), function(app) { Modal.show(app.title(), 5)});
-  // _.map([Window.focused()], function(window) { Modal.show(window.title())}); // current one
-  // _.map(Window.all(), function(window) { Modal.show(window.title(), 5)}); // all, include hide
-  // _.map(Window.all({visible: true}), function(window) { Modal.show(window.title())}); // all, no hide
-  // _.map(Window.recent(), function(window) { Modal.show(window.title())});
-  // _.map(Window.focused().others(), function(window) { Modal.show(window.title())}); // no space
+  // _.map(App.all(), (app) => { Modal.show(app.title(), 5)});
+  // _.map([Window.focused()], (window) => { Modal.show(window.title())}); // current one
+  // _.map(Window.all(), (window) => { Modal.show(window.title(), 5)}); // all, include hide
+  // _.map(Window.all({visible: true}), (window) => { Modal.show(window.title())}); // all, no hide
+  // _.map(Window.recent(), (window) => { Modal.show(window.title())});
+  // _.map(Window.focused().others(), (window) => { Modal.show(window.title())}); // no space
   // _.map(Window.focused().windowsOnOtherScreen(), alert_title);
   // _.map(cw.sortByMostRecent(cw.windowsOnOtherScreen()), alert_title);
   // _.map(cw.windowsOnOtherScreen(), alert_title);
   // Modal.show(Window.focused().screen());
 
-  // _.chain(Window.all()).difference(Window.all(visible: true)).map(function(window) { Modal.show(window.title())});  // all, include hide
+  // _.chain(Window.all()).difference(Window.all(visible: true)).map((window) => { Modal.show(window.title())});  // all, include hide
   // Modal.show(_.chain(Window.all()).difference(Window.all(visible: true)).value().length);
   // Modal.show(_.chain(Window.all()).value().length);
   // hide_inactiveWindow(Window.focused().others());
@@ -634,7 +634,7 @@ Key.on('0', mash, () => {
   // var curPos = Mouse.location();
   // Phoenix.log(String.format('x: {0}, y: {1}, c: {2}, {3}', pos.x, pos.y, curPos.x, curPos.y));
 
-  // var visibleAppMostRecentFirst = _.map(Window.recent(), function(w) { return w.hash(); });
+  // var visibleAppMostRecentFirst = _.map(Window.recent(), (w) => { return w.hash(); });
   // var visibleAppMostRecentFirstWithWeight = _.zipObject(visibleAppMostRecentFirst,
   // _.range(visibleAppMostRecentFirst.length));
   // alert(visibleAppMostRecentFirst);
@@ -646,13 +646,13 @@ Key.on('0', mash, () => {
   // });
   // Task.run('/usr/local/bin/cliclick', [
   // '-w 200', 'c:847,732', 'kp:delete', 'kp:delete', 'kp:delete', 'c:989,623'
-  // ], function(handler) { });
-  // Timer.after(0.5, function() {
-  // Task.run('/usr/local/bin/cliclick', ['c:971,385'], function(handler) {
+  // ], (handler) => { });
+  // Timer.after(0.5, () => {
+  // Task.run('/usr/local/bin/cliclick', ['c:971,385'], (handler) => {
   // });
   // });
-  // Timer.after(1, function() {
-  // Task.run('/usr/local/bin/cliclick', ['c:941,385'], function(handler) {
+  // Timer.after(1, () => {
+  // Task.run('/usr/local/bin/cliclick', ['c:941,385'], (handler) => {
   // });
   // })
   // alert(cw.spaces().length);
@@ -661,7 +661,7 @@ Key.on('0', mash, () => {
   // cw.focus();
   //
 
-  // alert(_.each(Space.all(), function(x) { x.hash() }));
+  // alert(_.each(Space.all(), (x) => { x.hash() }));
 
 });
 

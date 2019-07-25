@@ -8,8 +8,8 @@ export function moveWindowToTargetSpace(window: Window, nextWindow: Window | nul
     return;
   }
   const currentSpace = currentSpaceOptional;
-  // _.map(targetSpace.windows(), function(w) { alert(w.title()); } );
-  if (currentSpace.screens()[0].hash() != targetSpace.screens()[0].hash()) {
+  // _.map(targetSpace.windows(), (w) => { alert(w.title()); } );
+  if (currentSpace.screens()[0].hash() !== targetSpace.screens()[0].hash()) {
     moveToScreen(window, targetSpace.screens()[0]);
   }
   currentSpace.removeWindows([window]);
