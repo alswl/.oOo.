@@ -1,17 +1,13 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"baseUrl": "src",
-		"outDir": ".",
-		"allowJs": true,
+		"module": "es6",
+		"allowJs": false,
 		"target": "es6",
 		"strict": true,
 		"pretty": true,
 		"typeRoots": [
-			"node_modules/@types",
-			"./typings/globals",
-			"./typings"
+			"./node_modules/@types",
+			"./typings/globals/",
 		],
 		"lib": [
 			"es2017"
