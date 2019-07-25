@@ -5,27 +5,28 @@
  * Global Settings
  */
 
-import {alert} from './util';
+import {alert, alert_title, assert} from './util';
+import * as _ from "lodash";
+import {moveToScreen, windowsOnOtherScreen} from './screen';
+import { sortByMostRecent, getResizeFrame, getSmallerFrame, getLargerFrame, getCurrentWindow } from './window';
 
-const keys = [];
-
-const mash = ['alt'];
-const mashShift = ['alt', 'shift'];
-const mashCtrl = ['alt', 'ctrl'];
-const mousePositions = {};
-const HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
-const ACTIVE_WINDOWS_TIMES = {};
-const DEFAULT_WIDTH = 1280;
-const WORK_SPACE_INDEX_MAP = {}; // is a dict, key is display count, val is work space
+let mash: Phoenix.ModifierKey[] = ['alt'];
+let mashShift: Phoenix.ModifierKey[]  = ['alt', 'shift'];
+let mashCtrl: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
+let mousePositions: {[name: number]: Point} = {};
+let HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
+let ACTIVE_WINDOWS_TIMES: {[name: number] : number} = {};
+let DEFAULT_WIDTH = 1280;
+let WORK_SPACE_INDEX_MAP: { [name: number]: number } = {}; // is a dict, key is display count, val is work space
 WORK_SPACE_INDEX_MAP[1] = 0; // one display case
 WORK_SPACE_INDEX_MAP[2] = 3; // two display case
-const SECOND_WORK_SPACE_INDEX_MAP = {}; // is a dict, key is display count, val is work space
+let SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = {}; // is a dict, key is display count, val is work space
 SECOND_WORK_SPACE_INDEX_MAP[1] = 0; // one display case
 SECOND_WORK_SPACE_INDEX_MAP[2] = 0; // two display case
-const PARK_SPACE_INDEX_MAP = {};
+let PARK_SPACE_INDEX_MAP: { [name: number]: number } = {};
 PARK_SPACE_INDEX_MAP[1] = 2;
 PARK_SPACE_INDEX_MAP[2] = 2;
-const PARK_SPACE_APP_INDEX_MAP = {};
+let PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = {};
 PARK_SPACE_APP_INDEX_MAP['iTerm'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Google Chrome'] = 0;
 PARK_SPACE_APP_INDEX_MAP['Chromium'] = 0;
@@ -38,19 +39,13 @@ PARK_SPACE_APP_INDEX_MAP['Electronic WeChat'] = 2;
 PARK_SPACE_APP_INDEX_MAP['BearyChat'] = 1;
 PARK_SPACE_APP_INDEX_MAP['Mail'] = 2;
 PARK_SPACE_APP_INDEX_MAP['Airmail'] = 2;
-const A_BIG_PIXEL = 10000;
+let A_BIG_PIXEL = 10000;
 
 
 /**
  * Utils Functions
  */
 
-
-function assert(condition, message) {
-  if (!condition) {
-    throw message || 'Assertion failed';
-  }
-}
 
 if (!String.format) {
   String.format = function(format) {
@@ -61,93 +56,19 @@ if (!String.format) {
   };
 }
 
-var alert_title = function(window) { alert(window.title()); };
 
-function sortByMostRecent(windows) {
- //var start = new Date().getTime();
-  var visibleAppMostRecentFirst = _.map(
-	Window.recent(), function(w) { return w.hash(); }
-  );
- //Phoenix.log('Time s0: ' + (new Date().getTime() - start));
-  var visibleAppMostRecentFirstWithWeight = _.zipObject(
-	visibleAppMostRecentFirst, _.range(visibleAppMostRecentFirst.length)
-  );
-  return _.sortBy(windows, function(window) { return visibleAppMostRecentFirstWithWeight[window.hash()]; });
-};
-
-function getNewFrame(frame, oldScreenRect, newScreenRect) {
-}
-
-function getResizeFrame(frame, ratio) {
-  var mid_pos_x = frame.x + 0.5 * frame.width;
-  var mid_pos_y = frame.y + 0.5 * frame.height;
-  return {
-    x: Math.round(frame.x + frame.width / 2 * (1 - ratio)),
-    y: Math.round(frame.y + frame.height / 2 * (1 - ratio)),
-    width: Math.round(frame.width * ratio),
-    height: Math.round(frame.height * ratio)
-  }
-}
-
-function getSmallerFrame(frame) {
-  return getResizeFrame(frame, 0.9);
-}
-
-function getLargerFrame(frame) {
-  return getResizeFrame(frame, 1.1);
-}
-
-function getCurrentWindow() {
-  var window = Window.focused();
-  if (window === undefined) {
-	window = App.focused().mainWindow();
-  }
-  if (window === undefined) {
-	return;
-  }
-  return window;
-}
 
 /**
  * Screen Functions
  */
 
-function moveToScreen(window, screen) {
-  if (!window) return;
-  if (!screen) return;
-
-  var frame = window.frame();
-  var oldScreenRect = window.screen().visibleFrameInRectangle();
-  var newScreenRect = screen.visibleFrameInRectangle();
-  var xRatio = newScreenRect.width / oldScreenRect.width;
-  var yRatio = newScreenRect.height / oldScreenRect.height;
-
-  var mid_pos_x = frame.x + Math.round(0.5 * frame.width);
-  var mid_pos_y = frame.y + Math.round(0.5 * frame.height);
-
-  window.setFrame({
-    x: (mid_pos_x - oldScreenRect.x) * xRatio + newScreenRect.x - 0.5 * frame.width,
-    y: (mid_pos_y - oldScreenRect.y) * yRatio + newScreenRect.y - 0.5 * frame.height,
-    width: frame.width,
-    height: frame.height
-  });
-};
-
-function windowsOnOtherScreen() {
-  var otherWindowsOnSameScreen = Window.focused().others({ screen: Window.focused().screen() }); // slow
-  var otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen , function(w) { return w.title(); });
-  var return_value = _.chain(Window.focused().others())
-    .filter(function(window) { return ! _.includes(otherWindowTitlesOnSameScreen, window.title()); })
-    .value();
-  return return_value;
-};
 
 
 /**
  * Window Functions
  */
 
-function hide_inactiveWindow(windows) {
+function hide_inactiveWindow(windows: Window[]) {
   var now = new Date().getTime() / 1000;
   _.chain(windows).filter(function(window) {
     if (!ACTIVE_WINDOWS_TIMES[window.app().pid]) {
@@ -160,13 +81,13 @@ function hide_inactiveWindow(windows) {
   }).map(function(window) {window.app().hide()});
 }
 
-function heartbeat_window(window) {
+function heartbeat_window(window: Window) {
   ACTIVE_WINDOWS_TIMES[window.app().pid] = new Date().getTime() / 1000;
  //hide_inactiveWindow(window.otherWindowsOnSameScreen());
 }
 
 // TODO use a state save status
-function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
+function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: boolean) {
   var windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
   var screen = window.screen();
@@ -189,15 +110,15 @@ function getAnotherWindowsOnSameScreen(window, offset, isCycle) {
   return windows[index];
 }
 
-function getPreviousWindowsOnSameScreen(window) {
+function getPreviousWindowsOnSameScreen(window: Window) {
   return getAnotherWindowsOnSameScreen(window, -1, false)
 };
 
-function getNextWindowsOnSameScreen(window) {
+function getNextWindowsOnSameScreen(window: Window) {
   return getAnotherWindowsOnSameScreen(window, 1, false)
 };
 
-function setWindowCentral(window) {
+function setWindowCentral(window: Window) {
   window.setTopLeft({
     x: (window.screen().flippedFrame().width - window.size().width) / 2 + window.screen().flippedFrame().x,
     y: (window.screen().flippedFrame().height - window.size().height) / 2 + window.screen().flippedFrame().y
@@ -210,7 +131,7 @@ function setWindowCentral(window) {
  * Mouse Functions
  */
 
-function save_mouse_position_for_window(window) {
+function save_mouse_position_for_window(window: Window) {
   if (!window) return;
   heartbeat_window(window);
   var pos = Mouse.location()
@@ -218,7 +139,7 @@ function save_mouse_position_for_window(window) {
   mousePositions[window.hash()] = pos;
 }
 
-function set_mouse_position_for_window_center(window) {
+function set_mouse_position_for_window_center(window: Window) {
   Mouse.move({
     x: window.topLeft().x + window.frame().width / 2,
     y: window.topLeft().y + window.frame().height / 2
@@ -226,7 +147,7 @@ function set_mouse_position_for_window_center(window) {
   heartbeat_window(window);
 }
 
-function restore_mouse_position_for_window(window) {
+function restore_mouse_position_for_window(window: Window) {
   if (!mousePositions[window.hash()]) {
     set_mouse_position_for_window_center(window);
     return;
@@ -256,12 +177,15 @@ function restore_mouse_position_for_now() {
 
 
 //switch app, and remember mouse position
-function callApp(appName) {
+function callApp(appName: string) {
   var window = Window.focused();
   if (window) {
     save_mouse_position_for_window(window);
   }
-  var app = App.launch(appName);
+  var app: App | undefined = App.launch(appName);
+  if (app === undefined) {
+    return;
+  };
   Timer.after(0.300, function() {
     app.focus();
     var newWindow = _.first(app.windows());
@@ -319,7 +243,7 @@ Key.on('/', mash, function() { callApp('Finder'); });
  * My Configuartion Screen
  */
 
-function focusAnotherScreen(window, targetScreen) {
+function focusAnotherScreen(window: Window, targetScreen: Screen) {
   if (!window) return;
   const currentScreen = window.screen();
   if (window.screen() === targetScreen) return;
@@ -439,7 +363,7 @@ Key.on('-', mash, function() {
 	return;
   }
   var oldFrame = window.frame();
-  var frame = getSmallerFrame(oldFrame);
+  var frame: {} = getSmallerFrame(oldFrame);
   window.setFrame(frame);
   if (window.frame().width == oldFrame.width || window.frame().height == oldFrame.height) {
     window.setFrame(oldFrame);
@@ -719,7 +643,7 @@ Key.on('\\', mashShift, function() {
   var screen = Screen.main()
   var rectangle = screen.flippedVisibleFrame();
 
-  const windows = sortByMostRecent(screen.windows({visible: true}));
+  const windows: Window[] = sortByMostRecent(screen.windows({visible: true}));
   _.map(windows, (window, index) => {
     window.setTopLeft({
       x: rectangle.x + index * 100,
@@ -805,7 +729,7 @@ Key.on('i', mashShift, function() {
 	return;
   }
   if (window.isFullScreen() || window.isMinimized()) return;
-  var current = Space.active();
+  var current: Space | undefined = Space.active();
   var allSpaces = Space.all();
   var previous = current.previous();
   if (previous.isFullScreen()) return;
@@ -833,7 +757,7 @@ Key.on('o', mashShift, function() {
   if (window.isFullScreen() || window.isMinimized()) return;
   var current = Space.active();
   var allSpaces = Space.all();
-  var next = current.next();
+  var next: Space | undefined = current.next();
   if (next.isFullScreen()) return;
   if (next.screen().hash() != current.screen().hash()) {
 	return;
@@ -947,7 +871,7 @@ Event.on('appDidActivate', (app) => {
   //alert(window.title());
 //});
 
-function display_all_visiable_window_modal(windows, window, rectangle) {
+function display_all_visiable_window_modal(windows: Window[], window: Window, rectangle: Rectangle) {
   const modal = Modal.build({
     appearance: 'dark',
     text: _.chain(windows)

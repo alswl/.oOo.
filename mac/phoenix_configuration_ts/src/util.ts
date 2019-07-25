@@ -1,4 +1,4 @@
-export {alert, stringify};
+export {alert, stringify, alert_title, assert};
 
 function alert(message: string) {
   var modal = new Modal();
@@ -6,6 +6,8 @@ function alert(message: string) {
   modal.duration = 2;
   modal.show();
 }
+
+var alert_title = function(window: Window) { alert(window.title()); };
 
 function stringify(value: any) {
   if (value instanceof Error) {
@@ -25,5 +27,11 @@ function stringify(value: any) {
       return value.toString();
     default:
       return value;
+  }
+}
+
+function assert(condition: boolean, message: string) {
+  if (!condition) {
+    throw message || 'Assertion failed';
   }
 }

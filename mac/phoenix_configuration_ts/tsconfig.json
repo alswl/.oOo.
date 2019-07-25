@@ -1,12 +1,27 @@
 {
 	"compilerOptions": {
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"baseUrl": "src",
 		"outDir": ".",
 		"allowJs": true,
 		"target": "es6",
 		"strict": true,
-
+		"pretty": true,
+		"typeRoots": [
+			"node_modules/@types",
+			"./typings/globals",
+			"./typings"
+		],
+		"lib": [
+			"es2017"
+		]
 	},
 	"include": [
 		"./src/**/*"
-	]
+	],
+	"exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
 }

@@ -7,7 +7,7 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.134",
+    "@types/lodash": "^4.14.136",
     "typings": "^2.1.1"
   },
   "name": "phoenix_configuration_ts",
