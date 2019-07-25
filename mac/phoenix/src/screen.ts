@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { A_BIG_PIXEL } from "./config";
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
-import { sortByMostRecent, getCurrentWindow } from "./window";
+import { getCurrentWindow, sortByMostRecent } from "./window";
 
 export function moveToScreen(window: Window, screen: Screen) {
   if (!window) { return; }

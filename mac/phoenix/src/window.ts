@@ -1,11 +1,7 @@
 import * as _ from "lodash";
 import * as config from './config';
-import { saveMousePositionForWindow, restoreMousePositionForWindow } from "./mouse";
-import { getPreviousWindowsOnSameScreen } from "./screen";
+import { restoreMousePositionForWindow, saveMousePositionForWindow } from "./mouse";
 import { display_all_visiable_window_modal } from "./util";
-
-const HIDE_INACTIVE_WINDOW_TIME = config.HIDE_INACTIVE_WINDOW_TIME
-const ACTIVE_WINDOWS_TIMES = config.ACTIVE_WINDOWS_TIMES
 
 export function sortByMostRecent(windows: Window[]): Window[] {
     // var start = new Date().getTime();
@@ -47,18 +43,18 @@ export function getCurrentWindow(): Window {
 export function hideInactiveWindow(windows: Window[]) {
     const now = new Date().getTime() / 1000;
     _.chain(windows).filter((window) => {
-        if (!ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
-            ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
+        if (!config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
+            config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
             return false;
         } else { return true };
     }).filter((window) => {
-        return now - ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] > HIDE_INACTIVE_WINDOW_TIME * 60;
+        return now - config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] > config.HIDE_INACTIVE_WINDOW_TIME * 60;
         // return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
     }).map((window) => { window.app().hide() });
 }
 
 export function heartbeatWindow(window: Window) {
-    ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = new Date().getTime() / 1000;
+    config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = new Date().getTime() / 1000;
     // hide_inactiveWindow(window.otherWindowsOnSameScreen());
 }
 
@@ -72,17 +68,18 @@ export function setWindowCentral(window: Window) {
 
 export function autoRangeByRecent() {
   const screen = Screen.main()
-  const rectangle = screen.flippedVisibleFrame();
+  const frame = screen.flippedVisibleFrame();
 
   const windows: Window[] = sortByMostRecent(screen.windows({ visible: true }));
   _.map(windows, (window, index) => {
     window.setTopLeft({
-      x: rectangle.x + index * 100,
-      y: rectangle.y,
+      x: frame.x + index * 100,
+      y: frame.y,
     });
     window.setSize({
-      width: window.size().width,
-      height: rectangle.height,
+    //   width: (window.topLeft().x + window.size().width) > (frame.x + frame.width) ?  frame.x + frame.width - window.topLeft().x: window.size().width,
+    width: window.size().width,
+    height: frame.height,
     });
   });
 }

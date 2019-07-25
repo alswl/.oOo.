@@ -141,7 +141,7 @@ Key.on('\\', config.MASH, () => {
     width: window.frame().width,
     height: window.screen().flippedFrame().height,
   });
-  heartbeatWindow(window);
+  // heartbeatWindow(window);
 });
 
 // Window Width Max
@@ -200,7 +200,7 @@ Key.on('h', config.MASH_CTRL, () => {
     width: window.frame().width,
     height: window.frame().height,
   });
-  heartbeatWindow(window);
+  // heartbeatWindow(window);
 });
 
 // Window >
@@ -212,7 +212,7 @@ Key.on('l', config.MASH_CTRL, () => {
     width: window.frame().width,
     height: window.frame().height,
   });
-  heartbeatWindow(window);
+  // heartbeatWindow(window);
 });
 
 // Window <
@@ -224,7 +224,7 @@ Key.on('h', config.MASH_CTRL, () => {
     width: window.frame().width,
     height: window.frame().height,
   });
-  heartbeatWindow(window);
+  // heartbeatWindow(window);
 });
 
 // Window ^
@@ -236,7 +236,7 @@ Key.on('k', config.MASH_CTRL, () => {
     width: window.frame().width,
     height: window.frame().height,
   });
-  heartbeatWindow(window);
+  // heartbeatWindow(window);
 });
 
 // Window v
@@ -248,7 +248,7 @@ Key.on('j', config.MASH_CTRL, () => {
     width: window.frame().width,
     height: window.frame().height,
   });
-  heartbeatWindow(window);
+  // heartbeatWindow(window);
 });
 
 // Window ^ half
@@ -360,10 +360,7 @@ Key.on('j', config.MASH, () => focusWindowInSameScreen(getNextWindowsOnSameScree
  */
 
 // Central Mouse
-Key.on('space', config.MASH, () => {
-  const window = getCurrentWindow();
-  setMousePositionForWindowCenter(window);
-});
+Key.on('space', config.MASH, () => setMousePositionForWindowCenter(getCurrentWindow()));
 
 /**
  * Mission Control
