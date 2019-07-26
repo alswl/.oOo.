@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { restoreMousePositionForWindow } from './mouse';
+import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
 import { getCurrentWindow } from "./window";
 
 /**
@@ -8,17 +8,15 @@ import { getCurrentWindow } from "./window";
 // switch app, and remember mouse position
 export function callApp(appName: string) {
     const window = getCurrentWindow();
-    const appOptional: App | undefined = App.launch(appName);
-    if (appOptional === undefined) {
+    saveMousePositionForWindow(window);
+    const app: App | undefined = App.launch(appName);
+    if (app === undefined) {
         return;
     }
+    if (window.hash() === app.mainWindow().hash()) { return; }
 
-    const app = appOptional;
     Timer.after(0.300, () => {
         app.focus();
-        const newWindow = _.first(app.windows());
-        if (newWindow && window !== newWindow) {
-            restoreMousePositionForWindow(newWindow);
-        }
+        restoreMousePositionForWindow(app.mainWindow());
     });
 }
