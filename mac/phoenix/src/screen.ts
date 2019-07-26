@@ -27,11 +27,14 @@ export function moveToScreen(window: Window, screen: Screen) {
     width: windowFrame.width * widthRatio,
     height: windowFrame.height * heightRatio,
   });
-  // const targetSpaceOptional = screen.currentSpace();
-  // const all = Space.all();
-  // if (targetSpaceOptional === undefined) { return; }
-  // moveWindowToTargetSpace(window, null, targetSpaceOptional);
-  // TODO fix space problem.
+  const targetSpace = screen.currentSpace();
+  if (targetSpace === undefined) {
+    log('moveToScreen, no screen.currentSpace()');
+    return;
+  }
+  // TODO validation
+  window.spaces().forEach((x) => {x.removeWindows([window])});
+  targetSpace.addWindows([window]);
 };
 
 export function windowsOnOtherScreen(): Window[] {
