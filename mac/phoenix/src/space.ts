@@ -2,9 +2,10 @@ import * as _ from 'lodash';
 import { restoreMousePositionForWindow } from './mouse';
 import { getNextWindowsOnSameScreen, moveToScreen } from './screen';
 import { getCurrentWindow } from './window';
+import { log, displayAllVisiableWindowModal } from './util';
 
-export function moveWindowToTargetSpace(window: Window, nextWindow: Window | null, allSpaces: Space[], spaceIndex: number) {
-  const targetSpace = allSpaces[spaceIndex];
+// TODO refact
+export function moveWindowToTargetSpace(window: Window, nextWindow: Window | null, targetSpace: Space) {
   const currentSpaceOptional = Space.active();
   if (currentSpaceOptional === undefined) {
     return;
@@ -24,33 +25,39 @@ export function moveWindowToTargetSpace(window: Window, nextWindow: Window | nul
   }
 }
 
-export function moveWindowToSpace(targetSpaceFn: (space: Space) => Space | null) {
-  const window = getCurrentWindow();
+export function moveWindowToSpace(window: Window, targetSpaceFn: (space: Space) => Space | null, direction: number) {
   if (window.isFullScreen() || window.isMinimized()) { return; }
   const currentOptional: Space | undefined = Space.active();
   if (currentOptional === undefined) {
+    log("moveWindowToSpace no currentSpace");
     return;
   }
+  log("a");
   const current = currentOptional;
   const allSpaces: Space[] = Space.all();
-  const previousOptinal = targetSpaceFn(current);
-  if (previousOptinal === null) {
+  const targetSpaceOptinal = targetSpaceFn(current);
+  if (targetSpaceOptinal === null) {
+    log("moveWindowToSpace no targetSpaceOptinal");
     return;
   }
-  const previous = previousOptinal;
-  if (previous.isFullScreen()) { return; }
-  if (previous.screens().length === 0) { return; }
-  if (previous.screens()[0].hash() !== current.screens()[0].hash()) {
+  const target = targetSpaceOptinal;
+  if (target.isFullScreen()) { return; }
+  if (target.screens().length === 0) { return; }
+  if (target.screens()[0].hash() !== current.screens()[0].hash()) {
+    log("moveWindowToSpace, target equlas current");
     return;
   }
-  if (_.indexOf(_.map(allSpaces, (x) => x.hash()), previous.hash())
-    >= _.indexOf(_.map(allSpaces, (x) => x.hash()), current.hash())) {
+  const targetIndex = _.indexOf(_.map(allSpaces, (x) => x.hash()), target.hash());
+  const currentIndex = _.indexOf(_.map(allSpaces, (x) => x.hash()), current.hash());
+  if ((direction > 0 && targetIndex <= currentIndex) || (direction < 0 && targetIndex >= currentIndex)) {
+    log("moveWindowToSpace, space execeed");
     return;
   }
   current.removeWindows([window]);
-  previous.addWindows([window]);
-  const prevWindow = getNextWindowsOnSameScreen(window);
-  if (prevWindow) {
-    prevWindow.focus();
+  target.addWindows([window]);
+  const prevWindowOptional = getNextWindowsOnSameScreen(window);
+  if (prevWindowOptional != null) {
+    prevWindowOptional.focus();
   }
+  displayAllVisiableWindowModal(current.windows(), prevWindowOptional, null);
 }

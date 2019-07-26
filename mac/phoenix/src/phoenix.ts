@@ -8,9 +8,10 @@ import * as _ from "lodash";
 import { callApp } from './app';
 import * as config from './config';
 import { setMousePositionForWindowCenter } from './mouse';
-import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveCurrentWindowToScreen, switchScrren } from './screen';
+import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveWindowToScreen, switchScrren } from './screen';
 import { moveWindowToSpace, moveWindowToTargetSpace } from './space';
 import { autoRangeByRecent, focusWindowInSameScreen, getCurrentWindow, getLargerFrame, getSmallerFrame, heartbeatWindow, setWindowCentral, marginWindow } from './window';
+import { log } from "./util";
 
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
 const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
@@ -62,22 +63,31 @@ Key.on('/', config.MASH, () => callApp('Finder'));
 
 // Next screen
 Key.on('l', config.MASH, () => {
-  switchScrren(getCurrentWindow(), (screen: Screen) => screen.next());
+  switchScrren(getCurrentWindow(), (screen: Screen) => screen.next(),
+    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
+      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
+        < _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
+    });
 });
 
 // Previous Screen
 Key.on('h', config.MASH, () => {
-    switchScrren(getCurrentWindow(), (screen: Screen) => screen.previous());
+  switchScrren(getCurrentWindow(), (screen: Screen) => screen.previous(),
+    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
+      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
+        > _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
+    });
 });
 
 // Move Current Window to Next Screen
 Key.on('l', config.MASH_SHIFT, () => {
-  moveCurrentWindowToScreen((window: Window) => window.screen().next());
+  moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().next());
+  // moveWindowToSpace(getCurrentWindow(), (space) => space.next(), -1);
 });
 
 // Move Current Window to Previous Screen
 Key.on('h', config.MASH_SHIFT, () => {
-  moveCurrentWindowToScreen((window: Window) => window.screen().previous());
+  moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().previous());
 });
 
 /**
@@ -371,10 +381,10 @@ Key.on('space', config.MASH, () => setMousePositionForWindowCenter(getCurrentWin
 // mash + o
 
 // move window to prev space
-Key.on('i', config.MASH_SHIFT, () => moveWindowToSpace((space: Space) => space.previous()));
+Key.on('i', config.MASH_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (space: Space) => space.previous(), -1));
 
 // move window to next space
-Key.on('o', config.MASH_SHIFT, () => moveWindowToSpace((space: Space) => space.next()));
+Key.on('o', config.MASH_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (space: Space) => space.next(), 1));
 
 // move window to park space
 Key.on('delete', config.MASH, () => {
@@ -388,7 +398,7 @@ Key.on('delete', config.MASH, () => {
   // alert(allSpaces.length);
   // var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) { return; }
-  moveWindowToTargetSpace(window, nextWindowOptional, allSpaces, parkSpaceIndex);
+  moveWindowToTargetSpace(window, nextWindowOptional, allSpaces[parkSpaceIndex]);
 });
 
 // move window to work space
@@ -399,7 +409,7 @@ Key.on('return', config.MASH_CTRL, () => {
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
   if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) { return; }
-  moveWindowToTargetSpace(window, nextWindowOptional, allSpaces, WORK_SPACE_INDEX_MAP[screenCount]);
+  moveWindowToTargetSpace(window, nextWindowOptional, allSpaces[WORK_SPACE_INDEX_MAP[screenCount]]);
 });
 
 // move window to sencond work space
@@ -412,7 +422,7 @@ Key.on('return', config.MASH_SHIFT, () => {
   if (SECOND_WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) { return; }
   _.each(window.app().windows(), (x: Window) => {
     // alert(allSpaces[SECOND_WORK_SPACE_INDEX_MAP[screenCount]].hash());
-    moveWindowToTargetSpace(x, nextWindow, allSpaces, SECOND_WORK_SPACE_INDEX_MAP[screenCount]);
+    moveWindowToTargetSpace(x, nextWindow, allSpaces[SECOND_WORK_SPACE_INDEX_MAP[screenCount]]);
   });
 });
 
@@ -429,7 +439,7 @@ Key.on('delete', config.MASH_SHIFT, () => {
     }
     const parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
     if (parkSpaceIndex >= allSpaces.length) { return; }
-    moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces, parkSpaceIndex);
+    moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces[parkSpaceIndex]);
   })
 });
 
@@ -443,6 +453,7 @@ Event.on('appDidActivate', () => {
 
 // Test
 Key.on('0', config.MASH, () => {
+  log(`mouse x: ${Mouse.location().x}, y: ${Mouse.location().y}`);
   // _.map(App.all(), (app) => { Modal.show(app.title(), 5)});
   // _.map([Window.focused()], (window) => { Modal.show(window.title())}); // current one
   // _.map(Window.all(), (window) => { Modal.show(window.title(), 5)}); // all, include hide

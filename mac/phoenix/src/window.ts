@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as config from './config';
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from "./mouse";
-import { display_all_visiable_window_modal } from "./util";
+import { displayAllVisiableWindowModal } from "./util";
 
 export function sortByMostRecent(windows: Window[]): Window[] {
     // var start = new Date().getTime();
@@ -102,7 +102,7 @@ export function focusWindowInSameScreen(selectFn: (window: Window) => Window | n
     }
     targetWindow.focus();
     restoreMousePositionForWindow(targetWindow);
-    display_all_visiable_window_modal(visibleWindows, targetWindow, rectangle);
+    displayAllVisiableWindowModal(visibleWindows, targetWindow, rectangle);
 }
 
 export function marginWindow(postionFn: (window: Window, frame: Rectangle) => any) {

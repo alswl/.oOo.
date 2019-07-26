@@ -1,4 +1,12 @@
 import * as _ from "lodash";
+declare var console: any;
+
+export function log(...args: any[]): void {
+	args = args.map(arg => stringify(arg));
+	Phoenix.log(...args);
+	// tslint:disable-next-line:no-console
+	console.trace(...args);
+}
 
 export function alert(message: string) {
   const modal = new Modal();
@@ -36,11 +44,12 @@ export function assert(condition: boolean, message: string) {
   }
 }
 
-export function display_all_visiable_window_modal(windows: Window[], window: Window, rectangle: Rectangle) {
+export function displayAllVisiableWindowModal(windows: Window[], windowOptional: Window | null, rectangleOptional: Rectangle | null) {
+  const screenFrame = rectangleOptional ||Screen.main().flippedVisibleFrame();
   const modal = Modal.build({
     appearance: 'dark',
     text: _.chain(windows)
-      .map(x => window.hash() === x.hash() ? '[[' + x.app().name() + ']]' : ' ' + x.app().name() + ' ')
+      .map(x => windowOptional !== null && windowOptional.hash() === x.hash() ? '[[' + x.app().name() + ']]' : ' ' + x.app().name() + ' ')
       .join('     ')
       .value(),
     duration: 1,
@@ -48,9 +57,9 @@ export function display_all_visiable_window_modal(windows: Window[], window: Win
     weight: 18,
     origin(frame) {
       return {
-        x: rectangle.x + (rectangle.width / 2) - (frame.width / 2),
+        x: screenFrame.x + (screenFrame.width / 2) - (frame.width / 2),
         // y: rectangle.y + (rectangle.height / 2) - (frame.height / 2)
-        y: rectangle.y + rectangle.height - (frame.height / 2),
+        y: screenFrame.y + screenFrame.height - (frame.height / 2),
       }
     },
   }).show();
