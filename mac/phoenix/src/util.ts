@@ -2,10 +2,10 @@ import * as _ from "lodash";
 declare var console: any;
 
 export function log(...args: any[]): void {
-	args = args.map(arg => stringify(arg));
-	Phoenix.log(...args);
-	// tslint:disable-next-line:no-console
-	console.trace(...args);
+  args = args.map(arg => stringify(arg));
+  Phoenix.log(...args);
+  // tslint:disable-next-line:no-console
+  console.trace(...args);
 }
 
 export function alert(message: string) {
@@ -45,7 +45,7 @@ export function assert(condition: boolean, message: string) {
 }
 
 export function displayAllVisiableWindowModal(windows: Window[], windowOptional: Window | null, rectangleOptional: Rectangle | null) {
-  const screenFrame = rectangleOptional ||Screen.main().flippedVisibleFrame();
+  const screenFrame = rectangleOptional || Screen.main().flippedVisibleFrame();
   const modal = Modal.build({
     appearance: 'dark',
     text: _.chain(windows)
@@ -64,3 +64,28 @@ export function displayAllVisiableWindowModal(windows: Window[], windowOptional:
     },
   }).show();
 };
+
+export function showTitleModal(text: string, duration: number = 1, icon?: Phoenix.Icon) {
+  const modal = new Modal();
+  modal.text = text;
+  modal.duration = duration;
+  if (icon) {
+    modal.icon = icon;
+  }
+  showAt(modal, Screen.main(), 2, 1 + 1 / 3);
+}
+
+function showAt(
+  modal: Modal,
+  screen: Screen,
+  widthDiv: number,
+  heightDiv: number,
+) {
+  const { height, width, x, y } = modal.frame();
+  const sf = screen.visibleFrame();
+  modal.origin = {
+    x: sf.x + (sf.width / widthDiv - width / 2),
+    y: sf.y + (sf.height / heightDiv - height / 2),
+  };
+  modal.show();
+}

@@ -67,21 +67,21 @@ export function setWindowCentral(window: Window) {
 };
 
 export function autoRangeByRecent() {
-  const screen = Screen.main()
-  const frame = screen.flippedVisibleFrame();
+    const screen = Screen.main()
+    const frame = screen.flippedVisibleFrame();
 
-  const windows: Window[] = sortByMostRecent(screen.windows({ visible: true }));
-  _.map(windows, (window, index) => {
-    window.setTopLeft({
-      x: frame.x + index * 100,
-      y: frame.y,
+    const windows: Window[] = sortByMostRecent(screen.windows({ visible: true }));
+    _.map(windows, (window, index) => {
+        window.setTopLeft({
+            x: frame.x + index * 100,
+            y: frame.y,
+        });
+        window.setSize({
+            //   width: (window.topLeft().x + window.size().width) > (frame.x + frame.width) ?  frame.x + frame.width - window.topLeft().x: window.size().width,
+            width: window.size().width,
+            height: frame.height,
+        });
     });
-    window.setSize({
-    //   width: (window.topLeft().x + window.size().width) > (frame.x + frame.width) ?  frame.x + frame.width - window.topLeft().x: window.size().width,
-    width: window.size().width,
-    height: frame.height,
-    });
-  });
 }
 
 export function focusWindowInSameScreen(window: Window, windowsFn: (window: Window) => Window[],
@@ -93,7 +93,7 @@ export function focusWindowInSameScreen(window: Window, windowsFn: (window: Wind
     const targetWindow = selectFn(window, windows);
     // const targetWindow = getPreviousWindowsOnSameScreen(window);
     if (!targetWindow) {
-      return;
+        return;
     }
     targetWindow.focus();
     restoreMousePositionForWindow(targetWindow);
@@ -103,9 +103,9 @@ export function focusWindowInSameScreen(window: Window, windowsFn: (window: Wind
 export function marginWindow(postionFn: (window: Window, frame: Rectangle) => any) {
     const frame = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
-  
+
     if (window === undefined) {
-      return;
+        return;
     }
     postionFn(window, frame);
 }

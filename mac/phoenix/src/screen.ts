@@ -1,9 +1,8 @@
 import * as _ from "lodash";
 import { A_BIG_PIXEL } from "./config";
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
-import { moveWindowToSpace, moveWindowToTargetSpace } from "./space";
-import { alert, log } from "./util";
-import { getCurrentWindow, sortByMostRecent } from "./window";
+import { log } from "./util";
+import { sortByMostRecent } from "./window";
 
 export function moveToScreen(window: Window, screen: Screen) {
   const windowFrame = window.frame();
@@ -31,7 +30,7 @@ export function moveToScreen(window: Window, screen: Screen) {
     return;
   }
   // TODO validation
-  window.spaces().forEach((x) => {x.removeWindows([window])});
+  window.spaces().forEach((x) => { x.removeWindows([window]) });
   targetSpace.addWindows([window]);
 };
 
@@ -59,7 +58,7 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
   // if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
   // return;
   // }
-  
+
   saveMousePositionForWindow(window);
   const targetScreenWindows = sortByMostRecent(targetScreen.windows());
   if (targetScreenWindows.length === 0) {
@@ -77,9 +76,9 @@ export function sortedWindowsOnSameScreen(window: Window): Window[] {
   windows.push(window);
   const screen = window.screen();
   windows = _.chain(windows).sortBy((x) => {
-      return [(A_BIG_PIXEL + x.frame().y - screen.flippedFrame().y) +
-          (A_BIG_PIXEL + x.frame().x - screen.flippedFrame().y),
-      x.app().processIdentifier(), x.title()].join('');
+    return [(A_BIG_PIXEL + x.frame().y - screen.flippedFrame().y) +
+      (A_BIG_PIXEL + x.frame().x - screen.flippedFrame().y),
+    x.app().processIdentifier(), x.title()].join('');
   }).value();
   return windows;
 }
@@ -87,9 +86,9 @@ export function sortedWindowsOnSameScreen(window: Window): Window[] {
 // TODO use a state save status
 export function otherWindowOnSameScreen(windows: Window[], window: Window, offset: number, isCycle: boolean): Window | null {
   const index: number = isCycle ?
-      (_.indexOf(windows, window) + offset + windows.length) % windows.length
-      :
-      _.indexOf(windows, window) + offset;
+    (_.indexOf(windows, window) + offset + windows.length) % windows.length
+    :
+    _.indexOf(windows, window) + offset;
   if (index >= windows.length || index < 0) {
     log("otherWindowOnSameScreen, no window");
     return null;

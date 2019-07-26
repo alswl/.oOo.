@@ -8,10 +8,10 @@ import * as _ from "lodash";
 import { callApp } from './app';
 import * as config from './config';
 import { setMousePositionForWindowCenter } from './mouse';
-import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveWindowToScreen, switchScrren, sortedWindowsOnSameScreen } from './screen';
+import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveWindowToScreen, sortedWindowsOnSameScreen, switchScrren } from './screen';
 import { moveWindowToSpace, moveWindowToTargetSpace } from './space';
-import { autoRangeByRecent, focusWindowInSameScreen, getCurrentWindow, getLargerFrame, getSmallerFrame, heartbeatWindow, setWindowCentral, marginWindow } from './window';
-import { log } from "./util";
+import { log, showTitleModal } from "./util";
+import { autoRangeByRecent, focusWindowInSameScreen, getCurrentWindow, getLargerFrame, getSmallerFrame, marginWindow, setWindowCentral } from './window';
 
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
 const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
@@ -508,5 +508,8 @@ Key.on('0', config.MASH, () => {
   // alert(_.each(Space.all(), (x) => { x.hash() }));
 
 });
+
+const phoenixApp = App.get('Phoenix');
+showTitleModal('Phoenix (re)loaded!', 2, phoenixApp && phoenixApp.icon());
 
 // vim: set ft=javascript sw=2:

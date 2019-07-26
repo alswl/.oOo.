@@ -1,8 +1,7 @@
 import * as _ from 'lodash';
 import { restoreMousePositionForWindow } from './mouse';
 import { getNextWindowsOnSameScreen, moveToScreen, sortedWindowsOnSameScreen } from './screen';
-import { getCurrentWindow } from './window';
-import { log, displayAllVisiableWindowModal } from './util';
+import { displayAllVisiableWindowModal, log } from './util';
 
 // TODO refact
 export function moveWindowToTargetSpace(window: Window, nextWindow: Window | null, targetSpace: Space) {
