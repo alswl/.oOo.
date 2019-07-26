@@ -16,8 +16,6 @@ export function moveToScreen(window: Window, screen: Screen) {
   log(`currentScreenFrame, ${currentScreenFrame.x}, ${currentScreenFrame.y}`);
   log(`targetScreenFrame, ${targetScreenFrame.x}, ${targetScreenFrame.y}`);
 
-  const midPosX = windowFrame.x + Math.round(0.5 * windowFrame.width);
-  const midPosY = windowFrame.y + Math.round(0.5 * windowFrame.height);
   log(`x: ${(windowFrame.x - currentScreenFrame.x) * widthRatio + targetScreenFrame.x}`);
   log(`y: ${(windowFrame.y - currentScreenFrame.y) * heightRatio + targetScreenFrame.y}`);
 
@@ -74,8 +72,7 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
   // App.get('Finder').focus(); // Hack for Screen unfocus
 }
 
-// TODO use a state save status
-export function getAnotherWindowsOnSameScreen(window: Window, offset: number, isCycle: boolean): Window | null {
+export function sortedWindowsOnSameScreen(window: Window): Window[] {
   let windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
   const screen = window.screen();
@@ -84,25 +81,28 @@ export function getAnotherWindowsOnSameScreen(window: Window, offset: number, is
           (A_BIG_PIXEL + x.frame().x - screen.flippedFrame().y),
       x.app().processIdentifier(), x.title()].join('');
   }).value();
+  return windows;
+}
+
+// TODO use a state save status
+export function otherWindowOnSameScreen(windows: Window[], window: Window, offset: number, isCycle: boolean): Window | null {
   const index: number = isCycle ?
       (_.indexOf(windows, window) + offset + windows.length) % windows.length
       :
       _.indexOf(windows, window) + offset;
-  // alert(windows.length);
-  // alert(_.map(windows, (x) => {return x.title();}).join(','));
-  // alert(_.map(windows, (x) => {return x.app().name();}).join(','));
   if (index >= windows.length || index < 0) {
-      return null;
+    log("otherWindowOnSameScreen, no window");
+    return null;
   }
   return windows[index];
 }
 
-export function getPreviousWindowsOnSameScreen(window: Window): Window | null {
-  return getAnotherWindowsOnSameScreen(window, -1, false)
+export function getPreviousWindowsOnSameScreen(window: Window, windows: Window[]): Window | null {
+  return otherWindowOnSameScreen(windows, window, -1, false)
 };
 
-export function getNextWindowsOnSameScreen(window: Window): Window | null {
-  return getAnotherWindowsOnSameScreen(window, 1, false)
+export function getNextWindowsOnSameScreen(window: Window, windows: Window[]): Window | null {
+  return otherWindowOnSameScreen(windows, window, 1, false)
 };
 
 export function switchScrren(current: Window, targetScreenFn: (screen: Screen) => Screen,

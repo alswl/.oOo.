@@ -8,7 +8,7 @@ import * as _ from "lodash";
 import { callApp } from './app';
 import * as config from './config';
 import { setMousePositionForWindowCenter } from './mouse';
-import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveWindowToScreen, switchScrren } from './screen';
+import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveWindowToScreen, switchScrren, sortedWindowsOnSameScreen } from './screen';
 import { moveWindowToSpace, moveWindowToTargetSpace } from './space';
 import { autoRangeByRecent, focusWindowInSameScreen, getCurrentWindow, getLargerFrame, getSmallerFrame, heartbeatWindow, setWindowCentral, marginWindow } from './window';
 import { log } from "./util";
@@ -360,10 +360,10 @@ Key.on('right', config.MASH_CTRL, () => {
 Key.on('\\', config.MASH_SHIFT, () => autoRangeByRecent());
 
 // Previous Window in One Screen
-Key.on('k', config.MASH, () => focusWindowInSameScreen(getPreviousWindowsOnSameScreen));
+Key.on('k', config.MASH, () => focusWindowInSameScreen(getCurrentWindow(), sortedWindowsOnSameScreen, getPreviousWindowsOnSameScreen));
 
 // Next Window in One Screen
-Key.on('j', config.MASH, () => focusWindowInSameScreen(getNextWindowsOnSameScreen));
+Key.on('j', config.MASH, () => focusWindowInSameScreen(getCurrentWindow(), sortedWindowsOnSameScreen, getNextWindowsOnSameScreen));
 
 /**
  * My Configuartion Mouse
@@ -390,7 +390,7 @@ Key.on('o', config.MASH_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (spac
 Key.on('delete', config.MASH, () => {
   const isFollow = false;
   const window = getCurrentWindow();
-  const nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window);
+  const nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
   const parkSpaceIndex = PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
@@ -405,7 +405,7 @@ Key.on('delete', config.MASH, () => {
 Key.on('return', config.MASH_CTRL, () => {
   const isFollow = true;
   const window = getCurrentWindow();
-  const nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window);
+  const nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
   if (WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) { return; }
@@ -416,7 +416,7 @@ Key.on('return', config.MASH_CTRL, () => {
 Key.on('return', config.MASH_SHIFT, () => {
   const isFollow = true;
   const window = getCurrentWindow();
-  const nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window);
+  const nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
   if (SECOND_WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) { return; }

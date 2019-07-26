@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { restoreMousePositionForWindow } from './mouse';
-import { getNextWindowsOnSameScreen, moveToScreen } from './screen';
+import { getNextWindowsOnSameScreen, moveToScreen, sortedWindowsOnSameScreen } from './screen';
 import { getCurrentWindow } from './window';
 import { log, displayAllVisiableWindowModal } from './util';
 
@@ -55,7 +55,7 @@ export function moveWindowToSpace(window: Window, targetSpaceFn: (space: Space) 
   }
   current.removeWindows([window]);
   target.addWindows([window]);
-  const prevWindowOptional = getNextWindowsOnSameScreen(window);
+  const prevWindowOptional = getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
   if (prevWindowOptional != null) {
     prevWindowOptional.focus();
   }

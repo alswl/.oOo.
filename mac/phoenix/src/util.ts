@@ -49,8 +49,8 @@ export function displayAllVisiableWindowModal(windows: Window[], windowOptional:
   const modal = Modal.build({
     appearance: 'dark',
     text: _.chain(windows)
-      .map(x => windowOptional !== null && windowOptional.hash() === x.hash() ? '[[' + x.app().name() + ']]' : ' ' + x.app().name() + ' ')
-      .join('     ')
+      .map(x => windowOptional !== null && windowOptional.hash() === x.hash() ? '[[' + x.app().name() + ']]' : '  ' + x.app().name() + '  ')
+      .join('    ')
       .value(),
     duration: 1,
     // animationDuration: 0,

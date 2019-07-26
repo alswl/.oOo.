@@ -84,25 +84,20 @@ export function autoRangeByRecent() {
   });
 }
 
-export function focusWindowInSameScreen(selectFn: (window: Window) => Window | null) {
-    const window = Window.focused();
-    if (!window) {
-      if (Window.recent().length === 0) { return; }
-      Window.recent()[0].focus();
-      return;
-    }
+export function focusWindowInSameScreen(window: Window, windowsFn: (window: Window) => Window[],
+                                        selectFn: (window: Window, windows: Window[]) => Window | null) {
     const screen = Screen.main()
-    const visibleWindows = screen.windows({ visible: true });
     const rectangle = screen.flippedVisibleFrame();
+    const windows = windowsFn(window);
     saveMousePositionForWindow(window);
-    const targetWindow = selectFn(window);
+    const targetWindow = selectFn(window, windows);
     // const targetWindow = getPreviousWindowsOnSameScreen(window);
     if (!targetWindow) {
       return;
     }
     targetWindow.focus();
     restoreMousePositionForWindow(targetWindow);
-    displayAllVisiableWindowModal(visibleWindows, targetWindow, rectangle);
+    displayAllVisiableWindowModal(windows, targetWindow, rectangle);
 }
 
 export function marginWindow(postionFn: (window: Window, frame: Rectangle) => any) {
