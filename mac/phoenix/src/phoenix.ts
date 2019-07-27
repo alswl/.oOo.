@@ -23,7 +23,7 @@ const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = config.PARK_SPACE_A
  */
 
 Phoenix.set({
-  daemon: false,
+  daemon: true,
   openAtLogin: false,
 });
 

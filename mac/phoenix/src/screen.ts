@@ -5,6 +5,8 @@ import { log } from "./util";
 import { sortByMostRecent } from "./window";
 
 export function moveToScreen(window: Window, screen: Screen) {
+  const app = window.app();
+  const currentSpaces = window.spaces();
   const windowFrame = window.frame();
   const currentScreenFrame = window.screen().flippedVisibleFrame();
   const targetScreenFrame = screen.flippedVisibleFrame();
@@ -29,9 +31,14 @@ export function moveToScreen(window: Window, screen: Screen) {
     log('moveToScreen, no screen.currentSpace()');
     return;
   }
-  // TODO validation
-  window.spaces().forEach((x) => { x.removeWindows([window]) });
-  targetSpace.addWindows([window]);
+
+  // force focus window in space
+  // targetSpace.addWindows([window]);
+  // currentSpaces.forEach((x) => { x.removeWindows([window]) });
+  // window.raise();
+  // app.activate();
+  app.hide();
+  app.show();
 };
 
 export function windowsOnOtherScreen(): Window[] {
@@ -117,22 +124,17 @@ export function switchScrren(current: Window, targetScreenFn: (screen: Screen) =
 }
 
 export function moveWindowToScreen(window: Window, targetScreenFn: (window: Window) => Screen) {
-  log("a");
   const targetScreen = targetScreenFn(window);
   if (window.screen().hash() === targetScreen.hash()) {
     log("moveWindowToScreen, smae screen");
     return;
   }
-  log("b");
   // if (targetScreen.flippedFrame().x < 0) {
   //   return;
   // }
-  log("c");
 
   moveToScreen(window, targetScreen);
-  log("d");
   restoreMousePositionForWindow(window);
-  log("e");
   // App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
 }
