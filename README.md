@@ -24,7 +24,7 @@ These configuration Includes:
 -   xmobar # deprecated, use awesome
 -   ideavimrc
 -   .gitconfig
--   mac/.phoenix
+-   mac/phoenix, see https://github.com/alswl/.oOo./blob/master/mac/phoenix/README.md
 -   mjolnir # deprecated, use phoenix
 -   local/bin
     -   SimpleHTTPServerWithUpload.py  # simple HTTPS Server with Upload
