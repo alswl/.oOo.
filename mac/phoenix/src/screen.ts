@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import { A_BIG_PIXEL } from "./config";
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
 import { log } from "./util";
-import { sortByMostRecent } from "./window";
+import { sortByMostRecent, getCurrentWindow } from "./window";
 
 export function moveToScreen(window: Window, screen: Screen) {
   const app = window.app();
@@ -137,4 +137,20 @@ export function moveWindowToScreen(window: Window, targetScreenFn: (window: Wind
   restoreMousePositionForWindow(window);
   // App.get('Finder').focus(); // Hack for Screen unfocus
   window.focus();
+}
+
+export function focusNextScreen() {
+  switchScrren(getCurrentWindow(), (screen: Screen) => screen.next(),
+    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
+      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
+        < _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
+    });
+}
+
+export function focusPreviousScreen() {
+  switchScrren(getCurrentWindow(), (screen: Screen) => screen.previous(),
+    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
+      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
+        > _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
+    });
 }

@@ -8,7 +8,7 @@ import * as _ from "lodash";
 import { callApp } from './app';
 import * as config from './config';
 import { setMousePositionForWindowCenter } from './mouse';
-import { getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveWindowToScreen, sortedWindowsOnSameScreen, switchScrren } from './screen';
+import { focusNextScreen, focusPreviousScreen, getNextWindowsOnSameScreen, getPreviousWindowsOnSameScreen, moveWindowToScreen, sortedWindowsOnSameScreen } from './screen';
 import { moveWindowToSpace, moveWindowToTargetSpace } from './space';
 import { log, showTitleModal } from "./util";
 import { autoRangeByRecent, focusWindowInSameScreen, getCurrentWindow, getLargerFrame, getSmallerFrame, marginWindow, setWindowCentral } from './window';
@@ -61,31 +61,29 @@ Key.on('/', config.MASH, () => callApp('Finder'));
 
 // Next screen
 Key.on('l', config.MASH, () => {
-  switchScrren(getCurrentWindow(), (screen: Screen) => screen.next(),
-    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
-      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
-        < _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
-    });
+  config.MAC_SCREEN_IN_THE_RIGHT ? focusNextScreen() : focusPreviousScreen();
 });
 
 // Previous Screen
 Key.on('h', config.MASH, () => {
-  switchScrren(getCurrentWindow(), (screen: Screen) => screen.previous(),
-    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
-      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
-        > _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
-    });
+  config.MAC_SCREEN_IN_THE_RIGHT ? focusPreviousScreen() : focusNextScreen();
 });
 
 // Move Current Window to Next Screen
 Key.on('l', config.MASH_SHIFT, () => {
-  moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().next());
-  // moveWindowToSpace(getCurrentWindow(), (space) => space.next(), -1);
+  config.MAC_SCREEN_IN_THE_RIGHT ?
+    moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().next())
+    :
+    moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().previous());
 });
 
 // Move Current Window to Previous Screen
 Key.on('h', config.MASH_SHIFT, () => {
-  moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().previous());
+  config.MAC_SCREEN_IN_THE_RIGHT ?
+    moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().previous())
+    :
+    moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().next())
+    ;
 });
 
 /**
