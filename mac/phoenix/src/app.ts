@@ -6,17 +6,20 @@ import { getCurrentWindow } from "./window";
  * App Functions
  */
 // switch app, and remember mouse position
-export function callApp(appName: string) {
+export function callApp(appName: string, orAppName?: string) {
     const window = getCurrentWindow();
     saveMousePositionForWindow(window);
-    const app: App | undefined = App.launch(appName);
+    let app: App | undefined = App.launch(appName);
+    if (app === undefined && orAppName) {
+        app = App.launch(orAppName);
+    }
     if (app === undefined) {
         return;
     }
     if (window.hash() === app.mainWindow().hash()) { return; }
 
     Timer.after(0.300, () => {
-        app.focus();
-        restoreMousePositionForWindow(app.mainWindow());
+        (app as App).focus();
+        restoreMousePositionForWindow((app as App).mainWindow());
     });
 }
