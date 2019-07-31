@@ -61,7 +61,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=( \
-	autojump aws bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang \
+	autojump aws bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang dotenv \
 	gradle history history-substring-search httpie mvn nmap npm nvm pip python rbenv redis-cli rsync rvm sbt scala \
 	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
 	)

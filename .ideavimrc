@@ -226,3 +226,4 @@ noremap <silent> <leader>q :q<CR>
 
 inoremap <silent> <leader>w :w<CR>
 noremap <silent> <leader>w :w<CR>
+set ideajoin
