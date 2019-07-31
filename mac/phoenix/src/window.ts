@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as config from './config';
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from "./mouse";
-import { displayAllVisiableWindowModal } from "./util";
+import { displayAllVisiableWindowModal, log } from "./util";
 
 export function sortByMostRecent(windows: Window[]): Window[] {
     // var start = new Date().getTime();
@@ -95,7 +95,9 @@ export function focusWindowInSameScreen(window: Window, windowsFn: (window: Wind
     if (!targetWindow) {
         return;
     }
+    log(`focusWindowInSameScreen.targetWindow: ${targetWindow.title()}`);
     targetWindow.focus();
+    // TODO cannot focus Chrome on same screen, if two Chrome in two Screen.
     restoreMousePositionForWindow(targetWindow);
     displayAllVisiableWindowModal(windows, targetWindow, rectangle);
 }

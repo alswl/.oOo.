@@ -62,14 +62,15 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
     log("focusAnotherScreen, target equales current");
     return;
   }
-  // if (targetScreen.flippedFrame().x < currentScreen.flippedFrame().x) {
-  // return;
-  // }
-
   saveMousePositionForWindow(window);
-  const targetScreenWindows = sortByMostRecent(targetScreen.windows());
+  const nextScreenWindows = targetScreen.windows({visible: true});
+  const targetScreenWindows = sortByMostRecent(nextScreenWindows);
   if (targetScreenWindows.length === 0) {
     log("focusAnotherScreen, target no window");
+    Mouse.move({
+      x: targetScreen.frame().x + targetScreen.frame().width / 2,
+      y: targetScreen.frame().y + targetScreen.frame().height / 2,
+    })
     return;
   }
   const targetWindow = targetScreenWindows[0]
@@ -87,6 +88,7 @@ export function sortedWindowsOnSameScreen(window: Window): Window[] {
       (A_BIG_PIXEL + x.frame().x - screen.flippedFrame().y),
     x.app().processIdentifier(), x.title()].join('');
   }).value();
+  log(`sortedWindowsOnSameScreen: ${windows.map((x) => '"' + x.title() + '"').join(", ")}`);
   return windows;
 }
 
@@ -116,10 +118,14 @@ export function switchScrren(current: Window, targetScreenFn: (screen: Screen) =
   const allScreens = Screen.all();
   const currentScreen = current.screen();
   if (currentScreen === undefined) {
+    log("switchScrren, no current Screen");
     return; // TODO use mouse to find current screen
   }
   const targetScreen = targetScreenFn(currentScreen);
-  if (!validationFn(allScreens, currentScreen, targetScreen)) { return; }
+  if (!validationFn(allScreens, currentScreen, targetScreen)) {
+    log(`switchScrren, validate fn failed, currentScreen: ${currentScreen.identifier()}, targetScreen: ${targetScreen.identifier()}`);
+    return;
+  }
   focusAnotherScreen(current, targetScreen);
 }
 
