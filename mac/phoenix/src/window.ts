@@ -86,8 +86,8 @@ export function autoRangeByRecent() {
 
 export function focusWindowInSameScreen(window: Window, windowsFn: (window: Window) => Window[],
                                         selectFn: (window: Window, windows: Window[]) => Window | null) {
-    const screen = Screen.main()
-    const rectangle = screen.flippedVisibleFrame();
+    const screen = Screen.main();
+    const rectangle = screen.flippedFrame();
     const windows = windowsFn(window);
     saveMousePositionForWindow(window);
     const targetWindow = selectFn(window, windows);

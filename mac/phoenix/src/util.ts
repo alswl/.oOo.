@@ -45,8 +45,8 @@ export function assert(condition: boolean, message: string) {
 }
 
 export function displayAllVisiableWindowModal(windows: Window[], windowOptional: Window | null, rectangleOptional: Rectangle | null) {
-  const screenFrame = rectangleOptional || Screen.main().flippedVisibleFrame();
-  const modal = Modal.build({
+  const screenFrame = rectangleOptional || Screen.main().flippedFrame();
+  Modal.build({
     appearance: 'dark',
     text: _.chain(windows)
       .map(x => windowOptional !== null && windowOptional.hash() === x.hash() ? '[[' + x.app().name() + ']]' : '  ' + x.app().name() + '  ')
@@ -58,8 +58,8 @@ export function displayAllVisiableWindowModal(windows: Window[], windowOptional:
     origin(frame) {
       return {
         x: screenFrame.x + (screenFrame.width / 2) - (frame.width / 2),
-        // y: rectangle.y + (rectangle.height / 2) - (frame.height / 2)
-        y: screenFrame.y + screenFrame.height - (frame.height / 2),
+        y: ((-screenFrame.y) + (screenFrame.height / 2) + (frame.height / 2)),
+        // y: screenFrame.y + screenFrame.height - (frame.height / 2),
       }
     },
   }).show();

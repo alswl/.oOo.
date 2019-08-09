@@ -70,12 +70,28 @@ mapkey('gi', '#1Go to edit box', function() {
     }
 });
 
+function get_link_markdown() {
+    return '[' + document.title + '](' + window.location.href + ')';
+}
+
+function get_link_markdown_with_space() {
+    return '[' + document.title + ']( ' + window.location.href + ' )';
+}
+
 mapkey('ym', "#7Copy current page's URL as markdown", function() {
-  Clipboard.write('[' + document.title + '](' + window.location.href + ')');
+    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+        prompt('Copy yourself', get_link_markdown());
+        return;
+    }
+    Clipboard.write(get_link_markdown());
 });
 
 mapkey('yM', "#7Copy current page's URL as markdown with space", function() {
-  Clipboard.write('[' + document.title + ']( ' + window.location.href + ' )');
+    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+        prompt('Copy yourself', get_link_markdown_with_space());
+        return;
+    }
+    Clipboard.write(get_link_markdown_with_space());
 });
 
 
