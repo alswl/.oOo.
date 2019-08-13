@@ -16,16 +16,8 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 " 禁用Vi的兼容模式
 set nocompatible
 
-" 设定状态栏多显示信息
-set laststatus=2
-
 set noscrollbind
 set nocursorbind
-
-set noimdisable
-autocmd! InsertLeave * set imdisable|set iminsert=0
-autocmd! InsertEnter * set noimdisable|set iminsert=0
-"autocmd! FocusGained * set imdisable|set iminsert=0
 
 
 """""""""""""""""""""""""""""""""""""""
@@ -86,13 +78,15 @@ set guitablabel=%N.%t " 设定标签上显示序号
 
 set foldmethod=syntax
 set foldcolumn=0
+set foldlevel=0
+set nofoldenable
+set diffopt=vertical,iwhite
 
 """""""""""""""""""""""""""""""""""""""
 "Colors and Fonts
 """""""""""""""""""""""""""""""""""""""
 syntax enable "Enable syntax hl
 
-set ambiwidth=double " 设定某些标点符号为宽字符
 
 " 设定行首tab为灰色
 highlight LeaderTab guifg=#666666
@@ -102,7 +96,7 @@ highlight LeaderTab guifg=#666666
 """""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
 set nobackup
-set nowb
+set nowritebackup
 "set noswapfile
 set backupext=.bak
 
@@ -122,16 +116,24 @@ set shiftwidth=4
 set tabstop=4
 set smarttab
 
-set ai "Auto indent
-set si "Smart indet
+set autoindent "Auto indent
+set smartindent "Smart indet
 set wrap "Wrap lines
-
-set showmatch " show matching bracets
 
 
 """""""""""""""""""""""""""""""""""""""
 "Moving around, tabs and buffers
 """""""""""""""""""""""""""""""""""""""
+" Smart way to move btw. windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Use the arrows to something usefull
+"map <right> :bn<cr>
+"map <left> :bp<cr>
+
 
 """""""""""""""""""""""""""""""""""""""
 "Visual Cues
@@ -146,17 +148,20 @@ set numberwidth=2 "行号栏的宽度
 
 "autocmd CursorMoved * call MarkPoint()
 
+
 """""""""""""""""""""""""""""""""""""""
 " Text Formatting/Layout
 """""""""""""""""""""""""""""""""""""""
 
 set formatoptions+=mB
-set lbr "智能换行
+set linebreak "智能换行
 "set tw=500 "自动换行 超过n列
+
 
 """""""""""""""""""""""""""""""""""""""
 " Plugin
 """""""""""""""""""""""""""""""""""""""
+set tags=tags;
 
 """""""""""""""""""""""""""""""""""""""
 " Map
@@ -167,12 +172,19 @@ map <F3> zR
 map <F4> zM
 
 " 标签设置
-"map <C-h> gT
-"map <C-l> gt
+map <F7> gT
+imap <F7> <Esc>gT
+map <F8> gt
+imap <F8> <Esc>gt
+map <C-h> gT
+map <C-l> gt
 imap <F7> <Esc>gT
 imap <F8> <Esc>gt
-"nnoremap <C-h> gT
-"nnoremap <C-l> gt
+noremap <C-Tab> :tabnext<CR>
+noremap <C-S-Tab> :tabprev<CR>
+inoremap <C-Tab> <Esc>:tabnext<CR>
+inoremap <C-S-Tab> <Esc>:tabprev<CR>
+map <S-k> <Nop>
 
 map Q :q<CR>
 
@@ -183,27 +195,30 @@ vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 " html缩进
 let g:html_indent_inctags = "p,li,dt,dd"
 
+nnoremap <S-Tab> <<
+inoremap <S-Tab> <C-D>
+
 " 模拟 Emacs 键绑定
 " Move
-inoremap <C-a> <Home>
-inoremap <C-e> <End>
+"inoremap <C-a> <Home>
+"inoremap <C-e> <End>
 " inoremap <C-p> <Up>
 " inoremap <C-n> <Down>
-inoremap <C-b> <Left>
-inoremap <C-f> <Right>
-inoremap <M-b> <C-o>b
-inoremap <M-f> <C-o>w
+"inoremap <C-b> <Left>
+"inoremap <C-f> <Right>
+"inoremap <M-b> <C-o>b
+"inoremap <M-f> <C-o>w
 " Rubout word / line and enter insert mode
 " use <Esc><Right> instead of <C-o>
-inoremap <C-w> <Esc>dbcl
+"inoremap <C-w> <Esc>dbcl
 " delete
-inoremap <C-u> <Esc>d0cl
-inoremap <C-k> <Esc><Right>C
-inoremap <C-d> <Esc><Right>s
-inoremap <M-d> <C-o>de
+"inoremap <C-u> <Esc>d0cl
+"inoremap <C-k> <Esc><Right>C
+"inoremap <C-d> <Del>
+"inoremap <M-d> <C-o>de
 
 "let g:pep8_map='<leader>8' " PEP8 Check
-map <leader>f :NERDTreeToggle<CR>
+"map <leader>f :NERDTreeToggle<CR>
 
 " diff
 map <leader>d /^[=<>]\{7\}<CR>
@@ -215,8 +230,8 @@ map <leader>d /^[=<>]\{7\}<CR>
 " imap <C-\> <Esc>:split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR>
 " nmap <C-\> :split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR>
 
-nmap <silent> <leader>t :tabe %<CR>
-nmap <silent> <leader>\ :split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR><C-]>
+"nmap <silent> <leader>t :tabe %<CR>
+"nmap <silent> <leader>\ :split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR><C-]>
 
 inoremap <silent> <leader>p "*p<CR>
 noremap <silent> <leader>p "*p<CR>
@@ -226,4 +241,8 @@ noremap <silent> <leader>q :q<CR>
 
 inoremap <silent> <leader>w :w<CR>
 noremap <silent> <leader>w :w<CR>
+
+nnoremap <S-Tab> <<
+inoremap <S-Tab> <C-d>
+
 set ideajoin
