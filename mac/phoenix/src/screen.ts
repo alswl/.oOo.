@@ -1,30 +1,40 @@
 import * as _ from "lodash";
-import { A_BIG_PIXEL } from "./config";
+import { A_BIG_PIXEL, RESIZE_WITH_RATIO } from "./config";
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
 import { log } from "./util";
-import { sortByMostRecent, getCurrentWindow } from "./window";
+import { getCurrentWindow, sortByMostRecent } from "./window";
 
 export function moveToScreen(window: Window, screen: Screen) {
+
   const app = window.app();
   const currentSpaces = window.spaces();
   const windowFrame = window.frame();
   const currentScreenFrame = window.screen().flippedVisibleFrame();
   const targetScreenFrame = screen.flippedVisibleFrame();
-  const widthRatio = targetScreenFrame.width / currentScreenFrame.width;
-  const heightRatio = targetScreenFrame.height / currentScreenFrame.height;
+
+  let widthRatio = 1;
+  let heightRatio = 1;
+  if (RESIZE_WITH_RATIO) {
+    widthRatio = targetScreenFrame.width / currentScreenFrame.width;
+    heightRatio = targetScreenFrame.height / currentScreenFrame.height;
+  }
+
+  const x = (windowFrame.x - currentScreenFrame.x) * widthRatio + targetScreenFrame.x;
+  const y = (windowFrame.y - currentScreenFrame.y) * heightRatio + targetScreenFrame.y;
+  const width = windowFrame.width * widthRatio;
+  const height = windowFrame.height * heightRatio;
   log(`widthRatio ${widthRatio}, heightRatio ${heightRatio}`)
   log(`windowFrame, ${windowFrame.x}, ${windowFrame.y}`);
   log(`currentScreenFrame, ${currentScreenFrame.x}, ${currentScreenFrame.y}`);
   log(`targetScreenFrame, ${targetScreenFrame.x}, ${targetScreenFrame.y}`);
-
-  log(`x: ${(windowFrame.x - currentScreenFrame.x) * widthRatio + targetScreenFrame.x}`);
-  log(`y: ${(windowFrame.y - currentScreenFrame.y) * heightRatio + targetScreenFrame.y}`);
+  log(`x: ${x}`);
+  log(`y: ${y}`);
 
   window.setFrame({
-    x: (windowFrame.x - currentScreenFrame.x) * widthRatio + targetScreenFrame.x,
-    y: (windowFrame.y - currentScreenFrame.y) * heightRatio + targetScreenFrame.y,
-    width: windowFrame.width * widthRatio,
-    height: windowFrame.height * heightRatio,
+    x,
+    y,
+    width,
+    height,
   });
   const targetSpace = screen.currentSpace();
   if (targetSpace === undefined) {
@@ -63,7 +73,7 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
     return;
   }
   saveMousePositionForWindow(window);
-  const nextScreenWindows = targetScreen.windows({visible: true});
+  const nextScreenWindows = targetScreen.windows({ visible: true });
   const targetScreenWindows = sortByMostRecent(nextScreenWindows);
   if (targetScreenWindows.length === 0) {
     log("focusAnotherScreen, target no window");
@@ -114,7 +124,7 @@ export function getNextWindowsOnSameScreen(window: Window, windows: Window[]): W
 };
 
 export function switchScrren(current: Window, targetScreenFn: (screen: Screen) => Screen,
-                             validationFn: (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => boolean) {
+  validationFn: (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => boolean) {
   const allScreens = Screen.all();
   const currentScreen = current.screen();
   if (currentScreen === undefined) {

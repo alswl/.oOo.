@@ -25,3 +25,4 @@ tags
 .DS_Store
 .java-version
 ~*
+.env
