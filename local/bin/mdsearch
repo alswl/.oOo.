@@ -1,8 +1,14 @@
 #!/bin/bash
 # mdsearch = markdown search
 
-TEXT=$1
+if [ "$#" -eq 1 ]; then
+	DIR=.
+	TEXT=$1
+elif [ "$#" -eq 2 ]; then
+	DIR=$1
+	TEXT=$2
+fi
 
-ag -i --markdown "^#(.*$TEXT.*)"
+ag -i --markdown "^#(.*$TEXT.*)" $DIR
 
 # vim: set ft=sh:

@@ -3,6 +3,7 @@
 """""""""""""""""""""""""""""""""""""""
 "Gerneral
 """""""""""""""""""""""""""""""""""""""
+
 " Enable filetype plugin
 filetype plugin on
 filetype indent on
@@ -85,15 +86,18 @@ set diffopt=vertical,iwhite
 """""""""""""""""""""""""""""""""""""""
 "Colors and Fonts
 """""""""""""""""""""""""""""""""""""""
+
 syntax enable "Enable syntax hl
 
 
 " 设定行首tab为灰色
 highlight LeaderTab guifg=#666666
 
+
 """""""""""""""""""""""""""""""""""""""
 "Files, backups and undo
 """""""""""""""""""""""""""""""""""""""
+
 " Turn backup off, since most stuff is in SVN, git anyway...
 set nobackup
 set nowritebackup
@@ -169,7 +173,9 @@ set tags=tags;
 "map <F2> :Tlist<cr>
 "代码折叠快捷方式
 map <F3> zR
+imap <F3><Esc> zR
 map <F4> zM
+imap <F4> <Esc>zM
 
 " 标签设置
 map <F7> gT
@@ -200,38 +206,36 @@ inoremap <S-Tab> <C-D>
 
 " 模拟 Emacs 键绑定
 " Move
-"inoremap <C-a> <Home>
-"inoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
 " inoremap <C-p> <Up>
 " inoremap <C-n> <Down>
-"inoremap <C-b> <Left>
-"inoremap <C-f> <Right>
-"inoremap <M-b> <C-o>b
-"inoremap <M-f> <C-o>w
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+cmap <C-a> <Home>
+cmap <C-e> <End>
+cmap <C-p> <Up>
+cmap <C-n> <Down>
+cmap <C-b> <Left>
+cmap <C-f> <Right>
+
+inoremap <M-b> <C-o>b
+inoremap <M-f> <C-o>w
 " Rubout word / line and enter insert mode
 " use <Esc><Right> instead of <C-o>
-"inoremap <C-w> <Esc>dbcl
+inoremap <C-w> <Esc>dbcl
 " delete
-"inoremap <C-u> <Esc>d0cl
-"inoremap <C-k> <Esc><Right>C
-"inoremap <C-d> <Del>
-"inoremap <M-d> <C-o>de
+inoremap <C-u> <Esc>d0cl
+inoremap <C-k> <Esc><Right>C
+inoremap <C-d> <Del>
+inoremap <M-d> <C-o>de
 
 "let g:pep8_map='<leader>8' " PEP8 Check
-"map <leader>f :NERDTreeToggle<CR>
 
 " diff
 map <leader>d /^[=<>]\{7\}<CR>
 
 " noremap <silent> <leader>b :BufExplorer<CR>
-" noremap <silent> <leader>s :BufExplorerVerticalSplit<CR>
-" noremap <silent> <leader>h :BufExplorerHorizontalSplit<CR>
-
-" imap <C-\> <Esc>:split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR>
-" nmap <C-\> :split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR>
-
-"nmap <silent> <leader>t :tabe %<CR>
-"nmap <silent> <leader>\ :split<CR>:set nocursorbind noscrollbind<CR>:diffoff<CR><C-]>
 
 inoremap <silent> <leader>p "*p<CR>
 noremap <silent> <leader>p "*p<CR>

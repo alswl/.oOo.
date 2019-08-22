@@ -47,7 +47,7 @@ Key.on('8', config.MASH, () => callApp('NeteaseMusic'));
 Key.on('e', config.MASH, () => callApp('Preview'));
 Key.on('a', config.MASH, () => callApp('MacVim'));
 // Key.on('a', mash, () => callApp('Terminal'));
-Key.on('s', config.MASH, () => callApp('IntelliJ IDEA'));
+Key.on('s', config.MASH, () => callApp('IntelliJ IDEA 2018'));
 Key.on('d', config.MASH, () => callApp('Visual Studio Code'));
 Key.on('z', config.MASH, () => callApp('Macdown'));
 // Key.on('z', mash, () => callApp('Typora'));
@@ -394,7 +394,9 @@ Key.on('delete', config.MASH, () => {
   // alert(allSpaces.length);
   // var parkSpaceIndex = PARK_SPACE_INDEX_MAP[screenCount];
   if (parkSpaceIndex >= allSpaces.length) { return; }
-  moveWindowToTargetSpace(window, nextWindowOptional, allSpaces[parkSpaceIndex]);
+  log(`${window}, ${nextWindowOptional}, ${allSpaces[parkSpaceIndex]}`)
+  
+  // moveWindowToTargetSpace(window, nextWindowOptional, allSpaces[parkSpaceIndex]);
 });
 
 // move window to work space
