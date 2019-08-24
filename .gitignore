@@ -19,7 +19,8 @@ Session.vim
 *.generated.html
 .DS_Store
 .java-version
-.zshrc.etc.d/*.zshrc
+.zshrc.etc.d/alibaba.zshrc
+.zshrc.etc.d/tinypng.zshrc
 node_modules
 dist
 package-lock.json
