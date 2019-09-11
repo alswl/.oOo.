@@ -221,7 +221,7 @@ alias prmc=paste-rtf-to-md-copy
 alias -g L='| less'
 alias -g G='| grep --color=auto'
 #alias -g H='| head'
-alias -g J='| jq -C . | less'
+alias -g J='| jq -C '
 alias -g W='| wc -l'
 alias -g V='| vim -'
 alias wanip="dig +short myip.opendns.com @resolver1.opendns.com"
