@@ -78,12 +78,16 @@ function get_link_markdown_with_space() {
     return '[' + document.title + ']( ' + window.location.href + ' )';
 }
 
+function copyUsingNavigatorClipboard(text) {
+    navigator.clipboard.writeText(text);
+    Front.showBanner("Copied: " + text);
+}
+
 mapkey('ym', "#7Copy current page's URL as markdown", function() {
     var text = get_link_markdown();
     // hack for lark
     if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
-        navigator.clipboard.writeText(text);
-        Front.showBanner("Copied: " + text);
+        copyUsingNavigatorClipboard(text);
         return;
     }
     Clipboard.write(text);
@@ -93,13 +97,31 @@ mapkey('yM', "#7Copy current page's URL as markdown with space", function() {
     var text = get_link_markdown_with_space();
     // hack for lark
     if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
-        navigator.clipboard.writeText(text);
-        Front.showBanner("Copied: " + text);
+        copyUsingNavigatorClipboard(text);
         return;
     }
     Clipboard.write(text);
 });
 
+mapkey('yy', "#7Copy current page's URL", function() {
+    var text = document.location.href;
+    // hack for lark
+    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+        copyUsingNavigatorClipboard(text);
+        return;
+    }
+    Clipboard.write(text);
+});
+
+mapkey('yl', "#7Copy current page's title", function() {
+    var text = document.title;
+    // hack for lark
+    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+        copyUsingNavigatorClipboard(text);
+        return;
+    }
+    Clipboard.write(text);
+});
 
 
 // Search Engine
