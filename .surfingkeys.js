@@ -79,19 +79,25 @@ function get_link_markdown_with_space() {
 }
 
 mapkey('ym', "#7Copy current page's URL as markdown", function() {
+    var text = get_link_markdown();
+    // hack for lark
     if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
-        prompt('Copy yourself', get_link_markdown());
+        navigator.clipboard.writeText(text);
+        Front.showBanner("Copied: " + text);
         return;
     }
-    Clipboard.write(get_link_markdown());
+    Clipboard.write(text);
 });
 
 mapkey('yM', "#7Copy current page's URL as markdown with space", function() {
+    var text = get_link_markdown_with_space();
+    // hack for lark
     if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
-        prompt('Copy yourself', get_link_markdown_with_space());
+        navigator.clipboard.writeText(text);
+        Front.showBanner("Copied: " + text);
         return;
     }
-    Clipboard.write(get_link_markdown_with_space());
+    Clipboard.write(text);
 });
 
 
