@@ -25,3 +25,4 @@ node_modules
 dist
 package-lock.json
 typings
+.zshrc.etc.d/hosts-alibaba.zshrc
