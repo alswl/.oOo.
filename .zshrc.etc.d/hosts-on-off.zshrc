@@ -40,7 +40,8 @@ function hosts-off {
 # sample
 #
 # test_com_hosts="
-# 127.0.0.1 test.com
+# 127.0.0.1 a.test.com
+# 127.0.0.1 b.test.com
 # "
 # alias hosts-on-test="hosts-on test_com_hosts"
 # alias hosts-off-test="hosts-off test_com_hosts"
