@@ -37,3 +37,10 @@ function hosts-off {
   done <<< "${hosts_content}"
 }
 
+# sample
+#
+# test_com_hosts="
+# 127.0.0.1 test.com
+# "
+# alias hosts-on-test="hosts-on test_com_hosts"
+# alias hosts-off-test="hosts-off test_com_hosts"
