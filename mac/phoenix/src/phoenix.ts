@@ -151,19 +151,16 @@ Key.on('\\', config.MASH, () => {
 });
 
 // Window Width Max
-// Key.on('\\', mashShift, () => {
-// var window = getCurrentWindow();
-// if (window === undefined) {
-// return;
-// }
-// window.setFrame({
-// x: window.screen().flippedFrame().x,
-// y: window.frame().y,
-// width: window.screen().flippedFrame().width,
-// height: window.frame().height
-// });
-// heartbeat_window(window);
-// });
+Key.on('\\', config.MASH_SHIFT, () => {
+  var window = getCurrentWindow();
+  window.setFrame({
+	x: window.screen().flippedFrame().x,
+	y: window.frame().y,
+	width: window.screen().flippedFrame().width,
+	height: window.frame().height
+  });
+  //heartbeat_window(window);
+});
 
 // Window width <<
 Key.on(',', config.MASH_SHIFT, () => {
@@ -353,7 +350,7 @@ Key.on('right', config.MASH_CTRL, () => {
 });
 
 // window auto range by recent
-Key.on('\\', config.MASH_SHIFT, () => autoRangeByRecent());
+Key.on('\\', config.MASH_CTRL, () => autoRangeByRecent());
 
 // Previous Window in One Screen
 Key.on('k', config.MASH, () => focusWindowInSameScreen(getCurrentWindow(), sortedWindowsOnSameScreen, getPreviousWindowsOnSameScreen));
