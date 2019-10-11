@@ -168,6 +168,8 @@ alias gmnf='git merge --no-ff'
 alias gmod='git merge origin/develop'
 alias gn='git number --column'
 alias gdt='git difftool'
+alias gcls='git clone --depth 1'
+alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias v=vim
 if [ `uname` = 'Darwin' ]; then
 	alias vv=mvim
