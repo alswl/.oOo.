@@ -1,0 +1,8 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+$DIR/paste-rtf-to-md-for-table | pbcopy
+
+# vim: set ft=sh:
+
