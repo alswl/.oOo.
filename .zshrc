@@ -170,6 +170,8 @@ alias gn='git number --column'
 alias gdt='git difftool'
 alias gcls='git clone --depth 1'
 alias gshallow='git pull --depth 1 && git gc --prune=all'
+alias gdc='git diff --color=always'
+alias gdcc='git diff --color=always --cached'
 alias v=vim
 if [ `uname` = 'Darwin' ]; then
 	alias vv=mvim
