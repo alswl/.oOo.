@@ -7,6 +7,8 @@ $DIR/paste-rtf-to-html \
 	| pandoc -f html --atx-headers --wrap none -t "markdown+pipe_tables-simple_tables-multiline_tables-raw_html-link_attributes" \
 	| gsed -E '/^<div>$/d' \
 	| gsed -E '/^<\/div>$/d' \
+	| perl -0777pe 's/-   <div>\n\n /-/g' \
+	| gsed -E '/^    <\/div>$/d' \
 	| gsed -E '/[ \s]*:::[ \s]*$/d' \
 	| gsed -E '/[ \s]*:::[ \s]* \{.+\}$/d' \
 	| perl -0777pe 's/[ \s]+$//g' \
