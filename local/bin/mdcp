@@ -1,0 +1,31 @@
+#!/bin/bash
+# copy markdown file with assets
+
+
+if [ "$#" -eq 2 ]; then
+	source_path=$1
+	target_path=$2
+fi
+
+if [ ! -f "${source_path}" ]; then
+  echo "Error: Cannot find ${source_path}"
+  exit 1
+fi
+if [ -f "${target_path}" ]; then
+  echo "Error: ${target_path} exist"
+  exit 1
+fi
+
+source_base_name=$(basename "${source_path}")
+target_base_name=$(basename "${target_path}")
+
+cp "${source_path}" "${target_path}"
+
+if [ -d "${source_path}.assets" ]; then
+  cp -R "${source_path}.assets" "${target_path}.assets"
+  perl -p -i -e 's/(?<=\!\[.{0,100}\]\(.{0,100})'"${source_base_name}"'(?=\.assets\/.+\))/'"${target_base_name}"'/g' "${target_path}"
+fi
+
+
+
+# vim: set ft=sh:
