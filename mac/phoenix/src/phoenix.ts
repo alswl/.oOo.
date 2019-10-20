@@ -34,8 +34,8 @@ Phoenix.set({
 // Launch App
 Key.on('escape', config.MASH, () => callApp('iTerm'));
 Key.on('`', config.MASH, () => callApp('iTerm'));
-//Key.on('1', config.MASH, () => callApp('Google Chrome'));
-Key.on('1', config.MASH, () => callApp('Chromium'));
+Key.on('1', config.MASH, () => callApp('Google Chrome'));
+//Key.on('1', config.MASH, () => callApp('Chromium'));
 Key.on('2', config.MASH, () => callApp('Safari'));
 // Key.on('2', mashShift, () => callApp('Firefox'));
 Key.on('3', config.MASH, () => callApp('DingTalk'));
