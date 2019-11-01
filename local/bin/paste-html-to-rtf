@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pbpaste \
+	| textutil -stdin -inputencoding utf-8 -encoding utf-8 -format html -convert rtf -stdout
+
+# vim: set ft=sh:
