@@ -212,15 +212,19 @@ alias po=popd
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
 alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 alias rllua='rlwrap -i -r -c -a lua'
-alias phmc=paste-html-to-md-copy
+
 alias pmh=paste-md-to-html
-alias pmhc=paste-md-to-html-copy
 alias pmr=paste-md-to-rtf
-alias pmrc=paste-md-to-rtf-copy
 alias prh=paste-rtf-to-html
-alias prhc=paste-rtf-to-html-copy
 alias prm=paste-rtf-to-md
+alias phm=paste-html-to-md
+alias phr=paste-html-to-rtf
+alias pmhc=paste-md-to-html-copy
+alias pmrc=paste-md-to-rtf-copy
+alias prhc=paste-rtf-to-html-copy
 alias prmc=paste-rtf-to-md-copy
+alias phmc=paste-html-to-md-copy
+alias phrc=paste-html-to-rtf-copy
 
 alias -g L='| less'
 alias -g G='| grep --color=auto'
