@@ -34,10 +34,10 @@ Phoenix.set({
 // Launch App
 Key.on('escape', config.MASH, () => callApp('iTerm'));
 Key.on('`', config.MASH, () => callApp('iTerm'));
-Key.on('1', config.MASH, () => callApp('Google Chrome'));
 //Key.on('1', config.MASH, () => callApp('Chromium'));
-//Key.on('1', config.MASH, () => callApp('Firefox'));
-Key.on('2', config.MASH, () => callApp('Safari'));
+Key.on('1', config.MASH, () => callApp('Firefox'));
+Key.on('2', config.MASH, () => callApp('Google Chrome'));
+//Key.on('2', config.MASH, () => callApp('Safari'));
 Key.on('3', config.MASH, () => callApp('DingTalk'));
 // Key.on('4', mash, () => callApp('BearyChat'));
 Key.on('4', config.MASH, () => callApp('Wechat', 'YouShang'));
@@ -449,7 +449,9 @@ Event.on('appDidActivate', () => {
 
 // Test
 Key.on('0', config.MASH, () => {
-  log(`mouse x: ${Mouse.location().x}, y: ${Mouse.location().y}`);
+  const windows = Window.recent();
+  const spaces = Space.all();
+  // log(`mouse x: ${Mouse.location().x}, y: ${Mouse.location().y}`);
   // _.map(App.all(), (app) => { Modal.show(app.title(), 5)});
   // _.map([Window.focused()], (window) => { Modal.show(window.title())}); // current one
   // _.map(Window.all(), (window) => { Modal.show(window.title(), 5)}); // all, include hide

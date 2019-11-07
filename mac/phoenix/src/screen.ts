@@ -123,7 +123,7 @@ export function getNextWindowsOnSameScreen(window: Window, windows: Window[]): W
   return otherWindowOnSameScreen(windows, window, 1, false)
 };
 
-export function switchScrren(current: Window, targetScreenFn: (screen: Screen) => Screen,
+export function switchScreen(current: Window, targetScreenFn: (screen: Screen) => Screen,
   validationFn: (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => boolean) {
   const allScreens = Screen.all();
   const currentScreen = current.screen();
@@ -156,7 +156,7 @@ export function moveWindowToScreen(window: Window, targetScreenFn: (window: Wind
 }
 
 export function focusNextScreen() {
-  switchScrren(getCurrentWindow(), (screen: Screen) => screen.next(),
+  switchScreen(getCurrentWindow(), (screen: Screen) => screen.next(),
     (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
       return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
         < _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
@@ -164,7 +164,7 @@ export function focusNextScreen() {
 }
 
 export function focusPreviousScreen() {
-  switchScrren(getCurrentWindow(), (screen: Screen) => screen.previous(),
+  switchScreen(getCurrentWindow(), (screen: Screen) => screen.previous(),
     (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
       return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
         > _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
