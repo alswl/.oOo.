@@ -36,22 +36,26 @@ map('`', "'");
 // map('F', 'af'); // open in new tab
 map('F', 'gf'); // open in new unactive tab
 mapkey('p', "Open the clipboard's URL in the current tab", function() {
-    Clipboard.read(function(response) {
-        if (response.data.startsWith("http://") || response.data.startsWith("https://")) {
-            window.location = response.data;
-        } else {
-            window.location = response.data = "https://www.google.com/search?q=" + response.data;
+    navigator.clipboard.readText().then(
+        text => {
+            if (text.startsWith("http://") || text.startsWith("https://")) {
+                window.location = text;
+            } else {
+                window.location = text = "https://www.google.com/search?q=" + text;
+            }
         }
-    });
+    );
 });
 mapkey('P', 'Open link from clipboard', function() {
-    Clipboard.read(function(response) {
-        if (response.data.startsWith("http://") || response.data.startsWith("https://")) {
-            tabOpenLink(response.data);
-        } else {
-            tabOpenLink("https://www.google.com/search?q=" + response.data);
+    navigator.clipboard.readText().then(
+        text => {
+            if (text.startsWith("http://") || text.startsWith("https://")) {
+                tabOpenLink(text);
+            } else {
+                tabOpenLink("https://www.google.com/search?q=" + text);
+            }
         }
-    });
+    );
 });
 
 // source: https://gist.github.com/Echostream/fe560aa30271172398cf432b7b281fd5
