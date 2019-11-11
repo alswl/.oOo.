@@ -12,7 +12,7 @@ cp .lark.yml $OUTPUT_DIR/lark.yml
 for FILE_NAME in `find . -type f -name "*.md"`; do
 	NEW_FILE_NAME=$OUTPUT_DIR/${FILE_NAME%.*}.md
     mkdir -p $(dirname $NEW_FILE_NAME)
-	cat $FILE_NAME | pandoc -f markdown -t markdown_github --atx-headers --wrap=none > $NEW_FILE_NAME
+	cat $FILE_NAME | pandoc -f markdown -t markdown_github --atx-headers --wrap=none > $NEW_FILE_NAME 2> /dev/null
 	echo "" >> $NEW_FILE_NAME
 	echo "" >> $NEW_FILE_NAME
 	echo "<!-- vim: set ft=markdown.gfm: -->" >> $NEW_FILE_NAME

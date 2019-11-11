@@ -18,7 +18,7 @@ echo -n '' > .output/summary.md
 # ls *.md | sed 's/.md//g' | grep -v summary | awk '{print "- ["$0"]("$0")"}' 
 
 for file in $(gfind . -name "*.md" -printf "%T+\t%p\n" | awk '{print $2}' | gsed 's/^\.\///g' | grep -v .output | grep -v summary.md | gsort -h); do
-	TITLE=$(cat $file | grep '^# ' | awk -F '#' '{gsub(/[ \t]+$/, "", $2);gsub(/^[ \t]+/, "", $2); print $2}')
+	TITLE=$(cat $file | grep -m 1 '^# ' | awk -F '#' '{gsub(/[ \t]+$/, "", $2);gsub(/^[ \t]+/, "", $2); print $2}')
 	NAME=$(echo $file | sed 's/.md//g' | awk -F '/' '{print $NF}')
 	echo "- [$TITLE]($NAME)" >> .output/summary.md
 done
