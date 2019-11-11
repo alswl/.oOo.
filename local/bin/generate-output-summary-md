@@ -22,3 +22,5 @@ for file in $(gfind . -name "*.md" -printf "%T+\t%p\n" | awk '{print $2}' | gsed
 	NAME=$(echo $file | sed 's/.md//g' | awk -F '/' '{print $NF}')
 	echo "- [$TITLE]($NAME)" >> .output/summary.md
 done
+
+# vim: set ft=sh:
