@@ -50,6 +50,11 @@ cat > $OUTPUT_FILE_NAME << EOF
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="https://cdn.staticfile.org/reveal.js/3.8.0/lib/css/monokai.css">
+        <style>
+          .reveal h1 {
+            text-transform: none;
+          }
+        </style>
 
 		<!-- Printing and PDF exports -->
 		<script>
