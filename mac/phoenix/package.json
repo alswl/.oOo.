@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@types/redux": "^3.6.0",
+    "@types/lodash": "^4.14.136",
     "awesome-typescript-loader": "^5.2.1",
     "source-map-loader": "^0.2.4",
     "typescript": "^3.5.3",
@@ -7,7 +9,7 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.136",
+    "lodash": "^4.14.136",
     "redux": "^4.0.4",
     "typings": "^2.1.1"
   },

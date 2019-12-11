@@ -5,6 +5,8 @@
  * Global Settings
  */
 import * as _ from "lodash";
+// import { createStore } from 'redux';
+
 import { callApp } from './app';
 import * as config from './config';
 import { setMousePositionForWindowCenter } from './mouse';
@@ -26,6 +28,7 @@ Phoenix.set({
   daemon: true,
   openAtLogin: false,
 });
+
 
 /**
  * My Configuartion App
@@ -55,8 +58,9 @@ Key.on('z', config.MASH, () => callApp('Macdown'));
 // Key.on('z', mash, () => callApp('Atom'));
 // Key.on('z', mash, () => callApp('Sublime Text'));
 // Key.on(',', mash, () => callApp('Airmail 3'));
+Key.on('n', config.MASH, () => callApp('Evernote'));
 Key.on(',', config.MASH, () => callApp('Mail'));
-Key.on('.', config.MASH, () => callApp('Evernote', 'Tusk'));
+Key.on('.', config.MASH, () => callApp('Quiver'));
 // Key.on('.', mash, () => callApp('Alternote'));
 Key.on('/', config.MASH, () => callApp('Finder'));
 
