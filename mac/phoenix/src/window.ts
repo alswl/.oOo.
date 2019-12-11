@@ -5,8 +5,9 @@ import { displayAllVisiableWindowModal, log } from "./util";
 
 export function sortByMostRecent(windows: Window[]): Window[] {
     // var start = new Date().getTime();
+    const windowsRecent = Window.recent();
     const visibleAppMostRecentFirst = _.map(
-        Window.recent(), (w) => w.hash(),
+        windowsRecent, (w) => w.hash(),
     );
     // Phoenix.log('Time s0: ' + (new Date().getTime() - start));
     const visibleAppMostRecentFirstWithWeight = _.zipObject(

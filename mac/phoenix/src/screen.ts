@@ -67,14 +67,20 @@ export function windowsOnOtherScreen(): Window[] {
 };
 
 export function focusAnotherScreen(window: Window, targetScreen: Screen) {
+  const start = new Date().getTime();
   const currentScreen = window.screen();
   if (window.screen().hash() === targetScreen.hash()) {
     log("focusAnotherScreen, target equales current");
     return;
   }
+  Phoenix.log('Time 1: ' + (new Date().getTime() - start));
+
   saveMousePositionForWindow(window);
-  const nextScreenWindows = targetScreen.windows({ visible: true });
-  const targetScreenWindows = sortByMostRecent(nextScreenWindows);
+  Phoenix.log('Time 1.1: ' + (new Date().getTime() - start));
+  const nextScreenWindows = targetScreen.windows({ visible: true }); // slow XXX
+  // const nextScreenWindows = targetScreen.windows(); // slow XXX
+  Phoenix.log('Time 2: ' + (new Date().getTime() - start));
+  const targetScreenWindows = sortByMostRecent(nextScreenWindows); // ok
   if (targetScreenWindows.length === 0) {
     log("focusAnotherScreen, target no window");
     Mouse.move({
@@ -83,9 +89,11 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
     })
     return;
   }
-  const targetWindow = targetScreenWindows[0]
+  Phoenix.log('Time 2: ' + (new Date().getTime() - start));
+  const targetWindow = targetScreenWindows[0];
+  Phoenix.log('Time 2: ' + (new Date().getTime() - start));
   targetWindow.focus(); // bug, two window in two space, focus will focus in same space first
-  restoreMousePositionForWindow(targetWindow);
+  restoreMousePositionForWindow(targetWindow); // ok
   // App.get('Finder').focus(); // Hack for Screen unfocus
 }
 
