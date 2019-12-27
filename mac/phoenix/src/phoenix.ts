@@ -47,6 +47,7 @@ Key.on('4', config.MASH, () => callApp('Wechat', 'YouShang'));
 // Key.on('6', mash, () => callApp('企业微信'));
 // Key.on('8', mash, () => callApp('虾米音乐'));
 Key.on('8', config.MASH, () => callApp('NeteaseMusic'));
+Key.on('9', config.MASH, () => callApp('QQMusic'));
 Key.on('e', config.MASH, () => callApp('Preview'));
 Key.on('a', config.MASH, () => callApp('MacVim'));
 // Key.on('a', mash, () => callApp('Terminal'));
