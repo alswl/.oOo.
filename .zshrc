@@ -76,6 +76,10 @@ DISABLE_MAGIC_FUNCTIONS=true
 
 source $ZSH/oh-my-zsh.sh
 
+export HISTSIZE=10000000
+export SAVEHIST=10000000
+setopt EXTENDED_HISTORY
+
 #export POWERLINE_RIGHT_B="none"
 #export POWERLINE_HIDE_HOST_NAME="true"
 
@@ -185,7 +189,7 @@ alias mcc='mvn clean compile'
 alias mcp='mvn clean package'
 alias le=less
 alias psg='ps -ef | grep '
-alias ipy=$HOME/.virtualenvs/sys/bin/ipython
+alias ipy=$HOME/.virtualenvs/3/bin/ipython
 alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'
@@ -198,16 +202,15 @@ alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
 alias vh='sudo vim /etc/hosts'
-alias cnpm="npm --registry=https://registry.npm.taobao.org --cache=$HOME/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist --userconfig=$HOME/.cnpmrc"
 alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
 alias k='kill'
 alias k9='kill -9 '
-alias cnpm="npm --registry=https://registry.npm.taobao.org \
---cache=$HOME/.npm/.cache/cnpm \
---disturl=https://npm.taobao.org/dist \
---userconfig=$HOME/.cnpmrc"
+#alias cnpm="npm --registry=https://registry.npm.taobao.org \
+#--cache=$HOME/.npm/.cache/cnpm \
+#--disturl=https://npm.taobao.org/dist \
+#--userconfig=$HOME/.cnpmrc"
 alias po=popd
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
 alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
