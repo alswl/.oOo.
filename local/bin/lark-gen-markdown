@@ -18,7 +18,7 @@ for FILE_NAME in `find . -type f -name "*.md"`; do
 	echo "<!-- vim: set ft=markdown.gfm: -->" >> $NEW_FILE_NAME
 done
 
-for ASSETS_DIR in `find . -type d -name "*.md.assets"`; do
+for ASSETS_DIR in `find . -type d -name "*.assets"`; do
     rsync -q -avr $ASSETS_DIR/ $OUTPUT_DIR/$ASSETS_DIR/
 done
 
