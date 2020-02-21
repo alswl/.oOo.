@@ -146,7 +146,7 @@ alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
 if [ `uname` = 'Darwin' ]; then
-	alias grep='ggrep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
+	alias ggrep='ggrep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
 fi
