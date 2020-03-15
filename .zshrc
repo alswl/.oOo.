@@ -177,6 +177,7 @@ alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
 alias v=vim
+alias dk=docker
 if [ `uname` = 'Darwin' ]; then
 	alias vv=mvim
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then

@@ -21,7 +21,7 @@ get_version_by_info () {
 
 get_version_by_cat () {
 	local __cask=$1
-	local __latest=$(cat /usr/local/Homebrew/Library/Taps/homebrew/*/Casks/$__cask.rb | ggrep -Po "version '\K.+(?=')" | sort -r --version-sort | head -n 1)
+	local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po "version '\K.+(?=')" | sort -r --version-sort | head -n 1)
 	echo $__latest
 }
 
@@ -31,8 +31,8 @@ fi
 
 for CASK in `ls /usr/local/Caskroom `; do
 	#LATEST="$(get_version_by_info $CASK)"
-	if [ ! -f /usr/local/Homebrew/Library/Taps/homebrew/*/Casks/$CASK.rb ]; then
-		echo [Warning] Cannot find $CASK, maybe this cask is not in homebrew/casks!
+	if [ ! -f /usr/local/Homebrew/Library/Taps/*/*/Casks/$CASK.rb ]; then
+		echo [Warning] Cannot find $CASK, maybe this cask is not in casks!
 		continue
 	fi
 	LATEST="$(get_version_by_cat $CASK)"
