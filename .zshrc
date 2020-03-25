@@ -1,4 +1,4 @@
-# Myself PATH {{{
+# PATH {{{
 
 #for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 	#PATH=$p/bin:$PATH
@@ -9,11 +9,10 @@ PATH=$PATH:$HOME/.luarocks/bin/
 PATH=$PATH:/Library/TeX/texbin/
 PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 
-# virtual wrapper {{{
+# virtual wrapper
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
 [ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
 [ -f /usr/local/opt/python2/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python2/libexec/bin/python  # for mac
-#}}}
 
 
 if [[ -d $HOME/local ]]; then
@@ -22,6 +21,8 @@ if [[ -d $HOME/local ]]; then
 	done
 fi
 export PATH
+# PATH }}}
+
 
 # ZSH Config {{{
 
@@ -83,13 +84,91 @@ setopt EXTENDED_HISTORY
 #export POWERLINE_RIGHT_B="none"
 #export POWERLINE_HIDE_HOST_NAME="true"
 
-# }}}
+# ZSH Config }}}
 
 
-# Customize to your needs...
+# Sheel Preference {{{
 
 # use bash style for in
 # setopt sh_word_split
+
+# key binding
+bindkey '\e.' insert-last-word
+
+#bindkey "\e[1~" beginning-of-line # Home
+#bindkey "\e[4~" end-of-line # End
+#bindkey "\e[5~" beginning-of-history # PageUp
+#bindkey "\e[6~" end-of-history # PageDown
+#bindkey "\e[2~" quoted-insert # Ins
+#bindkey "\e[3~" delete-char # Del
+#bindkey "\e[5C" forward-word
+#bindkey "\eOc" emacs-forward-word
+#bindkey "\e[5D" backward-word
+#bindkey "\eOd" emacs-backward-word
+#bindkey "\e\e[C" forward-word
+#bindkey "\e\e[D" backward-word
+#bindkey "\e[Z" reverse-menu-complete # Shift+Tab
+# for rxvt
+#bindkey "\e[7~" beginning-of-line # Home
+#bindkey "\e[8~" end-of-line # End
+# for non RH/Debian xterm, can't hurt for RH/Debian xterm
+#bindkey "\eOH" beginning-of-line
+#bindkey "\eOF" end-of-line
+# for freebsd console
+#bindkey "\e[H" beginning-of-line
+#bindkey "\e[F" end-of-line
+bindkey \^U backward-kill-line
+
+bindkey "^x^e" edit-command-line
+
+bindkey "[16~" delete-char # F5 pass to tmux
+bindkey "[17~" delete-char # F6 pass to tmux
+bindkey "[18~" delete-char # F7 pass to tmux
+bindkey "[19~" delete-char # F8 pass to tmux
+bindkey "^[[20~" delete-char # F9 pass to tmux
+bindkey "^[[21~" delete-char # F10 pass to tmux
+bindkey "^[[23~" delete-char # F11 pass to tmux
+bindkey "[24~" delete-char # F12 pass to tmux
+
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+
+#color
+LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:';
+export LS_COLORS
+export LESSCHARSET=utf8
+
+# LANG
+export LC_COLLATE="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_MONETARY="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
+export LC_TIME="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+#LC_COLLATE="C"
+#LC_CTYPE="C"
+#LC_MESSAGES="C"
+#LC_MONETARY="C"
+#LC_NUMERIC="C"
+#LC_TIME="C"
+#LC_ALL="C"
+
+#LANG="zh_CN.UTF-8"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF--8"
+export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
+#LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
+#SUPPORTED="zh_CN.UTF-8:zh_CN:zh"
+#SUPPORTED="zh_CN.UTF-8"
+
+# Sheel Preference }}}
+
+
+# Dev Tools {{{
 
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
@@ -101,17 +180,54 @@ fi
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 [ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh  # ubuntu linux
 [ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh  # arch linux
+# rvm
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+# arc
+[[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
+# sdkman
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# gitlab
+[[ -s $HOME/.gitlabrc ]] && source $HOME/.gitlabrc
 
+# ansible
+#[[ -s $HOME/local/ansible/hacking/env-setup ]] && source $HOME/local/ansible/hacking/env-setup -q
+
+# google cloud sdk
 [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
+# source-highlight
+[[ -s /usr/share/source-highlight/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+[[ -s /usr/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+[[ -s /usr/local/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
+
+#. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
+
+# jenv
+eval "$(jenv init -)"
+
+# go
 export GOPATH=$HOME/dev/go
 #export GO111MODULE=on
+
+# homebrew
 export HOMEBREW_NO_ANALYTICS=1
+# homebrew ustc mirror, via https://mirrors.tuna.tsinghua.edu.cn/help/homebrew-bottles/
+export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+
+# ansible
 export ANSIBLE_NOCOWS=1
+
+# android
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
-# alias {{{
+## Dev Tools }}}
+
+
+# Alias {{{
+
+# shortcut
 if [ `uname` = 'Darwin' ]; then
 	alias ls='ls -Gv'
 	alias ll='gls --color=auto -l'
@@ -213,10 +329,8 @@ alias k9='kill -9 '
 #--disturl=https://npm.taobao.org/dist \
 #--userconfig=$HOME/.cnpmrc"
 alias po=popd
-alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
-alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
-alias rllua='rlwrap -i -r -c -a lua'
 
+# markdown utils commands
 alias pmh=paste-md-to-html
 alias pmr=paste-md-to-rtf
 alias prh=paste-rtf-to-html
@@ -236,7 +350,6 @@ alias -g G='| grep --color=auto'
 alias -g J='| jq -C '
 alias -g W='| wc -l'
 alias -g V='| vim -'
-alias wanip="dig +short myip.opendns.com @resolver1.opendns.com"
 if [ `uname` = 'Linux' ]; then
 	alias pbcopy='xclip -selection clipboard'
 	alias pbpaste='xclip -selection clipboard -o'
@@ -247,121 +360,37 @@ alias -g P='pbpaste'
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
 alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
 alias girl='man'
+
 alias sshg='luit -encoding gbk ssh' 
+alias iftop-nali-5s='iftop -nt -s 5 | nali'
+alias myip="myip-dig"
+alias myip-cip-gd='curl -s http://ip.cip.cc/'
+alias myip-dig="dig +short myip.opendns.com @resolver1.opendns.com"
+alias myip-ip-me-usa="curl -s http://ip.me"
+alias myip-ifconfig-gcs="curl -s http://ifconfig.me"
+alias myip-ipinfo-gcs="curl -s http://ipinfo.io/ip"
+alias myip-ipecho-gcs="curl -s http://ipecho.net/plain"
+alias myip-hk="curl -s http://ip.sb"
+alias random-sentences='curl http://metaphorpsum.com/sentences/1'
+alias json-format-clipboard='pbpaste | jq --raw-output -M | pbcopy'
 
-# }}}
+# mssql cli interface
+alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
+alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
+alias rllua='rlwrap -i -r -c -a lua'
 
-# Hash Alias {{{
+# Hash Alias
 #hash -d WWW="/srv/http/" # use http instead
 #hash -d ib="$HOME/Desktop/md/inbox"
-# }}}
 
-# rvm {{{
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
-# }}}
-
-# arc {{{
-[[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
-# }}}
-
-# gitlab {{{
-[[ -s $HOME/.gitlabrc ]] && source $HOME/.gitlabrc
-# }}}
-
-# ansible {{{
-#[[ -s $HOME/local/ansible/hacking/env-setup ]] && source $HOME/local/ansible/hacking/env-setup -q
-# }}}
+# Alias }}}
 
 
-# sdkman
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# Local setting {{{
 
-# key binding {{{
-bindkey '\e.' insert-last-word
-
-#bindkey "\e[1~" beginning-of-line # Home
-#bindkey "\e[4~" end-of-line # End
-#bindkey "\e[5~" beginning-of-history # PageUp
-#bindkey "\e[6~" end-of-history # PageDown
-#bindkey "\e[2~" quoted-insert # Ins
-#bindkey "\e[3~" delete-char # Del
-#bindkey "\e[5C" forward-word
-#bindkey "\eOc" emacs-forward-word
-#bindkey "\e[5D" backward-word
-#bindkey "\eOd" emacs-backward-word
-#bindkey "\e\e[C" forward-word
-#bindkey "\e\e[D" backward-word
-#bindkey "\e[Z" reverse-menu-complete # Shift+Tab
-# for rxvt
-#bindkey "\e[7~" beginning-of-line # Home
-#bindkey "\e[8~" end-of-line # End
-# for non RH/Debian xterm, can't hurt for RH/Debian xterm
-#bindkey "\eOH" beginning-of-line
-#bindkey "\eOF" end-of-line
-# for freebsd console
-#bindkey "\e[H" beginning-of-line
-#bindkey "\e[F" end-of-line
-bindkey \^U backward-kill-line
-
-bindkey "^x^e" edit-command-line
-
-bindkey "[16~" delete-char # F5 pass to tmux
-bindkey "[17~" delete-char # F6 pass to tmux
-bindkey "[18~" delete-char # F7 pass to tmux
-bindkey "[19~" delete-char # F8 pass to tmux
-bindkey "^[[20~" delete-char # F9 pass to tmux
-bindkey "^[[21~" delete-char # F10 pass to tmux
-bindkey "^[[23~" delete-char # F11 pass to tmux
-bindkey "[24~" delete-char # F12 pass to tmux
-
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-
-# }}}
-
-#color
-LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:';
-export LS_COLORS
-export LESSCHARSET=utf8
-
-# LANG
-export LC_COLLATE="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
-export LC_MESSAGES="en_US.UTF-8"
-export LC_MONETARY="en_US.UTF-8"
-export LC_NUMERIC="en_US.UTF-8"
-export LC_TIME="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-#LC_COLLATE="C"
-#LC_CTYPE="C"
-#LC_MESSAGES="C"
-#LC_MONETARY="C"
-#LC_NUMERIC="C"
-#LC_TIME="C"
-#LC_ALL="C"
-
-#LANG="zh_CN.UTF-8"
-export LANG="en_US.UTF-8"
-export LANGUAGE="en_US.UTF--8"
-export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
-#LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
-#SUPPORTED="zh_CN.UTF-8:zh_CN:zh"
-#SUPPORTED="zh_CN.UTF-8"
-
-
-[[ -s /usr/share/source-highlight/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
-[[ -s /usr/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
-[[ -s /usr/local/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
-
-#. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
-eval "$(jenv init -)"
-
-# local setting
 if [[ -d $HOME/.zshrc.etc.d/ ]]; then
 	for RC in `ls $HOME/.zshrc.etc.d/*.zshrc`; do
 		source $RC;
 	done
 fi
+# Local setting }}}
