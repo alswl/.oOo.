@@ -373,6 +373,9 @@ alias myip-ipecho-gcs="curl -s http://ipecho.net/plain"
 alias myip-hk="curl -s http://ip.sb"
 alias random-sentences='curl http://metaphorpsum.com/sentences/1'
 alias json-format-clipboard='pbpaste | jq --raw-output -M | pbcopy'
+alias conns='lsof -PiTCP'
+alias conns-nali='lsof -PiTCP | nali'
+alias conns-estab-nali='lsof -PiTCP -sTCP:ESTABLISHED | nali'
 
 # mssql cli interface
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
