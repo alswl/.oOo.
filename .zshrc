@@ -172,10 +172,6 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
-if [ `uname` = 'Darwin' ]; then
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-	#export JAVA_HOME=`/usr/libexec/java_home -v 11`
-fi
 
 [ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 [ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh  # ubuntu linux
@@ -206,15 +202,21 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # jenv
 eval "$(jenv init -)"
+# java env, use jenv alternative
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+    # export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+# fi
 
 # go
 export GOPATH=$HOME/dev/go
 #export GO111MODULE=on
 
 # homebrew
-export HOMEBREW_NO_ANALYTICS=1
-# homebrew ustc mirror, via https://mirrors.tuna.tsinghua.edu.cn/help/homebrew-bottles/
-export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export HOMEBREW_NO_ANALYTICS=1
+  # homebrew ustc mirror, via https://mirrors.tuna.tsinghua.edu.cn/help/homebrew-bottles/
+  export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+fi
 
 # ansible
 export ANSIBLE_NOCOWS=1
@@ -227,15 +229,28 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # Alias {{{
 
-# shortcut
-if [ `uname` = 'Darwin' ]; then
-	alias ls='ls -Gv'
-	alias ll='gls --color=auto -l'
-	alias llh='gls --color=auto -lh'
-	alias la='gls --color=auto -a'
+# global alias
+
+alias -g L='| less'
+alias -g G='| grep --color=auto'
+#alias -g H='| head'
+alias -g J='| jq -C '
+alias -g W='| wc -l'
+alias -g V='| vim -'
+if [[ "$OSTYPE" == 'linux'* ]]; then
+	alias pbcopy='xclip -selection clipboard'
+	alias pbpaste='xclip -selection clipboard -o'
+	alias open='mimeopen'
+fi
+alias -g C='| pbcopy'
+alias -g P='pbpaste'
+alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
+alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
+
+# macOS specific
+if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias b=brew
 	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
-	alias find=gfind
 	alias readlink=greadlink
 	alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 	alias p2v='pbpaste | vi -'
@@ -243,16 +258,13 @@ if [ `uname` = 'Darwin' ]; then
 	alias screen='TERM=xterm-256color /usr/local/bin/screen'
 	alias mute='osascript -e "set volume 0"'
 	alias unmute='osascript -e "set volume 2"'
-	alias find='gfind'
-	alias date='gdate'
-	alias sed='gsed'
-	alias sort='gsort'
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	alias ls="ls --color=auto"
-	alias ll='ls -l'
-	alias llh='ls -lh'
-	alias la='ls -a'
+	# alias find='gfind'
+	# alias date='gdate'
+	# alias sed='gsed'
+	# alias sort='gsort'
 fi
+
+# common
 alias c='cat'
 alias mkdir='mkdir -p'
 alias rmm='rm -R'
@@ -261,13 +273,64 @@ alias mem='free -m'
 alias less='less -i'
 alias rv='rview'
 alias dstat='dstat -cdlmnpsy'
-if [ `uname` = 'Darwin' ]; then
+if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias ggrep='ggrep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
+elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
 fi
 alias ag='ag --pager "less -R"'
 alias tmux='tmux -2'
+alias dk=docker
+alias le=less
+alias psg='ps -ef | grep '
+alias ipy=$HOME/.virtualenvs/3/bin/ipython
+alias py='python'
+alias jy='jython'
+alias ksh='killall ssh'
+alias screen='TERM=xterm-256color screen'
+alias s='sudo '
+alias f=fd
+alias tarx='tar xzvf'
+alias tarc='tar czvf'
+alias e='echo'
+alias vh='sudo vim /etc/hosts'
+alias fff='fuck'
+alias wo='workon'
+alias ta='tmux attach -t'
+alias k='kill'
+alias k9='kill -9 '
+#alias cnpm="npm --registry=https://registry.npm.taobao.org \
+#--cache=$HOME/.npm/.cache/cnpm \
+#--disturl=https://npm.taobao.org/dist \
+#--userconfig=$HOME/.cnpmrc"
+alias po=popd
+alias girl='man'
+
+
+# ls
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	alias ls='ls -Gv'
+	alias ll='gls --color=auto -l'
+	alias llh='gls --color=auto -lh'
+	alias la='gls --color=auto -a'
+elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
+	alias ls="ls --color=auto"
+	alias ll='ls -l'
+	alias llh='ls -lh'
+	alias la='ls -a'
+fi
+# vim
+alias mk=mkdir
+alias v=vim
+if [[ "$OSTYPE" == "darwin"*  ]]; then
+	alias vv=mvim
+elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
+	alias vv=gvim
+fi
+alias vd='vimdiff'
+alias vdiff='vimdiff'
+
+# git
 #alias g=git
 #alias gc='git c'
 #alias gci='git ci'
@@ -292,43 +355,12 @@ alias gcls='git clone --depth 1'
 alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
-alias v=vim
-alias dk=docker
-if [ `uname` = 'Darwin' ]; then
-	alias vv=mvim
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	alias vv=gvim
-fi
-alias mk=mkdir
+
+# maven
 alias m=mvn
 alias mc='mvn clean'
 alias mcc='mvn clean compile'
 alias mcp='mvn clean package'
-alias le=less
-alias psg='ps -ef | grep '
-alias ipy=$HOME/.virtualenvs/3/bin/ipython
-alias py='python'
-alias jy='jython'
-alias ksh='killall ssh'
-alias screen='TERM=xterm-256color screen'
-alias s='sudo '
-alias vd='vimdiff'
-alias vdiff='vimdiff'
-alias f=fd
-alias tarx='tar xzvf'
-alias tarc='tar czvf'
-alias e='echo'
-alias vh='sudo vim /etc/hosts'
-alias fff='fuck'
-alias wo='workon'
-alias ta='tmux attach -t'
-alias k='kill'
-alias k9='kill -9 '
-#alias cnpm="npm --registry=https://registry.npm.taobao.org \
-#--cache=$HOME/.npm/.cache/cnpm \
-#--disturl=https://npm.taobao.org/dist \
-#--userconfig=$HOME/.cnpmrc"
-alias po=popd
 
 # markdown utils commands
 alias pmh=paste-md-to-html
@@ -344,24 +376,9 @@ alias prmc=paste-rtf-to-md-copy
 alias phmc=paste-html-to-md-copy
 alias phrc=paste-html-to-rtf-copy
 
-alias -g L='| less'
-alias -g G='| grep --color=auto'
-#alias -g H='| head'
-alias -g J='| jq -C '
-alias -g W='| wc -l'
-alias -g V='| vim -'
-if [ `uname` = 'Linux' ]; then
-	alias pbcopy='xclip -selection clipboard'
-	alias pbpaste='xclip -selection clipboard -o'
-	alias open='mimeopen'
-fi
-alias -g C='| pbcopy'
-alias -g P='pbpaste'
-alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
-alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
-alias girl='man'
+# shortcut command
 
-alias sshg='luit -encoding gbk ssh' 
+alias sshg='luit -encoding gbk ssh'
 alias iftop-nali-5s='iftop -nt -s 5 | nali'
 alias myip="myip-dig"
 alias myip-cip-gd='curl -s http://ip.cip.cc/'
