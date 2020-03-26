@@ -101,29 +101,38 @@ These configuration Includes:
 
 
 ``` bash
+# install zsh
+apt-get-install zsh
+# or
+brew install zsh
+
+# install oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# install .oOo.
+cd YOUR_REPO_PARENT_PATH
 git clone https://github.com/alswl/.oOo.
-ln -s /your/.oOo./.* ~/
-cp /your/.oOo./_.gitconfig ~/.gitconfig
+ln -s $(pwd)/.oOo./.* ~/ ~/
+cp $(pwd)/.oOo./_.gitconfig ~/.gitconfig
 
 mkdir -p ~/local/bin
 mkdir -p ~/local/etc
-cd ~/local/
-ln -s /your/.oOo./local/bin/* ./bin/
-ln -s /your/.oOo./local/etc/* ./etc/
+ln -s $(pwd)/.oOo./local/bin/* ~/local/bin/
+ln -s $(pwd)/.oOo./local/etc/* ~/local/etc/
 ```
 
-macOS:
+macOS continues:
 
 ```bash
-ln -s /your/.oOo./mac/.* ~
-ln -s /your/.oOo./mac/_Library/Application\ Support/Karabiner/private.xml ~/Library/Application\ Support/Karabiner/private.xml
-ln -s /your/.oOo./mac/_config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
+ln -s $(pwd)/.oOo./mac/.* ~
+ln -s $(pwd)/.oOo./mac/_Library/Application\ Support/Karabiner/private.xml ~/Library/Application\ Support/Karabiner/private.xml
+ln -s $(pwd)/.oOo./mac/_config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
 ```
 
-Linux
+Linux continues:
 
 ```
-ln -s /your/.oOo./linux/.* ~
+ln -s $(pwd)/.oOo./linux/.* ~/
 ```
 
 ## Related ##

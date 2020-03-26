@@ -78,7 +78,7 @@ plugins=( \
 	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
-[ -f /etc/debian_version ] && plugins+=( apt-get debian ubuntu )
+[ -f /etc/debian_version ] && plugins+=( debian ubuntu )
 [ -f /etc/pacman.d/mirrorlist ] && plugins+=( pacman )
 [[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew xcode )
 
