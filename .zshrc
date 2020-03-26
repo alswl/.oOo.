@@ -1,3 +1,12 @@
+# my zsh configurations, works for macOS / Linux / Cygwin
+#
+# https://github.com/alswl/.oOo.
+#
+# speed-up:
+# time zsh -i -c exit
+# zsh -xv
+
+
 # PATH {{{
 
 #for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
@@ -61,9 +70,11 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
+# NOTICE: rbenv is slow
+# NOTICE: nvm is slow
 plugins=( \
 	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang dotenv \
-	gradle history history-substring-search httpie mercurial mvn nmap npm nvm pip python rbenv redis-cli rsync rvm sbt scala \
+	gradle history history-substring-search httpie mercurial mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
@@ -173,11 +184,22 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 
-[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
-[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh  # ubuntu linux
-[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh  # arch linux
+# nvm
+# NOTICE: nvm is slow, load yourself
+alias loadnvm="[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh;
+[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh;  # ubuntu linux
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh;  # arch linux
+autoload -U nvm;"
+
 # rvm
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+# NOTICE: rvm is slow, load yourself
+alias loadrvm="[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm;
+autoload -U rvm;"
+
+# rbenv
+# NOTICE: rbenv is slow, load yourself
+alias loadrbenv="autoload -U rbenv;"
+
 # arc
 [[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
 # sdkman
@@ -201,7 +223,8 @@ export SDKMAN_DIR="$HOME/.sdkman"
 #. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
 
 # jenv
-eval "$(jenv init -)"
+# TODO jenv rehash is slow
+# eval "$(jenv init -)"
 # java env, use jenv alternative
 # if [[ "$OSTYPE" == "darwin"* ]]; then
     # export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
