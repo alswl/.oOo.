@@ -5,7 +5,7 @@
  * Global Settings
  */
 import * as _ from "lodash";
-// import { createStore } from 'redux';
+import { createStore } from "redux";
 
 import { callApp } from './app';
 import * as config from './config';
@@ -30,23 +30,26 @@ Phoenix.set({
 });
 
 
+
+
 /**
  * My Configuartion App
  */
 
 // Launch App
+// TODO all app mapping to config
 Key.on('escape', config.MASH, () => callApp('iTerm'));
 Key.on('`', config.MASH, () => callApp('iTerm'));
-//Key.on('1', config.MASH, () => callApp('Chromium'));
+// Key.on('1', config.MASH, () => callApp('Chromium'));
 Key.on('1', config.MASH, () => callApp('Firefox'));
 Key.on('2', config.MASH, () => callApp('Google Chrome'));
-//Key.on('2', config.MASH, () => callApp('Safari'));
+// Key.on('2', config.MASH, () => callApp('Safari'));
 Key.on('3', config.MASH, () => callApp('DingTalk'));
 // Key.on('4', mash, () => callApp('BearyChat'));
 Key.on('4', config.MASH, () => callApp('Wechat', 'YouShang'));
 // Key.on('6', mash, () => callApp('企业微信'));
 // Key.on('8', mash, () => callApp('虾米音乐'));
-//Key.on('8', config.MASH, () => callApp('NeteaseMusic'));
+// Key.on('8', config.MASH, () => callApp('NeteaseMusic'));
 Key.on('8', config.MASH, () => callApp('Music'));
 Key.on('9', config.MASH, () => callApp('QQMusic'));
 Key.on('e', config.MASH, () => callApp('Preview'));
@@ -55,7 +58,7 @@ Key.on('a', config.MASH, () => callApp('MacVim'));
 // Key.on('a', mash, () => callApp('Terminal'));
 Key.on('s', config.MASH, () => callApp('IntelliJ IDEA'));
 Key.on('d', config.MASH, () => callApp('IntelliJ IDEA 2018'));
-//Key.on('d', config.MASH, () => callApp('Visual Studio Code'));
+// Key.on('d', config.MASH, () => callApp('Visual Studio Code'));
 Key.on('z', config.MASH, () => callApp('Macdown'));
 // Key.on('z', mash, () => callApp('Typora'));
 // Key.on('z', mash, () => callApp('Atom'));
@@ -70,11 +73,13 @@ Key.on('/', config.MASH, () => callApp('Finder'));
 
 // Next screen
 Key.on('l', config.MASH, () => {
+  // TODO performance
   config.MAC_SCREEN_IN_THE_RIGHT ? focusNextScreen() : focusPreviousScreen();
 });
 
 // Previous Screen
 Key.on('h', config.MASH, () => {
+  // TODO performance
   config.MAC_SCREEN_IN_THE_RIGHT ? focusPreviousScreen() : focusNextScreen();
 });
 
