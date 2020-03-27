@@ -184,6 +184,9 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 
+# nnn
+# export NNN_OPENER=$HOME/.config/nnn/plugins/nuke
+
 # nvm
 # NOTICE: nvm is slow, load yourself
 alias loadnvm="[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh;
@@ -226,9 +229,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # TODO jenv rehash is slow
 # eval "$(jenv init -)"
 # java env, use jenv alternative
-# if [[ "$OSTYPE" == "darwin"* ]]; then
-    # export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-# fi
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+fi
 
 # go
 export GOPATH=$HOME/dev/go
@@ -269,15 +272,13 @@ alias -g C='| pbcopy'
 alias -g P='pbpaste'
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
 alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
+alias -g Toa=' > /tmp/a.html && open /tmp/a.html'
 
 # macOS specific
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias b=brew
 	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 	alias readlink=greadlink
-	alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
-	alias p2v='pbpaste | vi -'
-	alias -g Toa=' > /tmp/a.html && open /tmp/a.html'
 	alias screen='TERM=xterm-256color /usr/local/bin/screen'
 	alias mute='osascript -e "set volume 0"'
 	alias unmute='osascript -e "set volume 2"'
@@ -302,6 +303,7 @@ elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
 fi
 alias ag='ag --pager "less -R"'
+alias aga='ag -a --pager "less -R"'
 alias tmux='tmux -2'
 alias dk=docker
 alias le=less
@@ -311,7 +313,7 @@ alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'
 alias screen='TERM=xterm-256color screen'
-alias s='sudo '
+alias s='sudo'
 alias f=fd
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
@@ -322,12 +324,16 @@ alias wo='workon'
 alias ta='tmux attach -t'
 alias k='kill'
 alias k9='kill -9 '
+alias nnn='VISUAL=less nnn -c -d'
+alias n='VISUAL=less nnn -c -d'
 #alias cnpm="npm --registry=https://registry.npm.taobao.org \
 #--cache=$HOME/.npm/.cache/cnpm \
 #--disturl=https://npm.taobao.org/dist \
 #--userconfig=$HOME/.cnpmrc"
 alias po=popd
 alias girl='man'
+alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
+alias p2v='pbpaste | vi -'
 
 
 # ls
@@ -354,10 +360,10 @@ alias vd='vimdiff'
 alias vdiff='vimdiff'
 
 # git
-#alias g=git
-#alias gc='git c'
-#alias gci='git ci'
-#alias gcv='git civ'
+# alias g=git
+# alias gc='git c'
+# alias gci='git ci'
+# alias gcv='git civ'
 alias gcor='git checkoutr'
 alias gcbr='git checkoutr -b'
 alias gdn='git diff --no-ext-diff'
@@ -367,17 +373,19 @@ alias gdn='git diff --no-ext-diff'
 #alias gsps='git sps'
 #alias gf='git f'
 alias gs='git status'
-alias gnst='git number status'
 alias gdf='git diff --no-ext-diff --color | diff-so-fancy | less'
 alias gfuck='git reset --hard ORIG_HEAD && git clean -fd'
 alias gmnf='git merge --no-ff'
 alias gmod='git merge origin/develop'
 alias gn='git number --column'
+alias gnst='git number status'
 alias gdt='git difftool'
 alias gcls='git clone --depth 1'
 alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
+# override gbda of git plugin
+alias gbda='aliased to git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|sprint-[a-zA-Z0-9]+)\s*$)" | command xargs -n 1 git branch -d'
 
 # maven
 alias m=mvn

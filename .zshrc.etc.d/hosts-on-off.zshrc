@@ -13,7 +13,7 @@ function hosts-on {
       continue
     fi
 
-    hostess add ${domain} ${ip}
+    sudo hostess add ${domain} ${ip}
   done <<< "${hosts_content}"
 }
 
@@ -33,7 +33,7 @@ function hosts-off {
       continue
     fi
 
-    hostess del ${domain};
+    sudo hostess del ${domain};
   done <<< "${hosts_content}"
 }
 
