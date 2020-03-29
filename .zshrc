@@ -21,7 +21,7 @@ PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 # virtual wrapper
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
 [ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
-[ -f /usr/local/opt/python2/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python2/libexec/bin/python  # for mac
+[ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python  # for mac
 
 
 if [[ -d $HOME/local ]]; then
@@ -75,7 +75,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=( \
 	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang dotenv \
 	gradle history history-substring-search httpie mercurial mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn tmux urltools vagrant zsh_reload \
+	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
