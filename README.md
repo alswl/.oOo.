@@ -113,6 +113,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 cd YOUR_REPO_PARENT_PATH
 git clone https://github.com/alswl/.oOo.
 ln -s $(pwd)/.oOo./.* ~/ ~/
+rm ~/.git
 cp $(pwd)/.oOo./_.gitconfig ~/.gitconfig
 
 mkdir -p ~/local/bin
@@ -125,6 +126,7 @@ macOS continues:
 
 ```bash
 ln -s $(pwd)/.oOo./mac/.* ~
+ln -s $(pwd)/.oOo./mac/phoenix/dist/phoenix.js ~/.phoenix.js
 ln -s $(pwd)/.oOo./mac/_Library/Application\ Support/Karabiner/private.xml ~/Library/Application\ Support/Karabiner/private.xml
 ln -s $(pwd)/.oOo./mac/_config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
 ```

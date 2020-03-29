@@ -75,7 +75,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=( \
 	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang dotenv \
 	gradle history history-substring-search httpie mercurial mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
+	screen ssh-agent sudo svn tmux urltools vagrant zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
@@ -239,6 +239,7 @@ export GOPATH=$HOME/dev/go
 
 # homebrew
 if [[ "$OSTYPE" == "darwin"* ]]; then
+  export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_ANALYTICS=1
   # homebrew ustc mirror, via https://mirrors.tuna.tsinghua.edu.cn/help/homebrew-bottles/
   export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
