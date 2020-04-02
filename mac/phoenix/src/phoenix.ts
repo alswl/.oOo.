@@ -41,7 +41,8 @@ Phoenix.set({
 Key.on('escape', config.MASH, () => callApp('iTerm'));
 Key.on('`', config.MASH, () => callApp('iTerm'));
 // Key.on('1', config.MASH, () => callApp('Chromium'));
-Key.on('1', config.MASH, () => callApp('Firefox'));
+// Key.on('1', config.MASH, () => callApp('Firefox'));
+Key.on('1', config.MASH, () => callApp('Vivaldi'));
 Key.on('2', config.MASH, () => callApp('Google Chrome'));
 // Key.on('2', config.MASH, () => callApp('Safari'));
 Key.on('3', config.MASH, () => callApp('DingTalk'));
@@ -155,18 +156,25 @@ Key.on('m', config.MASH, () => {
 // Window Height Max
 Key.on('\\', config.MASH, () => {
   const window = getCurrentWindow();
+  let y = window.screen().flippedFrame().y;
+  let height = window.screen().flippedFrame().height;
+  // patch for vivaldi
+  if (window.app().name() === 'Vivaldi') {
+    y = y + 20;
+    height = height - 20;
+  }
   window.setFrame({
     x: window.frame().x,
-    y: window.screen().flippedFrame().y,
+    y,
     width: window.frame().width,
-    height: window.screen().flippedFrame().height,
+    height,
   });
   // heartbeatWindow(window);
 });
 
 // Window Width Max
 Key.on('\\', config.MASH_SHIFT, () => {
-  var window = getCurrentWindow();
+  let window = getCurrentWindow();
   window.setFrame({
 	x: window.screen().flippedFrame().x,
 	y: window.frame().y,
