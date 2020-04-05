@@ -73,13 +73,13 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: rbenv is slow
 # NOTICE: nvm is slow
 plugins=( \
-	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow go golang dotenv \
+	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow golang golang dotenv \
 	gradle history history-substring-search httpie mercurial mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
-[ -f /etc/pacman.d/mirrorlist ] && plugins+=( pacman )
+[ -f /etc/arch-release ] && plugins+=( archlinux )
 [[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew xcode )
 
 # disable zsh substitution/autocomplete with URL and backslashes
