@@ -74,7 +74,7 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: nvm is slow
 plugins=( \
 	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow golang golang dotenv \
-	gradle history history-substring-search httpie mercurial mvn npm nmap pip python redis-cli rsync sbt scala \
+	gradle history history-substring-search httpie mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
 	)
 [ -f /etc/redhat-release ] && plugins+=( yum )
@@ -196,12 +196,15 @@ autoload -U nvm;"
 
 # rvm
 # NOTICE: rvm is slow, load yourself
-alias loadrvm="[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm;
-autoload -U rvm;"
+alias loadrvm="[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm; autoload -U rvm;"
 
 # rbenv
 # NOTICE: rbenv is slow, load yourself
 alias loadrbenv="autoload -U rbenv;"
+
+# mercurial
+# NOTICE: mercurial summary is slow, load yourself
+alias loadmercurial="autoload -U mercurial;"
 
 # arc
 [[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
