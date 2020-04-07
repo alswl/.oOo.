@@ -107,8 +107,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 export EDITOR=vim
-
-[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
