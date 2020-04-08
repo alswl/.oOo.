@@ -112,35 +112,39 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 # install .oOo.
 cd YOUR_REPO_PARENT_PATH
 git clone https://github.com/alswl/.oOo.
-ln -s $(pwd)/.oOo./.* ~/ ~/
-rm ~/.git
-cp $(pwd)/.oOo./_.gitconfig ~/.gitconfig
+cd .oOo.
+ln -s $(pwd)/.* $HOME/
+rm $HOME/.git
+rm $HOME/.DS_Store
+cp $(pwd)/_.gitconfig $HOME/.gitconfig
 
-mkdir -p ~/local/bin
-mkdir -p ~/local/etc
-ln -s $(pwd)/.oOo./local/bin/* ~/local/bin/
-ln -s $(pwd)/.oOo./local/etc/* ~/local/etc/
+mkdir -p $HOME/local/bin
+mkdir -p $HOME/local/etc
+ln -s $(pwd)/local/bin/* $HOME/local/bin/
+ln -s $(pwd)/local/etc/* $HOME/local/etc/
 ```
 
 macOS continues:
 
 ```bash
-ln -s $(pwd)/.oOo./mac/.* ~
-ln -s $(pwd)/.oOo./mac/phoenix/dist/phoenix.js ~/.phoenix.js
-ln -s $(pwd)/.oOo./mac/_Library/Application\ Support/Karabiner/private.xml ~/Library/Application\ Support/Karabiner/private.xml
-ln -s $(pwd)/.oOo./mac/_config/karabiner/karabiner.json ~/.config/karabiner/karabiner.json
+cd YOUR_REPO_PATH
+ln -s $(pwd)/mac/.* $HOME/
+ln -s $(pwd)/mac/phoenix/dist/phoenix.js $HOME/.phoenix.js
+ln -s $(pwd)/mac/_Library/Application\ Support/Karabiner/private.xml $HOME/Library/Application\ Support/Karabiner/private.xml
+ln -s $(pwd)/mac/_config/karabiner/karabiner.json $HOME/.config/karabiner/karabiner.json
 ```
 
 Linux continues:
 
-```
-ln -s $(pwd)/.oOo./linux/.* ~/
+```bash
+cd YOUR_REPO_PATH
+ln -s $(pwd)/linux/.* $HOME/
 ```
 
 ## Related ##
 
--   [miv][] vim configuration
--   [awesome][] awesome configuration
+- [miv][] vim configuration
+- [awesome][] awesome configuration
 
 [.oOo.]: https://github.com/alswl/.oOo.
 [awesome]: https://github.com/alswl/awesome
