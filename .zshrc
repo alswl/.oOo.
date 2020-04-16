@@ -332,10 +332,10 @@ alias k='kill'
 alias k9='kill -9 '
 alias nnn='VISUAL=less nnn -c -d'
 alias n='VISUAL=less nnn -c -d'
-#alias cnpm="npm --registry=https://registry.npm.taobao.org \
-#--cache=$HOME/.npm/.cache/cnpm \
-#--disturl=https://npm.taobao.org/dist \
-#--userconfig=$HOME/.cnpmrc"
+alias cnpm="npm --registry=https://registry.npm.taobao.org \
+	--cache=$HOME/.npm/.cache/cnpm \
+	--disturl=https://npm.taobao.org/dist \
+	--userconfig=$HOME/.cnpmrc"
 alias po=popd
 alias girl='man'
 alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
