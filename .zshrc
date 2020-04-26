@@ -321,6 +321,8 @@ alias ksh='killall ssh'
 alias screen='TERM=xterm-256color screen'
 alias s='sudo'
 alias f=fd
+alias ff='fd --type f | fzf --preview "less {}"'
+alias lff='less $(fd --type f | fzf --preview "less {}")'
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'

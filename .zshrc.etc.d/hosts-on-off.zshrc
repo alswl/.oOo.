@@ -12,8 +12,9 @@ function hosts-on {
     if [ -z ${ip} ] || [ -z ${domain} ]; then
       continue
     fi
-
-    sudo hostess add ${domain} ${ip}
+    
+    # chmod-root-s-hostess first
+    hostess add ${domain} ${ip}
   done <<< "${hosts_content}"
 }
 
@@ -33,7 +34,8 @@ function hosts-off {
       continue
     fi
 
-    sudo hostess del ${domain};
+    # chmod-root-s-hostess first
+    hostess del ${domain};
   done <<< "${hosts_content}"
 }
 
