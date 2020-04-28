@@ -1,4 +1,12 @@
 // vim: set ft=javascript tabstop=4 shiftwidth=4 expandtab:
+// Constants
+var USE_NAVIGATOR_CLIPBOARD_DOMAINS = [
+    'www.atatech.org',
+    'yuque.alibaba-inc.com',
+    'yuque.antfin.com',
+    'yuque.antfin-inc.com'
+];
+
 // Global
 
 settings.hintAlign = "left";
@@ -90,7 +98,7 @@ function copyUsingNavigatorClipboard(text) {
 mapkey('ym', "#7Copy current page's URL as markdown", function() {
     var text = get_link_markdown();
     // hack for lark
-    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+    if (USE_NAVIGATOR_CLIPBOARD_DOMAINS.includes(window.location.hostname)) {
         copyUsingNavigatorClipboard(text);
         return;
     }
@@ -100,7 +108,7 @@ mapkey('ym', "#7Copy current page's URL as markdown", function() {
 mapkey('yM', "#7Copy current page's URL as markdown with space", function() {
     var text = get_link_markdown_with_space();
     // hack for lark
-    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+    if (USE_NAVIGATOR_CLIPBOARD_DOMAINS.includes(window.location.hostname)) {
         copyUsingNavigatorClipboard(text);
         return;
     }
@@ -110,7 +118,7 @@ mapkey('yM', "#7Copy current page's URL as markdown with space", function() {
 mapkey('yy', "#7Copy current page's URL", function() {
     var text = document.location.href;
     // hack for lark
-    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+    if (USE_NAVIGATOR_CLIPBOARD_DOMAINS.includes(window.location.hostname)) {
         copyUsingNavigatorClipboard(text);
         return;
     }
@@ -120,7 +128,7 @@ mapkey('yy', "#7Copy current page's URL", function() {
 mapkey('yl', "#7Copy current page's title", function() {
     var text = document.title;
     // hack for lark
-    if (window.location.hostname === 'www.atatech.org' || window.location.hostname === 'yuque.alibaba-inc.com' || window.location.hostname === 'yuque.antfin-inc.com') {
+    if (USE_NAVIGATOR_CLIPBOARD_DOMAINS.includes(window.location.hostname)) {
         copyUsingNavigatorClipboard(text);
         return;
     }
