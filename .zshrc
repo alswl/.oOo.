@@ -435,7 +435,7 @@ alias conns-nali='lsof -PiTCP -n | nali'
 alias conns-estab-nali='lsof -PiTCP -n -sTCP:ESTABLISHED | nali'
 alias conns-estab-wan-nali='lsof -PiTCP -n -sTCP:ESTABLISHED | grep -v "127.0.0.1.*->127.0.0.1" | nali'
 alias rmdirempty='find . -maxdepth 1 -mindepth 1 -type d -empty -exec rmdir {} \;'
-alias fuck-maven-force-update-release-jar-people="fd --type d common-service-facade $HOME/.m2/repository/ --exec trash {} \;"
+alias fuck-maven-force-update-release-jar="fd --type d common-service-facade $HOME/.m2/repository/ --exec trash {} \;"
 
 # mssql cli interface
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
