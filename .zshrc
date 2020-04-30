@@ -375,6 +375,7 @@ alias vdiff='vimdiff'
 # alias gcv='git civ'
 alias gcor='git checkoutr'
 alias gcbr='git checkoutr -b'
+alias gcota="git checkoutr $TARGET"
 alias gdn='git diff --no-ext-diff'
 #alias gpl='git pl'
 #alias gps='git ps'
@@ -394,7 +395,7 @@ alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
 # override gbda of git plugin
-alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|sprint-[a-zA-Z0-9]+)\s*$)" | command xargs -n 1 git branch -d'
+alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9]+)\s*$)" | command xargs -n 1 git branch -d'
 
 # maven
 alias m=mvn
