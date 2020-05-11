@@ -74,9 +74,11 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: nvm is slow
 plugins=( \
 	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow golang golang dotenv \
-	gradle history history-substring-search httpie mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
+	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
+	screen ssh-agent sudo svn tmux urltools virtualenvwrapper zsh_reload \
 	)
+# historical used plugins 
+# vagrant 
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
 [ -f /etc/arch-release ] && plugins+=( archlinux )
@@ -331,7 +333,7 @@ alias vh='sudo vim /etc/hosts'
 alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
-alias k='kill'
+alias k='kubectl'
 alias k9='kill -9 '
 alias nnn='VISUAL=less nnn -c -d'
 alias n='VISUAL=less nnn -c -d'
