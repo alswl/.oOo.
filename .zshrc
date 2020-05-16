@@ -74,9 +74,11 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: nvm is slow
 plugins=( \
 	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow golang golang dotenv \
-	gradle history history-substring-search httpie mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn tmux urltools vagrant virtualenvwrapper zsh_reload \
+	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
+	screen ssh-agent sudo svn tmux urltools virtualenvwrapper zsh_reload \
 	)
+# historical used plugins 
+# vagrant 
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
 [ -f /etc/arch-release ] && plugins+=( archlinux )
@@ -331,7 +333,7 @@ alias vh='sudo vim /etc/hosts'
 alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
-alias k='kill'
+alias k='kubectl'
 alias k9='kill -9 '
 alias nnn='VISUAL=less nnn -c -d'
 alias n='VISUAL=less nnn -c -d'
@@ -375,6 +377,7 @@ alias vdiff='vimdiff'
 # alias gcv='git civ'
 alias gcor='git checkoutr'
 alias gcbr='git checkoutr -b'
+alias gcota="git checkoutr $TARGET"
 alias gdn='git diff --no-ext-diff'
 #alias gpl='git pl'
 #alias gps='git ps'
@@ -394,7 +397,7 @@ alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
 # override gbda of git plugin
-alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|sprint-[a-zA-Z0-9]+)\s*$)" | command xargs -n 1 git branch -d'
+alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9]+)\s*$)" | command xargs -n 1 git branch -d'
 
 # maven
 alias m=mvn

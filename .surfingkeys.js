@@ -1,10 +1,7 @@
 // vim: set ft=javascript tabstop=4 shiftwidth=4 expandtab:
 // Constants
 var USE_NAVIGATOR_CLIPBOARD_DOMAINS = [
-    'www.atatech.org',
-    'yuque.alibaba-inc.com',
-    'yuque.antfin.com',
-    'yuque.antfin-inc.com'
+    'yuque.com'
 ];
 
 // Global
