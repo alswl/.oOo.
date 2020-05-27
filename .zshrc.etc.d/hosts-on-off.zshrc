@@ -35,7 +35,7 @@ function hosts-off {
     fi
 
     # chmod-root-s-hostess first
-    hostess del ${domain};
+    hostess rm ${domain};
   done <<< "${hosts_content}"
 }
 
