@@ -28,6 +28,7 @@
 	svnf = svn fetch
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	lgd = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lgf = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --first-parent
 	ll = log --stat --abbrev-commit
 	st = status
 	sta = stash
@@ -49,6 +50,8 @@
 	tool = vimdiff
 [push]
 	default = simple
+[pull]
+	rebase = false
 [core]
 	excludesfile = ~/.gitignore_global
 	precomposeUnicode = true
