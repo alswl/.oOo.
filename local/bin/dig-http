@@ -1,0 +1,10 @@
+#!/bin/bash
+
+domain=$1
+
+if [ -z $domain ] ; then
+	echo "error auguments"
+	exit 0;
+fi
+
+curl -s "http://119.29.29.29/d?dn=$domain."
