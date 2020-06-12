@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# query DNS via DNSPod HTTP API
+#
+# API doc: https://www.dnspod.cn/httpdns/guide
 
 domain=$1
 
