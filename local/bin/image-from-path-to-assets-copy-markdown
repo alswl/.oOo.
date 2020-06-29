@@ -5,7 +5,7 @@ if [ -z $DOC_NAME ]; then
 	exit 1
 fi
 
-IMAGE_DIR="./${DOC_NAME}.assets"
+IMAGE_DIR="./${DOC_NAME%.*}.assets"
 URL_PREFIX=$IMAGE_DIR
 test -d $IMAGE_DIR || mkdir -p $IMAGE_DIR
 
