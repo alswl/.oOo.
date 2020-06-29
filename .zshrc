@@ -237,6 +237,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 fi
+alias loadjenv='eval "$(jenv init -)";'
 
 # go
 export GOPATH=$HOME/dev/go
