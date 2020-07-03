@@ -241,7 +241,8 @@ alias loadjenv='eval "$(jenv init -)";'
 
 # go
 export GOPATH=$HOME/dev/go
-#export GO111MODULE=on
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
 
 # homebrew
 if [[ "$OSTYPE" == "darwin"* ]]; then
