@@ -1,0 +1,2 @@
+#!/bin/bash
+python -c 'import sys,yaml; print(yaml.dump_all(yaml.safe_load_all(sys.stdin), indent=2, allow_unicode=True))'
