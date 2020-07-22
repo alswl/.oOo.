@@ -79,12 +79,16 @@ mapkey('gi', '#1Go to edit box', function() {
     }
 });
 
+function encode_title_in_markdown(input) {
+    return input.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
+}
+
 function get_link_markdown() {
-    return '[' + document.title + '](' + window.location.href + ')';
+    return '[' + encode_title_in_markdown(document.title) + '](' + window.location.href + ')';
 }
 
 function get_link_markdown_with_space() {
-    return '[' + document.title + ']( ' + window.location.href + ' )';
+    return '[' + encode_title_in_markdown(document.title) + ']( ' + window.location.href + ' )';
 }
 
 function copyUsingNavigatorClipboard(text) {
