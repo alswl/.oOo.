@@ -21,7 +21,8 @@ get_version_by_info () {
 
 get_version_by_cat () {
 	local __cask=$1
-	local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po "version '\K.+(?=')" | sort -r --version-sort | head -n 1)
+	# local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po "version '\K.+(?=')" | sort -r --version-sort | head -n 1)
+	local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort | head -n 1)
 	echo $__latest
 }
 
