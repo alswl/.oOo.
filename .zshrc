@@ -249,9 +249,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_ANALYTICS=1
   # tuna
-  export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+  # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
   # ustc
-  # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+  export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 fi
 
 # ansible
