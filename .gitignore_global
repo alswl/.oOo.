@@ -18,6 +18,10 @@ tags
 # Persistent undo
 [._]*.un~
 
+## Jetbrains
+
+.idea
+
 
 ## My Global ##
 
