@@ -18,6 +18,8 @@ PATH=$PATH:$HOME/.luarocks/bin/
 PATH=$PATH:/Library/TeX/texbin/
 PATH=$PATH:$HOME/.virtualenvs/sys/bin/
 
+FPATH=$HOME/.zsh_completion/:$FPATH
+
 # virtual wrapper
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
 [ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
@@ -186,6 +188,14 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 export EDITOR=vim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 
+## golang
+
+alias loadgopathdev="export GOPATH=$HOME/dev/go"
+alias loadgopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
+alias loadgo112="PATH=\"/usr/local/opt/go@1.12/bin:$PATH\""
+alias loadgo112env="echo 'export PATH=\"/usr/local/opt/go@1.12/bin:\$PATH\"' >> .env"
+
+
 # nnn
 # export NNN_OPENER=$HOME/.config/nnn/plugins/nuke
 
@@ -273,6 +283,9 @@ alias -g G='| grep --color=auto'
 alias -g J='| jq -C '
 alias -g W='| wc -l'
 alias -g V='| vim -'
+alias -g VJ='| vim - "+set ft=json"'
+alias -g VY='| vim - "+set ft=yaml"'
+alias -g VM='| vim - "+set ft=markdown"'
 if [[ "$OSTYPE" == 'linux'* ]]; then
 	alias pbcopy='xclip -selection clipboard'
 	alias pbpaste='xclip -selection clipboard -o'
@@ -326,8 +339,10 @@ alias screen='TERM=xterm-256color screen'
 alias s='sudo'
 alias f=fd
 alias ff='fd --type f | fzf '
-alias ffp='fd --type f | fzf --preview "less {}"'
-alias ffl='less $(fd --type f | fzf)'
+alias fzp='fd --type f | fzf --preview "less {}"'
+alias fzl='less $(fd --type f | fzf)'
+alias fzv='vim $(fd --type f | fzf)'
+alias fzvv='mvim $(fd --type f | fzf)'
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
