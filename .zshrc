@@ -190,9 +190,9 @@ export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 
 ## golang
 
-alias loadgopathdev="export GOPATH=$HOME/dev/go"
+alias loadgopathdev="export GOPATH=${HOME}/dev/go"
 alias loadgopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
-alias loadgo112="PATH=\"/usr/local/opt/go@1.12/bin:$PATH\""
+alias loadgo112="export PATH=\"/usr/local/opt/go@1.12/bin:${PATH}\""
 alias loadgo112env="echo 'export PATH=\"/usr/local/opt/go@1.12/bin:\$PATH\"' >> .env"
 
 
