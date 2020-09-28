@@ -270,6 +270,18 @@ export ANSIBLE_NOCOWS=1
 # android
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
+# tmux
+
+ssh() {
+    if [ -n "${TMUX}" ]; then
+        tmux rename-window "$(echo $* | awk '{print $1}')"
+        command ssh "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command ssh "$@"
+    fi
+}
+
 ## Dev Tools }}}
 
 
