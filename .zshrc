@@ -436,6 +436,13 @@ alias mc='mvn clean'
 alias mcc='mvn clean compile'
 alias mcp='mvn clean package'
 
+# kubectl
+# enable kubectl plugin first
+alias kex='keti'
+alias kgpyaml='kgp -oyaml'
+alias kgnowide='kgno -owide'
+alias kgnoyaml='kgno -oyaml'
+
 # markdown utils commands
 alias pmh=paste-md-to-html
 alias pmr=paste-md-to-rtf
