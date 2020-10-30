@@ -442,6 +442,7 @@ alias kex='keti'
 alias kgpyaml='kgp -oyaml'
 alias kgnowide='kgno -owide'
 alias kgnoyaml='kgno -oyaml'
+alias kgdyaml='kgd -oyaml'
 alias kgsa='k get sa'
 
 # markdown utils commands
