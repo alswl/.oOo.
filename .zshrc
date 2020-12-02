@@ -428,7 +428,7 @@ alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
 alias gdtc='git difftool --cached'
 # override gbda of git plugin
-alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9]+)\s*$)" | command xargs -n 1 git branch -d'
+alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9\-]+)\s*$)" | command xargs -n 1 git branch -d'
 
 # maven
 alias m=mvn
