@@ -339,6 +339,7 @@ elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 alias ag='ag --pager "less -R"'
 alias aga='ag -a --pager "less -R"'
+alias agl='ag -l'
 alias tmux='tmux -2'
 alias dk=docker
 alias le=less
