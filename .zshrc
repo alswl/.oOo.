@@ -287,28 +287,6 @@ ssh() {
 
 # Alias {{{
 
-# global alias
-
-alias -g L='| less'
-alias -g G='| grep --color=auto'
-#alias -g H='| head'
-alias -g J='| jq -C '
-alias -g W='| wc -l'
-alias -g V='| vim -'
-alias -g VJ='| vim - "+set ft=json"'
-alias -g VY='| vim - "+set ft=yaml"'
-alias -g VM='| vim - "+set ft=markdown"'
-if [[ "$OSTYPE" == 'linux'* ]]; then
-	alias pbcopy='xclip -selection clipboard'
-	alias pbpaste='xclip -selection clipboard -o'
-	alias open='mimeopen'
-fi
-alias -g C='| pbcopy'
-alias -g P='pbpaste'
-alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
-alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
-alias -g Toa=' > /tmp/a.html && open /tmp/a.html'
-
 # macOS specific
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias b=brew
@@ -355,8 +333,8 @@ alias ff='fd --type f | fzf'
 alias ffp='fd --type f | fz --preview "less {}"'
 alias fzp='fzf --preview "less {}"'
 alias fzl='less $(fd --type f | fzf)'
-alias fzv='vim $(fd --type f | fzf)'
-alias fzvv='mvim $(fd --type f | fzf)'
+alias fzv='v $(fd --type f | fzf)'
+alias fzvv='vv $(fd --type f | fzf)'
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
@@ -392,11 +370,11 @@ elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 # vim
 alias mk=mkdir
-alias v=vim
+alias v='vim -p'
 if [[ "$OSTYPE" == "darwin"*  ]]; then
-	alias vv=mvim
+	alias vv='mvim -p'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
-	alias vv=gvim
+	alias vv='gvim -p'
 fi
 alias vd='vimdiff'
 alias vdiff='vimdiff'
@@ -489,6 +467,29 @@ alias rllua='rlwrap -i -r -c -a lua'
 # Hash Alias
 #hash -d WWW="/srv/http/" # use http instead
 #hash -d ib="$HOME/Desktop/md/inbox"
+
+# global alias
+
+alias -g L='| less'
+alias -g G='| grep --color=auto'
+#alias -g H='| head'
+alias -g J='| jq -C '
+alias -g W='| wc -l'
+alias -g V='| v -'
+alias -g VJ='| v - "+set ft=json"'
+alias -g VY='| v - "+set ft=yaml"'
+alias -g VM='| v - "+set ft=markdown"'
+if [[ "$OSTYPE" == 'linux'* ]]; then
+	alias pbcopy='xclip -selection clipboard'
+	alias pbpaste='xclip -selection clipboard -o'
+	alias open='mimeopen'
+fi
+alias -g C='| pbcopy'
+alias -g P='pbpaste'
+alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
+alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
+alias -g Toa=' > /tmp/a.html && open /tmp/a.html'
+
 
 # Alias }}}
 
