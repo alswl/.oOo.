@@ -80,7 +80,7 @@ mapkey('gi', '#1Go to edit box', function() {
 });
 
 function encode_title_in_markdown(input) {
-    return input.replace(/\[/g, '\\[').replace(/\]/g, '\\]');
+    return input.replace(/\[/g, '\\[').replace(/\]/g, '\\]').replace(/_/g, '\\_').replace(/\*/g, '\\*');
 }
 
 function get_link_markdown() {
