@@ -5,4 +5,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   alias clean-yarn='find $HOME/Library/Caches/Yarn -maxdepth 1 -mindepth 1 -exec trash {} \;'
   alias clean-docker-machne='docker-machine rm default'
   alias clean-minikube='minikube delete'
+  alias clean-golang-pkg='trash $GOPATH/pkg'
+  alias clean-golang-cache='trash $GOPATH/.cache'
 fi
