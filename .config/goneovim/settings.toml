@@ -28,16 +28,16 @@
 ## Fontfamily is
 ## In MacOS, 
 # FontFamily = "Monaco"
-FontFamily = "Fira\ Code"
 ## In Linux
 # FontFamily = "Consolas"
 ## In Windows
 # FontFamily = "Windows"
 ## Fontsize is
 # FontSize = 12
-FontSize = 14
 ## linespace is
 # Linespace = 6
+
+# Font setting not works, use guifont please
 
 ## Neovim external UI features
 ## The following is the default value of goneovim.
