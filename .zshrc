@@ -185,8 +185,8 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 
 # Dev Tools {{{
 
-export EDITOR=vim
-export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
+export EDITOR=nvim
+export RLWRAP_EDITOR="nvim '+call cursor(%L,%C)'"
 
 ## golang
 
@@ -342,7 +342,7 @@ alias fzvv='vv $(fd --type f | fzf)'
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
-alias vh='sudo vim /etc/hosts'
+alias vh='sudo nvim /etc/hosts'
 alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
@@ -374,14 +374,14 @@ elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 # vim
 alias mk=mkdir
-alias v='vim -p'
+alias v='nvim -p'
 if [[ "$OSTYPE" == "darwin"*  ]]; then
-	alias vv='mvim -p'
+	alias vv='goneovim -p'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
-alias vd='vimdiff'
-alias vdiff='vimdiff'
+alias vd='nvim -d'
+alias vdiff=vd
 
 # git
 # alias g=git
@@ -464,6 +464,8 @@ alias conns-estab-nali='lsof -PiTCP -n -sTCP:ESTABLISHED | nali'
 alias conns-estab-wan-nali='lsof -PiTCP -n -sTCP:ESTABLISHED | grep -v "127.0.0.1.*->127.0.0.1" | nali'
 alias rmdirempty='find . -maxdepth 1 -mindepth 1 -type d -empty -exec rmdir {} \;'
 alias fuck-maven-force-update-release-jar="fd --type d common-service-facade $HOME/.m2/repository/ --exec trash {} \;"
+alias gen-git-ignores-go='curl -s "https://www.toptal.com/developers/gitignore/api/jetbrains,vim,intellij+all,go"'
+alias gen-git-ignores-java='curl -s "https://www.toptal.com/developers/gitignore/api/jetbrains,vim,intellij+all,java"'
 
 # mssql cli interface
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
