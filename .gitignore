@@ -26,3 +26,4 @@ dist
 package-lock.json
 typings
 .zshrc.etc.d/*alibaba*.zshrc
+.config/goneovim/sessions
