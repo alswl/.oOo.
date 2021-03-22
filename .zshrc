@@ -286,6 +286,8 @@ ssh() {
     fi
 }
 
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude "*.png" --exclude "*.generated.*"'
+
 ## Dev Tools }}}
 
 
