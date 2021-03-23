@@ -4,6 +4,10 @@ import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mou
 import { log } from "./util";
 import { getCurrentWindow, sortByMostRecent } from "./window";
 
+
+// let SCREEN_LATEST_WINDOW: { [screen: string]: Window } = {};
+let SCREEN_LATEST_WINDOW = new Map<number, Window>();
+
 export function moveToScreen(window: Window, screen: Screen) {
 
   const app = window.app();
@@ -66,32 +70,43 @@ export function windowsOnOtherScreen(): Window[] {
   return return_value;
 };
 
-export function focusAnotherScreen(window: Window, targetScreen: Screen) {
+function getScreenLatestWindow(screen: Screen): Window | null {
   const start = new Date().getTime();
-  const currentScreen = window.screen();
-  if (window.screen().hash() === targetScreen.hash()) {
-    log("focusAnotherScreen, target equales current");
-    return;
-  }
-  // Phoenix.log('Time 1: ' + (new Date().getTime() - start));
-
-  saveMousePositionForWindow(window);
-  // Phoenix.log('Time 1.1: ' + (new Date().getTime() - start));
-  const nextScreenWindows = targetScreen.windows({ visible: true }); // slow XXX
+  const nextScreenWindows = screen.windows({ visible: true }); // slow XXX
   // const nextScreenWindows = targetScreen.windows(); // slow XXX
-  // Phoenix.log('Time 2: ' + (new Date().getTime() - start));
+  Phoenix.log('Time 2: ' + (new Date().getTime() - start));
   const targetScreenWindows = sortByMostRecent(nextScreenWindows); // ok
   if (targetScreenWindows.length === 0) {
     log("focusAnotherScreen, target no window");
     Mouse.move({
-      x: targetScreen.frame().x + targetScreen.frame().width / 2,
-      y: targetScreen.frame().y + targetScreen.frame().height / 2,
+      x: screen.frame().x + screen.frame().width / 2,
+      y: screen.frame().y + screen.frame().height / 2,
     })
+    return null;
+  }
+  Phoenix.log('Time 2.1: ' + (new Date().getTime() - start));
+  const targetWindow = targetScreenWindows[0];
+  Phoenix.log('Time 2.2: ' + (new Date().getTime() - start));
+  return targetWindow;
+}
+
+export function focusAnotherScreen(window: Window, targetScreen: Screen) {
+  const start = new Date().getTime();
+  const currentScreen = window.screen();
+  // TODO using cache
+  // if (SCREEN_LATEST_WINDOW.has(currentScreen.hash())) {
+  //   return SCREEN_LATEST_WINDOW.get(currentScreen.hash());
+  // }
+
+  Phoenix.log('Time 1: ' + (new Date().getTime() - start));
+
+  saveMousePositionForWindow(window);
+  const targetWindow = getScreenLatestWindow(targetScreen);
+  if (targetWindow === null) {
     return;
   }
-  // Phoenix.log('Time 2: ' + (new Date().getTime() - start));
-  const targetWindow = targetScreenWindows[0];
-  // Phoenix.log('Time 2: ' + (new Date().getTime() - start));
+
+  Phoenix.log('Time 1.1: ' + (new Date().getTime() - start));
   targetWindow.focus(); // bug, two window in two space, focus will focus in same space first
   restoreMousePositionForWindow(targetWindow); // ok
   // App.get('Finder').focus(); // Hack for Screen unfocus
@@ -164,17 +179,24 @@ export function moveWindowToScreen(window: Window, targetScreenFn: (window: Wind
 }
 
 export function focusNextScreen() {
-  switchScreen(getCurrentWindow(), (screen: Screen) => screen.next(),
+  switchScreen(
+    getCurrentWindow(),
+    (screen: Screen) => screen.next(),
     (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
-      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
-        < _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
+      return true;
+      // return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash()) < _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
     });
+  // const current = getCurrentWindow();
+  // const currentScreen = current.screen();
+  // currentScreen.next()
 }
 
 export function focusPreviousScreen() {
-  switchScreen(getCurrentWindow(), (screen: Screen) => screen.previous(),
+  switchScreen(
+    getCurrentWindow(),
+    (screen: Screen) => screen.previous(),
     (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
-      return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash())
-        > _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
+      return true;
+      // return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash()) > _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
     });
 }

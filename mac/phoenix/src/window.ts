@@ -38,6 +38,7 @@ export function getCurrentWindow(): Window {
     if (windowOptional !== undefined) {
         return windowOptional;
     }
+    // FIXME sometime mainWindow is undefined 
     return App.focused().mainWindow();
 }
 

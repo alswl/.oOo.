@@ -30,7 +30,9 @@ const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = {
     Airmail: 2,
 };
 const A_BIG_PIXEL = 10000;
+// TODO MAC_SCREEN_IN_THE_RIGHT to DISPLAYS_ORDER
 const MAC_SCREEN_IN_THE_RIGHT = true;
+const DISPLAYS_ORDER = {}
 // const MAC_SCREEN_IN_THE_RIGHT = false;
 const RESIZE_WITH_RATIO = false;
 
