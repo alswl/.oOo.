@@ -141,6 +141,8 @@ Clipboard = false
 ## '''
 # Ginitvim = ""
 
+FileOpenCmd = ":tabe"
+
 
 ## The palette is used as an input UI for externalized command lines and the Fuzzy-Finder feature built into Goneovim.
 [Palette]
