@@ -1,7 +1,7 @@
 // vim: set ft=javascript tabstop=4 shiftwidth=4 expandtab:
 // Constants
 var USE_NAVIGATOR_CLIPBOARD_DOMAINS = [
-    'yuque.com'
+    'yuque.com',
 ];
 
 // Global
