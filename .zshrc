@@ -77,7 +77,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=( \
 	autojump bower colored-man-pages compleat django docker docker-compose fabric gem git git-flow golang golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn tmux urltools virtualenvwrapper zsh_reload \
+	screen ssh-agent sudo svn tmux urltools virtualenvwrapper zsh-autosuggestions zsh_reload \
 	)
 # historical used plugins 
 # vagrant 
