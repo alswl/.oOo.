@@ -247,7 +247,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # eval "$(jenv init -)"
 # java env, use jenv alternative
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_212`
+	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_202` # oracle jdk 
+	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_212` # adopt open jdk 
+	export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_282` # openjdk@8
 fi
 alias loadjenv='eval "$(jenv init -)";'
 
