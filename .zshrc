@@ -500,7 +500,8 @@ alias -g C='| pbcopy'
 alias -g P='pbpaste'
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
 alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
-alias -g Toa=' > /tmp/a.html && open /tmp/a.html'
+alias -g TOA=' > /tmp/a.html && open /tmp/a.html'
+alias -g SUS='| sort | uniq -c | sort -gr'
 
 
 # Alias }}}
