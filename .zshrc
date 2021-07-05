@@ -185,8 +185,8 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 
 # Dev Tools {{{
 
-export EDITOR=nvim
-export RLWRAP_EDITOR="nvim '+call cursor(%L,%C)'"
+export EDITOR=vim
+export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 
 ## golang
 
@@ -346,7 +346,7 @@ alias fzvv='vv $(fd --type f | fzf)'
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
-alias vh='sudo nvim /etc/hosts'
+alias vh='sudo vim /etc/hosts'
 alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
@@ -378,13 +378,13 @@ elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 # vim
 alias mk=mkdir
-alias v='nvim -p'
+alias v='vim -p'
 if [[ "$OSTYPE" == "darwin"*  ]]; then
 	alias vv='open -a MacVim'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
-alias vd='nvim -d'
+alias vd='vim -d'
 alias vdiff=vd
 
 # git
