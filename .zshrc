@@ -470,6 +470,7 @@ alias rmdirempty='find . -maxdepth 1 -mindepth 1 -type d -empty -exec rmdir {} \
 alias fuck-maven-force-update-release-jar="fd --type d common-service-facade $HOME/.m2/repository/ --exec trash {} \;"
 alias gen-git-ignores-go='curl -s "https://www.toptal.com/developers/gitignore/api/jetbrains,vim,intellij+all,go"'
 alias gen-git-ignores-java='curl -s "https://www.toptal.com/developers/gitignore/api/jetbrains,vim,intellij+all,java"'
+alias gen-git-ignores-node='curl -s "https://www.toptal.com/developers/gitignore/api/jetbrains,vim,intellij+all,visualstudiocode,node" > .gitignore'
 alias daterfc3339='gdate --rfc-3339=seconds | sed "s/ /T/"'
 alias datets='date +%s'
 alias datenow='date "+%Y-%m-%d %H:%M:%S"'
