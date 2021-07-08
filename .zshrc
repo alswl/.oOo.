@@ -249,7 +249,8 @@ export SDKMAN_DIR="$HOME/.sdkman"
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_202` # oracle jdk 
 	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_212` # adopt open jdk 
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_282` # openjdk@8
+	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_282` # openjdk@8
+	export JAVA_HOME=`/usr/libexec/java_home -v 1.8` # adoptopenjdk-8.jdk
 fi
 alias loadjenv='eval "$(jenv init -)";'
 
@@ -267,7 +268,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   # ustc
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
   # sjtu
-  # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles
+  export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles/bottles
 fi
 
 # ansible
