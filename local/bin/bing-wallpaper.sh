@@ -17,11 +17,18 @@ check_command_installed () {
 if [ `uname` = 'Darwin' ]; then
 	check_command_installed ggrep grep
 	check_command_installed gsed gnu-sed
+	GREP=ggrep
+	SED==gsed
+elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
+	GREP=grep
+	SED=sed
 fi
+check_command_installed jq
+
 check_command_installed jq jq
 
 for i in {0..7}; do
-	URL="http://s.cn.bing.net"`curl -s "http://www.bing.com/HPImageArchive.aspx?format=js&idx=$i&n=1&mkt=$LOCALE" | jq -r '.images[0].url'`
-	FILENAME=$(echo $URL | ggrep -oP '\K(id=[^=]+.jpg)' | gsed 's/id=//g' | gsed 's/OHR\.//g')
+	URL="http://s.cn.bing.net"$(curl -s "http://www.bing.com/HPImageArchive.aspx?format=js&idx=$i&n=1&mkt=$LOCALE" | jq -r '.images[0].url')
+	FILENAME=$(echo $URL | $GREP -oP '\K(id=[^=]+.jpg)' | $SED 's/id=//g' | $SED 's/OHR\.//g')
 	wget -q -nc -O $PICTURE_DIR/$FILENAME $URL
 done
