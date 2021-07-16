@@ -256,6 +256,7 @@ alias loadjenv='eval "$(jenv init -)";'
 
 # go
 export GOPATH=$HOME/dev/go
+export PATH=$GOPATH/bin/:$PATH
 export GO111MODULE=on
 export GOPROXY="https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct"
 
