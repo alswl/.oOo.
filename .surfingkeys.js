@@ -154,8 +154,6 @@ addSearchAliasX('wb', 'weibo', 'http://s.weibo.com/weibo/');
 addSearchAliasX('jd', 'jd', 'http://search.jd.com/Search?keyword=');
 addSearchAliasX('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
 addSearchAliasX('gh', 'github', 'https://github.com/search?ref=opensearch&q=');
-addSearchAliasX('y', 'yuque', 'https://yuque.alibaba-inc.com/search?q=');
-addSearchAliasX('w', 'work', 'https://work.alipay-corp.com/nwpipe/search?type=all&keywords=');
 
 
 // settings.blacklistPattern = /https?:\/\/domain.com\/.*\.pptx/i
