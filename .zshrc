@@ -478,6 +478,7 @@ alias gen-gitignore-common='curl -s "https://www.toptal.com/developers/gitignore
 alias daterfc3339='gdate --rfc-3339=seconds | sed "s/ /T/"'
 alias datets='date +%s'
 alias datenow='date "+%Y-%m-%d %H:%M:%S"'
+alias app-identifier='/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier"'
 
 # mssql cli interface
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
