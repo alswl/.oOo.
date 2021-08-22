@@ -100,6 +100,8 @@ setopt EXTENDED_HISTORY
 #export POWERLINE_RIGHT_B="none"
 #export POWERLINE_HIDE_HOST_NAME="true"
 
+autoload -U compinit; compinit
+
 # ZSH Config }}}
 
 
