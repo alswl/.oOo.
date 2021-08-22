@@ -1,3 +1,6 @@
+[user]
+	email = 
+	name = 
 [color]
     diff = auto 
 	ui = true
@@ -12,9 +15,6 @@
 [pager]
 	diff =
 	branch = false
-[user]
-	name = 
-	email = 
 [alias]
 	s = status
 	c = commit -av
@@ -75,3 +75,7 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[init]
+	defaultBranch = master
+[url "git@github.com:"]
+	insteadOf = https://github.com/
