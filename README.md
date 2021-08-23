@@ -84,7 +84,9 @@ These configuration Includes:
     -   speedfox
     -   sqlite3-to-mysql.py
     -   svn_diff_wrapper
-    -   tinypng  # use tinypng compress image
+    -   tinypng  # use tinypng to compress image
+        - NOTICE set token in your `~/.zshrc.etc.d/tinypng.zshrc`,
+        - `export TINYPNG_API_SECRECT=YOUR-TOKEN-HERE`
     -   tinyproxy_start.sh
     -   tinyproxy_stop.sh
     -   tree2fulltree  # convert tree output to list
