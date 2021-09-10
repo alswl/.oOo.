@@ -80,8 +80,8 @@ plugins=( \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn tmux urltools ripgrep virtualenvwrapper zsh-autosuggestions zsh_reload \
 	)
-# historical used plugins 
-# vagrant 
+# historical used plugins
+# vagrant
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
 [ -f /etc/arch-release ] && plugins+=( archlinux )
@@ -250,8 +250,8 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # eval "$(jenv init -)"
 # java env, use jenv alternative
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_202` # oracle jdk 
-	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_212` # adopt open jdk 
+	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_202` # oracle jdk
+	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_212` # adopt open jdk
 	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_282` # openjdk@8
 	export JAVA_HOME=`/usr/libexec/java_home -v 1.8` # adoptopenjdk-8.jdk
 fi
@@ -294,6 +294,15 @@ ssh() {
 }
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude "*.png" --exclude "*.generated.*"'
+
+alias lima-docker-install="
+lima sudo apt -y install docker.io
+lima sudo usermod -aG docker $USER"
+
+alias lima-docker-mapping="
+sudo rm -f /var/run/docker.sock -f $HOME/.lima/default/docker.sock
+/usr/bin/ssh -p 60022 -i $HOME/.lima/_config/user -o NoHostAuthenticationForLocalhost=yes -L $HOME/.lima/default/docker.sock:/var/run/docker.sock -N -f 127.0.0.1
+sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 
 ## Dev Tools }}}
 
