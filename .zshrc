@@ -376,6 +376,7 @@ alias po=popd
 alias girl='man'
 alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 alias p2v='pbpaste | vi -'
+alias tt='toodledo'
 
 
 # ls
@@ -476,6 +477,7 @@ alias myip-ipecho-gcs="curl -sL http://ipecho.net/plain"
 alias myip-hk="curl -sL http://ip.sb"
 alias random-sentences='curl -sL http://metaphorpsum.com/sentences/1'
 alias json-format-clipboard='pbpaste | jq --raw-output -M | pbcopy'
+alias cookies-from-editthiscookie="pbpaste | jq '.[] | (.name + \"=\" + .value+\"; \")' -j"
 alias conns='lsof -PiTCP -n'
 alias conns-nali='lsof -PiTCP -n | nali'
 alias conns-estab-nali='lsof -PiTCP -n -sTCP:ESTABLISHED | nali'
