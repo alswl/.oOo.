@@ -272,7 +272,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   # ustc
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
   # sjtu
-  export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles/bottles
+  # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles/bottles
 fi
 
 # ansible
@@ -299,6 +299,14 @@ alias lima-docker-install="
 lima sudo apt -y install docker.io
 lima sudo usermod -aG docker $USER"
 
+alias lima-docker-install-lima="
+lima sudo apt -y install docker.io
+lima sudo usermod -aG docker lima"
+
+# paste below configs to ~/.ssh/config
+# Host 127.0.0.1
+# Port 60022
+# User lima
 alias lima-docker-mapping="
 sudo rm -f /var/run/docker.sock -f $HOME/.lima/default/docker.sock
 /usr/bin/ssh -p 60022 -i $HOME/.lima/_config/user -o NoHostAuthenticationForLocalhost=yes -L $HOME/.lima/default/docker.sock:/var/run/docker.sock -N -f 127.0.0.1
