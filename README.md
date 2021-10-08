@@ -95,6 +95,7 @@ These configuration Includes:
     -   unzip-gbk  # unizp gbk file in Linux / macOS
     -   url_diff
     -   viscosity-to-ios-connect.rb
+    -   `homebrew-using-mirror` switch mirror of homebrew
 -   mac/Library/LaunchAgents/com.alswl.edit-server.plist
     -   com.alswl.edit-server.plist  # TextAid server for https://chrome.google.com/webstore/detail/textaid/ppoadiihggafnhokfkpphojggcdigllp?hl=en
 
