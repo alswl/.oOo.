@@ -105,7 +105,7 @@ autoload -U compinit; compinit
 # ZSH Config }}}
 
 
-# Sheel Preference {{{
+# Shell Preference {{{
 
 # use bash style for in
 # setopt sh_word_split
@@ -182,6 +182,8 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 #LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 #SUPPORTED="zh_CN.UTF-8:zh_CN:zh"
 #SUPPORTED="zh_CN.UTF-8"
+
+
 
 # Sheel Preference }}}
 
@@ -273,6 +275,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
   # sjtu
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles/bottles
+
+  HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
+  if [ -f "$HB_CNF_HANDLER" ]; then
+    source "$HB_CNF_HANDLER";
+fi
 fi
 
 # ansible
