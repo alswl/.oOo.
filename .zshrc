@@ -85,7 +85,7 @@ plugins=( \
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
 [ -f /etc/arch-release ] && plugins+=( archlinux )
-[[ "$OSTYPE" == "darwin"* ]] && plugins+=( osx brew xcode )
+[[ "$OSTYPE" == "darwin"* ]] && plugins+=( macos brew xcode )
 
 # disable zsh substitution/autocomplete with URL and backslashes
 # https://stackoverflow.com/questions/25614613/how-to-disable-zsh-substitution-autocomplete-with-url-and-backslashes/
