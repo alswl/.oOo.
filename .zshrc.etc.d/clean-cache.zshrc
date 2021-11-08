@@ -10,4 +10,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   alias clean-dev-project-node-modules='gfind $HOME/dev/project -maxdepth 2 -name node_modules -exec trash {} \;'
   alias clean-dev-myproject-node-modules='gfind $HOME/dev/myproject -maxdepth 2 -name node_modules -exec trash {} \;'
   alias clean-m2='du -sh $HOME/.m2/repository; trash $HOME/.m2/repository'
+  alias clean-lima='du -sh $HOME/Library/Caches/lima; trash $HOME/Library/Caches/lima'
+  alias clean-netease-music-cache='du -sh $HOME/Library/Caches/com.netease.163music/; trash $HOME/Library/Caches/com.netease.163music/'
 fi
