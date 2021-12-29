@@ -161,21 +161,21 @@ mapkey('yl', "#7Copy current page's title", function() {
 
 // Search Engine
 
-// addSearchAliasX('zh', 'zhihu', 'https://www.zhihu.com/search?q=');
-// addSearchAliasX('t', 'twitter', 'https://twitter.com/search/');
-// addSearchAliasX('we', 'wikipedia-en', 'http://en.wikipedia.org/wiki/Special:Search?search=');
-// addSearchAliasX('wc', 'wikipedia-cn', 'https://zh.wikipedia.org/w/index.php?title=Special:%E6%90%9C%E7%B4%A2&search=');
-// addSearchAliasX('tb', 'taobao', 'https://s.taobao.com/search?q=');
-// addSearchAliasX('h', 'hici', 'http://dict.cn/search.php?q=');
-// addSearchAliasX('k', 'kindle', 'http://www.amazon.cn/s/ref=nb_sb_noss?field-keywords=');
-// addSearchAliasX('bing', 'bing', 'http://www.bing.com/search?q=');
-// addSearchAliasX('etao', 'etao', 'http://s.etao.com/search?q=');
-// addSearchAliasX('db', 'douban', 'http://www.douban.com/search?q=');
-// addSearchAliasX('ip', 'ip', 'http://www.ip138.com/ips138.asp?ip=');
-// addSearchAliasX('wb', 'weibo', 'http://s.weibo.com/weibo/');
-// addSearchAliasX('jd', 'jd', 'http://search.jd.com/Search?keyword=');
-// addSearchAliasX('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
-// addSearchAliasX('gh', 'github', 'https://github.com/search?ref=opensearch&q=');
+addSearchAlias('zh', 'zhihu', 'https://www.zhihu.com/search?q=');
+addSearchAlias('t', 'twitter', 'https://twitter.com/search/');
+addSearchAlias('we', 'wikipedia-en', 'http://en.wikipedia.org/wiki/Special:Search?search=');
+addSearchAlias('wc', 'wikipedia-cn', 'https://zh.wikipedia.org/w/index.php?title=Special:%E6%90%9C%E7%B4%A2&search=');
+addSearchAlias('tb', 'taobao', 'https://s.taobao.com/search?q=');
+addSearchAlias('h', 'hici', 'http://dict.cn/search.php?q=');
+addSearchAlias('k', 'kindle', 'http://www.amazon.cn/s/ref=nb_sb_noss?field-keywords=');
+addSearchAlias('bing', 'bing', 'http://www.bing.com/search?q=');
+addSearchAlias('etao', 'etao', 'http://s.etao.com/search?q=');
+addSearchAlias('db', 'douban', 'http://www.douban.com/search?q=');
+addSearchAlias('ip', 'ip', 'http://www.ip138.com/ips138.asp?ip=');
+addSearchAlias('wb', 'weibo', 'http://s.weibo.com/weibo/');
+addSearchAlias('jd', 'jd', 'http://search.jd.com/Search?keyword=');
+addSearchAlias('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
+addSearchAlias('gh', 'github', 'https://github.com/search?ref=opensearch&q=');
 
 
 // settings.blacklistPattern = /https?:\/\/domain.com\/.*\.pptx/i
