@@ -1,4 +1,26 @@
 // vim: set ft=javascript tabstop=4 shiftwidth=4 expandtab:
+const {
+    aceVimMap,
+    mapkey,
+    imap,
+    iunmap,
+    imapkey,
+    getClickableElements,
+    vmapkey,
+    map,
+    unmap,
+    cmap,
+    addSearchAlias,
+    removeSearchAlias,
+    tabOpenLink,
+    readText,
+    Clipboard,
+    Front,
+    Hints,
+    Visual,
+    RUNTIME,
+} = api;
+
 // Constants
 var USE_NAVIGATOR_CLIPBOARD_DOMAINS = [
     'yuque.com',
@@ -139,21 +161,21 @@ mapkey('yl', "#7Copy current page's title", function() {
 
 // Search Engine
 
-addSearchAliasX('zh', 'zhihu', 'https://www.zhihu.com/search?q=');
-addSearchAliasX('t', 'twitter', 'https://twitter.com/search/');
-addSearchAliasX('we', 'wikipedia-en', 'http://en.wikipedia.org/wiki/Special:Search?search=');
-addSearchAliasX('wc', 'wikipedia-cn', 'https://zh.wikipedia.org/w/index.php?title=Special:%E6%90%9C%E7%B4%A2&search=');
-addSearchAliasX('tb', 'taobao', 'https://s.taobao.com/search?q=');
-addSearchAliasX('h', 'hici', 'http://dict.cn/search.php?q=');
-addSearchAliasX('k', 'kindle', 'http://www.amazon.cn/s/ref=nb_sb_noss?field-keywords=');
-addSearchAliasX('bing', 'bing', 'http://www.bing.com/search?q=');
-addSearchAliasX('etao', 'etao', 'http://s.etao.com/search?q=');
-addSearchAliasX('db', 'douban', 'http://www.douban.com/search?q=');
-addSearchAliasX('ip', 'ip', 'http://www.ip138.com/ips138.asp?ip=');
-addSearchAliasX('wb', 'weibo', 'http://s.weibo.com/weibo/');
-addSearchAliasX('jd', 'jd', 'http://search.jd.com/Search?keyword=');
-addSearchAliasX('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
-addSearchAliasX('gh', 'github', 'https://github.com/search?ref=opensearch&q=');
+// addSearchAliasX('zh', 'zhihu', 'https://www.zhihu.com/search?q=');
+// addSearchAliasX('t', 'twitter', 'https://twitter.com/search/');
+// addSearchAliasX('we', 'wikipedia-en', 'http://en.wikipedia.org/wiki/Special:Search?search=');
+// addSearchAliasX('wc', 'wikipedia-cn', 'https://zh.wikipedia.org/w/index.php?title=Special:%E6%90%9C%E7%B4%A2&search=');
+// addSearchAliasX('tb', 'taobao', 'https://s.taobao.com/search?q=');
+// addSearchAliasX('h', 'hici', 'http://dict.cn/search.php?q=');
+// addSearchAliasX('k', 'kindle', 'http://www.amazon.cn/s/ref=nb_sb_noss?field-keywords=');
+// addSearchAliasX('bing', 'bing', 'http://www.bing.com/search?q=');
+// addSearchAliasX('etao', 'etao', 'http://s.etao.com/search?q=');
+// addSearchAliasX('db', 'douban', 'http://www.douban.com/search?q=');
+// addSearchAliasX('ip', 'ip', 'http://www.ip138.com/ips138.asp?ip=');
+// addSearchAliasX('wb', 'weibo', 'http://s.weibo.com/weibo/');
+// addSearchAliasX('jd', 'jd', 'http://search.jd.com/Search?keyword=');
+// addSearchAliasX('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
+// addSearchAliasX('gh', 'github', 'https://github.com/search?ref=opensearch&q=');
 
 
 // settings.blacklistPattern = /https?:\/\/domain.com\/.*\.pptx/i
