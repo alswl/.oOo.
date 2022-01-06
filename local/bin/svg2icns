@@ -1,4 +1,5 @@
 #! /bin/bash
+### from https://gist.github.com/plroebuck/af19a26c908838c7f9e363c571199deb
 ###
 ### svg2icns.bash
 ###   Create ICNS file from SVG
