@@ -13,7 +13,8 @@
 script="$(basename $0 .bash)"
 
 : ${MAGICK_HOME?Requires ImageMagick to be installed}
-CONVERT_BIN="${MAGICK_HOME}/bin/convert"
+# CONVERT_BIN="${MAGICK_HOME}/bin/convert"
+CONVERT_BIN="convert"
 
 ## Usage function
 usage() {
@@ -41,14 +42,15 @@ then
     echo "${script}: no such file: ${svgfilename}" >&2
     exit 1
 else
-    ## Verify scalable vector graphics file
-    $(file "${svgfilename}" | cut -d':' -f2- | grep -qs 'SVG')
-    if [ "$?" -ne 0 ];
-    then
-        usage
-        echo "${script}: SVG file required: ${svgfilename}" >&2
-        exit 1
-    fi
+    echo -n ''
+    # ## Verify scalable vector graphics file
+    # $(file "${svgfilename}" | cut -d':' -f2- | grep -qs 'SVG')
+    # if [ "$?" -ne 0 ];
+    # then
+        # usage
+        # echo "${script}: SVG file required: ${svgfilename}" >&2
+        # exit 1
+    # fi
 fi
 
 ## Verify second positional argument if given
