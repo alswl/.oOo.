@@ -41,9 +41,9 @@ Phoenix.set({
 Key.on('escape', config.MASH, () => callApp('iTerm'));
 Key.on('`', config.MASH, () => callApp('iTerm'));
 // Key.on('1', config.MASH, () => callApp('Chromium'));
-// Key.on('1', config.MASH, () => callApp('Firefox'));
+Key.on('1', config.MASH, () => callApp('Firefox'));
 // Key.on('1', config.MASH, () => callApp('Vivaldi'));
-Key.on('1', config.MASH, () => callApp('Google Chrome'));
+// Key.on('1', config.MASH, () => callApp('Google Chrome'));
 // Key.on('1', config.MASH, () => callApp('Google Chrome Beta'));
 // Key.on('2', config.MASH, () => callApp('Safari'));
 // Key.on('2', config.MASH, () => callApp('Google Chrome Beta'));
