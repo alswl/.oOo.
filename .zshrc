@@ -200,7 +200,7 @@ alias loadgopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 alias loadgo112="export PATH=\"/usr/local/opt/go@1.12/bin:${PATH}\""
 alias loadgo112env="echo 'export PATH=\"/usr/local/opt/go@1.12/bin:\$PATH\"' >> .env"
 alias loadgo113="export PATH=\"/usr/local/opt/go@1.13/bin:${PATH}\""
-alias loadgo11.env="echo 'export PATH=\"/usr/local/opt/go@1.13/bin:\$PATH\"' >> .env"
+alias loadgo113env="echo 'export PATH=\"/usr/local/opt/go@1.13/bin:\$PATH\"' >> .env"
 alias loadgo114="export PATH=\"/usr/local/opt/go@1.14/bin:${PATH}\""
 alias loadgo115="export PATH=\"/usr/local/opt/go@1.15/bin:${PATH}\""
 alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:${PATH}\""
@@ -321,6 +321,8 @@ alias lima-docker-mapping="
 sudo rm -f /var/run/docker.sock -f $HOME/.lima/default/docker.sock
 /usr/bin/ssh -p 60022 -i $HOME/.lima/_config/user -o NoHostAuthenticationForLocalhost=yes -L $HOME/.lima/default/docker.sock:/var/run/docker.sock -N -f 127.0.0.1
 sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
+
+export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
 
 ## Dev Tools }}}
 
