@@ -27,8 +27,6 @@ map s :stop<CR>
 cmap <C-f> <Right>
 cmap <C-b> <Left>
 
-map <leader>+ :open javascript:void((function(){var%20d=document,e=d.createElement(%22script%22);e.setAttribute(%22charset%22,%22UTF-8%22);e.setAttribute(%22src%22,%22http://www.***REMOVED***.com/js/core/no/collectit.js?%22+Math.floor(new%20Date/1E7));d.body.appendChild(e)})());<CR>
-
 map <leader>da :tabopen about:addons<CR>
 map <leader>dp :dialog preferences<CR>
 map <leader>dd :downloads<CR>
