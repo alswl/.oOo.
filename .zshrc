@@ -190,7 +190,8 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 
 # Dev Tools {{{
 
-export EDITOR=vim
+# export EDITOR=vim
+export EDITOR=nvim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 
 ## golang
@@ -380,7 +381,7 @@ alias fzvv='vv $(fd --type f | fzf)'
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
-alias vh='sudo vim /etc/hosts'
+alias vh='sudo nvim /etc/hosts'
 alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
@@ -388,10 +389,10 @@ alias k='kubectl'
 alias k9='kill -9 '
 alias nnn='VISUAL=less nnn -c -d'
 alias n='VISUAL=less nnn -c -d'
-alias cnpm="npm --registry=https://registry.npm.taobao.org \
-	--cache=$HOME/.npm/.cache/cnpm \
-	--disturl=https://npm.taobao.org/dist \
-	--userconfig=$HOME/.cnpmrc"
+alias cnpm="npm --registry=https://registry.npmmirror.com \
+  --cache=$HOME/.npm/.cache/cnpm \
+  --disturl=https://npmmirror.com/mirrors/node \
+  --userconfig=$HOME/.cnpmrc"
 alias po=popd
 alias girl='man'
 alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
@@ -413,13 +414,14 @@ elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 # vim
 alias mk=mkdir
-alias v='vim -p'
+# alias v='vim -p'
+alias v='nvim -p'
 if [[ "$OSTYPE" == "darwin"*  ]]; then
 	alias vv='open -a MacVim'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
-alias vd='vim -d'
+alias vd='nvim -d'
 alias vdiff=vd
 
 # git

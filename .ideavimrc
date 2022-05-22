@@ -178,14 +178,8 @@ map <F4> zM
 imap <F4> <Esc>zM
 
 " 标签设置
-map <F7> gT
-imap <F7> <Esc>gT
-map <F8> gt
-imap <F8> <Esc>gt
 map <C-h> gT
 map <C-l> gt
-imap <F7> <Esc>gT
-imap <F8> <Esc>gt
 noremap <C-Tab> :tabnext<CR>
 noremap <C-S-Tab> :tabprev<CR>
 inoremap <C-Tab> <Esc>:tabnext<CR>
