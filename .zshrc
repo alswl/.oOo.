@@ -323,7 +323,15 @@ sudo rm -f /var/run/docker.sock -f $HOME/.lima/default/docker.sock
 /usr/bin/ssh -p 60022 -i $HOME/.lima/_config/user -o NoHostAuthenticationForLocalhost=yes -L $HOME/.lima/default/docker.sock:/var/run/docker.sock -N -f 127.0.0.1
 sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 
-export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
+# Podman
+# TODO
+# export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
+
+# z.lua
+# TODO
+# brew install z-lua
+# eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
+# alias j=z
 
 ## Dev Tools }}}
 
