@@ -205,6 +205,7 @@ alias loadgo113env="echo 'export PATH=\"/usr/local/opt/go@1.13/bin:\$PATH\"' >> 
 alias loadgo114="export PATH=\"/usr/local/opt/go@1.14/bin:${PATH}\""
 alias loadgo115="export PATH=\"/usr/local/opt/go@1.15/bin:${PATH}\""
 alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:${PATH}\""
+alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:${PATH}\""
 
 
 # nnn

@@ -22,6 +22,7 @@ fi
 
 if [ `uname` = 'Darwin' ]; then
 	# https://bitbucket.org/gotoh/connect
+    # https://github.com/gotoh/ssh-connect
 	connect -S ${SOCKS_SERVER}:${SOCKS_PORT} "$@"
 elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
 	# openbsd-netcat
