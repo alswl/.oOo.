@@ -81,3 +81,5 @@
 	insteadOf = https://github.com/
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/
+[gitflow "branch"]
+	develop = develop
