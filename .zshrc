@@ -46,8 +46,8 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="powerline"
-#ZSH_THEME="robbyrussell"
-ZSH_THEME="robbyrussell-alswl"
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell-alswl"
 # ZSH_THEME="minimal"
 #ZSH_THEME="bira"  # two lines
 #ZSH_THEME="candy"
@@ -76,9 +76,9 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: rbenv is slow
 # NOTICE: nvm is slow
 plugins=( \
-	autojump bower colored-man-pages compleat docker docker-compose fabric gem git git-flow golang golang dotenv \
+	bower colored-man-pages compleat docker docker-compose fabric gem git git-flow golang golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn tmux urltools ripgrep virtualenvwrapper zsh-autosuggestions \
+	screen ssh-agent sudo svn tmux urltools ripgrep virtualenvwrapper \
 	)
 # historical used plugins
 # vagrant
@@ -330,10 +330,9 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 # export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
 
 # z.lua
-# TODO
-# brew install z-lua
-# eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
-# alias j=z
+eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
+export _ZL_HYPHEN=1
+alias j=z
 
 ## Dev Tools }}}
 
