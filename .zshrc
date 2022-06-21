@@ -406,7 +406,6 @@ alias po=popd
 alias girl='man'
 alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 alias p2v='pbpaste | vi -'
-alias tt='toodledo'
 
 
 # ls
@@ -523,6 +522,7 @@ alias daterfc3339='gdate --rfc-3339=seconds | sed "s/ /T/"'
 alias datets='date +%s'
 alias datenow='date "+%Y-%m-%d %H:%M:%S"'
 alias app-identifier='/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier"'
+alias ac=antcode
 
 # mssql cli interface
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
