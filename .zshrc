@@ -330,7 +330,8 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 # export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
 
 # z.lua
-eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
+[ -f /usr/local/share/z.lua/z.lua ] && eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
+[ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)"
 export _ZL_HYPHEN=1
 alias j=z
 
