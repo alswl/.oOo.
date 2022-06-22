@@ -427,7 +427,8 @@ alias mk=mkdir
 alias v='nvim -p'
 if [[ "$OSTYPE" == "darwin"*  ]]; then
 	# alias vv='open -a MacVim'
-	alias vv='open -a goneovim'
+	# open -a goneovim not works
+	alias vv='goneovim'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
