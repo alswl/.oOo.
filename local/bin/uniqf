@@ -1,0 +1,15 @@
+#!/bin/bash
+# funiq = file uniq
+
+FILE_NAME=$1
+
+if [ -z $FILE_NAME ]; then
+	echo "Useage: file-uniq filename"
+	exit 0;
+fi
+
+HASH=$( cat "$FILE_NAME" | gmd5sum | cut -c -7 )
+NAME="${FILE_NAME%.*}"
+EXT="${FILE_NAME##*.}"
+
+mv "$FILE_NAME" "$NAME.$HASH.$EXT"
