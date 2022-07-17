@@ -1,46 +1,49 @@
 #!/bin/bash
 
-#set -x
-#set -e
+# set -x
+set -e
 
 check_command_installed () {
-	NAME=$1
-	BREW_NAME=$2
-	if ! [ -x "$(command -v $NAME)" ]; then
-		echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
-		exit 1;
-	fi
+  NAME=$1
+  BREW_NAME=$2
+  if ! [ -x "$(command -v $NAME)" ]; then
+    echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
+    exit 1;
+  fi
 }
 
 get_version_by_info () {
-	local __cask=$1
-	local __info=`brew cask info $__cask`
-	local __latest=`echo $__info | head -n 1 | awk '{print $2}'`
-	echo $__latest
+  local __cask=$1
+  local __info=`brew info --cask $__cask`
+  local __latest=`echo $__info | head -n 1 | awk '{print $2}'`
+  echo $__latest
 }
 
-get_version_by_cat () {
-	local __cask=$1
-	# local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po "version '\K.+(?=')" | sort -r --version-sort | head -n 1)
-	local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort | head -n 1)
-	echo $__latest
+get_versions_by_cat () {
+  local __cask=$1
+  local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
+  echo $__latest
 }
 
 if [ `uname` = 'Darwin' ]; then
-	check_command_installed ggrep grep
+  check_command_installed ggrep grep
 fi
 
 for CASK in `ls /usr/local/Caskroom `; do
-	#LATEST="$(get_version_by_info $CASK)"
-	if [ ! -f /usr/local/Homebrew/Library/Taps/*/*/Casks/$CASK.rb ]; then
-		echo [Warning] Cannot find $CASK, maybe this cask is not in casks!
-		continue
-	fi
-	LATEST="$(get_version_by_cat $CASK)"
-	#if [ `brew cask info $CASK | tail -n +2 | grep $LATEST | wc -l | awk '{print $1}'` -eq 0 ]; then
-		#echo $CASK
-	#fi
-	if [ ! -d /usr/local/Caskroom/$CASK/$LATEST ]; then
-		echo $CASK
-	fi
+  if [ ! -f /usr/local/Homebrew/Library/Taps/*/*/Casks/$CASK.rb ]; then
+    echo [Warning] Cannot find $CASK, maybe this cask is not in casks!
+    continue
+  fi
+  LATEST="$(get_versions_by_cat $CASK)"
+  lines="$(echo "$LATEST" | gsed "s/ /\n/g" | wc -l | awk '{print $1}')"
+  # echo $lines
+  if [ "$lines" -gt 1 ]; then
+    # echo ">>> Multi $CASK"
+    LATEST="$(get_version_by_info $CASK)"
+  fi
+  # echo ">>>> $LATEST"
+
+  if [ ! -d "/usr/local/Caskroom/$CASK/$LATEST" ]; then
+    echo "$CASK latest: $LATEST, nothing in /usr/local/Caskroom/$CASK/$LATEST"
+  fi
 done
