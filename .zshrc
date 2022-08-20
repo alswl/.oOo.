@@ -9,10 +9,7 @@
 
 # PATH {{{
 
-#for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
-	#PATH=$p/bin:$PATH
-#done
-PATH=$HOME/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
+PATH=$HOME/local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
 PATH=$PATH:$HOME/.luarocks/bin/
 PATH=$PATH:/Library/TeX/texbin/
@@ -22,7 +19,9 @@ PATH="${PATH}:${HOME}/.krew/bin"
 FPATH=$HOME/.zsh_completion/:$FPATH
 
 # virtual wrapper
+[ -f /opt/homebrew/bin/python3 ] && export VIRTUALENVWRAPPER_PYTHON=/opt/homebrew/bin/python3  # for mac apple silicon
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
+[ -f /opt/homebrew/bin/virtualenvwrapper.sh ] && source /opt/homebrew/bin/virtualenvwrapper.sh # arch
 [ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
 [ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python  # for mac
 
@@ -198,15 +197,18 @@ export MACOSX_DEPLOYMENT_TARGET=12.4
 ## golang
 
 alias loadgopathdev="export GOPATH=${HOME}/dev/go"
-alias loadgopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
-alias loadgo112="export PATH=\"/usr/local/opt/go@1.12/bin:${PATH}\""
-alias loadgo112env="echo 'export PATH=\"/usr/local/opt/go@1.12/bin:\$PATH\"' >> .env"
-alias loadgo113="export PATH=\"/usr/local/opt/go@1.13/bin:${PATH}\""
-alias loadgo113env="echo 'export PATH=\"/usr/local/opt/go@1.13/bin:\$PATH\"' >> .env"
-alias loadgo114="export PATH=\"/usr/local/opt/go@1.14/bin:${PATH}\""
-alias loadgo115="export PATH=\"/usr/local/opt/go@1.15/bin:${PATH}\""
-alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:${PATH}\""
-alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:${PATH}\""
+alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
+[ -f /usr/local/opt/go@1.12/bin/go ] && alias loadgo112="export PATH=\"/usr/local/opt/go@1.12/bin:${PATH}\""
+[ -f /usr/local/opt/go@1.12/bin/go ] && alias savego112env="echo 'export PATH=\"/usr/local/opt/go@1.12/bin:\$PATH\"' >> .env"
+[ -f /usr/local/opt/go@1.13/bin/go ] && alias loadgo113="export PATH=\"/usr/local/opt/go@1.13/bin:${PATH}\""
+[ -f /usr/local/opt/go@1.13/bin/go ] && alias savego113env="echo 'export PATH=\"/usr/local/opt/go@1.13/bin:\$PATH\"' >> .env"
+[ -f /usr/local/opt/go@1.15/bin/go ] && alias loadgo115="export PATH=\"/usr/local/opt/go@1.15/bin:${PATH}\""
+[ -f /usr/local/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:${PATH}\""
+[ -f /usr/local/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:${PATH}\""
+[ -f /usr/local/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/usr/local/opt/go@1.19/bin:${PATH}\""
+
+[ -f /opt/homebrew/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/opt/homebrew/opt/go@1.16/bin:${PATH}\""
+[ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:${PATH}\""
 
 
 # nnn
@@ -250,6 +252,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s /usr/share/source-highlight/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
 [[ -s /usr/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
 [[ -s /usr/local/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
+[[ -s /opt/homebrew/bin/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /opt/homebrew/bin/src-hilite-lesspipe.sh %s"
 
 #. ~/dev/project/shell/powerline/powerline/bindings/zsh/powerline.zsh
 
@@ -332,6 +335,7 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 # z.lua
 [ -f /usr/local/share/z.lua/z.lua ] && eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
 [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)"
+[ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh)"
 export _ZL_HYPHEN=1
 alias j=z
 
@@ -345,7 +349,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias b=brew
 	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 	alias readlink=greadlink
-	alias screen='TERM=xterm-256color /usr/local/bin/screen'
+	[ -f /usr/local/bin/screen ] && alias screen='TERM=xterm-256color /usr/local/bin/screen'
+	[ -f /opt/homebrew/bin/screen ] && alias screen='TERM=xterm-256color /opt/homebrew/bin/screen'
 	alias mute='osascript -e "set volume 0"'
 	alias unmute='osascript -e "set volume 2"'
 	# alias find='gfind'
