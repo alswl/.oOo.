@@ -21,7 +21,7 @@ get_version_by_info () {
 
 get_versions_by_cat () {
   local __cask=$1
-  local __latest=$(cat /usr/local/Homebrew/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
+  local __latest=$(cat $HOMEBREW_PREFIX/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
   echo $__latest
 }
 
@@ -29,8 +29,8 @@ if [ `uname` = 'Darwin' ]; then
   check_command_installed ggrep grep
 fi
 
-for CASK in `ls /usr/local/Caskroom `; do
-  if [ ! -f /usr/local/Homebrew/Library/Taps/*/*/Casks/$CASK.rb ]; then
+for CASK in `ls $HOMEBREW_PREFIX/Caskroom`; do
+  if [ ! -f $HOMEBREW_PREFIX/Library/Taps/*/*/Casks/$CASK.rb ]; then
     echo [Warning] Cannot find $CASK, maybe this cask is not in casks!
     continue
   fi
@@ -43,7 +43,7 @@ for CASK in `ls /usr/local/Caskroom `; do
   fi
   # echo ">>>> $LATEST"
 
-  if [ ! -d "/usr/local/Caskroom/$CASK/$LATEST" ]; then
-    echo "$CASK latest: $LATEST, nothing in /usr/local/Caskroom/$CASK/$LATEST"
+  if [ ! -d "$HOMEBREW_PREFIX/Caskroom/$CASK/$LATEST" ]; then
+    echo "$CASK latest: $LATEST, nothing in $HOMEBREW_PREFIX/Caskroom/$CASK/$LATEST"
   fi
 done
