@@ -15,7 +15,7 @@ check_command_installed () {
 get_version_by_info () {
   local __cask=$1
   local __info=`brew info --cask $__cask`
-  local __latest=`echo $__info | head -n 1 | awk '{print $2}'`
+  local __latest=`echo $__info | head -n 1 | gsed 's/^==>//g' | awk '{print $2}'`
   echo $__latest
 }
 
