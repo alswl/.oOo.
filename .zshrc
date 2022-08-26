@@ -404,10 +404,6 @@ alias k='kubectl'
 alias k9='kill -9 '
 alias nnn='VISUAL=less nnn -c -d'
 alias n='VISUAL=less nnn -c -d'
-alias cnpm="npm --registry=https://registry.npmmirror.com \
-  --cache=$HOME/.npm/.cache/cnpm \
-  --disturl=https://npmmirror.com/mirrors/node \
-  --userconfig=$HOME/.cnpmrc"
 alias po=popd
 alias girl='man'
 alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
