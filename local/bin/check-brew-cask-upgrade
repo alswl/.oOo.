@@ -3,6 +3,14 @@
 # set -x
 set -e
 
+HOMEBREW_PREFIX="$(brew config | grep HOMEBREW_PREFIX | awk '{print $2}')"
+# fix for Intel chips and Arm chips
+HOMEBREW_LIBRARY="${HOMEBREW_PREFIX}/Library"
+if [ $HOMEBREW_PREFIX == '/usr/local' ]; then
+  HOMEBREW_LIBRARY="${HOMEBREW_PREFIX}/Homebrew/Library"
+fi
+
+
 check_command_installed () {
   NAME=$1
   BREW_NAME=$2
@@ -21,7 +29,7 @@ get_version_by_info () {
 
 get_versions_by_cat () {
   local __cask=$1
-  local __latest=$(cat $HOMEBREW_PREFIX/Library/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
+  local __latest=$(cat $HOMEBREW_LIBRARY/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
   echo $__latest
 }
 
@@ -30,7 +38,7 @@ if [ `uname` = 'Darwin' ]; then
 fi
 
 for CASK in `ls $HOMEBREW_PREFIX/Caskroom`; do
-  if [ ! -f $HOMEBREW_PREFIX/Library/Taps/*/*/Casks/$CASK.rb ]; then
+  if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$CASK.rb ]; then
     echo [Warning] Cannot find $CASK, maybe this cask is not in casks!
     continue
   fi
