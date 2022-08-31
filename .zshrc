@@ -9,12 +9,11 @@
 
 # PATH {{{
 
-PATH=$HOME/local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:$PATH
+PATH=$HOME/local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
-PATH=$PATH:$HOME/.luarocks/bin/
-PATH=$PATH:/Library/TeX/texbin/
-PATH=$PATH:$HOME/.virtualenvs/sys/bin/
-PATH="${PATH}:${HOME}/.krew/bin"
+PATH=$HOME/.luarocks/bin:$PATH
+PATH=$HOME/.virtualenvs/sys/bin:$PATH
+PATH=$HOME/.krew/bin:$PATH:
 
 FPATH=$HOME/.zsh_completion/:$FPATH
 
@@ -84,7 +83,8 @@ plugins=( \
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
 [ -f /etc/arch-release ] && plugins+=( archlinux )
-[[ "$OSTYPE" == "darwin"* ]] && plugins+=( macos brew xcode )
+# disable brew in plugin, it will put brew path in front of ~/local/bin
+[[ "$OSTYPE" == "darwin"* ]] && plugins+=( macos xcode )
 
 # disable zsh substitution/autocomplete with URL and backslashes
 # https://stackoverflow.com/questions/25614613/how-to-disable-zsh-substitution-autocomplete-with-url-and-backslashes/
@@ -200,15 +200,15 @@ alias loadgopathdev="export GOPATH=${HOME}/dev/go"
 alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /usr/local/opt/go@1.12/bin/go ] && alias loadgo112="export PATH=\"/usr/local/opt/go@1.12/bin:${PATH}\""
 [ -f /usr/local/opt/go@1.12/bin/go ] && alias savego112env="echo 'export PATH=\"/usr/local/opt/go@1.12/bin:\$PATH\"' >> .env"
-[ -f /usr/local/opt/go@1.13/bin/go ] && alias loadgo113="export PATH=\"/usr/local/opt/go@1.13/bin:${PATH}\""
+[ -f /usr/local/opt/go@1.13/bin/go ] && alias loadgo113="export PATH=\"/usr/local/opt/go@1.13/bin:$PATH\""
 [ -f /usr/local/opt/go@1.13/bin/go ] && alias savego113env="echo 'export PATH=\"/usr/local/opt/go@1.13/bin:\$PATH\"' >> .env"
-[ -f /usr/local/opt/go@1.15/bin/go ] && alias loadgo115="export PATH=\"/usr/local/opt/go@1.15/bin:${PATH}\""
-[ -f /usr/local/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:${PATH}\""
-[ -f /usr/local/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:${PATH}\""
-[ -f /usr/local/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/usr/local/opt/go@1.19/bin:${PATH}\""
+[ -f /usr/local/opt/go@1.15/bin/go ] && alias loadgo115="export PATH=\"/usr/local/opt/go@1.15/bin:$PATH\""
+[ -f /usr/local/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:$PATH\""
+[ -f /usr/local/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:$PATH\""
+[ -f /usr/local/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/usr/local/opt/go@1.19/bin:$PATH\""
 
-[ -f /opt/homebrew/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/opt/homebrew/opt/go@1.16/bin:${PATH}\""
-[ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:${PATH}\""
+[ -f /opt/homebrew/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/opt/homebrew/opt/go@1.16/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:$PATH\""
 
 
 # nnn
@@ -270,7 +270,7 @@ alias loadjenv='eval "$(jenv init -)";'
 
 # go
 export GOPATH=$HOME/dev/go
-export PATH=$GOPATH/bin/:$PATH
+export PATH=$GOPATH/bin:$PATH
 export GO111MODULE=on
 export GOPROXY="https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct"
 
