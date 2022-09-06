@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as config from './config';
-import { restoreMousePositionForWindow, saveMousePositionForWindow } from "./mouse";
-import { displayAllVisiableWindowModal, log } from "./util";
+import {restoreMousePositionForWindow, saveMousePositionForWindow} from "./mouse";
+import {displayAllVisiableWindowModal, log} from "./util";
 
 export function sortByMostRecent(windows: Window[]): Window[] {
     // var start = new Date().getTime();
@@ -38,7 +38,7 @@ export function getCurrentWindow(): Window {
     if (windowOptional !== undefined) {
         return windowOptional;
     }
-    // FIXME sometime mainWindow is undefined 
+    // FIXME sometime mainWindow is undefined
     return App.focused().mainWindow();
 }
 
@@ -48,11 +48,16 @@ export function hideInactiveWindow(windows: Window[]) {
         if (!config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
             config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
             return false;
-        } else { return true };
+        } else {
+            return true
+        }
+        ;
     }).filter((window) => {
         return now - config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] > config.HIDE_INACTIVE_WINDOW_TIME * 60;
         // return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
-    }).map((window) => { window.app().hide() });
+    }).map((window) => {
+        window.app().hide()
+    });
 }
 
 export function heartbeatWindow(window: Window) {
@@ -72,7 +77,7 @@ export function autoRangeByRecent() {
     const screen = Screen.main()
     const frame = screen.flippedVisibleFrame();
 
-    const windows: Window[] = sortByMostRecent(screen.windows({ visible: true }));
+    const windows: Window[] = sortByMostRecent(screen.windows({visible: true}));
     _.map(windows, (window, index) => {
         window.setTopLeft({
             x: frame.x + index * 100,

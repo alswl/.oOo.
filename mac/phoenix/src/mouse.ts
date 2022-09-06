@@ -1,8 +1,10 @@
 import * as config from './config';
-import { heartbeatWindow } from './window';
+import {heartbeatWindow} from './window';
 
 export function saveMousePositionForWindow(window: Window) {
-    if (!window) { return; }
+    if (!window) {
+        return;
+    }
     heartbeatWindow(window);
     const pos = Mouse.location()
     // pos.y = 800 - pos.y; // fix phoenix 2.x bug
