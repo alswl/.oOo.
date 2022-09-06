@@ -1,6 +1,6 @@
 import * as _ from "lodash";
-import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
-import { getCurrentWindow } from "./window";
+import {restoreMousePositionForWindow, saveMousePositionForWindow} from './mouse';
+import {getCurrentWindow} from "./window";
 
 /**
  * App Functions

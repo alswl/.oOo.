@@ -1,133 +1,133 @@
 {
-	"defaultSeverity": "error",
-	"extends": [
-		"tslint:recommended"
-	],
-	"jsRules": {},
-	"rules": {
-		"arrow-parens": false,
-		"arrow-return-shorthand": true,
-		"callable-types": true,
-		"class-name": true,
-		"comment-format": [
-			true,
-			"check-space"
-		],
-		"curly": true,
-		"eofline": true,
-		"forin": true,
-		"import-spacing": true,
-		"indent": [
-			false,
-			"tabs"
-		],
-		"interface-over-type-literal": true,
-		"interface-name": [
-			true,
-			"never-prefix"
-		],
-		"label-position": true,
-		"max-line-length": [
-			false,
-			120
-		],
-		"member-access": false,
-		"member-ordering": [
-			true,
-			{
-				"order": [
-					"static-field",
-					"instance-field",
-					"static-method",
-					"instance-method"
-				]
-			}
-		],
-		"no-arg": true,
-		"no-bitwise": true,
-		"no-console": [
-			true
-		],
-		"no-construct": true,
-		"no-debugger": true,
-		"no-duplicate-super": true,
-		"no-empty": false,
-		"no-empty-interface": true,
-		"no-eval": true,
-		"no-inferrable-types": [
-			true,
-			"ignore-params"
-		],
-		"no-misused-new": true,
-		"no-non-null-assertion": true,
-		"no-shadowed-variable": true,
-		"no-string-literal": true,
-		"no-string-throw": true,
-		"no-switch-case-fall-through": true,
-		"no-trailing-whitespace": false,
-		"no-unnecessary-initializer": true,
-		"no-unused-expression": true,
-		"no-use-before-declare": true,
-		"no-var-keyword": true,
-		"object-literal-sort-keys": false,
-		"one-line": [
-			false
-		],
-		"prefer-const": [
-			true,
-			{
-				"destructuring": "all"
-			}
-		],
-		"quotemark": [
-			false,
-			"single"
-		],
-		"radix": true,
-		"semicolon": [
-			false,
-			"always"
-		],
-		"triple-equals": [
-			true,
-			"allow-null-check"
-		],
-		"typedef-whitespace": [
-			true,
-			{
-				"call-signature": "nospace",
-				"index-signature": "nospace",
-				"parameter": "nospace",
-				"property-declaration": "nospace",
-				"variable-declaration": "nospace"
-			}
-		],
-		"typeof-compare": true,
-		"unified-signatures": true,
-		"variable-name": false,
-		"whitespace": [
-			false
-		],
-		"ordered-imports": [
-			true,
-			{
-				"import-sources-order": "lowercase-last",
-				"named-imports-order": "case-insensitive"
-			}
-		],
-		"no-internal-module": true,
-		"no-unnecessary-type-assertion": true,
-		"prefer-object-spread": true,
-		"no-angle-bracket-type-assertion": true,
-		"no-boolean-literal-compare": true,
-		"no-irregular-whitespace": true,
-		"no-unnecessary-qualifier": true,
-		"object-literal-key-quotes": [
-			true,
-			"as-needed"
-		],
-		"object-literal-shorthand": true,
-		"prefer-method-signature": true
-	},
-	"rulesDirectory": []
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "arrow-parens": false,
+    "arrow-return-shorthand": true,
+    "callable-types": true,
+    "class-name": true,
+    "comment-format": [
+      true,
+      "check-space"
+    ],
+    "curly": true,
+    "eofline": true,
+    "forin": true,
+    "import-spacing": true,
+    "indent": [
+      false,
+      "tabs"
+    ],
+    "interface-over-type-literal": true,
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "label-position": true,
+    "max-line-length": [
+      false,
+      120
+    ],
+    "member-access": false,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ],
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-console": [
+      true
+    ],
+    "no-construct": true,
+    "no-debugger": true,
+    "no-duplicate-super": true,
+    "no-empty": false,
+    "no-empty-interface": true,
+    "no-eval": true,
+    "no-inferrable-types": [
+      true,
+      "ignore-params"
+    ],
+    "no-misused-new": true,
+    "no-non-null-assertion": true,
+    "no-shadowed-variable": true,
+    "no-string-literal": true,
+    "no-string-throw": true,
+    "no-switch-case-fall-through": true,
+    "no-trailing-whitespace": false,
+    "no-unnecessary-initializer": true,
+    "no-unused-expression": true,
+    "no-use-before-declare": true,
+    "no-var-keyword": true,
+    "object-literal-sort-keys": false,
+    "one-line": [
+      false
+    ],
+    "prefer-const": [
+      true,
+      {
+        "destructuring": "all"
+      }
+    ],
+    "quotemark": [
+      false,
+      "single"
+    ],
+    "radix": true,
+    "semicolon": [
+      false,
+      "always"
+    ],
+    "triple-equals": [
+      true,
+      "allow-null-check"
+    ],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "typeof-compare": true,
+    "unified-signatures": true,
+    "variable-name": false,
+    "whitespace": [
+      false
+    ],
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-last",
+        "named-imports-order": "case-insensitive"
+      }
+    ],
+    "no-internal-module": true,
+    "no-unnecessary-type-assertion": true,
+    "prefer-object-spread": true,
+    "no-angle-bracket-type-assertion": true,
+    "no-boolean-literal-compare": true,
+    "no-irregular-whitespace": true,
+    "no-unnecessary-qualifier": true,
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ],
+    "object-literal-shorthand": true,
+    "prefer-method-signature": true
+  },
+  "rulesDirectory": []
 }

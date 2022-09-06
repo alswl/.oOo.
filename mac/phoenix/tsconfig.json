@@ -1,24 +1,24 @@
 {
-	"compilerOptions": {
-		"module": "es6",
-		"allowJs": false,
-		"target": "es6",
-		"strict": true,
-		"pretty": true,
-		"moduleResolution": "node",
-		"typeRoots": [
-			"./node_modules/@types",
-			"./typings/globals/"
-		],
-		"lib": [
-			"es2017"
-		]
-	},
-	"include": [
-		"./src/**/*"
-	],
-	"exclude": [
-		"node_modules",
-		"**/*.spec.ts"
-	]
+  "compilerOptions": {
+    "module": "es6",
+    "allowJs": false,
+    "target": "es6",
+    "strict": true,
+    "pretty": true,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings/globals/"
+    ],
+    "lib": [
+      "es2017"
+    ]
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
