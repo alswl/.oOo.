@@ -205,9 +205,12 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /usr/local/opt/go@1.15/bin/go ] && alias loadgo115="export PATH=\"/usr/local/opt/go@1.15/bin:$PATH\""
 [ -f /usr/local/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:$PATH\""
 [ -f /usr/local/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:$PATH\""
+[ -f /usr/local/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/usr/local/opt/go@1.18/bin:$PATH\""
 [ -f /usr/local/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/usr/local/opt/go@1.19/bin:$PATH\""
 
 [ -f /opt/homebrew/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/opt/homebrew/opt/go@1.16/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/opt/homebrew/opt/go@1.17/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/opt/homebrew/opt/go@1.18/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:$PATH\""
 
 
