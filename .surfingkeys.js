@@ -171,7 +171,7 @@ addSearchAlias('k', 'kindle', 'http://www.amazon.cn/s/ref=nb_sb_noss?field-keywo
 addSearchAlias('bing', 'bing', 'http://www.bing.com/search?q=');
 addSearchAlias('etao', 'etao', 'http://s.etao.com/search?q=');
 addSearchAlias('db', 'douban', 'http://www.douban.com/search?q=');
-addSearchAlias('ip', 'ip', 'http://www.ip138.com/ips138.asp?ip=');
+addSearchAlias('ip', 'ip', 'https://www.ipshudi.com/');
 addSearchAlias('wb', 'weibo', 'http://s.weibo.com/weibo/');
 addSearchAlias('jd', 'jd', 'http://search.jd.com/Search?keyword=');
 addSearchAlias('dk', 'duckduckgo', 'https://duckduckgo.com/?q=');
