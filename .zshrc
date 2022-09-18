@@ -508,6 +508,7 @@ alias iftop-nali-5s='iftop -nt -s 5 | nali'
 alias myip="myip-dig"
 alias myip-cip-gd='curl -sL http://ip.cip.cc/'
 alias myip-dig="dig +short myip.opendns.com @resolver1.opendns.com"
+alias myip-ipip="curl -s http://myip.ipip.net | awk -F '：' '{print \$2}' | awk '{print \$1}'"
 alias myip-ip-me-usa="curl -sL http://ip.me"
 alias myip-ifconfig-gcs="curl -sL http://ifconfig.me"
 alias myip-ipinfo-gcs="curl -sL http://ipinfo.io/ip"
