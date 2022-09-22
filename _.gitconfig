@@ -47,6 +47,9 @@
 	sps = svn dcommit
 	rs = reset
 	checkoutr = checkout
+	local-ignore = update-index --assume-unchanged
+	local-unignore = update-index --no-assume-unchanged
+	local-ignored = !git ls-files -v | grep "^[[:lower:]]"
 [merge]
 	tool = vimdiff
 [push]
