@@ -19,6 +19,7 @@ Session.vim
 *.generated.html
 .DS_Store
 .java-version
+.python-version
 .zshrc.etc.d/alibaba.zshrc
 .zshrc.etc.d/tinypng.zshrc
 node_modules

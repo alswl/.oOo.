@@ -28,5 +28,6 @@ Session.vim
 *.generated.html
 .DS_Store
 .java-version
+.python-version
 ~*
 .env
