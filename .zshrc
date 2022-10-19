@@ -219,6 +219,9 @@ eval "$(pyenv init -)"
 
 # nnn
 # export NNN_OPENER=$HOME/.config/nnn/plugins/nuke
+export NNN_TRASH=1 # trash (needs trash-cli aka trash-put) instead of delete
+export NNN_COLORS="2136" # use a different color for each context
+
 
 # nvm
 # NOTICE: nvm is slow, load yourself
