@@ -213,6 +213,9 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /opt/homebrew/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/opt/homebrew/opt/go@1.18/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:$PATH\""
 
+# python
+eval "$(pyenv init -)"
+
 
 # nnn
 # export NNN_OPENER=$HOME/.config/nnn/plugins/nuke
