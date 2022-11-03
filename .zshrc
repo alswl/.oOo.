@@ -395,7 +395,7 @@ alias jy='jython'
 alias ksh='killall ssh'
 alias screen='TERM=xterm-256color screen'
 alias s='sudo'
-alias f=fd
+alias f='fd -I'
 alias ff='fd --type f | fzf'
 alias ffp='fd --type f | fz --preview "less {}"'
 alias fzp='fzf --preview "less {}"'
