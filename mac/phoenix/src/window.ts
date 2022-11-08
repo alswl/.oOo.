@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import * as config from './config';
 import {restoreMousePositionForWindow, saveMousePositionForWindow} from "./mouse";
+import { windowsOnOtherScreen } from "./screen";
 import {displayAllVisiableWindowModal, log} from "./util";
 
 export function sortByMostRecent(windows: Window[]): Window[] {
@@ -117,4 +118,8 @@ export function marginWindow(postionFn: (window: Window, frame: Rectangle) => an
         return;
     }
     postionFn(window, frame);
+}
+
+export function isMax(windowSize: Size, screenSize: Size): boolean {
+    return windowSize.width === screenSize.width && windowSize.height === screenSize.height;
 }

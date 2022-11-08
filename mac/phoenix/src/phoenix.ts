@@ -25,7 +25,7 @@ import {
     focusWindowInSameScreen,
     getCurrentWindow,
     getLargerFrame,
-    getSmallerFrame,
+    getSmallerFrame, isMax,
     marginWindow,
     setWindowCentral
 } from './window';
@@ -34,6 +34,8 @@ const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX
 const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
 const PARK_SPACE_INDEX_MAP: { [name: number]: number } = config.PARK_SPACE_APP_INDEX_MAP
 const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = config.PARK_SPACE_APP_INDEX_MAP
+const windowRestoreSizeMap: { [name: string]: Size } = {}
+const windowRestorePositionMap: { [name: string]: Point } = {}
 
 /**
  * My Configuartion Global
@@ -140,9 +142,21 @@ Key.on('h', config.MASH_SHIFT, () => {
 // Window Maximize
 Key.on('m', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    const screenSize = window.screen().flippedVisibleFrame();
 
-    window.maximize();
-    setWindowCentral(window);
+    if (isMax(window.size(), screenSize)) {
+        if (windowRestoreSizeMap[window.hash()]) {
+            window.setSize(windowRestoreSizeMap[window.hash()]);
+        }
+        if (windowRestorePositionMap[window.hash()]) {
+            window.setTopLeft(windowRestorePositionMap[window.hash()]);
+        }
+    } else {
+        windowRestoreSizeMap[window.hash()] = window.size();
+        windowRestorePositionMap[window.hash()] = window.topLeft();
+        window.maximize();
+        setWindowCentral(window);
+    }
     // heartbeat_window(window);
 });
 
