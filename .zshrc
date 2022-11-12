@@ -12,7 +12,7 @@
 PATH=$HOME/local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
 PATH=$HOME/.luarocks/bin:$PATH
-PATH=$HOME/.virtualenvs/sys/bin:$PATH
+# PATH=$HOME/.virtualenvs/sys/bin:$PATH
 PATH=$HOME/.krew/bin:$PATH:
 
 FPATH=$HOME/.zsh_completion/:$FPATH
@@ -389,7 +389,7 @@ alias tmux='tmux -2'
 alias dk=docker
 alias le=less
 alias psg='ps -ef | grep '
-alias ipy=$HOME/.virtualenvs/3/bin/ipython
+# alias ipy=$HOME/.virtualenvs/3/bin/ipython
 alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'
