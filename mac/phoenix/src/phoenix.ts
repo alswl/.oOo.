@@ -111,7 +111,7 @@ Key.on('h', config.MASH, () => {
 });
 
 // Move Current Window to Next Screen
-Key.on('l', config.MASH_SHIFT, () => {
+Key.on('l', config.MASH_CTRL, () => {
     config.MAC_SCREEN_IN_THE_RIGHT ?
         moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().next())
         :
@@ -119,7 +119,7 @@ Key.on('l', config.MASH_SHIFT, () => {
 });
 
 // Move Current Window to Previous Screen
-Key.on('h', config.MASH_SHIFT, () => {
+Key.on('h', config.MASH_CTRL, () => {
     config.MAC_SCREEN_IN_THE_RIGHT ?
         moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().previous())
         :
@@ -210,19 +210,18 @@ Key.on('\\', config.MASH, () => {
     // heartbeatWindow(window);
 });
 
-// Window Width Max
+// Resize window Width Max
 Key.on('\\', config.MASH_SHIFT, () => {
-    let window = getCurrentWindow();
+    const window = getCurrentWindow();
     window.setFrame({
         x: window.screen().flippedFrame().x,
         y: window.frame().y,
         width: window.screen().flippedFrame().width,
         height: window.frame().height
     });
-    //heartbeat_window(window);
 });
 
-// Window width <<
+// Resize window width <<
 Key.on(',', config.MASH_SHIFT, () => {
     const screen = Screen.main()
     const window = Window.focused();
@@ -240,7 +239,7 @@ Key.on(',', config.MASH_SHIFT, () => {
     });
 });
 
-// Window width >>
+// Resize window width >>
 Key.on('.', config.MASH_SHIFT, () => {
     const screen = Screen.main()
     const window = Window.focused();
@@ -254,8 +253,8 @@ Key.on('.', config.MASH_SHIFT, () => {
     });
 });
 
-// Window <
-Key.on('h', config.MASH_CTRL, () => {
+// Move window left
+Key.on('left', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x - 100,
@@ -266,8 +265,8 @@ Key.on('h', config.MASH_CTRL, () => {
     // heartbeatWindow(window);
 });
 
-// Window >
-Key.on('l', config.MASH_CTRL, () => {
+// Move window right
+Key.on('right', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x + 100,
@@ -278,20 +277,8 @@ Key.on('l', config.MASH_CTRL, () => {
     // heartbeatWindow(window);
 });
 
-// Window <
-Key.on('h', config.MASH_CTRL, () => {
-    const window = getCurrentWindow();
-    window.setFrame({
-        x: window.frame().x - 100,
-        y: window.frame().y,
-        width: window.frame().width,
-        height: window.frame().height,
-    });
-    // heartbeatWindow(window);
-});
-
-// Window ^
-Key.on('k', config.MASH_CTRL, () => {
+// Move window up
+Key.on('up', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x,
@@ -302,8 +289,8 @@ Key.on('k', config.MASH_CTRL, () => {
     // heartbeatWindow(window);
 });
 
-// Window v
-Key.on('j', config.MASH_CTRL, () => {
+// Move window down
+Key.on('down', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x,
@@ -314,8 +301,8 @@ Key.on('j', config.MASH_CTRL, () => {
     // heartbeatWindow(window);
 });
 
-// Window ^ half
-Key.on('up', config.MASH_SHIFT, () => {
+// Resize window ^ margin half
+Key.on('k', config.MASH_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -338,8 +325,8 @@ Key.on('up', config.MASH_SHIFT, () => {
     });
 });
 
-// Window v half
-Key.on('down', config.MASH_SHIFT, () => {
+// Resize window v margin half
+Key.on('j', config.MASH_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -360,8 +347,8 @@ Key.on('down', config.MASH_SHIFT, () => {
     });
 });
 
-// Window < half
-Key.on('left', config.MASH_SHIFT, () => {
+// Resize window < margin half
+Key.on('h', config.MASH_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -382,8 +369,8 @@ Key.on('left', config.MASH_SHIFT, () => {
     });
 });
 
-// Window > half
-Key.on('right', config.MASH_SHIFT, () => {
+// Resize window > margin half
+Key.on('l', config.MASH_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -404,7 +391,7 @@ Key.on('right', config.MASH_SHIFT, () => {
     });
 });
 
-// Window < 0 margin
+// Move window left margin
 Key.on('left', config.MASH_CTRL, () => {
     marginWindow((window: Window, frame: Rectangle) => {
         window.setTopLeft({
@@ -414,7 +401,7 @@ Key.on('left', config.MASH_CTRL, () => {
     })
 });
 
-// Window > 0 margin
+// Move window right margin
 Key.on('right', config.MASH_CTRL, () => {
     marginWindow((window: Window, frame: Rectangle) => {
         window.setTopLeft({
@@ -424,7 +411,7 @@ Key.on('right', config.MASH_CTRL, () => {
     })
 });
 
-// window auto range by recent
+// Move window auto range by recent
 Key.on('\\', config.MASH_CTRL, () => autoRangeByRecent());
 
 // Previous Window in One Screen
