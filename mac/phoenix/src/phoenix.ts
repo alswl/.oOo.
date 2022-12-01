@@ -111,7 +111,7 @@ Key.on('h', config.MASH, () => {
 });
 
 // Move Current Window to Next Screen
-Key.on('l', config.MASH_CTRL, () => {
+Key.on('o', config.MASH_CTRL, () => {
     config.MAC_SCREEN_IN_THE_RIGHT ?
         moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().next())
         :
@@ -119,7 +119,7 @@ Key.on('l', config.MASH_CTRL, () => {
 });
 
 // Move Current Window to Previous Screen
-Key.on('h', config.MASH_CTRL, () => {
+Key.on('i', config.MASH_CTRL, () => {
     config.MAC_SCREEN_IN_THE_RIGHT ?
         moveWindowToScreen(getCurrentWindow(), (window: Window) => window.screen().previous())
         :
@@ -254,7 +254,7 @@ Key.on('.', config.MASH_SHIFT, () => {
 });
 
 // Move window left
-Key.on('left', config.MASH_CTRL, () => {
+Key.on('h', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x - 100,
@@ -266,7 +266,7 @@ Key.on('left', config.MASH_CTRL, () => {
 });
 
 // Move window right
-Key.on('right', config.MASH_CTRL, () => {
+Key.on('l', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x + 100,
