@@ -192,7 +192,7 @@ export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 # export EDITOR=vim
 export EDITOR=nvim
 export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
-export MACOSX_DEPLOYMENT_TARGET=12.4
+# export MACOSX_DEPLOYMENT_TARGET=12.4
 
 ## golang
 
