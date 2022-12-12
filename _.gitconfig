@@ -9,7 +9,8 @@
 	branch = auto
 [diff]
 	#external = git_diff_wrapper
-	tool = vimdiff
+	# tool = vimdiff
+	tool = nvimdiff 
 [difftool]
 	prompt = false
 [pager]
@@ -63,6 +64,8 @@
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
