@@ -27,11 +27,11 @@ export function calcResizeFrame(frame: Rectangle, ratio: number): Rectangle {
 }
 
 export function calcSmallerFrame(frame: Rectangle): Rectangle {
-    return calcResizeFrame(frame, 0.9);
+    return calcResizeFrame(frame, 0.8);
 }
 
 export function calcLargerFrame(frame: Rectangle): Rectangle {
-    return calcResizeFrame(frame, 1.1);
+    return calcResizeFrame(frame, 1.25);
 }
 
 export function getCurrentWindow(): Window {
