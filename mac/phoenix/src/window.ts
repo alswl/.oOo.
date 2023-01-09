@@ -17,7 +17,7 @@ export function sortByMostRecent(windows: Window[]): Window[] {
     return _.sortBy(windows, (window) => visibleAppMostRecentFirstWithWeight[window.hash()]);
 };
 
-export function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
+export function calcResizeFrame(frame: Rectangle, ratio: number): Rectangle {
     return {
         x: Math.round(frame.x + frame.width / 2 * (1 - ratio)),
         y: Math.round(frame.y + frame.height / 2 * (1 - ratio)),
@@ -26,12 +26,12 @@ export function getResizeFrame(frame: Rectangle, ratio: number): Rectangle {
     }
 }
 
-export function getSmallerFrame(frame: Rectangle): Rectangle {
-    return getResizeFrame(frame, 0.9);
+export function calcSmallerFrame(frame: Rectangle): Rectangle {
+    return calcResizeFrame(frame, 0.9);
 }
 
-export function getLargerFrame(frame: Rectangle): Rectangle {
-    return getResizeFrame(frame, 1.1);
+export function calcLargerFrame(frame: Rectangle): Rectangle {
+    return calcResizeFrame(frame, 1.1);
 }
 
 export function getCurrentWindow(): Window {

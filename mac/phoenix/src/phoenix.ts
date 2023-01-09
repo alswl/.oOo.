@@ -24,8 +24,8 @@ import {
     autoRangeByRecent,
     focusWindowInSameScreen,
     getCurrentWindow,
-    getLargerFrame,
-    getSmallerFrame, isMax,
+    calcLargerFrame,
+    calcSmallerFrame, isMax,
     marginWindow,
     setWindowCentral
 } from './window';
@@ -164,7 +164,7 @@ Key.on('m', config.MASH_SHIFT, () => {
 Key.on('-', config.MASH, () => {
     const window = getCurrentWindow();
     const oldFrame: Rectangle = window.frame();
-    const frame: Rectangle = getSmallerFrame(oldFrame);
+    const frame: Rectangle = calcSmallerFrame(oldFrame);
     window.setFrame(frame);
     if (window.frame().width === oldFrame.width || window.frame().height === oldFrame.height) {
         window.setFrame(oldFrame);
@@ -172,16 +172,19 @@ Key.on('-', config.MASH, () => {
     // heartbeat_window(window);
 });
 
-// Window Larger
+// Window Larger `=` is `+`
 Key.on('=', config.MASH, () => {
     const window = getCurrentWindow();
-    const frame = getLargerFrame(window.frame());
-    if (frame.width > window.screen().flippedFrame().width ||
-        frame.height > window.screen().flippedFrame().height) {
-        window.maximize();
-    } else {
-        window.setFrame(frame);
+    const frame = calcLargerFrame(window.frame());
+    const maxWidth = window.screen().flippedFrame().width;
+    const maxHeight = window.screen().flippedFrame().height;
+    if (frame.width > maxWidth) {
+        frame.width = maxWidth
     }
+    if (frame.height > maxHeight) {
+        frame.height = maxHeight
+    }
+    window.setFrame(frame);
     // heartbeat_window(window);
 });
 
