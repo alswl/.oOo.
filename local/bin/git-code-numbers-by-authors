@@ -3,7 +3,7 @@
 SINCE=$1
 
 if [ -z $SINCE ]; then
-	SINCE=1.years
+	SINCE=102.years
 fi
 
 git log --since=$SINCE --numstat --pretty="%ae %H" | sed 's/@.*//g' | awk '{ if (NF == 1){ name = $1}; if(NF == 3) {plus[name] += $1; minus[name] += $2}} END { for (name in plus) {print name": +"plus[name]" -"minus[name]}}' | sort -k2 -gr
