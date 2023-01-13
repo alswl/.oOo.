@@ -257,7 +257,7 @@ Key.on('.', config.MASH_SHIFT, () => {
 });
 
 // Move window left
-Key.on('h', config.MASH_CTRL, () => {
+Key.on('left', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x - 100,
@@ -269,7 +269,7 @@ Key.on('h', config.MASH_CTRL, () => {
 });
 
 // Move window right
-Key.on('l', config.MASH_CTRL, () => {
+Key.on('right', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     window.setFrame({
         x: window.frame().x + 100,
@@ -395,7 +395,7 @@ Key.on('l', config.MASH_SHIFT, () => {
 });
 
 // Move window left margin
-Key.on('left', config.MASH_CTRL, () => {
+Key.on('h', config.MASH_CTRL, () => {
     marginWindow((window: Window, frame: Rectangle) => {
         window.setTopLeft({
             x: frame.x,
@@ -405,11 +405,31 @@ Key.on('left', config.MASH_CTRL, () => {
 });
 
 // Move window right margin
-Key.on('right', config.MASH_CTRL, () => {
+Key.on('l', config.MASH_CTRL, () => {
     marginWindow((window: Window, frame: Rectangle) => {
         window.setTopLeft({
             x: frame.x + (frame.width - window.size().width),
             y: window.topLeft().y,
+        });
+    })
+});
+
+// Move window top margin
+Key.on('k', config.MASH_CTRL, () => {
+    marginWindow((window: Window, frame: Rectangle) => {
+        window.setTopLeft({
+            x: window.topLeft().x,
+            y: frame.y,
+        });
+    })
+});
+
+// Move window bottom margin
+Key.on('j', config.MASH_CTRL, () => {
+    marginWindow((window: Window, frame: Rectangle) => {
+        window.setTopLeft({
+            x: window.topLeft().x,
+            y: frame.y + (frame.height - window.size().height),
         });
     })
 });
