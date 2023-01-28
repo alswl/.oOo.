@@ -287,6 +287,8 @@ export GOPROXY="https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct"
 if [[ "$OSTYPE" == "darwin"* ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_ANALYTICS=1
+  # https://github.com/Homebrew/brew/issues/13794
+  export HOMEBREW_NO_INSTALL_FROM_API=1
   # tuna
   export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
   # ustc
