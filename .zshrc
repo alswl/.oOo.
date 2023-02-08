@@ -214,7 +214,7 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:$PATH\""
 
 # python
-[[ $(type -t pyenv) == function ]] && eval "$(pyenv init -)"
+[[ $(type pyenv) == function ]] && eval "$(pyenv init -)"
 
 
 # nnn
