@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat $1 | pandoc -f markdown_github -t markdown_github --atx-headers --wrap=none | sponge $1
+cat $1 | pandoc -f markdown_github -t markdown_github --wrap=none | sponge $1

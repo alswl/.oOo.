@@ -6,6 +6,6 @@ $DIR/paste-rtf-to-html \
   | sed 's/<p>//g' \
   | sed 's/<\/p>//g' \
   | sed 's/<br>//g' \
-  | pandoc -f html --atx-headers --wrap none -t 'markdown_strict+pipe_tables'
+  | pandoc -f html --wrap none -t 'markdown_strict+pipe_tables'
 
 # vim: set ft=sh:
