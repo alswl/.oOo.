@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cat $1 | pandoc -f markdown -t markdown --atx-headers --wrap=auto --columns=100 | sponge $1
+cat $1 | pandoc -f markdown -t markdown --wrap=auto --columns=100 | sponge $1
 
 # TODO fix colums not work

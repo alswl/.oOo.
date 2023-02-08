@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pbpaste \
-	| pandoc -f html --atx-headers --wrap none -t "markdown+pipe_tables-simple_tables-multiline_tables-raw_html-link_attributes" \
+	| pandoc -f html --wrap none -t "markdown+pipe_tables-simple_tables-multiline_tables-raw_html-link_attributes" \
 	| gsed -E '/^<div>$/d' \
 	| gsed -E '/^<\/div>$/d' \
 	| gsed -E '/\s*:::\s*$/d' \
