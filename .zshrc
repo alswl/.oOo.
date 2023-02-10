@@ -53,6 +53,10 @@ ZSH_THEME="robbyrussell"
 #ZSH_THEME="kardan"
 
 
+# using local theme
+[ -f $HOME/.zshrc.etc.d/_local_theme.zshrc ] && source $HOME/.zshrc.etc.d/_local_theme.zshrc
+
+
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"
 
@@ -343,12 +347,15 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 # TODO
 # export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
 
+# autojump
+[ -f /usr/share/autojump/autojump.sh ] && source /usr/share/autojump/autojump.sh
+
 # z.lua
 [ -f /usr/local/share/z.lua/z.lua ] && eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
 [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)"
 [ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh)"
-export _ZL_HYPHEN=1
-alias j=z
+[[ $(type _zlua) == function ]] && export _ZL_HYPHEN=1
+[[ $(type _zlua) == function ]] && alias j=z
 
 ## Dev Tools }}}
 
