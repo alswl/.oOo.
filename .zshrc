@@ -217,7 +217,7 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /opt/homebrew/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/opt/homebrew/opt/go@1.18/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:$PATH\""
 
-# python
+# pyenv
 [[ $(type pyenv) == function ]] && eval "$(pyenv init -)"
 
 
@@ -354,8 +354,8 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 [ -f /usr/local/share/z.lua/z.lua ] && eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
 [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)"
 [ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh)"
-[[ $(type _zlua) == function ]] && export _ZL_HYPHEN=1
-[[ $(type _zlua) == function ]] && alias j=z
+[[ (( $+commands[_zlua] )) ]] && export _ZL_HYPHEN=1
+[[ (( $+commands[_zlua] )) ]] && alias j=z
 
 ## Dev Tools }}}
 
