@@ -32,3 +32,4 @@ typings
 .zsh_completion/_sofa
 .zsh_completion/_antcode
 .zshrc.etc.d/_*.zshrc
+.config/kitty/kitty.d/local/*
