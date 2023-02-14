@@ -354,8 +354,8 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 [ -f /usr/local/share/z.lua/z.lua ] && eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)"
 [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)"
 [ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh)"
-[[ (( $+commands[_zlua] )) ]] && export _ZL_HYPHEN=1
-[[ (( $+commands[_zlua] )) ]] && alias j=z
+[[ -x "$(command -v _zlua)" ]] && export _ZL_HYPHEN=1
+[[ -x "$(command -v _zlua)" ]] && alias j=z
 
 ## Dev Tools }}}
 
