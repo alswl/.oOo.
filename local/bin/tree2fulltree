@@ -11,8 +11,8 @@ import re
 import urllib
 import sys
 
-
 REGEX_MATCH = r'([\| ]?   )*[\||``]-- \[.+]\  (.+)'
+
 
 def main():
     last_level = 0
@@ -39,18 +39,19 @@ def main():
             parents.pop()
 
         output = endpoint + '/' + '/'.join(parents + [name]) + '\n'
-        output += '    => ' + endpoint + '/' + '/'.join([urllib.quote(x.encode('gbk')) for x in parents + [name]]) + '\n'
+        output += '    => ' + endpoint + '/' + '/'.join(
+            [urllib.quote(x.encode('gbk')) for x in parents + [name]]) + '\n'
         print(output.encode('utf-8'), end='')
 
         last_name = name
         last_level = level
     sys.stdout.flush()
 
+
 if __name__ == '__main__':
     try:
         main()
     except IOError:
         pass
-
 
 # vim: set ft=python:

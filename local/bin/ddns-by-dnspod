@@ -7,15 +7,14 @@ DOMAIN_ID=$4
 RECORD_ID=$5
 TOKEN=$6
 
-if [ -z $DEVICE ] || [ -z $SUB_DOMAIN ] || [ -z $BASE_DOMAIN ] || [ -z $DOMAIN_ID ] || [ -z $RECORD_ID ] || [ -z $TOKEN  ]; then
-	echo "error auguments"
-	exit 0;
+if [ -z $DEVICE ] || [ -z $SUB_DOMAIN ] || [ -z $BASE_DOMAIN ] || [ -z $DOMAIN_ID ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
+  echo "error auguments"
+  exit 0
 fi
 
-
 DOMAIN="$SUB_DOMAIN.$BASE_DOMAIN"
-IP=`ifconfig | grep $DEVICE: -A 4 | grep "inet " | tail -n 1 | awk '{print $2}'`
-C_IP=`drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}'`
+IP=$(ifconfig | grep $DEVICE: -A 4 | grep "inet " | tail -n 1 | awk '{print $2}')
+C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
 
 [ "$IP" = "$C_IP" ] && exit 0
 [ -z $IP ] && exit 0

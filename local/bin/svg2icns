@@ -9,7 +9,6 @@
 ###   <https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html>
 ###
 
-
 script="$(basename $0 .bash)"
 
 : ${MAGICK_HOME?Requires ImageMagick to be installed}
@@ -18,60 +17,55 @@ CONVERT_BIN="convert"
 
 ## Usage function
 usage() {
-    cat <<END_USAGE >&2
+  cat <<END_USAGE >&2
 Usage: ${script} <svgfilename> [<icnsfilename>]
   svgfilename:  input file in SVG format
   icnsfilename: output file in ICNS format (optional)
 
 END_USAGE
 }
- 
+
 ## Call usage() function if args not supplied
 argc="$#"
-if [[ "$argc" -lt 1 ]] || [[ "$argc" -gt 2 ]];
-then
-    usage
-    exit 1
+if [[ "$argc" -lt 1 ]] || [[ "$argc" -gt 2 ]]; then
+  usage
+  exit 1
 fi
 
 ## Verify first positional argument
 svgfilename="$1"
-if [ ! -f "${svgfilename}" ];
-then
-    usage
-    echo "${script}: no such file: ${svgfilename}" >&2
-    exit 1
+if [ ! -f "${svgfilename}" ]; then
+  usage
+  echo "${script}: no such file: ${svgfilename}" >&2
+  exit 1
 else
-    echo -n ''
-    # ## Verify scalable vector graphics file
-    # $(file "${svgfilename}" | cut -d':' -f2- | grep -qs 'SVG')
-    # if [ "$?" -ne 0 ];
-    # then
-        # usage
-        # echo "${script}: SVG file required: ${svgfilename}" >&2
-        # exit 1
-    # fi
+  echo -n ''
+  # ## Verify scalable vector graphics file
+  # $(file "${svgfilename}" | cut -d':' -f2- | grep -qs 'SVG')
+  # if [ "$?" -ne 0 ];
+  # then
+  # usage
+  # echo "${script}: SVG file required: ${svgfilename}" >&2
+  # exit 1
+  # fi
 fi
 
 ## Verify second positional argument if given
-if [ "$argc" -eq 2 ];
-then
-    icnsfilename="$2"
-    if [ -n "${icnsfilename}" ];
-    then
-        ## Ensure file extension
-        ext=${icnsfilename##*.}
-        if [ "$ext" != "icns" ];
-        then
-            icnsfilename="${icnsfilename}.icns"
-        fi
-    else
-        ## Given empty string as second arg
-        icnsfilename="${svgfilename%.*}.icns"
+if [ "$argc" -eq 2 ]; then
+  icnsfilename="$2"
+  if [ -n "${icnsfilename}" ]; then
+    ## Ensure file extension
+    ext=${icnsfilename##*.}
+    if [ "$ext" != "icns" ]; then
+      icnsfilename="${icnsfilename}.icns"
     fi
-else
-    ## No second arg
+  else
+    ## Given empty string as second arg
     icnsfilename="${svgfilename%.*}.icns"
+  fi
+else
+  ## No second arg
+  icnsfilename="${svgfilename%.*}.icns"
 fi
 
 ## Create iconset directory if necessary
@@ -94,49 +88,44 @@ mkdir -p "${iconsetdirname}"
 ##+---------------------+--------------------+--------------+
 
 ## Create PNG files as described in table
-sizes=( 16 32 128 256 512 )
-densities=( 72 144 )
+sizes=(16 32 128 256 512)
+densities=(72 144)
 
-for size in "${sizes[@]}"
-do
-    dimen="${size}x${size}"
-    for density in "${densities[@]}"
-    do
-        if [ "${density}" == "72" ];
-        then
-            ## std
-            resolution="${dimen}"
-            scale=""
-        else
-            ## hires
-            resolution="$(( $size * 2 ))x$(( $size * 2 ))"
-            scale="@2x"
-        fi
-        pngfilename="${iconsetdirname}/icon_${dimen}${scale}.png"
-        #echo \
-        ${CONVERT_BIN} \
-           -background "none" \
-           -density "${density}" \
-           -resize "${resolution}!" \
-           -units "PixelsPerInch" \
-           "${svgfilename}" \
-           "${pngfilename}"
-        if [ "$?" -ne 0 ];
-        then
-            echo "${script}: error creating icon file: ${pngfilename}" >&2
-            exit 1
-        fi
-    done
+for size in "${sizes[@]}"; do
+  dimen="${size}x${size}"
+  for density in "${densities[@]}"; do
+    if [ "${density}" == "72" ]; then
+      ## std
+      resolution="${dimen}"
+      scale=""
+    else
+      ## hires
+      resolution="$(($size * 2))x$(($size * 2))"
+      scale="@2x"
+    fi
+    pngfilename="${iconsetdirname}/icon_${dimen}${scale}.png"
+    #echo \
+    ${CONVERT_BIN} \
+      -background "none" \
+      -density "${density}" \
+      -resize "${resolution}!" \
+      -units "PixelsPerInch" \
+      "${svgfilename}" \
+      "${pngfilename}"
+    if [ "$?" -ne 0 ]; then
+      echo "${script}: error creating icon file: ${pngfilename}" >&2
+      exit 1
+    fi
+  done
 done
 
 ## Convert iconset to ICNS file
 iconutil --convert icns "${iconsetdirname}"
-if [ "$?" -ne 0 ];
-then
-    echo "${script}: error converting iconset to ICNS: ${iconsetdirname}" >&2
-    exit 1
+if [ "$?" -ne 0 ]; then
+  echo "${script}: error converting iconset to ICNS: ${iconsetdirname}" >&2
+  exit 1
 else
-    rm -rf "${iconsetdirname}"
+  rm -rf "${iconsetdirname}"
 fi
 
 exit 0

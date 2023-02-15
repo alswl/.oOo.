@@ -2,7 +2,7 @@
 
 DOC_NAME=$1
 if [ -z $DOC_NAME ]; then
-	exit 1
+  exit 1
 fi
 
 IMAGE_DIR="./${DOC_NAME%.*}.assets"
@@ -12,17 +12,16 @@ test -d $IMAGE_DIR || mkdir -p $IMAGE_DIR
 FILE_NAME=$2
 
 if [ -z $FILE_NAME ]; then
-    FILE_NAME="paste-`date '+%Y%m%d-%H%M%S'`.png"
+  FILE_NAME="paste-$(date '+%Y%m%d-%H%M%S').png"
 else
-    FILE_NAME=$FILE_NAME".png"
+  FILE_NAME=$FILE_NAME".png"
 fi
 
-if [ `uname` = 'Darwin' ]; then
-	PNGPASTE_BIN="/usr/local/bin/pngpaste"
-	$PNGPASTE_BIN "$IMAGE_DIR/$FILE_NAME"
-	echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | pbcopy
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	xclip -selection clipboard -t image/png -o > "$IMAGE_DIR/$FILE_NAME"
-	echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | xclip -selection clipboard
+if [ $(uname) = 'Darwin' ]; then
+  PNGPASTE_BIN="/usr/local/bin/pngpaste"
+  $PNGPASTE_BIN "$IMAGE_DIR/$FILE_NAME"
+  echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | pbcopy
+elif [ $(uname -s) = 'Linux' ] || [ $(uname -o) = 'Cygwin' ]; then
+  xclip -selection clipboard -t image/png -o >"$IMAGE_DIR/$FILE_NAME"
+  echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | xclip -selection clipboard
 fi
-

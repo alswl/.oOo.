@@ -2,39 +2,38 @@
 
 # render markdown file with remark https://github.com/gnab/remark
 
-
-if [ `uname` = 'Darwin' ]; then
-	SED_BIN="gsed"
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	SED_BIN="sed"
+if [ $(uname) = 'Darwin' ]; then
+  SED_BIN="gsed"
+elif [ $(uname -s) = 'Linux' ] || [ $(uname -o) = 'Cygwin' ]; then
+  SED_BIN="sed"
 fi
 
 FILE_NAME=$1
 
 if [ ! -f $FILE_NAME ]; then
-	echo "warnning: $FILE_NAME not exist!"
-	echo ''
-	echo 'Usage:'
-	echo 'remark example.md'
-	exit 0;
+  echo "warnning: $FILE_NAME not exist!"
+  echo ''
+  echo 'Usage:'
+  echo 'remark example.md'
+  exit 0
 fi
 
 OUTPUT_FILE_NAME=$FILE_NAME.remark.generated.html
 
-check_command_installed () {
-	NAME=$1
-	BREW_NAME=$2
-	if ! [ -x "$(command -v $NAME)" ]; then
-		echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
-		exit 1;
-	fi
+check_command_installed() {
+  NAME=$1
+  BREW_NAME=$2
+  if ! [ -x "$(command -v $NAME)" ]; then
+    echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
+    exit 1
+  fi
 }
 
-if [ `uname` = 'Darwin' ]; then
-	check_command_installed gsed gnu-sed
+if [ $(uname) = 'Darwin' ]; then
+  check_command_installed gsed gnu-sed
 fi
 
-cat > $OUTPUT_FILE_NAME << EOF
+cat >$OUTPUT_FILE_NAME <<EOF
 <!DOCTYPE html>
 <html>
   <head>
@@ -56,9 +55,9 @@ cat > $OUTPUT_FILE_NAME << EOF
 
 EOF
 
-cat $FILE_NAME | $SED_BIN 's/^##/---\n\n#/g' | $SED_BIN -E 's/^(!\[.+\]\(.+\))$/\n\n---\n\n\1\n\n---\n\n/g'  >> $OUTPUT_FILE_NAME
+cat $FILE_NAME | $SED_BIN 's/^##/---\n\n#/g' | $SED_BIN -E 's/^(!\[.+\]\(.+\))$/\n\n---\n\n\1\n\n---\n\n/g' >>$OUTPUT_FILE_NAME
 
-cat >> $OUTPUT_FILE_NAME << EOF
+cat >>$OUTPUT_FILE_NAME <<EOF
 
     </textarea>
     <script src="https://cdn.staticfile.org/remark/0.14.0/remark.min.js"></script>
@@ -76,6 +75,5 @@ cat >> $OUTPUT_FILE_NAME << EOF
 EOF
 
 echo "Generate $OUTPUT_FILE_NAME successful."
-
 
 #vim: set expandtab:

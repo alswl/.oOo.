@@ -2,31 +2,30 @@
 
 DOC_NAME=$1
 if [ -z $DOC_NAME ]; then
-	exit 1
+  exit 1
 fi
 
 IMAGE_DIR="./${DOC_NAME%.*}.assets"
 URL_PREFIX=$IMAGE_DIR
 test -d $IMAGE_DIR || mkdir -p $IMAGE_DIR
 
-if [ `uname` = 'Darwin' ]; then
-	SOURCE=$(pbpaste)
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	SOURCE=$(xselect -selection -o)
+if [ $(uname) = 'Darwin' ]; then
+  SOURCE=$(pbpaste)
+elif [ $(uname -s) = 'Linux' ] || [ $(uname -o) = 'Cygwin' ]; then
+  SOURCE=$(xselect -selection -o)
 fi
 
 FILE_NAME=$2
 if [ -z $FILE_NAME ]; then
-    FILE_NAME=$(basename "$SOURCE")
+  FILE_NAME=$(basename "$SOURCE")
 else
-    FILE_NAME=$FILE_NAME".png"
+  FILE_NAME=$FILE_NAME".png"
 fi
 
 cp "$SOURCE" "$IMAGE_DIR/$FILE_NAME"
 
-if [ `uname` = 'Darwin' ]; then
-	echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | pbcopy
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | xclip -selection clipboard
+if [ $(uname) = 'Darwin' ]; then
+  echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | pbcopy
+elif [ $(uname -s) = 'Linux' ] || [ $(uname -o) = 'Cygwin' ]; then
+  echo -n "![$FILE_NAME]($URL_PREFIX/$FILE_NAME)" | tee | xclip -selection clipboard
 fi
-

@@ -2,39 +2,38 @@
 
 # render markdown file with reveal https://github.com/hakimel/reveal.js#markdown
 
-
-if [ `uname` = 'Darwin' ]; then
-	SED_BIN="gsed"
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	SED_BIN="sed"
+if [ $(uname) = 'Darwin' ]; then
+  SED_BIN="gsed"
+elif [ $(uname -s) = 'Linux' ] || [ $(uname -o) = 'Cygwin' ]; then
+  SED_BIN="sed"
 fi
 
 FILE_NAME=$1
 
 if [ ! -f $FILE_NAME ]; then
-	echo "warnning: $FILE_NAME not exist!"
-	echo ''
-	echo 'Usage:'
-	echo 'reveal example.md'
-	exit 0;
+  echo "warnning: $FILE_NAME not exist!"
+  echo ''
+  echo 'Usage:'
+  echo 'reveal example.md'
+  exit 0
 fi
 
-check_command_installed () {
-	NAME=$1
-	BREW_NAME=$2
-	if ! [ -x "$(command -v $NAME)" ]; then
-		echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
-		exit 1;
-	fi
+check_command_installed() {
+  NAME=$1
+  BREW_NAME=$2
+  if ! [ -x "$(command -v $NAME)" ]; then
+    echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
+    exit 1
+  fi
 }
 
 OUTPUT_FILE_NAME=$FILE_NAME.reveal.generated.html
 
-if [ `uname` = 'Darwin' ]; then
-	check_command_installed gsed gnu-sed
+if [ $(uname) = 'Darwin' ]; then
+  check_command_installed gsed gnu-sed
 fi
 
-cat > $OUTPUT_FILE_NAME << EOF
+cat >$OUTPUT_FILE_NAME <<EOF
 <!doctype html>
 <html>
 	<head>
@@ -71,22 +70,21 @@ cat > $OUTPUT_FILE_NAME << EOF
 
 EOF
 
-cat >> $OUTPUT_FILE_NAME << EOF
+cat >>$OUTPUT_FILE_NAME <<EOF
 				<section data-markdown>
 					<textarea data-template>
 EOF
 
-cat $FILE_NAME | \
-	$SED_BIN -E 's/^(\* +.*)$/\1<!-- .element: class="fragment" -->/g' | \
-	$SED_BIN 's/^##/				<\/textarea>\n				<\/section>\n				<section data-markdown>\n					<textarea data-template>\n##/g'  >> $OUTPUT_FILE_NAME
+cat $FILE_NAME |
+  $SED_BIN -E 's/^(\* +.*)$/\1<!-- .element: class="fragment" -->/g' |
+  $SED_BIN 's/^##/				<\/textarea>\n				<\/section>\n				<section data-markdown>\n					<textarea data-template>\n##/g' >>$OUTPUT_FILE_NAME
 
-
-cat >> $OUTPUT_FILE_NAME << EOF
+cat >>$OUTPUT_FILE_NAME <<EOF
 					</textarea>
 				</section>
 EOF
 
-cat >> $OUTPUT_FILE_NAME << EOF
+cat >>$OUTPUT_FILE_NAME <<EOF
 			</div>
 		</div>
 
@@ -113,6 +111,5 @@ cat >> $OUTPUT_FILE_NAME << EOF
 EOF
 
 echo "Generate $OUTPUT_FILE_NAME successful."
-
 
 #vim: set expandtab:

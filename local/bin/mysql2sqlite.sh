@@ -11,9 +11,8 @@
 
 # Thanks to and @artemyk and @gkuenning for their nice tweaks.
 
-mysqldump  --compatible=ansi --skip-extended-insert --compact  "$@" | \
-
-awk '
+mysqldump --compatible=ansi --skip-extended-insert --compact "$@" |
+  awk '
 
 BEGIN {
 	FS=",$"
@@ -54,7 +53,7 @@ inTrigger != 0 { print; next }
 # Print the `CREATE` line as is and capture the table name.
 /^CREATE/ {
 	print
-	if ( match( $0, /\"[^\"]+/ ) ) tableName = substr( $0, RSTART+1, RLENGTH-1 ) 
+	if ( match( $0, /\"[^\"]+/ ) ) tableName = substr( $0, RSTART+1, RLENGTH-1 )
 }
 
 # Replace `FULLTEXT KEY` or any other `XXXXX KEY` except PRIMARY by `KEY`
@@ -76,8 +75,8 @@ inTrigger != 0 { print; next }
 	prev = $1
 }
 
-# `KEY` lines are extracted from the `CREATE` block and stored in array for later print 
-# in a separate `CREATE KEY` command. The index name is prefixed by the table name to 
+# `KEY` lines are extracted from the `CREATE` block and stored in array for later print
+# in a separate `CREATE KEY` command. The index name is prefixed by the table name to
 # avoid a sqlite error for duplicate index name.
 /^(  KEY|\);)/ {
 	if (prev) print prev
@@ -85,8 +84,8 @@ inTrigger != 0 { print; next }
 	if ($0 == ");"){
 		print
 	} else {
-		if ( match( $0, /\"[^"]+/ ) ) indexName = substr( $0, RSTART+1, RLENGTH-1 ) 
-		if ( match( $0, /\([^()]+/ ) ) indexKey = substr( $0, RSTART+1, RLENGTH-1 ) 
+		if ( match( $0, /\"[^"]+/ ) ) indexName = substr( $0, RSTART+1, RLENGTH-1 )
+		if ( match( $0, /\([^()]+/ ) ) indexKey = substr( $0, RSTART+1, RLENGTH-1 )
 		key[tableName]=key[tableName] "CREATE INDEX \"" tableName "_" indexName "\" ON \"" tableName "\" (" indexKey ");\n"
 	}
 }

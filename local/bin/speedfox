@@ -13,7 +13,7 @@
 # don't forget to mount the first time!
 
 # your ram mozilla folder
-MOZTMPFS=/dev/shm/`whoami`_mozilla
+MOZTMPFS=/dev/shm/$(whoami)_mozilla
 # your original mozilla folder - i recommend: mv ~/.mozilla ~/.mozilla-hdd
 MOZHDD="${HOME}/.mozilla-hdd"
 # your ~/.mozilla
@@ -23,30 +23,30 @@ INTERVAL=60
 
 # lets make sure MOZHDD exists before we do anything naughty
 if [ ! -d "${MOZHDD}" ]; then
-	echo "ERROR"
-	echo "${MOZHDD} doesn't exist."
-	echo "we won't do anything until you cp/mv your ${MOZHOME} folder there."
-	echo "try: mv ${MOZHOME} ${MOZHDD}"
-	exit
+  echo "ERROR"
+  echo "${MOZHDD} doesn't exist."
+  echo "we won't do anything until you cp/mv your ${MOZHOME} folder there."
+  echo "try: mv ${MOZHOME} ${MOZHDD}"
+  exit
 fi
 
 # check for and create tmp folder
 if [ ! -d "${MOZTMPFS}" ]; then
-	mkdir -p ${MOZTMPFS}
+  mkdir -p ${MOZTMPFS}
 fi
 
 # check for ~/.mozilla
 # if it exists and is a directory die
 if [ -e "${MOZHOME}" ] && [ ! -L "${MOZHOME}" ]; then
-	echo "ERROR"
-	echo "${MOZHOME} should not exist or should be a link"
-	echo "aborting to avoid permanent damage"
-	echo "backup and/or delete ${MOZHOME} and try again"
-	exit
+  echo "ERROR"
+  echo "${MOZHOME} should not exist or should be a link"
+  echo "aborting to avoid permanent damage"
+  echo "backup and/or delete ${MOZHOME} and try again"
+  exit
 else
-	if [ ! -e "${MOZHOME}" ]; then
-		ln -s "${MOZTMPFS}" "${MOZHOME}"
-	fi
+  if [ ! -e "${MOZHOME}" ]; then
+    ln -s "${MOZTMPFS}" "${MOZHOME}"
+  fi
 fi
 
 # sync to tmpfs
@@ -54,15 +54,18 @@ echo "syching ${MOZHDD} to ${MOZTMPFS}"
 rsync -avi --delete "${MOZHDD}/" "${MOZTMPFS}/"
 
 echo "executing reverse sync every ${INTERVAL} seconds"
-( while true; do sleep ${INTERVAL}; rsync -avi --delete "${MOZTMPFS}/" "${MOZHDD}/"; done; ) &
+(while true; do
+  sleep ${INTERVAL}
+  rsync -avi --delete "${MOZTMPFS}/" "${MOZHDD}/"
+done) &
 SYNC=$!
 
-echo "launching firefox";
+echo "launching firefox"
 firefox
 
 echo "firefox closed, kill auto sync and reverse sync one last time"
 echo "please wait..."
 kill $!
 rsync -avi --delete "${MOZTMPFS}/" "${MOZHDD}/"
-echo "all done, removing ${MOZHOME} link for safety reasons =]";
+echo "all done, removing ${MOZHOME} link for safety reasons =]"
 rm ${MOZHOME}

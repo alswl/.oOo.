@@ -41,5 +41,4 @@ def view_pyc_file(path):
 if __name__ == '__main__':
     view_pyc_file(sys.argv[1])
 
-
 # vim: set ft=python:

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-osascript -e 'the clipboard as "HTML"' \
-	| perl -ne 'print chr foreach unpack("C*",pack("H*",substr($_,11,-3)))' \
-	| gsed -E 's/style="[^"]+"//g' \
-	| gsed -E 's/ / /g' \
-	| gsed -E 's/​//g' \
-	| gsed -E 's///g'
+osascript -e 'the clipboard as "HTML"' |
+  perl -ne 'print chr foreach unpack("C*",pack("H*",substr($_,11,-3)))' |
+  gsed -E 's/style="[^"]+"//g' |
+  gsed -E 's/ / /g' |
+  gsed -E 's/​//g' |
+  gsed -E 's///g'
 
 # vim: set ft=sh:
