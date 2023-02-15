@@ -2,17 +2,16 @@
 
 set -e
 
-check_command_installed () {
-	name=$1
-	brew_name=$2
-	if ! [ -x "$(command -v $name)" ]; then
-		echo "Error: Required GNU $name, try \`brew install $brew_name\`"
-		exit 1;
-	fi
+check_command_installed() {
+  name=$1
+  brew_name=$2
+  if ! [ -x "$(command -v $name)" ]; then
+    echo "Error: Required GNU $name, try \`brew install $brew_name\`"
+    exit 1
+  fi
 }
 check_command_installed brew brew
 check_command_installed zbarimg zbarimg
 check_command_installed pngpaste pngpaste
-
 
 pngpaste /tmp/a.png && zbarimg /tmp/a.png

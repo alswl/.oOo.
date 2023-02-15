@@ -10,34 +10,33 @@ if [ $HOMEBREW_PREFIX == '/usr/local' ]; then
   HOMEBREW_LIBRARY="${HOMEBREW_PREFIX}/Homebrew/Library"
 fi
 
-
-check_command_installed () {
+check_command_installed() {
   NAME=$1
   BREW_NAME=$2
   if ! [ -x "$(command -v $NAME)" ]; then
     echo "Error: Required GNU $NAME, try \`brew install $BREW_NAME\`"
-    exit 1;
+    exit 1
   fi
 }
 
-get_version_by_info () {
+get_version_by_info() {
   local __cask=$1
-  local __info=`brew info --cask $__cask`
-  local __latest=`echo $__info | head -n 1 | gsed 's/^==>//g' | awk '{print $2}'`
+  local __info=$(brew info --cask $__cask)
+  local __latest=$(echo $__info | head -n 1 | gsed 's/^==>//g' | awk '{print $2}')
   echo $__latest
 }
 
-get_versions_by_cat () {
+get_versions_by_cat() {
   local __cask=$1
   local __latest=$(cat $HOMEBREW_LIBRARY/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
   echo $__latest
 }
 
-if [ `uname` = 'Darwin' ]; then
+if [ $(uname) = 'Darwin' ]; then
   check_command_installed ggrep grep
 fi
 
-for CASK in `ls $HOMEBREW_PREFIX/Caskroom`; do
+for CASK in $(ls $HOMEBREW_PREFIX/Caskroom); do
   if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$CASK.rb ]; then
     echo [Warning] Cannot find $CASK, maybe this cask is not in casks!
     continue

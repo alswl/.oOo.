@@ -2,28 +2,27 @@
 # mdsearch = markdown search
 
 positional=()
-while [[ $# -gt 0 ]]
-do
+while [[ $# -gt 0 ]]; do
   key="$1"
 
   case $key in
-    -l|--lib)
-      list=YES
-      shift # past argument
-      ;;
-    *)    # unknown option
-      positional+=("$1") # save it in an array for later
-      shift # past argument
-      ;;
+  -l | --lib)
+    list=YES
+    shift # past argument
+    ;;
+  *)                   # unknown option
+    positional+=("$1") # save it in an array for later
+    shift              # past argument
+    ;;
   esac
 done
 
 if [ "${#positional[@]}" -eq 1 ]; then
-	dir=.
-	text=${positional[0]}
+  dir=.
+  text=${positional[0]}
 elif [ "${#positional[@]}" -eq 2 ]; then
-	dir=${positional[0]}
-	text=${positional[1]}
+  dir=${positional[0]}
+  text=${positional[1]}
 fi
 
 parameters="-i --markdown"
@@ -31,7 +30,6 @@ parameters="-i --markdown"
 if [ "$list" = "YES" ]; then
   parameters="$parameters -l"
 fi
-
 
 ag $parameters "^#(.*$text.*)" $dir
 

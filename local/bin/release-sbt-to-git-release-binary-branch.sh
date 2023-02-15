@@ -4,9 +4,9 @@ set -x
 
 sbt clean assembly
 
-GIT_HASH=`git rev-parse --short HEAD`
-BRANCH=release-binary-`date +%y%m%d.%H%M`-$GIT_HASH
-TAG=v-`date +%y%m%d.%H%M`
+GIT_HASH=$(git rev-parse --short HEAD)
+BRANCH=release-binary-$(date +%y%m%d.%H%M)-$GIT_HASH
+TAG=v-$(date +%y%m%d.%H%M)
 
 git tag $TAG
 git push origin $TAG

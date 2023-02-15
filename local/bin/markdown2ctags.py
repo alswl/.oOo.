@@ -9,7 +9,6 @@
 import sys
 import re
 
-
 __version__ = '0.1.3'
 
 
@@ -53,8 +52,8 @@ class Tag(object):
 
     def __str__(self):
         return '%s\t%s\t%s;"\t%s' % (
-                self.tagName, self.tagFile, self.tagAddress,
-                self._formatFields())
+            self.tagName, self.tagFile, self.tagAddress,
+            self._formatFields())
 
     def __repr__(self):
         return "<Tag name:%s file:%s: addr:%s %s>" % (
@@ -147,7 +146,7 @@ def findSections(filename, lines):
                 if not settextSubjectRe.match(lines[i - 1]):
                     continue
 
-                name = lines[i-1].strip()
+                name = lines[i - 1].strip()
 
                 if line[0] == '=':
                     level = 1
@@ -161,8 +160,8 @@ def findSections(filename, lines):
                     parent = None
                 lineNumber = i
 
-                s = Section(level, name, lines[i-1], lineNumber,
-                        filename, parent)
+                s = Section(level, name, lines[i - 1], lineNumber,
+                            filename, parent)
                 previousSections.append(s)
                 sections.append(s)
 
@@ -199,19 +198,19 @@ def genTagsFile(output, tags, sort):
 def main():
     from optparse import OptionParser
 
-    parser = OptionParser(usage = "usage: %prog [options] file(s)",
-                          version = __version__)
+    parser = OptionParser(usage="usage: %prog [options] file(s)",
+                          version=__version__)
     parser.add_option(
-            "-f", "--file", metavar = "FILE", dest = "tagfile",
-            default = "tags",
-            help = 'Write tags into FILE (default: "tags").  Use "-" to write '
-                   'tags to stdout.')
+        "-f", "--file", metavar="FILE", dest="tagfile",
+        default="tags",
+        help='Write tags into FILE (default: "tags").  Use "-" to write '
+             'tags to stdout.')
     parser.add_option(
-            "", "--sort", metavar="[yes|foldcase|no]", dest = "sort",
-            choices = ["yes", "no", "foldcase"],
-            default = "yes",
-            help = 'Produce sorted output.  Acceptable values are "yes", '
-                   '"no", and "foldcase".  Default is "yes".')
+        "", "--sort", metavar="[yes|foldcase|no]", dest="sort",
+        choices=["yes", "no", "foldcase"],
+        default="yes",
+        help='Produce sorted output.  Acceptable values are "yes", '
+             '"no", and "foldcase".  Default is "yes".')
 
     options, args = parser.parse_args()
 
@@ -231,15 +230,17 @@ def main():
     output.flush()
     output.close()
 
+
 if __name__ == '__main__':
     try:
         main()
     except IOError as e:
         import errno
+
         if e.errno == errno.EPIPE:
             # Exit saying we got SIGPIPE.
             sys.exit(141)
         raise
     except ScriptError as e:
-        print >>sys.stderr, "ERROR: %s" % str(e)
+        print >> sys.stderr, "ERROR: %s" % str(e)
         sys.exit(1)

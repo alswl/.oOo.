@@ -3,16 +3,16 @@
 set -e
 
 if [ 0 = $# ]; then
-  echo "export GIT_PROXY_COMMAND='`which $0`'"
+  echo "export GIT_PROXY_COMMAND='$(which $0)'"
   exit 0
 fi
 
 SOCKS_SERVER=127.0.0.1
 SOCKS_PORT=1234
-SYSTEM_PROXY_ENABLED=`networksetup -getsocksfirewallproxy Wi-Fi | grep '^Enabled' | cut -d ' ' -f2`
-SYSTEM_PROXY_PORT=`networksetup -getsocksfirewallproxy Wi-Fi | grep 'Port' | cut -d ' ' -f2`
+SYSTEM_PROXY_ENABLED=$(networksetup -getsocksfirewallproxy Wi-Fi | grep '^Enabled' | cut -d ' ' -f2)
+SYSTEM_PROXY_PORT=$(networksetup -getsocksfirewallproxy Wi-Fi | grep 'Port' | cut -d ' ' -f2)
 if [[ $SYSTEM_PROXY_ENABLED = "Yes" ]] && [[ $SYSTEM_PROXY_PORT != "0" ]]; then
-	SOCKS_PORT=$SYSTEM_PROXY_PORT
+  SOCKS_PORT=$SYSTEM_PROXY_PORT
 fi
 
 # sniproxy
@@ -20,13 +20,13 @@ fi
 #SOCKS_PORT=80
 #SOCKS_PORT=443
 
-if [ `uname` = 'Darwin' ]; then
-	# https://bitbucket.org/gotoh/connect
-    # https://github.com/gotoh/ssh-connect
-	connect -S ${SOCKS_SERVER}:${SOCKS_PORT} "$@"
-elif [ `uname -s` = 'Linux' ] || [ `uname -o` = 'Cygwin' ]; then
-	# openbsd-netcat
-	exec nc -x${SOCKS_SERVER}:${SOCKS_PORT} -X5 $@
+if [ $(uname) = 'Darwin' ]; then
+  # https://bitbucket.org/gotoh/connect
+  # https://github.com/gotoh/ssh-connect
+  connect -S ${SOCKS_SERVER}:${SOCKS_PORT} "$@"
+elif [ $(uname -s) = 'Linux' ] || [ $(uname -o) = 'Cygwin' ]; then
+  # openbsd-netcat
+  exec nc -x${SOCKS_SERVER}:${SOCKS_PORT} -X5 $@
 fi
 
 # socat

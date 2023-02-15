@@ -3,4 +3,4 @@
 # see https://git-scm.com/docs/git-difftool
 # see https://stackoverflow.com/questions/3713765/viewing-all-git-diffs-with-vimdiff
 
-vimdiff "$2" "$5" 
+vimdiff "$2" "$5"

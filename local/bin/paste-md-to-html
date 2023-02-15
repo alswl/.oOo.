@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pbpaste \
-	| pandoc -f markdown -t html
+pbpaste |
+  pandoc -f markdown -t html
 
 # vim: set ft=sh:
