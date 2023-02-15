@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import csv
+import json
+import time
+import sys
+
+
+def csv_to_json(csv_path, json_path):
+    json_array = []
+
+    # read csv file
+    with open(csv_path, encoding='utf-8') as csvf:
+        # load csv file data using csv library's dictionary reader
+        csvReader = csv.DictReader(csvf)
+
+        # convert each csv row into python dict
+        for row in csvReader:
+            # add this python dict to json array
+            json_array.append(row)
+
+    # convert python jsonArray to JSON String and write to file
+    with open(json_path, 'w', encoding='utf-8') as jsonf:
+        json_str = json.dumps(json_array, indent=4)
+        jsonf.write(json_str)
+
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: csv2json.py <csv file> <json file>")
+        sys.exit(1)
+
+    csv_file_path = sys.argv[1]
+    json_file_path = sys.argv[2]
+
+    start = time.perf_counter()
+    csv_to_json(csv_file_path, json_file_path)
+    finish = time.perf_counter()
+
+    # print to stderr
+    print(f"Conversion 100.000 rows completed successfully in {finish - start:0.4f} seconds", file=sys.stderr)
+
+
+if __name__ == '__main__':
+    main()
