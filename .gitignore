@@ -33,3 +33,4 @@ typings
 .zsh_completion/_antcode
 .zshrc.etc.d/_*.zshrc
 .config/kitty/kitty.d/local/*
+.zsh_completion/_cpt
