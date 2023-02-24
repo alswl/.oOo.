@@ -1,0 +1,6 @@
+#!/bin/bash
+# usage: source mouse-tracing-echo-in-shell
+# and move your mouse
+# https://stackoverflow.com/a/51911371/342757
+
+echo -e "\e[?1003h"
