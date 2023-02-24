@@ -394,6 +394,7 @@ alias aga='ag -a --pager "less -R"'
 alias agl='ag -l'
 alias tmux='tmux -2'
 alias dk=docker
+alias ldk=lazydocker
 alias le=less
 alias psg='ps -ef | grep '
 # alias ipy=$HOME/.virtualenvs/3/bin/ipython
