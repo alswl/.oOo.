@@ -33,24 +33,27 @@ export function calcSmallerFrame(frame: Rectangle): Rectangle {
 export function calcSmallerFrameSticky(frame: Rectangle, screenFrame: Rectangle): Rectangle {
     const newFrame = calcResizeFrame(frame, 0.8);
 
-    // sticky to screen
-    if (frame.width === screenFrame.width) {
-        newFrame.width = screenFrame.width;
-    }
-    if (frame.height === screenFrame.height) {
-        newFrame.height = screenFrame.height;
-    }
-    if (frame.x === screenFrame.x) {
-        newFrame.x = screenFrame.x;
-    }
-    if (frame.y === screenFrame.y) {
-        newFrame.y = screenFrame.y;
-    }
-    if (frame.x + frame.width === screenFrame.x + screenFrame.width) {
-        newFrame.x = screenFrame.x + screenFrame.width - newFrame.width;
-    }
-    if (frame.y + frame.height === screenFrame.y + screenFrame.height) {
-        newFrame.y = screenFrame.y + screenFrame.height - newFrame.height;
+    // sticky when not max
+    if (!(frame.width === screenFrame.width && frame.height === screenFrame.height)) {
+        // sticky to screen
+        if (frame.width === screenFrame.width) {
+            newFrame.width = screenFrame.width;
+        }
+        if (frame.height === screenFrame.height) {
+            newFrame.height = screenFrame.height;
+        }
+        if (frame.x === screenFrame.x) {
+            newFrame.x = screenFrame.x;
+        }
+        if (frame.y === screenFrame.y) {
+            newFrame.y = screenFrame.y;
+        }
+        if (frame.x + frame.width === screenFrame.x + screenFrame.width) {
+            newFrame.x = screenFrame.x + screenFrame.width - newFrame.width;
+        }
+        if (frame.y + frame.height === screenFrame.y + screenFrame.height) {
+            newFrame.y = screenFrame.y + screenFrame.height - newFrame.height;
+        }
     }
     return newFrame;
 }
