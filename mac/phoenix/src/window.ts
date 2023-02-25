@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as config from './config';
 import {restoreMousePositionForWindow, saveMousePositionForWindow} from "./mouse";
-import { windowsOnOtherScreen } from "./screen";
+import {windowsOnOtherScreen} from "./screen";
 import {displayAllVisiableWindowModal, log} from "./util";
 
 export function sortByMostRecent(windows: Window[]): Window[] {
@@ -28,6 +28,31 @@ export function calcResizeFrame(frame: Rectangle, ratio: number): Rectangle {
 
 export function calcSmallerFrame(frame: Rectangle): Rectangle {
     return calcResizeFrame(frame, 0.8);
+}
+
+export function calcSmallerFrameSticky(frame: Rectangle, screenFrame: Rectangle): Rectangle {
+    const newFrame = calcResizeFrame(frame, 0.8);
+
+    // sticky to screen
+    if (frame.width === screenFrame.width) {
+        newFrame.width = screenFrame.width;
+    }
+    if (frame.height === screenFrame.height) {
+        newFrame.height = screenFrame.height;
+    }
+    if (frame.x === screenFrame.x) {
+        newFrame.x = screenFrame.x;
+    }
+    if (frame.y === screenFrame.y) {
+        newFrame.y = screenFrame.y;
+    }
+    if (frame.x + frame.width === screenFrame.x + screenFrame.width) {
+        newFrame.x = screenFrame.x + screenFrame.width - newFrame.width;
+    }
+    if (frame.y + frame.height === screenFrame.y + screenFrame.height) {
+        newFrame.y = screenFrame.y + screenFrame.height - newFrame.height;
+    }
+    return newFrame;
 }
 
 export function calcLargerFrame(frame: Rectangle): Rectangle {
