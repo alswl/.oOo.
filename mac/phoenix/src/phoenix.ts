@@ -25,9 +25,10 @@ import {
     focusWindowInSameScreen,
     getCurrentWindow,
     calcLargerFrame,
-    calcSmallerFrame, isMax,
+    isMax,
     marginWindow,
-    setWindowCentral
+    setWindowCentral,
+    calcSmallerFrameSticky
 } from './window';
 
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
@@ -161,31 +162,40 @@ Key.on('m', config.MASH_SHIFT, () => {
     // heartbeat_window(window);
 });
 
-// Window Smaller
+// Window Smaller, if window is maximized, it will stick to the border
 Key.on('-', config.MASH, () => {
     const window = getCurrentWindow();
-    const oldFrame: Rectangle = window.frame();
-    const frame: Rectangle = calcSmallerFrame(oldFrame);
-    window.setFrame(frame);
-    if (window.frame().width === oldFrame.width || window.frame().height === oldFrame.height) {
-        window.setFrame(oldFrame);
-    }
+    const frame: Rectangle = window.frame();
+    const screenFrame = window.screen().flippedVisibleFrame();
+
+    const newFrame: Rectangle = calcSmallerFrameSticky(frame, screenFrame);
+    window.setFrame(newFrame);
     // heartbeat_window(window);
 });
 
 // Window Larger `=` is `+`
 Key.on('=', config.MASH, () => {
     const window = getCurrentWindow();
-    const frame = calcLargerFrame(window.frame());
-    const maxWidth = window.screen().flippedFrame().width;
-    const maxHeight = window.screen().flippedFrame().height;
-    if (frame.width > maxWidth) {
-        frame.width = maxWidth
+    const newFrame = calcLargerFrame(window.frame());
+    const screenFrame = window.screen().flippedFrame();
+    const maxWidth = screenFrame.width;
+    const maxHeight = screenFrame.height;
+
+    // fix window larger than screen
+    if (newFrame.width > maxWidth) {
+        newFrame.width = maxWidth
     }
-    if (frame.height > maxHeight) {
-        frame.height = maxHeight
+    if (newFrame.height > maxHeight) {
+        newFrame.height = maxHeight
     }
-    window.setFrame(frame);
+    if (newFrame.x < screenFrame.x) {
+        newFrame.x = screenFrame.x;
+    }
+    if (newFrame.x + newFrame.width > screenFrame.x + screenFrame.width) {
+        newFrame.x = screenFrame.x + screenFrame.width - newFrame.width;
+    }
+
+    window.setFrame(newFrame);
     // heartbeat_window(window);
 });
 
