@@ -1,8 +1,27 @@
 # Phoenix Configuration
 
+## Snapshot
+
+Application launch:
+
+![](./_asserts/application-launch.gif)
+
+Application in window switch:
+
+![](./_asserts/application-switch.gif)
+
+
+Window movement:
+
+![](./_asserts/window.gif)
+
+Screen movement:
+
+TODO
+
 ## Usage
 
-- Application Launch
+- Application launch
   - mod + escape => iTerm
   - mod + \` => iTerm
   - mod + 1 => Browser (Microsoft Edge)

@@ -147,6 +147,23 @@ cd YOUR_REPO_PATH
 ln -s $(pwd)/linux/.* $HOME/
 ```
 
+## Phoenix (window management in macOS as tiling system)
+
+Application launch:
+
+![](./mac/phoenix/_asserts/application-launch.gif)
+
+Application in window switch:
+
+![](./mac/phoenix/_asserts/application-switch.gif)
+
+
+Window movement:
+
+![](./mac/phoenix/_asserts/window.gif)
+
+More details in [Windows management for hacker | Log4D](https://blog.alswl.com/2016/04/windows-management-for-hacker/)
+
 ## Related ##
 
 - [miv][] vim configuration
