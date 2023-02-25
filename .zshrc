@@ -373,6 +373,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	# alias date='gdate'
 	# alias sed='gsed'
 	# alias sort='gsort'
+	# https://support.typora.io/Use-Typora-From-Shell-or-cmd/
+	[ -f "/Applications/Typora.app/Contents/MacOS/Typora" ] && alias typora="/Applications/Typora.app/Contents/MacOS/Typora"
 fi
 
 # common
