@@ -80,7 +80,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=( \
 	bower colored-man-pages compleat docker docker-compose fabric gem git git-flow golang golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn tmux urltools ripgrep virtualenvwrapper \
+	screen ssh-agent sudo svn terraform tmux urltools ripgrep virtualenvwrapper \
 	)
 # historical used plugins
 # vagrant
@@ -456,6 +456,7 @@ elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 alias vd='nvim -d'
 alias vdiff=vd
+alias neovim-install-dep="cnpm install -g neovim && pip3 install neovim"
 
 # git
 # alias g=git
