@@ -1,4 +1,5 @@
 #!/bin/bash
+# usage: # copy image data, and run qrdecode
 
 set -e
 
