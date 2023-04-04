@@ -9,7 +9,7 @@ ZONE_ID=$3
 RECORD_ID=$4
 TOKEN=$5
 
-if [ -z $DEVICE ] || [ -z $DOMAIN ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
+if [ -z $DEVICE ] || [ -z $DOMAIN ] || [ -z $ZONE_ID ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
   echo "error auguments"
   echo "Usage: ddns-by-cloudflare.sh <device> <domain> <zone_id> <record_id> <token>"
   exit 0
