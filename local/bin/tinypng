@@ -1,11 +1,10 @@
 #!/bin/sh
+# set token in your `~/.zshrc.etc.d/tinypng.zshrc`,
+# export TINYPNG_API_SECRECT=YOUR-TOKEN-HERE
 
 set -e
 
 file_name=$1
-
-export http_proxy=http://127.0.0.1:1235
-export https_proxy=http://127.0.0.1:1235
 
 check_command_installed() {
   name=$1
