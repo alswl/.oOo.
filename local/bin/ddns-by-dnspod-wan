@@ -1,0 +1,28 @@
+#!/bin/bash
+# set domain A record with public IP
+# Usage: ddns-by-dnspod <sub_domain> <base_domain> <domain_id> <record_id> <token>
+
+SUB_DOMAIN=$1
+BASE_DOMAIN=$2
+DOMAIN_ID=$3
+RECORD_ID=$4
+TOKEN=$5
+
+if [ -z $SUB_DOMAIN ] || [ -z $BASE_DOMAIN ] || [ -z $DOMAIN_ID ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
+  echo "error auguments"
+  echo "Usage: ddns-by-dnspod <sub_domain> <base_domain> <domain_id> <record_id> <token>"
+  exit 0
+fi
+
+DOMAIN="$SUB_DOMAIN.$BASE_DOMAIN"
+IP=$(curl -s https://ifconfig.me);
+C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
+
+[ "$IP" = "$C_IP" ] && exit 0
+[ -z $IP ] && exit 0
+
+#record_list_json=$(curl -s https://dnsapi.cn/Record.List -d "domain=$BASE_DOMAIN&sub_domain=$SUB_DOMAIN&record_type=A&record_line=默认&login_token=$TOKEN&format=json")
+
+curl -s https://dnsapi.cn/Record.Modify -d "domain_id=$DOMAIN_ID&record_id=$RECORD_ID&sub_domain=$SUB_DOMAIN&record_type=A&record_line=默认&value=$IP&login_token=$TOKEN&format=json"
+
+# vim: set ft=sh:
