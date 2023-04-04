@@ -1,0 +1,30 @@
+#!/bin/bash
+# Usage: ddns-by-cloudflare.sh <device> <domain> <zone_id> <record_id> <token>
+
+set -e
+
+DEVICE=$1
+DOMAIN=$2
+ZONE_ID=$3
+RECORD_ID=$4
+TOKEN=$5
+
+if [ -z $DEVICE ] || [ -z $DOMAIN ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
+  echo "error auguments"
+  echo "Usage: ddns-by-cloudflare.sh <device> <domain> <zone_id> <record_id> <token>"
+  exit 0
+fi
+
+IP=$(ifconfig | grep $DEVICE: -A 4 | grep "inet " | tail -n 1 | awk '{print $2}')
+C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
+
+[ "$IP" = "$C_IP" ] && exit 0
+[ -z $IP ] && exit 0
+
+
+curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
+     -H "Authorization: Bearer ${TOKEN}" \
+     -H "Content-Type: application/json" \
+     --data "{\"type\":\"A\",\"name\":\"${DOMAIN}\",\"content\":\"${IP}\",\"proxied\":false}"
+
+# vim: set ft=sh:
