@@ -30,6 +30,9 @@ if [[ -d $HOME/local ]]; then
 		PATH=$p/bin:$PATH
 	done
 fi
+if [[ -d $HOME/.docker/bin ]]; then
+    PATH=$HOME/.docker/bin:$PATH
+fi
 export PATH
 # PATH }}}
 
