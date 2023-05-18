@@ -433,6 +433,7 @@ alias po=popd
 alias girl='man'
 alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 alias p2v='pbpaste | vi -'
+alias ssh-keygn='ssh-keygen -t ed25519'
 
 
 # ls
