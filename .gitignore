@@ -34,3 +34,4 @@ typings
 .zshrc.etc.d/_*.zshrc
 .config/kitty/kitty.d/local/*
 .zsh_completion/_cpt
+.zsh_completion/_aone
