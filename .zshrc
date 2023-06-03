@@ -9,11 +9,15 @@
 
 # PATH {{{
 
-PATH=$HOME/local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
+PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
 PATH=$HOME/.luarocks/bin:$PATH
 # PATH=$HOME/.virtualenvs/sys/bin:$PATH
 PATH=$HOME/.krew/bin:$PATH:
+
+HOME_LOCAL_PATH=$HOME/local
+HOME_LOCAL_BIN_PATH=$HOME_LOCAL_PATH/bin
+[ -d $HOME_LOCAL_BIN_PATH ] && PATH=$HOME_LOCAL_BIN_PATH:$PATH
 
 FPATH=$HOME/.zsh_completion/:$FPATH
 
@@ -25,8 +29,8 @@ FPATH=$HOME/.zsh_completion/:$FPATH
 [ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python  # for mac
 
 
-if [[ -d $HOME/local ]]; then
-	for p in `find $HOME/local -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
+if [[ -d $HOME_LOCAL_PATH ]]; then
+	for p in `find $HOME_LOCAL_PATH -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
 		PATH=$p/bin:$PATH
 	done
 fi
@@ -253,7 +257,7 @@ alias loadrbenv="autoload -U rbenv;"
 alias loadmercurial="autoload -U mercurial;"
 
 # arc
-[[ -s $HOME/local/arcanist/resources/shell/bash-completion ]] && source $HOME/local/arcanist/resources/shell/bash-completion
+[[ -s $HOME_LOCAL_PATH/arcanist/resources/shell/bash-completion ]] && source $HOME_LOCAL_PATH/arcanist/resources/shell/bash-completion
 # sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -261,7 +265,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s $HOME/.gitlabrc ]] && source $HOME/.gitlabrc
 
 # ansible
-#[[ -s $HOME/local/ansible/hacking/env-setup ]] && source $HOME/local/ansible/hacking/env-setup -q
+#[[ -s $HOME_LOCAL_PATH/ansible/hacking/env-setup ]] && source $HOME_LOCAL_PATH/ansible/hacking/env-setup -q
 
 # google cloud sdk
 [ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
