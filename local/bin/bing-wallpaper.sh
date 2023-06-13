@@ -24,6 +24,10 @@ if [ $(uname) = 'Darwin' ]; then
   GREP=ggrep
   SED=gsed
 elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
+  check_command_installed wget wget
+  check_command_installed curl curl
+  check_command_installed grep grep
+  check_command_installed sed sed
   GREP=grep
   SED=sed
 fi
