@@ -2,8 +2,8 @@
 
 BRANCH=master
 
-if [ ! -z $1 ]; then
-  BRANCH=$1
+if [ -n "$1" ]; then
+    BRANCH=$1
 fi
 
 git archive --format zip --output ../$(basename "$PWD").$(git rev-parse --short "$BRANCH").zip "$BRANCH"
