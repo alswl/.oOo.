@@ -229,6 +229,7 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 
 # pyenv
 [[ $(type pyenv) == function ]] && eval "$(pyenv init -)"
+alias loadpyenv='eval "$(pyenv init -)"'
 
 
 # nnn
