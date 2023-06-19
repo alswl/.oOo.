@@ -315,6 +315,46 @@ Key.on('down', config.MASH_CTRL, () => {
     // heartbeatWindow(window);
 });
 
+Key.on('left', config.MASH_SHIFT, () => {
+    const window = getCurrentWindow();
+    window.setFrame({
+        x: window.frame().x - 100,
+        y: window.frame().y,
+        width: window.frame().width + 100,
+        height: window.frame().height,
+    });
+})
+
+Key.on('right', config.MASH_SHIFT, () => {
+    const window = getCurrentWindow();
+    window.setFrame({
+        x: window.frame().x,
+        y: window.frame().y,
+        width: window.frame().width + 100,
+        height: window.frame().height,
+    });
+})
+
+Key.on('up', config.MASH_SHIFT, () => {
+    const window = getCurrentWindow();
+    window.setFrame({
+        x: window.frame().x,
+        y: window.frame().y - 100,
+        width: window.frame().width,
+        height: window.frame().height + 100,
+    });
+})
+
+Key.on('down', config.MASH_SHIFT, () => {
+    const window = getCurrentWindow();
+    window.setFrame({
+        x: window.frame().x,
+        y: window.frame().y,
+        width: window.frame().width,
+        height: window.frame().height + 100,
+    });
+})
+
 // Resize window ^ margin half
 Key.on('k', config.MASH_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();

@@ -138,14 +138,14 @@ export function focusWindowInSameScreen(window: Window, windowsFn: (window: Wind
     displayAllVisiableWindowModal(windows, targetWindow, rectangle);
 }
 
-export function marginWindow(postionFn: (window: Window, frame: Rectangle) => any) {
+export function marginWindow(positionFn: (window: Window, frame: Rectangle) => any) {
     const frame = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
 
     if (window === undefined) {
         return;
     }
-    postionFn(window, frame);
+    positionFn(window, frame);
 }
 
 export function isMax(windowSize: Size, screenSize: Size): boolean {

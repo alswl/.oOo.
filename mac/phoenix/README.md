@@ -58,6 +58,10 @@ TODO
   - mod + ctrl + right => Move window right
   - mod + ctrl + up => Move window up
   - mod + ctrl + down => Move window down
+  - mod + option + left => Enlarge window to left
+  - mod + option + right => Enlarge window to right
+  - mod + option + up => Enlarge window to up
+  - mod + option + down => Enlarge window to down
   - mod + ctrl + h => Move window to lef of screen
   - mod + ctrl + l => Move window to righ of screen
   - mod + ctrl + k => Move window to to of screen
