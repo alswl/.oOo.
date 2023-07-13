@@ -1,14 +1,15 @@
 {
   "devDependencies": {
-    "@types/lodash": "^4.14.136",
+    "@types/lodash": "^4.14.195",
     "awesome-typescript-loader": "^5.2.1",
-    "source-map-loader": "^0.2.4",
-    "typescript": "^3.5.3",
-    "webpack": "^4.37.0",
-    "webpack-cli": "^3.3.6"
+    "source-map-loader": "^4.0.1",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "lodash": "^4.14.136",
+    "@types/phoenix": "github:mafredri/phoenix-typings#main",
+    "lodash": "^4.17.21",
     "tslint": "^6.1.0",
     "typings": "^2.1.1"
   },

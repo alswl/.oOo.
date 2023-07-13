@@ -35,3 +35,4 @@ typings
 .config/kitty/kitty.d/local/*
 .zsh_completion/_cpt
 .zsh_completion/_aone
+.zsh_completion/_hrctl
