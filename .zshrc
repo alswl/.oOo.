@@ -359,6 +359,10 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 # TODO
 # export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
 
+# Docker Desktop
+export DOCKER_HOST="unix:///$HOME/.docker/run/docker.sock"
+
+
 # autojump
 [ -f /usr/share/autojump/autojump.sh ] && source /usr/share/autojump/autojump.sh
 
