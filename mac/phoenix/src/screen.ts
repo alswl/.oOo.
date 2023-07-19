@@ -6,7 +6,7 @@ import {getCurrentWindow, sortByMostRecent} from "./window";
 
 
 // let SCREEN_LATEST_WINDOW: { [screen: string]: Window } = {};
-let SCREEN_LATEST_WINDOW = new Map<number, Window>();
+// let SCREEN_LATEST_WINDOW = new Map<number, Window>();
 
 export function moveToScreen(window: Window, screen: Screen) {
 
@@ -112,7 +112,10 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
     // App.get('Finder').focus(); // Hack for Screen unfocus
 }
 
-export function sortedWindowsOnSameScreen(window: Window): Window[] {
+export function sortedWindowsOnSameScreen(window: Window | undefined): Window[] {
+    if (window === undefined) {
+        return [];
+    }
     let windows = window.others({visible: true, screen: window.screen()});
     windows.push(window);
     const screen = window.screen();
@@ -126,28 +129,37 @@ export function sortedWindowsOnSameScreen(window: Window): Window[] {
 }
 
 // TODO use a state save status
-export function otherWindowOnSameScreen(windows: Window[], window: Window, offset: number, isCycle: boolean): Window | null {
+export function otherWindowOnSameScreen(windows: Window[], window: Window | undefined, offset: number, isCycle: boolean): Window | undefined {
+    if (window === undefined) {
+        return undefined;
+    }
     const index: number = isCycle ?
         (_.indexOf(windows, window) + offset + windows.length) % windows.length
         :
         _.indexOf(windows, window) + offset;
     if (index >= windows.length || index < 0) {
         log("otherWindowOnSameScreen, no window");
-        return null;
+        return;
     }
     return windows[index];
 }
 
-export function getPreviousWindowsOnSameScreen(window: Window, windows: Window[]): Window | null {
+export function getPreviousWindowsOnSameScreen(window: Window | undefined, windows: Window[]): Window | undefined {
     return otherWindowOnSameScreen(windows, window, -1, false)
 };
 
-export function getNextWindowsOnSameScreen(window: Window, windows: Window[]): Window | null {
+export function getNextWindowsOnSameScreen(window: Window | undefined, windows: Window[]): Window | undefined {
+    if (window === undefined) {
+        return;
+    }
     return otherWindowOnSameScreen(windows, window, 1, false)
 };
 
-export function switchScreen(current: Window, targetScreenFn: (screen: Screen) => Screen,
+export function switchScreen(current: Window | undefined, targetScreenFn: (screen: Screen) => Screen,
                              validationFn: (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => boolean) {
+    if (current === undefined) {
+        return;
+    }
     const allScreens = Screen.all();
     const currentScreen = current.screen();
     if (currentScreen === undefined) {
@@ -162,7 +174,10 @@ export function switchScreen(current: Window, targetScreenFn: (screen: Screen) =
     focusAnotherScreen(current, targetScreen);
 }
 
-export function moveWindowToScreen(window: Window, targetScreenFn: (window: Window) => Screen) {
+export function moveWindowToScreen(window: Window | undefined, targetScreenFn: (window: Window) => Screen) {
+    if (window === undefined) {
+        return;
+    }
     const targetScreen = targetScreenFn(window);
     if (window.screen().hash() === targetScreen.hash()) {
         log("moveWindowToScreen, smae screen");

@@ -19,7 +19,11 @@ export function callApp(appName: string, orAppName?: string) {
     if (app === undefined) {
         return;
     }
-    if (window !== undefined && app.mainWindow() !== undefined && window.hash() === app.mainWindow().hash()) {
+    const mainWindow = app.mainWindow();
+    if (mainWindow === undefined) {
+        return;
+    }
+    if (window !== undefined && window.hash() === mainWindow.hash()) {
         return;
     }
 
