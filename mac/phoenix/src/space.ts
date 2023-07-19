@@ -4,7 +4,13 @@ import {getNextWindowsOnSameScreen, moveToScreen, sortedWindowsOnSameScreen} fro
 import {displayAllVisiableWindowModal, log} from './util';
 
 // TODO refact
-export function moveWindowToTargetSpace(window: Window, nextWindow: Window | null, targetSpace: Space) {
+export function moveWindowToTargetSpace(window: Window | undefined, nextWindow: Window | undefined, targetSpace: Space) {
+    if (window === undefined) {
+        return;
+    }
+    if (nextWindow === undefined) {
+        return;
+    }
     const currentSpaceOptional = Space.active();
     if (currentSpaceOptional === undefined) {
         return;
@@ -24,7 +30,10 @@ export function moveWindowToTargetSpace(window: Window, nextWindow: Window | nul
     }
 }
 
-export function moveWindowToSpace(window: Window, targetSpaceFn: (space: Space) => Space | null, direction: number) {
+export function moveWindowToSpace(window: Window | undefined, targetSpaceFn: (space: Space) => Space | null, direction: number) {
+    if (window === undefined) {
+        return;
+    }
     if (window.isFullScreen() || window.isMinimized()) {
         return;
     }
@@ -61,6 +70,10 @@ export function moveWindowToSpace(window: Window, targetSpaceFn: (space: Space) 
     current.removeWindows([window]);
     target.addWindows([window]);
     const prevWindowOptional = getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
+    if (prevWindowOptional === undefined) {
+        return;
+    }
+
     if (prevWindowOptional != null) {
         prevWindowOptional.focus();
     }

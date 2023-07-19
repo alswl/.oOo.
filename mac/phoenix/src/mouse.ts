@@ -11,7 +11,10 @@ export function saveMousePositionForWindow(window: Window) {
     config.MOUSE_POSITIONS[window.hash()] = pos;
 }
 
-export function setMousePositionForWindowCenter(window: Window) {
+export function setMousePositionForWindowCenter(window: Window | undefined) {
+    if (window === undefined) {
+        return;
+    }
     Mouse.move({
         x: window.topLeft().x + window.frame().width / 2,
         y: window.topLeft().y + window.frame().height / 2,
@@ -19,7 +22,10 @@ export function setMousePositionForWindowCenter(window: Window) {
     heartbeatWindow(window);
 }
 
-export function restoreMousePositionForWindow(window: Window) {
+export function restoreMousePositionForWindow(window: Window | undefined) {
+    if (window === undefined) {
+        return;
+    }
     if (!config.MOUSE_POSITIONS[window.hash()]) {
         setMousePositionForWindowCenter(window);
         return;

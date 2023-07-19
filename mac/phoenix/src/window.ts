@@ -62,7 +62,7 @@ export function calcLargerFrame(frame: Rectangle): Rectangle {
     return calcResizeFrame(frame, 1.25);
 }
 
-export function getCurrentWindow(): Window {
+export function getCurrentWindow(): Window | undefined {
     const windowOptional = Window.focused();
     if (windowOptional !== undefined) {
         return windowOptional;
@@ -120,8 +120,11 @@ export function autoRangeByRecent() {
     });
 }
 
-export function focusWindowInSameScreen(window: Window, windowsFn: (window: Window) => Window[],
-                                        selectFn: (window: Window, windows: Window[]) => Window | null) {
+export function focusWindowInSameScreen(window: Window | undefined, windowsFn: (window: Window) => Window[],
+                                        selectFn: (window: Window | undefined, windows: Window[]) => Window | undefined) {
+    if (window === undefined) {
+        return;
+    }
     const screen = Screen.main();
     const rectangle = screen.flippedFrame();
     const windows = windowsFn(window);

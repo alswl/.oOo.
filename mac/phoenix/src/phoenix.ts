@@ -22,13 +22,13 @@ import {moveWindowToSpace, moveWindowToTargetSpace} from './space';
 import {log, showTitleModal} from "./util";
 import {
     autoRangeByRecent,
+    calcLargerFrame,
+    calcSmallerFrameSticky,
     focusWindowInSameScreen,
     getCurrentWindow,
-    calcLargerFrame,
     isMax,
     marginWindow,
-    setWindowCentral,
-    calcSmallerFrameSticky
+    setWindowCentral
 } from './window';
 
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
@@ -144,6 +144,10 @@ Key.on('i', config.MASH_CTRL, () => {
 // Window Maximize
 Key.on('m', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
+
     const screenSize = window.screen().flippedVisibleFrame();
 
     if (isMax(window.size(), screenSize)) {
@@ -165,6 +169,9 @@ Key.on('m', config.MASH_SHIFT, () => {
 // Window Smaller, if window is maximized, it will stick to the border
 Key.on('-', config.MASH, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     const frame: Rectangle = window.frame();
     const screenFrame = window.screen().flippedVisibleFrame();
 
@@ -176,6 +183,9 @@ Key.on('-', config.MASH, () => {
 // Window Larger `=` is `+`
 Key.on('=', config.MASH, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     const newFrame = calcLargerFrame(window.frame());
     const screenFrame = window.screen().flippedFrame();
     const maxWidth = screenFrame.width;
@@ -202,12 +212,18 @@ Key.on('=', config.MASH, () => {
 // Window Central
 Key.on('m', config.MASH, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     setWindowCentral(window);
 });
 
 // Window Height Max
 Key.on('\\', config.MASH, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     let y = window.screen().flippedFrame().y;
     let height = window.screen().flippedFrame().height;
     // patch for vivaldi
@@ -227,6 +243,9 @@ Key.on('\\', config.MASH, () => {
 // Resize window Width Max
 Key.on('\\', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.screen().flippedFrame().x,
         y: window.frame().y,
@@ -270,6 +289,9 @@ Key.on('.', config.MASH_SHIFT, () => {
 // Move window left
 Key.on('left', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x - 100,
         y: window.frame().y,
@@ -282,6 +304,9 @@ Key.on('left', config.MASH_CTRL, () => {
 // Move window right
 Key.on('right', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x + 100,
         y: window.frame().y,
@@ -294,6 +319,9 @@ Key.on('right', config.MASH_CTRL, () => {
 // Move window up
 Key.on('up', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x,
         y: window.frame().y - 100,
@@ -306,6 +334,9 @@ Key.on('up', config.MASH_CTRL, () => {
 // Move window down
 Key.on('down', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x,
         y: window.frame().y + 100,
@@ -317,6 +348,9 @@ Key.on('down', config.MASH_CTRL, () => {
 
 Key.on('left', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x - 100,
         y: window.frame().y,
@@ -327,6 +361,9 @@ Key.on('left', config.MASH_SHIFT, () => {
 
 Key.on('right', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x,
         y: window.frame().y,
@@ -337,6 +374,9 @@ Key.on('right', config.MASH_SHIFT, () => {
 
 Key.on('up', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x,
         y: window.frame().y - 100,
@@ -347,6 +387,9 @@ Key.on('up', config.MASH_SHIFT, () => {
 
 Key.on('down', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     window.setFrame({
         x: window.frame().x,
         y: window.frame().y,
@@ -519,6 +562,9 @@ Key.on('o', config.MASH_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (spac
 Key.on('delete', config.MASH, () => {
     const isFollow = false;
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     const nextWindowOptional = isFollow ? window : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
     const allSpaces = Space.all();
     const screenCount = Screen.all().length;
@@ -551,6 +597,9 @@ Key.on('return', config.MASH_CTRL, () => {
 Key.on('return', config.MASH_SHIFT, () => {
     const isFollow = true;
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     const nextWindow = isFollow ? window : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
     const allSpaces = Space.all();
     const screenCount = Screen.all().length;
@@ -566,6 +615,9 @@ Key.on('return', config.MASH_SHIFT, () => {
 // move other window in this space to park space
 Key.on('delete', config.MASH_SHIFT, () => {
     const window = getCurrentWindow();
+    if (window === undefined) {
+        return;
+    }
     const nextWindow = window;
     const allSpaces = Space.all();
     const otherWindowsInSameSpace = _.filter(window.spaces()[0].windows(), (x) => x.hash() !== window.hash());
