@@ -55,12 +55,13 @@ ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="powerline"
 ZSH_THEME="robbyrussell"
+# ZSH_THEME="zhann" # 1, no result
 # ZSH_THEME="robbyrussell-alswl"
 # ZSH_THEME="minimal"
-#ZSH_THEME="bira"  # two lines
-#ZSH_THEME="candy"
+# ZSH_THEME="bira"  # two lines, left wrap, result
+# ZSH_THEME="candy" # tow line, no result
 #ZSH_THEME="imajes"  # minial
-#ZSH_THEME="kardan"
+# ZSH_THEME="kardan" # left and right
 
 
 # using local theme
