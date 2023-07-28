@@ -53,15 +53,9 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-#ZSH_THEME="powerline"
-ZSH_THEME="robbyrussell"
-# ZSH_THEME="zhann" # 1, no result
-# ZSH_THEME="robbyrussell-alswl"
-# ZSH_THEME="minimal"
-# ZSH_THEME="bira"  # two lines, left wrap, result
-# ZSH_THEME="candy" # tow line, no result
-#ZSH_THEME="imajes"  # minial
-# ZSH_THEME="kardan" # left and right
+# ZSH_THEME="robbyrussell"
+[[ "$OSTYPE" == "darwin"* ]] && ZSH_THEME="robbyrussell"
+[[ "$OSTYPE" == "linux"* ]] && ZSH_THEME="bira"
 
 
 # using local theme
