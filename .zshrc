@@ -366,7 +366,14 @@ export DOCKER_HOST="unix:///$HOME/.docker/run/docker.sock"
 [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)" && export _ZL_HYPHEN=1 && alias j=z && alias ji='z -I'
 [ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh)" && export _ZL_HYPHEN=1 && alias j=z && alias ji='z -I'
 
+# ldd
+
+
 ## Dev Tools }}}
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	alias ldd='otool -L'
+fi
+
 
 
 # Alias {{{
