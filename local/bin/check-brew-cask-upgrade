@@ -26,9 +26,20 @@ get_version_by_info() {
   echo $__latest
 }
 
+get_first_letter() {
+  local __input=$1
+  echo ${__input:0:1}
+}
+
 get_versions_by_cat() {
   local __cask=$1
-  local __latest=$(cat $HOMEBREW_LIBRARY/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
+  local __sharding=$2
+  if [ $__sharding == "true" ]; then
+    letter=$(get_first_letter $__cask)
+    local __latest=$(cat $HOMEBREW_LIBRARY/Taps/*/*/Casks/$letter/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
+  else
+    local __latest=$(cat $HOMEBREW_LIBRARY/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
+  fi
   echo $__latest
 }
 
@@ -36,21 +47,27 @@ if [ $(uname) = 'Darwin' ]; then
   check_command_installed ggrep grep
 fi
 
-for CASK in $(ls $HOMEBREW_PREFIX/Caskroom); do
-  if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$CASK.rb ]; then
-    echo [Warning] Cannot find $CASK, maybe this cask is not in casks!
-    continue
+for cask in $(ls $HOMEBREW_PREFIX/Caskroom); do
+  sharding=false
+  if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$cask.rb ]; then
+    letter=$(get_first_letter $cask)
+    sharding=true
+    if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$letter/$cask.rb ]; then
+      echo [Warning] Cannot find $cask, maybe this cask is not in casks!
+      continue
+    fi
   fi
-  LATEST="$(get_versions_by_cat $CASK)"
-  lines="$(echo "$LATEST" | gsed "s/ /\n/g" | wc -l | awk '{print $1}')"
+  # echo $cask " sharding is " $sharding
+  latest="$(get_versions_by_cat $cask $sharding)"
+  lines="$(echo "$latest" | gsed "s/ /\n/g" | wc -l | awk '{print $1}')"
   # echo $lines
   if [ "$lines" -gt 1 ]; then
-    # echo ">>> Multi $CASK"
-    LATEST="$(get_version_by_info $CASK)"
+    # echo ">>> Multi $cask"
+    latest="$(get_version_by_info $cask)"
   fi
-  # echo ">>>> $LATEST"
+  # echo ">>>> $latest"
 
-  if [ ! -d "$HOMEBREW_PREFIX/Caskroom/$CASK/$LATEST" ]; then
-    echo "$CASK latest: $LATEST, nothing in $HOMEBREW_PREFIX/Caskroom/$CASK/$LATEST"
+  if [ ! -d "$HOMEBREW_PREFIX/Caskroom/$cask/$latest" ]; then
+    echo "$cask latest: $latest, nothing in $HOMEBREW_PREFIX/Caskroom/$cask/$latest"
   fi
 done
