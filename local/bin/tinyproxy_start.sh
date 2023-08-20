@@ -1,1 +1,1 @@
-/usr/local/sbin/tinyproxy
+tinyproxy
