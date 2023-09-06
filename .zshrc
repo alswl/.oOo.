@@ -453,6 +453,9 @@ alias girl='man'
 alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 alias p2v='pbpaste | vi -'
 alias ssh-keygen-ed25519='ssh-keygen -t ed25519'
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	alias gource='gource --font-file "/System/Library/Fonts/PingFang.ttc"'
+fi
 
 
 # ls
