@@ -375,6 +375,8 @@ export DOCKER_HOST="unix:///$HOME/.docker/run/docker.sock"
 
 # ldd
 
+# aliyun
+complete -o nospace -F /usr/local/bin/aliyun aliyun
 
 ## Dev Tools }}}
 if [[ "$OSTYPE" == "darwin"* ]]; then
