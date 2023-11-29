@@ -263,13 +263,13 @@ Key.on(',', config.MASH_SHIFT, () => {
         return;
     }
 
-    window.setTopLeft({
-        x: window.topLeft().x - 200,
-        y: window.topLeft().y,
-    });
     window.setSize({
         width: window.size().width + 200,
         height: window.size().height,
+    });
+    window.setTopLeft({
+        x: window.topLeft().x - 200,
+        y: window.topLeft().y,
     });
 });
 
@@ -413,13 +413,13 @@ Key.on('k', config.MASH_SHIFT, () => {
 
     // x: screen.x + (screen.width / 2) - (window.frame().width / 2),
     // y: screen.y + (screen.height / 2) - (window.frame().height / 2)
-    window.setTopLeft({
-        x: frame.x,
-        y: screen.y,
-    });
     window.setSize({
         width: frame.width,
         height: screen.height / 2,
+    });
+    window.setTopLeft({
+        x: frame.x,
+        y: screen.y,
     });
 });
 
@@ -435,13 +435,13 @@ Key.on('j', config.MASH_SHIFT, () => {
         return;
     }
 
-    window.setTopLeft({
-        x: frame.x,
-        y: screen.y + (screen.height / 2),
-    });
     window.setSize({
         width: frame.width,
         height: screen.height / 2,
+    });
+    window.setTopLeft({
+        x: frame.x,
+        y: screen.y + (screen.height / 2),
     });
 });
 
@@ -457,13 +457,13 @@ Key.on('h', config.MASH_SHIFT, () => {
         return;
     }
 
-    window.setTopLeft({
-        x: screen.x,
-        y: frame.y,
-    });
     window.setSize({
         width: screen.width / 2,
         height: frame.height,
+    });
+    window.setTopLeft({
+        x: screen.x,
+        y: frame.y,
     });
 });
 
@@ -479,13 +479,13 @@ Key.on('l', config.MASH_SHIFT, () => {
         return;
     }
 
-    window.setTopLeft({
-        x: screen.x + screen.width / 2,
-        y: frame.y,
-    });
     window.setSize({
         width: screen.width / 2,
         height: frame.height,
+    });
+    window.setTopLeft({
+        x: screen.x + screen.width / 2,
+        y: frame.y,
     });
 });
 
