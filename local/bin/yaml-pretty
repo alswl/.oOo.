@@ -1,0 +1,9 @@
+#!/bin/bash
+# usage: yaml-pretty your-file
+
+# Checking to ensure a filename was specified and that it exists
+if [ -f "$1" ]; then
+  yq --prettyPrint -M "$1" | sponge "$1";
+else
+  echo "No file given!"
+fi
