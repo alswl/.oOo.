@@ -31,3 +31,4 @@ Session.vim
 .python-version
 ~*
 .env
+.venv
