@@ -338,6 +338,16 @@ ssh() {
     fi
 }
 
+ssh2() {
+    if [ -n "${TMUX}" ]; then
+        tmux rename-window "$(echo $* | awk '{print $1}')"
+        command ssh2 "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command ssh2 "$@"
+    fi
+}
+
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude "*.png" --exclude "*.generated.*"'
 
 alias lima-docker-install="
