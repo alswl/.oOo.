@@ -393,6 +393,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias ldd='otool -L'
 fi
 
+# kusion
+export KUSION_SKIP_UPDATE_CHECK=true
+
 
 
 # Alias {{{
