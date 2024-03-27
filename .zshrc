@@ -394,8 +394,12 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # kusion
-export KUSION_SKIP_UPDATE_CHECK=true
-
+if [[ -f $HOME/local/kusion/bin/kusion ]]; then
+  export KUSION_SKIP_UPDATE_CHECK=true
+  export KUSION_HOME="$HOME/local/kusion"
+  export KUSION_PATH="$KUSION_HOME/bin"
+  export PATH=$KUSION_HOME/kclvm/bin:$PATH
+fi
 
 
 # Alias {{{
@@ -536,6 +540,7 @@ alias git-shallow="git pull --depth 1 && git gc --prune=all"
 alias git-unshallow="git fetch --unshallow"
 # `git co` show locals, https://gist.github.com/mmrko/b3ec6da9bea172cdb6bd83bdf95ee817?permalink_comment_id=3645021#gistcomment-3645021
 export GIT_COMPLETION_CHECKOUT_NO_GUESS=1
+alias git-omz-hide='git config --replace-all oh-my-zsh.hide-status 1 && git config --replace-all oh-my-zsh.hide-dirty 1'
 alias lg="lazygit"
 
 # maven
