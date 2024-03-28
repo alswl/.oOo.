@@ -394,7 +394,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # kusion
-if [[ -f $HOME/local/kusion/bin/kusion ]]; then
+if [[ -d $HOME/local/kusion/bin ]]; then
   export KUSION_SKIP_UPDATE_CHECK=true
   export KUSION_HOME="$HOME/local/kusion"
   export KUSION_PATH="$KUSION_HOME/bin"
