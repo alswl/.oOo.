@@ -388,6 +388,12 @@ export DOCKER_HOST="unix:///$HOME/.docker/run/docker.sock"
 # aliyun
 complete -o nospace -F /usr/local/bin/aliyun aliyun
 
+## gitstatus
+
+# https://github.com/romkatv/gitstatus
+# [ -d $HOME/local/gitstatus ] && source $HOME/local/gitstatus/gitstatus.prompt.zsh
+
+
 ## Dev Tools }}}
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias ldd='otool -L'
