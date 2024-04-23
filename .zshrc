@@ -217,12 +217,14 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /usr/local/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/usr/local/opt/go@1.18/bin:$PATH\""
 [ -f /usr/local/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/usr/local/opt/go@1.19/bin:$PATH\""
 [ -f /usr/local/opt/go@1.20/bin/go ] && alias loadgo120="export PATH=\"/usr/local/opt/go@1.20/bin:$PATH\""
+[ -f /usr/local/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/usr/local/opt/go@1.22/bin:$PATH\""
 
 [ -f /opt/homebrew/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/opt/homebrew/opt/go@1.16/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/opt/homebrew/opt/go@1.17/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/opt/homebrew/opt/go@1.18/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.20/bin/go ] && alias loadgo120="export PATH=\"/opt/homebrew/opt/go@1.20/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/opt/homebrew/opt/go@1.22/bin:$PATH\""
 
 
 # golangci-lint not works with golang 1.21
