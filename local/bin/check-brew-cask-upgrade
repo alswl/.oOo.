@@ -48,6 +48,10 @@ if [ $(uname) = 'Darwin' ]; then
 fi
 
 for cask in $(ls $HOMEBREW_PREFIX/Caskroom); do
+  if [ -L $HOMEBREW_PREFIX/Caskroom/$cask ]; then
+    continue
+  fi
+
   sharding=false
   if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$cask.rb ]; then
     letter=$(get_first_letter $cask)
