@@ -28,6 +28,7 @@ These configuration Includes:
 -   mjolnir # deprecated, use phoenix
 -   mac/Library/LaunchAgents/com.alswl.edit-server.plist
     -   com.alswl.edit-server.plist  # TextAid server for https://chrome.google.com/webstore/detail/textaid/ppoadiihggafnhokfkpphojggcdigllp?hl=en
+-   .obsidian.vimrc # for Obsidian
 
 Useful `local/bin` (scripts):
 
