@@ -31,15 +31,30 @@ get_first_letter() {
   echo ${__input:0:1}
 }
 
+gen_path() {
+  local __cask=$1
+  local __sharding=$2
+  local __font=$3
+
+  if [ $__font == "true" ]; then
+    letter="font/font-"$(get_first_letter $__cask)
+    echo $HOMEBREW_LIBRARY/Taps/*/*/Casks/$letter/$__cask.rb
+  else
+    if [ $__sharding == "true" ]; then
+      letter=$(get_first_letter $__cask)
+      echo $HOMEBREW_LIBRARY/Taps/*/*/Casks/$letter/$__cask.rb
+    else
+      echo $HOMEBREW_LIBRARY/Taps/*/*/Casks/$__cask.rb
+    fi
+  fi
+}
+
 get_versions_by_cat() {
   local __cask=$1
   local __sharding=$2
-  if [ $__sharding == "true" ]; then
-    letter=$(get_first_letter $__cask)
-    local __latest=$(cat $HOMEBREW_LIBRARY/Taps/*/*/Casks/$letter/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
-  else
-    local __latest=$(cat $HOMEBREW_LIBRARY/Taps/*/*/Casks/$__cask.rb | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
-  fi
+  local __font=$3
+  p=$(gen_path $__cask $__sharding $__font)
+  local __latest=$(cat $p | ggrep -Po 'version "\K[^"]+' | sort -r --version-sort)
   echo $__latest
 }
 
@@ -53,16 +68,22 @@ for cask in $(ls $HOMEBREW_PREFIX/Caskroom); do
   fi
 
   sharding=false
+  font=false
+  # if cask start with font-
+  if [[ $cask == font-* ]]; then
+#    echo ">>> Font $cask"
+    font=true
+  fi
   if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$cask.rb ]; then
-    letter=$(get_first_letter $cask)
     sharding=true
-    if [ ! -f $HOMEBREW_LIBRARY/Taps/*/*/Casks/$letter/$cask.rb ]; then
-      echo [Warning] Cannot find $cask, maybe this cask is not in casks!
-      continue
-    fi
+  fi
+  p=$(gen_path $cask $sharding $font)
+  if [ ! -f $p ]; then
+#    echo ">>> $cask not found in $p"
+    continue
   fi
   # echo $cask " sharding is " $sharding
-  latest="$(get_versions_by_cat $cask $sharding)"
+  latest="$(get_versions_by_cat $cask $sharding $font)"
   lines="$(echo "$latest" | gsed "s/ /\n/g" | wc -l | awk '{print $1}')"
   # echo $lines
   if [ "$lines" -gt 1 ]; then
