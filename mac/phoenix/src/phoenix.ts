@@ -53,10 +53,9 @@ Phoenix.set({
  */
 
 // Launch App
-// TODO all app mapping to config
-Key.on('escape', config.MASH, () => callApp('iTerm'));
 // Key.on('`', config.MASH, () => callApp('iTerm'));
 Key.on('`', config.MASH, () => callApp('kitty'));
+Key.on('escape', config.MASH, () => callApp('kitty'));
 // Key.on('1', config.MASH, () => callApp('Chromium'));
 // Key.on('1', config.MASH, () => callApp('Firefox'));
 // Key.on('1', config.MASH, () => callApp('Microsoft Edge'));
