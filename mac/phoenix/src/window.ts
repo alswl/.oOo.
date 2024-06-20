@@ -27,11 +27,11 @@ export function calcResizeFrame(frame: Rectangle, ratio: number): Rectangle {
 }
 
 export function calcSmallerFrame(frame: Rectangle): Rectangle {
-    return calcResizeFrame(frame, 0.8);
+    return calcResizeFrame(frame, 0.75);
 }
 
 export function calcSmallerFrameSticky(frame: Rectangle, screenFrame: Rectangle): Rectangle {
-    const newFrame = calcResizeFrame(frame, 0.8);
+    const newFrame = calcSmallerFrame(frame);
 
     // sticky when not max
     if (!(frame.width === screenFrame.width && frame.height === screenFrame.height)) {
