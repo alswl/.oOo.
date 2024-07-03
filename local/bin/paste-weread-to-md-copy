@@ -1,0 +1,7 @@
+#!/bin/bash
+
+./paste-weread-to-md | pbcopy
+
+
+# vim: set ft=sh:
+

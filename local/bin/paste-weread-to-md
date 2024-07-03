@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pbpaste |
+  gsed 's/◆ /> /'
+
+
+# vim: set ft=sh:
