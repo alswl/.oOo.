@@ -41,6 +41,13 @@ if [[ -d "/Applications/IntelliJ IDEA.app/Contents/MacOS" ]]; then
     PATH="/Applications/IntelliJ IDEA.app/Contents/MacOS":$PATH
 fi
 export PATH
+
+if [[ -d /usr/local/opt/mysql-client/bin ]]; then
+    PATH=/usr/local/opt/mysql-client/bin:$PATH
+fi
+if [[ -d /opt/homebrew/opt/mysql-client/bin ]]; then
+    PATH=/opt/homebrew/opt/mysql-client/bin:$PATH
+fi
 # PATH }}}
 
 
