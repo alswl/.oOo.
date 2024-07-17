@@ -2,11 +2,13 @@
 
 # 1. tab to space
 # 2. add - before every emptyline
-# 3. add newline to second line
+# 3. remove head space
+# 4. add newline to second line
 
 pbpaste \
   | gsed -E 's/\t/    /g' \
   | gsed -E 's/( +)   /\1- /g' \
+  | gsed -E 's/^ //g' \
   | awk 'NR==1{print; print ""} NR!=1'
 
 # vim: set ft=sh:
