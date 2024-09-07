@@ -27,6 +27,7 @@ dist
 package-lock.json
 typings
 .zshrc.etc.d/*alibaba*.zshrc
+.zshrc.etc.d/*secrets*.zshrc
 .config/goneovim/sessions
 .zsh_completion/_baiyan
 .zsh_completion/_sofa
