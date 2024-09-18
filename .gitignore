@@ -38,3 +38,5 @@ typings
 .zsh_completion/_aone
 .zsh_completion/_hrctl
 .zsh_completion/_dima
+.zsh_completion/_cloudinc
+.zsh_completion/_isee
