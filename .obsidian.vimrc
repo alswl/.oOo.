@@ -26,21 +26,21 @@
 
 " Emulate Folding https://vimhelp.org/fold.txt.html#fold-commands
 exmap togglefold obcommand editor:toggle-fold
-nmap zo :togglefold
-nmap zc :togglefold
-nmap za :togglefold
+nmap zo :togglefold<CR>
+nmap zc :togglefold<CR>
+nmap za :togglefold<CR>
 
 exmap unfoldall obcommand editor:unfold-all
-nmap zR :unfoldall
+nmap zR :unfoldall<CR>
 
 exmap foldall obcommand editor:fold-all
-nmap zM :foldall
+nmap zM :foldall<CR>
 
 " tab navigate
 exmap tabnext obcommand workspace:next-tab
-nmap gt :tabnext
+nmap gt :tabnext<CR>
 exmap tabprevious obcommand workspace:previous-tab
-nmap gT :tabprevious
+nmap gT :tabprevious<CR>
 
 nmap <C-h> gT
 nmap <C-l> gt
