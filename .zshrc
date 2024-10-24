@@ -548,8 +548,10 @@ alias gdcc='git diff --color=always --cached'
 alias gdtc='git difftool --cached'
 # override gbda of git plugin
 alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9\-]+)\s*$)" | command xargs -n 1 git branch -d'
+alias gchs='git-changes'
 alias git-shallow="git pull --depth 1 && git gc --prune=all"
 alias git-unshallow="git fetch --unshallow"
+alias git-changes="git log --format='- %h: %s' origin/master..HEAD"
 # `git co` show locals, https://gist.github.com/mmrko/b3ec6da9bea172cdb6bd83bdf95ee817?permalink_comment_id=3645021#gistcomment-3645021
 export GIT_COMPLETION_CHECKOUT_NO_GUESS=1
 alias git-omz-hide='git config --replace-all oh-my-zsh.hide-status 1 && git config --replace-all oh-my-zsh.hide-dirty 1'
