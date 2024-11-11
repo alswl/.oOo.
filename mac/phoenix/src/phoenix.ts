@@ -19,7 +19,7 @@ import {
     sortedWindowsOnSameScreen
 } from './screen';
 import {moveWindowToSpace, moveWindowToTargetSpace} from './space';
-import {log, showTitleModal} from "./util";
+import {log, showTitleModal, getEnv, alert} from "./util";
 import {
     autoRangeByRecent,
     calcLargerFrame,
@@ -31,12 +31,15 @@ import {
     setWindowCentral
 } from './window';
 
+
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.WORK_SPACE_INDEX_MAP
 const SECOND_WORK_SPACE_INDEX_MAP: { [name: number]: number } = config.SECOND_WORK_SPACE_INDEX_MAP
 const PARK_SPACE_INDEX_MAP: { [name: number]: number } = config.PARK_SPACE_APP_INDEX_MAP
 const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = config.PARK_SPACE_APP_INDEX_MAP
 const windowRestoreSizeMap: { [name: string]: Size } = {}
 const windowRestorePositionMap: { [name: string]: Point } = {}
+
+var homedir: string;
 
 /**
  * My Configuartion Global
@@ -46,6 +49,14 @@ Phoenix.set({
     daemon: true,
     openAtLogin: true,
 });
+
+
+getEnv('HOME').then(v => {
+        homedir = (v as string).trim();
+    })
+    .catch(e => {
+        alert("Error: get HOME failed" + e);
+    });
 
 
 /**
@@ -68,6 +79,7 @@ Key.on('2', config.MASH, () => callApp('Min'));
 // Key.on('2', config.MASH, () => callApp('Brave Browser'));
 // Key.on('2', config.MASH, () => callApp('electron-terminal'));
 // Key.on('2', config.MASH, () => callApp('Chromium'));
+// iDingTalk = 阿里钉
 Key.on('3', config.MASH, () => callApp('iDingTalk', 'Wechat'));
 // Key.on('3', config.MASH, () => callApp('DingTalk Lite'));
 // Key.on('4', mash, () => callApp('BearyChat'));
@@ -81,7 +93,7 @@ Key.on('9', config.MASH, () => callApp('NeteaseMusic'));
 Key.on('e', config.MASH, () => callApp('Preview'));
 // Key.on('r', config.MASH, () => callApp('Alimeeting'));
 // Tblive = DingTalk Meeting & Webinar
-Key.on('r', config.MASH, () => callApp('Tblive'));
+Key.on('r', config.MASH, () => callApp(homedir + '/Library/Application Support/iDingTalk/plugin_upgrade/7.6.10.1f4b913a/Tblive.app'));
 // Key.on('a', config.MASH, () => callApp('MacVim'));
 // Key.on('a', config.MASH, () => callApp('goneovim'));
 Key.on('a', config.MASH, () => callApp('VimR'));
