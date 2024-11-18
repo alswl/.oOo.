@@ -229,6 +229,7 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /opt/homebrew/opt/go@1.20/bin/go ] && alias loadgo120="export PATH=\"/opt/homebrew/opt/go@1.20/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.21/bin/go ] && alias loadgo121="export PATH=\"/opt/homebrew/opt/go@1.21/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/opt/homebrew/opt/go@1.22/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.23/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.23/bin:$PATH\""
 
 
 # golangci-lint not works with golang 1.21
@@ -312,12 +313,14 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_ANALYTICS=1
   # https://github.com/Homebrew/brew/issues/13794
-  export HOMEBREW_NO_INSTALL_FROM_API=1
+  # export HOMEBREW_NO_INSTALL_FROM_API=1
   # tuna
+  # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
   export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
   # ustc
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
   # sjtu
+  # export HOMEBREW_CORE_GIT_REMOTE=https://mirrors.sjtug.sjtu.edu.cn/git/homebrew-core.git
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles/bottles
 
   # HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
