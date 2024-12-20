@@ -48,6 +48,9 @@ fi
 if [[ -d /opt/homebrew/opt/mysql-client/bin ]]; then
     PATH=/opt/homebrew/opt/mysql-client/bin:$PATH
 fi
+if [[ -d $HOME/.codeium/windsurf/bin ]]; then
+    PATH="$HOME/.codeium/windsurf/bin:$PATH"
+fi
 # PATH }}}
 
 
