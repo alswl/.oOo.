@@ -120,6 +120,8 @@ setopt EXTENDED_HISTORY
 
 autoload -U compinit; compinit
 
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
+
 # ZSH Config }}}
 
 
