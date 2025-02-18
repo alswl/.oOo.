@@ -108,11 +108,10 @@ Key.on('x', config.MASH, () => callApp('Visual Studio Code'));
 // Key.on('z', mash, () => callApp('Atom'));
 // Key.on('z', mash, () => callApp('Sublime Text'));
 Key.on('z', config.MASH, () => callApp('Obsidian'));
-// Key.on(',', config.MASH, () => callApp('Mail'));
 // Key.on(',', config.MASH, () => callApp('Airmail'));
 // Key.on(',', config.MASH, () => callApp('Spark'));
 Key.on(',', config.MASH, () => callApp('蚂蚁文档', '语雀'));
-Key.on('.', config.MASH, () => callApp('Quiver', 'Notion'));
+Key.on('.', config.MASH, () => callApp('Mail'));
 // Key.on('.', mash, () => callApp('Alternote'));
 Key.on('/', config.MASH, () => callApp('Finder'));
 
