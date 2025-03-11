@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+DIR=$PWD
+
+if [ ! -z $1 ]; then
+	DIR=$1
+fi
+
+
+if [[ $(git -C $DIR status --porcelain) ]]; then
+    # Changes
+    echo 'Error, Git Changed, exited'
+    exit 1
+else
+    # No changes
+    echo -n ''
+fi
+
+DIR=$(greadlink -f $DIR)
+NAME=$(basename $DIR)
+
+git -C $DIR remote -v > $(dirname $DIR)/$NAME.git.archived
+trash $DIR
