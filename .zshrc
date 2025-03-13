@@ -93,7 +93,7 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: rbenv is slow
 # NOTICE: nvm is slow
 plugins=( \
-	bower colored-man-pages compleat docker docker-compose fabric gem git git-flow golang golang dotenv \
+	bower colored-man-pages compleat docker docker-compose fabric gem git gitfast git-flow golang golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn terraform tmux urltools virtualenvwrapper \
 	)
