@@ -257,6 +257,7 @@ export NNN_COLORS="2136" # use a different color for each context
 alias loadnvm="[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh;
 [ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh;  # ubuntu linux
 [ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh;  # arch linux
+[ -s /opt/homebrew/opt/nvm/nvm.sh ] && \. /opt/homebrew/opt/nvm/nvm.sh  # macos arm
 autoload -U nvm;"
 
 # rvm
