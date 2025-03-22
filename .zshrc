@@ -455,7 +455,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias ggrep='ggrep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
 elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias grep='grep --exclude-dir=".git" --exclude-dir=".svn" --color=auto'
-    alias fd=fdfind
 fi
 alias ag='ag --pager "less -R"'
 alias aga='ag -a --pager "less -R"'
