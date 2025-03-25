@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+target_branch=origin/master
+
+# if params is empty, using origin/master
+if [ $# -eq 1 ]; then
+  target_branch=$1
+fi
+
+git log --format='- %h: %s' "$target_branch"..HEAD
