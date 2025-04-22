@@ -354,13 +354,14 @@ ssh() {
     fi
 }
 
-ssh2() {
+# s2 is hack alias for ssh
+s2() {
     if [ -n "${TMUX}" ]; then
         tmux rename-window "$(echo $* | awk '{print $1}')"
-        command ssh2 "$@"
+        command s2 "$@"
         tmux set-window-option automatic-rename "on" 1>/dev/null
     else
-        command ssh2 "$@"
+        command s2 "$@"
     fi
 }
 
