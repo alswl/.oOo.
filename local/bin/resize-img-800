@@ -1,0 +1,7 @@
+#!/bin/sh
+# using imagemagic to resize image
+
+set -e
+
+resize-img "$1" 800x800
+
