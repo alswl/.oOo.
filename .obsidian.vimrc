@@ -44,3 +44,22 @@ nmap gT :tabprevious<CR>
 
 nmap <C-h> gT
 nmap <C-l> gt
+
+" tab group management
+exmap focusRight obcommand editor:focus-right
+nmap <C-w>l :focusRight<CR>
+
+exmap focusLeft obcommand editor:focus-left
+nmap <C-w>h :focusLeft<CR>
+
+exmap focusTop obcommand editor:focus-top
+nmap <C-w>k :focusTop<CR>
+
+exmap focusBottom obcommand editor:focus-bottom
+nmap <C-w>j :focusBottom<CR>
+
+exmap splitVertical obcommand workspace:split-vertical
+nmap <C-w>v :splitVertical<CR>
+
+exmap splitHorizontal obcommand workspace:split-horizontal
+nmap <C-w>s :splitHorizontal<CR>
