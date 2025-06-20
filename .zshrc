@@ -37,9 +37,6 @@ fi
 if [[ -d $HOME/.docker/bin ]]; then
     PATH=$HOME/.docker/bin:$PATH
 fi
-if [[ -d "/Applications/IntelliJ IDEA.app/Contents/MacOS" ]]; then
-    PATH="/Applications/IntelliJ IDEA.app/Contents/MacOS":$PATH
-fi
 export PATH
 
 if [[ -d /usr/local/opt/mysql-client/bin ]]; then

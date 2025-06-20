@@ -54,9 +54,11 @@ nmap <C-w>h :focusLeft<CR>
 
 exmap focusTop obcommand editor:focus-top
 nmap <C-w>k :focusTop<CR>
+nmap <C-k> :focusTop<CR>
 
 exmap focusBottom obcommand editor:focus-bottom
 nmap <C-w>j :focusBottom<CR>
+nmap <C-j> :focusBottom<CR>
 
 exmap splitVertical obcommand workspace:split-vertical
 nmap <C-w>v :splitVertical<CR>
