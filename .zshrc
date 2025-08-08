@@ -518,8 +518,8 @@ if [[ "$OSTYPE" == "darwin"*  ]]; then
 	# alias vv='open -a MacVim'
 	# open -a goneovim not works
 	# alias vv='goneovim'
-	alias vv='neovide'
-	alias vvd='neovide --nvim -d'
+	alias vv='neovide --fork'
+	alias vvd='neovide --fork --nvim -d'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
