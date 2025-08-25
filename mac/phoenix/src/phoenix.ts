@@ -64,65 +64,65 @@ getEnv('HOME').then(v => {
  */
 
 // Launch App
-// Key.on('`', config.MASH, () => callApp('iTerm'));
-Key.on('`', config.MASH, () => callApp('kitty'));
-Key.on('escape', config.MASH, () => callApp('kitty'));
-// Key.on('1', config.MASH, () => callApp('Chromium'));
-// Key.on('1', config.MASH, () => callApp('Firefox'));
-// Key.on('1', config.MASH, () => callApp('Microsoft Edge'));
-// Key.on('1', config.MASH, () => callApp('Vivaldi'));
-Key.on('1', config.MASH, () => callApp('Google Chrome'));
-// Key.on('1', config.MASH, () => callApp('Google Chrome Beta'));
-// Key.on('2', config.MASH, () => callApp('Firefox'));
-Key.on('2', config.MASH, () => callApp('Min'));
-// Key.on('2', config.MASH, () => callApp('Safari'));
-// Key.on('2', config.MASH, () => callApp('Brave Browser'));
-// Key.on('2', config.MASH, () => callApp('electron-terminal'));
-// Key.on('2', config.MASH, () => callApp('Chromium'));
+// Key.on('`', config.MASH_CTRL, () => callApp('iTerm'));
+Key.on('`', config.MASH_CTRL, () => callApp('kitty'));
+Key.on('escape', config.MASH_CTRL, () => callApp('kitty'));
+// Key.on('1', config.MASH_CTRL, () => callApp('Chromium'));
+// Key.on('1', config.MASH_CTRL, () => callApp('Firefox'));
+// Key.on('1', config.MASH_CTRL, () => callApp('Microsoft Edge'));
+// Key.on('1', config.MASH_CTRL, () => callApp('Vivaldi'));
+Key.on('1', config.MASH_CTRL, () => callApp('Google Chrome'));
+// Key.on('1', config.MASH_CTRL, () => callApp('Google Chrome Beta'));
+// Key.on('2', config.MASH_CTRL, () => callApp('Firefox'));
+Key.on('2', config.MASH_CTRL, () => callApp('Min'));
+// Key.on('2', config.MASH_CTRL, () => callApp('Safari'));
+// Key.on('2', config.MASH_CTRL, () => callApp('Brave Browser'));
+// Key.on('2', config.MASH_CTRL, () => callApp('electron-terminal'));
+// Key.on('2', config.MASH_CTRL, () => callApp('Chromium'));
 // iDingTalk = 阿里钉
-Key.on('3', config.MASH, () => callApp('Antding', 'Wechat'));
-// Key.on('3', config.MASH, () => callApp('DingTalk Lite'));
-// Key.on('4', mash, () => callApp('BearyChat'));
-// Key.on('4', config.MASH, () => callApp('Wechat', 'Electronic WeChat');
-Key.on('4', config.MASH, () => callApp('微信网页版'));
-// Key.on('6', mash, () => callApp('企业微信'));
-// Key.on('8', mash, () => callApp('虾米音乐'));
-Key.on('8', config.MASH, () => callApp('Music'));
-Key.on('9', config.MASH, () => callApp('NeteaseMusic'));
-// Key.on('9', config.MASH, () => callApp('QQMusic'));
-Key.on('e', config.MASH, () => callApp('Preview'));
-// Key.on('r', config.MASH, () => callApp('Alimeeting'));
+Key.on('3', config.MASH_CTRL, () => callApp('Antding', 'Wechat'));
+// Key.on('3', config.MASH_CTRL, () => callApp('DingTalk Lite'));
+// Key.on('4', MASH_CTRL, () => callApp('BearyChat'));
+// Key.on('4', config.MASH_CTRL, () => callApp('Wechat', 'Electronic WeChat');
+Key.on('4', config.MASH_CTRL, () => callApp('微信网页版'));
+// Key.on('6', MASH_CTRL, () => callApp('企业微信'));
+// Key.on('8', MASH_CTRL, () => callApp('虾米音乐'));
+Key.on('8', config.MASH_CTRL, () => callApp('Music'));
+Key.on('9', config.MASH_CTRL, () => callApp('NeteaseMusic'));
+// Key.on('9', config.MASH_CTRL, () => callApp('QQMusic'));
+Key.on('e', config.MASH_CTRL, () => callApp('Preview'));
+// Key.on('r', config.MASH_CTRL, () => callApp('Alimeeting'));
 // Tblive = DingTalk Meeting & Webinar
-Key.on('r', config.MASH, () => callApp('/Applications/Antding.app/Contents/Frameworks/Tblive.app/Contents/MacOS/Tblive', '/Applications/Antding.app/Contents/Frameworks/DingMeeting.app/Contents/MacOS/DingMeeting'));
-// Key.on('a', config.MASH, () => callApp('MacVim'));
-// Key.on('a', config.MASH, () => callApp('goneovim'));
-//  Key.on('a', config.MASH, () => callApp('VimR'));
-Key.on('a', config.MASH, () => callApp('Neovide'));
-Key.on('s', config.MASH, () => callApp('IntelliJ IDEA'));
-Key.on('d', config.MASH, () => callApp('WebStorm'));
-Key.on('f', config.MASH, () => callApp('DataGrip'));
-Key.on('x', config.MASH, () => callApp('Visual Studio Code'));
-// Key.on('x', config.MASH, () => callApp('GoLand'));
-// Key.on('z', config.MASH, () => callApp('Macdown'));
-// Key.on('z', config.MASH, () => callApp('Typora'));
-// Key.on('z', mash, () => callApp('Atom'));
-// Key.on('z', mash, () => callApp('Sublime Text'));
-Key.on('z', config.MASH, () => callApp('Obsidian'));
-// Key.on(',', config.MASH, () => callApp('Airmail'));
-// Key.on(',', config.MASH, () => callApp('Spark'));
-Key.on(',', config.MASH, () => callApp('蚂蚁文档', '语雀'));
-Key.on('.', config.MASH, () => callApp('Mail'));
-// Key.on('.', mash, () => callApp('Alternote'));
-Key.on('/', config.MASH, () => callApp('Finder'));
+Key.on('r', config.MASH_CTRL, () => callApp('/Applications/Antding.app/Contents/Frameworks/Tblive.app/Contents/MacOS/Tblive', '/Applications/Antding.app/Contents/Frameworks/DingMeeting.app/Contents/MacOS/DingMeeting'));
+// Key.on('a', config.MASH_CTRL, () => callApp('MacVim'));
+// Key.on('a', config.MASH_CTRL, () => callApp('goneovim'));
+//  Key.on('a', config.MASH_CTRL, () => callApp('VimR'));
+Key.on('a', config.MASH_CTRL, () => callApp('Neovide'));
+Key.on('s', config.MASH_CTRL, () => callApp('IntelliJ IDEA'));
+Key.on('d', config.MASH_CTRL, () => callApp('WebStorm'));
+Key.on('f', config.MASH_CTRL, () => callApp('DataGrip'));
+Key.on('x', config.MASH_CTRL, () => callApp('Visual Studio Code'));
+// Key.on('x', config.MASH_CTRL, () => callApp('GoLand'));
+// Key.on('z', config.MASH_CTRL, () => callApp('Macdown'));
+// Key.on('z', config.MASH_CTRL, () => callApp('Typora'));
+// Key.on('z', MASH_CTRL, () => callApp('Atom'));
+// Key.on('z', MASH_CTRL, () => callApp('Sublime Text'));
+Key.on('z', config.MASH_CTRL, () => callApp('Obsidian'));
+// Key.on(',', config.MASH_CTRL, () => callApp('Airmail'));
+// Key.on(',', config.MASH_CTRL, () => callApp('Spark'));
+Key.on(',', config.MASH_CTRL, () => callApp('蚂蚁文档', '语雀'));
+Key.on('.', config.MASH_CTRL, () => callApp('Mail'));
+// Key.on('.', MASH_CTRL, () => callApp('Alternote'));
+Key.on('/', config.MASH_CTRL, () => callApp('Finder'));
 
 // Next screen
-Key.on('l', config.MASH, () => {
+Key.on('l', config.MASH_CTRL, () => {
     // TODO performance
     config.MAC_SCREEN_IN_THE_RIGHT ? focusNextScreen() : focusPreviousScreen();
 });
 
 // Previous Screen
-Key.on('h', config.MASH, () => {
+Key.on('h', config.MASH_CTRL, () => {
     // TODO performance
     config.MAC_SCREEN_IN_THE_RIGHT ? focusPreviousScreen() : focusNextScreen();
 });
@@ -157,7 +157,7 @@ Key.on('i', config.MASH_CTRL, () => {
 // });
 
 // Window Maximize
-Key.on('m', config.MASH_SHIFT, () => {
+Key.on('m', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -182,7 +182,7 @@ Key.on('m', config.MASH_SHIFT, () => {
 });
 
 // Window Smaller, if window is maximized, it will stick to the border
-Key.on('-', config.MASH, () => {
+Key.on('-', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -196,7 +196,7 @@ Key.on('-', config.MASH, () => {
 });
 
 // Window Larger `=` is `+`
-Key.on('=', config.MASH, () => {
+Key.on('=', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -225,7 +225,7 @@ Key.on('=', config.MASH, () => {
 });
 
 // Window Central
-Key.on('m', config.MASH, () => {
+Key.on('m', config.MASH_CTRL, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -234,7 +234,7 @@ Key.on('m', config.MASH, () => {
 });
 
 // Window Height Max
-Key.on('\\', config.MASH, () => {
+Key.on('\\', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -256,7 +256,7 @@ Key.on('\\', config.MASH, () => {
 });
 
 // Resize window Width Max
-Key.on('\\', config.MASH_SHIFT, () => {
+Key.on('-', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -270,7 +270,7 @@ Key.on('\\', config.MASH_SHIFT, () => {
 });
 
 // Resize window width <<
-Key.on(',', config.MASH_SHIFT, () => {
+Key.on(',', config.MASH_CTRL_SHIFT, () => {
     const screen = Screen.main()
     const window = Window.focused();
     if (window === undefined) {
@@ -288,7 +288,7 @@ Key.on(',', config.MASH_SHIFT, () => {
 });
 
 // Resize window width >>
-Key.on('.', config.MASH_SHIFT, () => {
+Key.on('.', config.MASH_CTRL_SHIFT, () => {
     const screen = Screen.main()
     const window = Window.focused();
     if (window === undefined) {
@@ -361,7 +361,7 @@ Key.on('down', config.MASH_CTRL, () => {
     // heartbeatWindow(window);
 });
 
-Key.on('left', config.MASH_SHIFT, () => {
+Key.on('left', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -374,7 +374,7 @@ Key.on('left', config.MASH_SHIFT, () => {
     });
 })
 
-Key.on('right', config.MASH_SHIFT, () => {
+Key.on('right', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -387,7 +387,7 @@ Key.on('right', config.MASH_SHIFT, () => {
     });
 })
 
-Key.on('up', config.MASH_SHIFT, () => {
+Key.on('up', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -400,7 +400,7 @@ Key.on('up', config.MASH_SHIFT, () => {
     });
 })
 
-Key.on('down', config.MASH_SHIFT, () => {
+Key.on('down', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -414,7 +414,7 @@ Key.on('down', config.MASH_SHIFT, () => {
 })
 
 // Resize window ^ margin half
-Key.on('k', config.MASH_SHIFT, () => {
+Key.on('k', config.MASH_CTRL_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -438,7 +438,7 @@ Key.on('k', config.MASH_SHIFT, () => {
 });
 
 // Resize window v margin half
-Key.on('j', config.MASH_SHIFT, () => {
+Key.on('j', config.MASH_CTRL_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -460,7 +460,7 @@ Key.on('j', config.MASH_SHIFT, () => {
 });
 
 // Resize window < margin half
-Key.on('h', config.MASH_SHIFT, () => {
+Key.on('h', config.MASH_CTRL_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -482,7 +482,7 @@ Key.on('h', config.MASH_SHIFT, () => {
 });
 
 // Resize window > margin half
-Key.on('l', config.MASH_SHIFT, () => {
+Key.on('l', config.MASH_CTRL_SHIFT, () => {
     const screen = Screen.main().flippedVisibleFrame();
     const window = Window.focused();
     if (window === undefined) {
@@ -544,20 +544,20 @@ Key.on('j', config.MASH_CTRL, () => {
 });
 
 // Move window auto range by recent
-Key.on('\\', config.MASH_CTRL, () => autoRangeByRecent());
+// Key.on('\\', config.MASH_CTRL_SHIFT, () => autoRangeByRecent());
 
 // Previous Window in One Screen
-Key.on('k', config.MASH, () => focusWindowInSameScreen(getCurrentWindow(), sortedWindowsOnSameScreen, getPreviousWindowsOnSameScreen));
+Key.on('k', config.MASH_SHIFT, () => focusWindowInSameScreen(getCurrentWindow(), sortedWindowsOnSameScreen, getPreviousWindowsOnSameScreen));
 
 // Next Window in One Screen
-Key.on('j', config.MASH, () => focusWindowInSameScreen(getCurrentWindow(), sortedWindowsOnSameScreen, getNextWindowsOnSameScreen));
+Key.on('j', config.MASH_SHIFT, () => focusWindowInSameScreen(getCurrentWindow(), sortedWindowsOnSameScreen, getNextWindowsOnSameScreen));
 
 /**
  * My Configuartion Mouse
  */
 
 // Central Mouse
-Key.on('space', config.MASH, () => setMousePositionForWindowCenter(getCurrentWindow()));
+Key.on('space', config.MASH_CTRL, () => setMousePositionForWindowCenter(getCurrentWindow()));
 
 /**
  * Mission Control
@@ -568,13 +568,13 @@ Key.on('space', config.MASH, () => setMousePositionForWindowCenter(getCurrentWin
 // mash + o
 
 // move window to prev space
-Key.on('i', config.MASH_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (space: Space) => space.previous(), -1));
+Key.on('i', config.MASH_CTRL_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (space: Space) => space.previous(), -1));
 
 // move window to next space
-Key.on('o', config.MASH_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (space: Space) => space.next(), 1));
+Key.on('o', config.MASH_CTRL_SHIFT, () => moveWindowToSpace(getCurrentWindow(), (space: Space) => space.next(), 1));
 
 // move window to park space
-Key.on('delete', config.MASH, () => {
+Key.on('delete', config.MASH_CTRL, () => {
     const isFollow = false;
     const window = getCurrentWindow();
     if (window === undefined) {
@@ -609,7 +609,7 @@ Key.on('return', config.MASH_CTRL, () => {
 });
 
 // move window to sencond work space
-Key.on('return', config.MASH_SHIFT, () => {
+Key.on('return', config.MASH_CTRL_SHIFT, () => {
     const isFollow = true;
     const window = getCurrentWindow();
     if (window === undefined) {
@@ -628,7 +628,7 @@ Key.on('return', config.MASH_SHIFT, () => {
 });
 
 // move other window in this space to park space
-Key.on('delete', config.MASH_SHIFT, () => {
+Key.on('delete', config.MASH_CTRL_SHIFT, () => {
     const window = getCurrentWindow();
     if (window === undefined) {
         return;
@@ -658,7 +658,7 @@ Event.on('appDidActivate', () => {
 // });
 
 // Test
-Key.on('0', config.MASH, () => {
+Key.on('0', config.MASH_CTRL, () => {
     const windows = Window.recent();
     const spaces = Space.all();
     // log(`mouse x: ${Mouse.location().x}, y: ${Mouse.location().y}`);

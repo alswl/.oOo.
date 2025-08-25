@@ -1,6 +1,7 @@
 const MASH: Phoenix.ModifierKey[] = ['alt'];
-const MASH_SHIFT: Phoenix.ModifierKey[] = ['alt', 'shift'];
 const MASH_CTRL: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
+const MASH_SHIFT: Phoenix.ModifierKey[] = ['alt', 'shift'];
+const MASH_CTRL_SHIFT: Phoenix.ModifierKey[] = ['alt', 'ctrl', 'shift'];
 const MOUSE_POSITIONS: { [name: number]: Point } = {};
 const HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
 const ACTIVE_WINDOWS_TIMES: { [name: number]: number } = {};
@@ -39,8 +40,9 @@ const RESIZE_WITH_RATIO = false;
 export {
     MAC_SCREEN_IN_THE_RIGHT,
     MASH,
-    MASH_SHIFT,
     MASH_CTRL,
+    MASH_SHIFT,
+	MASH_CTRL_SHIFT,
     MOUSE_POSITIONS,
     HIDE_INACTIVE_WINDOW_TIME,
     ACTIVE_WINDOWS_TIMES,
