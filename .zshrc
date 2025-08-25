@@ -281,8 +281,12 @@ export SDKMAN_DIR="$HOME/.sdkman"
 #[[ -s $HOME_LOCAL_PATH/ansible/hacking/env-setup ]] && source $HOME_LOCAL_PATH/ansible/hacking/env-setup -q
 
 # google cloud sdk
-[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+alias loadgcloud="[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc';
+[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc';
+[ -f '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc' ] && source '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc';
+[ -f '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc' ] && source '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc';
+
+autoload -U gcloud;"
 
 # source-highlight
 [[ -s /usr/share/source-highlight/src-hilite-lesspipe.sh ]] && export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
