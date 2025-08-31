@@ -60,9 +60,9 @@ cat $FILE_NAME | $SED_BIN 's/^##/---\n\n#/g' | $SED_BIN -E 's/^(!\[.+\]\(.+\))$/
 cat >>$OUTPUT_FILE_NAME <<EOF
 
     </textarea>
-    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/remark/0.14.0/remark.min.js"></script>
-    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/1.7.2/jquery.min.js"></script>
-    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/FitText.js/1.2.0/jquery.fittext.min.js"></script>
+    <script src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//remark/0.14.0/remark.min.js"></script>
+    <script src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//FitText.js/1.2.0/jquery.fittext.min.js"></script>
 
     <script>
         var slideshow = remark.create();

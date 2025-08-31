@@ -42,13 +42,13 @@ cat >$OUTPUT_FILE_NAME <<EOF
 
 		<title>reveal.js</title>
 
-		<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/css/reset.css">
-		<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/css/reveal.css">
-		<!--<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/css/theme/black.css">-->
-		<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/css/theme/league.css">
+		<link rel="stylesheet" href="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/css/reset.css">
+		<link rel="stylesheet" href="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/css/reveal.css">
+		<!--<link rel="stylesheet" href="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/css/theme/black.css">-->
+		<link rel="stylesheet" href="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/css/theme/league.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/lib/css/monokai.css">
+		<link rel="stylesheet" href="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/lib/css/monokai.css">
         <style>
           .reveal h1 {
             text-transform: none;
@@ -60,7 +60,7 @@ cat >$OUTPUT_FILE_NAME <<EOF
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/css/print/pdf.css' : 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/css/print/paper.css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/css/print/pdf.css' : 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
 	</head>
@@ -88,7 +88,7 @@ cat >>$OUTPUT_FILE_NAME <<EOF
 			</div>
 		</div>
 
-		<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/js/reveal.js"></script>
+		<script src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/js/reveal.js"></script>
 
 		<script>
 			// More info about config & dependencies:
@@ -96,12 +96,12 @@ cat >>$OUTPUT_FILE_NAME <<EOF
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
 				dependencies: [
-					{ src: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/plugin/markdown/marked.js' },
-					{ src: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/plugin/markdown/markdown.js' },
-					{ src: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/plugin/notes/notes.js', async: true },
-					{ src: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/plugin/highlight/highlight.js', async: true },
-					{ src: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/plugin/math/math.js', async: true },
-					{ src: 'https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/reveal.js/3.8.0/plugin/zoom-js/zoom.js', async: true }
+					{ src: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/plugin/markdown/marked.js' },
+					{ src: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/plugin/markdown/markdown.js' },
+					{ src: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/plugin/notes/notes.js', async: true },
+					{ src: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/plugin/highlight/highlight.js', async: true },
+					{ src: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/plugin/math/math.js', async: true },
+					{ src: 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs//reveal.js/3.8.0/plugin/zoom-js/zoom.js', async: true }
 				]
 			});
 		</script>
