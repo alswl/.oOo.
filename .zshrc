@@ -48,6 +48,9 @@ fi
 if [[ -d $HOME/.codeium/windsurf/bin ]]; then
     PATH="$HOME/.codeium/windsurf/bin:$PATH"
 fi
+if [[ -d $HOME/.utoo-proxy ]]; then
+    PATH="$HOME/.utoo-proxy:$PATH"
+fi
 # PATH }}}
 
 
