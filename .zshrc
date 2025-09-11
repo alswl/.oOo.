@@ -22,11 +22,11 @@ HOME_LOCAL_BIN_PATH=$HOME_LOCAL_PATH/bin
 FPATH=$HOME/.zsh_completion/:$FPATH
 
 # virtual wrapper
+[ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python  # for mac intel
 [ -f /opt/homebrew/bin/python3 ] && export VIRTUALENVWRAPPER_PYTHON=/opt/homebrew/bin/python3  # for mac apple silicon
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
 [ -f /opt/homebrew/bin/virtualenvwrapper.sh ] && source /opt/homebrew/bin/virtualenvwrapper.sh # arch
 [ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
-[ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python  # for mac
 
 
 if [[ -d $HOME_LOCAL_PATH ]]; then
@@ -39,9 +39,11 @@ if [[ -d $HOME/.docker/bin ]]; then
 fi
 export PATH
 
+# mac intel
 if [[ -d /usr/local/opt/mysql-client/bin ]]; then
     PATH=/usr/local/opt/mysql-client/bin:$PATH
 fi
+# mac silicon
 if [[ -d /opt/homebrew/opt/mysql-client/bin ]]; then
     PATH=/opt/homebrew/opt/mysql-client/bin:$PATH
 fi
@@ -219,6 +221,7 @@ export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 
 alias loadgopathdev="export GOPATH=${HOME}/dev/go"
 alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
+# mac intel
 [ -f /usr/local/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:$PATH\""
 [ -f /usr/local/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:$PATH\""
 [ -f /usr/local/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/usr/local/opt/go@1.18/bin:$PATH\""
@@ -227,6 +230,7 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /usr/local/opt/go@1.21/bin/go ] && alias loadgo121="export PATH=\"/usr/local/opt/go@1.21/bin:$PATH\""
 [ -f /usr/local/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/usr/local/opt/go@1.22/bin:$PATH\""
 
+# mac silicon
 [ -f /opt/homebrew/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/opt/homebrew/opt/go@1.16/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/opt/homebrew/opt/go@1.17/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/opt/homebrew/opt/go@1.18/bin:$PATH\""
@@ -235,6 +239,8 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /opt/homebrew/opt/go@1.21/bin/go ] && alias loadgo121="export PATH=\"/opt/homebrew/opt/go@1.21/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/opt/homebrew/opt/go@1.22/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.23/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.23/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.24/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.24/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.25/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.25/bin:$PATH\""
 
 
 # golangci-lint not works with golang 1.21
