@@ -37,7 +37,6 @@ fi
 if [[ -d $HOME/.docker/bin ]]; then
     PATH=$HOME/.docker/bin:$PATH
 fi
-export PATH
 
 # mac intel
 if [[ -d /usr/local/opt/mysql-client/bin ]]; then
@@ -53,6 +52,15 @@ fi
 if [[ -d $HOME/.utoo-proxy ]]; then
     PATH="$HOME/.utoo-proxy:$PATH"
 fi
+# golang
+export GOPATH=$HOME/dev/go
+PATH=$GOPATH/bin:$PATH
+# kusion
+if [[ -d $HOME/local/kusion/bin ]]; then
+  export PATH=$KUSION_HOME/kclvm/bin:$PATH
+fi
+
+export PATH
 # PATH }}}
 
 
@@ -321,8 +329,6 @@ fi
 alias loadjenv='eval "$(jenv init -)";'
 
 # go
-export GOPATH=$HOME/dev/go
-export PATH=$GOPATH/bin:$PATH
 export GO111MODULE=on
 export GOPROXY="https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct"
 export GOPRIVATE="github.com/alswl/go-*"
@@ -435,7 +441,6 @@ if [[ -d $HOME/local/kusion/bin ]]; then
   export KUSION_SKIP_UPDATE_CHECK=true
   export KUSION_HOME="$HOME/local/kusion"
   export KUSION_PATH="$KUSION_HOME/bin"
-  export PATH=$KUSION_HOME/kclvm/bin:$PATH
 fi
 
 
@@ -461,7 +466,7 @@ fi
 # common
 alias c='cat'
 alias mkdir='mkdir -p'
-alias rmm='rm -R'
+alias rmm='rm -rf'
 alias ..='cd ..'
 alias mem='free -m'
 alias less='less -i'
