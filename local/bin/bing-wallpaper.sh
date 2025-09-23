@@ -34,7 +34,7 @@ fi
 check_command_installed jq jq
 
 for i in {0..7}; do
-  URL="http://s.cn.bing.net"$(curl -s "http://www.bing.com/HPImageArchive.aspx?format=js&idx=$i&n=1&mkt=$LOCALE" | jq -r '.images[0].url')
+  URL="https://s.cn.bing.net"$(curl -s "https://www.bing.com/HPImageArchive.aspx?format=js&idx=$i&n=1&mkt=$LOCALE" | jq -r '.images[0].url')
   FILENAME=$(echo $URL | $GREP -oP '\K(id=[^=]+.jpg)' | $SED 's/id=//g' | $SED 's/OHR\.//g')
   wget -q -nc -O "$PICTURE_DIR/$FILENAME" "$URL"
 done
