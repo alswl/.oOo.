@@ -247,8 +247,8 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /opt/homebrew/opt/go@1.21/bin/go ] && alias loadgo121="export PATH=\"/opt/homebrew/opt/go@1.21/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/opt/homebrew/opt/go@1.22/bin:$PATH\""
 [ -f /opt/homebrew/opt/go@1.23/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.23/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.24/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.24/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.25/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.25/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.24/bin/go ] && alias loadgo124="export PATH=\"/opt/homebrew/opt/go@1.24/bin:$PATH\""
+[ -f /opt/homebrew/opt/go@1.25/bin/go ] && alias loadgo125="export PATH=\"/opt/homebrew/opt/go@1.25/bin:$PATH\""
 
 
 # golangci-lint not works with golang 1.21
