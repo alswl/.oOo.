@@ -11,6 +11,7 @@
 
 PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
+PATH=$HOME/.local/bin:$PATH
 PATH=$HOME/.luarocks/bin:$PATH
 # PATH=$HOME/.virtualenvs/sys/bin:$PATH
 PATH=$HOME/.krew/bin:$PATH:
