@@ -1,2 +1,3 @@
 window-inherit-working-directory = false
 macos-titlebar-proxy-icon = hidden
+copy-on-select = clipboard
