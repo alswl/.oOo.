@@ -15,7 +15,7 @@ if [ -z $DOMAIN ] || [ -z $ZONE_ID ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
   exit 0
 fi
 
-IP=$(curl -s https://ifconfig.me);
+IP=$(myip);
 C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
 
 [ "$IP" = "$C_IP" ] && exit 0
