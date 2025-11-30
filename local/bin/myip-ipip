@@ -1,0 +1,2 @@
+#!/bin/sh
+curl -s https://myip.ipip.net | awk -F '：' '{print $2}' | awk '{print $1}'

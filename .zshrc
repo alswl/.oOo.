@@ -623,17 +623,6 @@ alias phrc=paste-html-to-rtf-copy
 
 alias sshg='luit -encoding gbk ssh'
 alias iftop-nali-5s='iftop -nt -s 5 | nali'
-alias myip="myip-dig"
-# not works any more
-# alias myip-cip-gd='curl -sL http://ip.cip.cc/'
-alias myip-dig="dig +short myip.opendns.com @resolver1.opendns.com"
-alias myip-ipip="curl -s https://myip.ipip.net | awk -F '：' '{print \$2}' | awk '{print \$1}'"
-alias myip-ip-me-usa="curl -sL https://ip.me"
-alias myip-ifconfig-gcs="curl -sL http://ifconfig.me"
-alias myip-ipinfo="curl -sL https://ipinfo.io/ip"
-alias myip-ipecho="curl -sL http://ipecho.net/plain"
-alias myip-ip-sb="curl -s http://ip.sb"
-alias myip-ip-sb-hk="curl -sL http://ip.sb"
 alias random-sentences='curl -sL http://metaphorpsum.com/sentences/1'
 alias json-format-clipboard='pbpaste | jq --raw-output -M | pbcopy'
 alias cookies-from-editthiscookie="pbpaste | jq '.[] | (.name + \"=\" + .value+\"; \")' -j"
