@@ -17,41 +17,38 @@ Window movement:
 
 Screen movement:
 
-TODO
+(Image required)
 
-## Usage
+## Usage (My preference)
 
 - Application launch
-  - mod + escape => iTerm
-  - mod + \` => iTerm
-  - mod + 1 => Browser (Microsoft Edge)
-  - mod + 2 => Browser (Safari)
-  - mod + 3 => IM (Dingtalk or Wchat)
-  - mod + 4 => IM (Wechat of Browser)
-  - mod + 8 => Music (Apple Music)
-  - mod + 9 => Music (Netease Music
-  - mod + e => Preview
-  - mod + r => Meeting
-  - mod + a => Editor (VimR)
-  - mod + s => Editor (IntelliJ IDEA)
-  - mod + d => Editor (Visual Studio Code)
-  - mod + f => Editor (Clion)
-  - mod + x => Editor (GoLand)
-  - mod + z => Editor (Obsidian)
-  - mod + , => Editor (Yuque)
-  - mod + . => Editor (Quiver or Motion)
-  - mod + / => Finder
+  - option + ctrl + escape => Kitty
+  - option + ctrl + 1 => Browser (Chrome)
+  - option + ctrl + 2 => Browser (Min)
+  - option + ctrl + 3 => IM (Dingtalk or Wchat)
+  - option + ctrl + 8 => Music (Apple Music)
+  - option + ctrl + 9 => Music (Netease Music)
+  - option + ctrl + e => Preview
+  - option + ctrl + r => Dintalk Meeting
+  - option + ctrl + a => Editor (Neovide)
+  - option + ctrl + s => Editor (IntelliJ IDEA)
+  - option + ctrl + d => Editor (DataGrip)
+  - option + ctrl + f => Editor (WebStorm)
+  - option + ctrl + z => Editor (Obsidian)
+  - option + ctrl + x => Editor (Visual Studio Code)
+  - option + ctrl + , => Editor (Yuque)
+  - option + ctrl + . => Editor (Mail)
+  - option + ctrl + / => Finder
 - Screen
-  - mod + l => Next screen
-  - mod + h => Previous screen
   - mod + ctrl + o => Move current window to next screen
   - mod + ctrl + i => Move current window to previouse screen
 - Window
-  - mod + shift + m => Toogle window maximize
+  - mod + ctrl + shift + m => Toogle window maximize
+TODO
   - mod + - => Window smaller
   - mod + = => Window larger
-  - mod + m => Move window to screen centeral
-  - mod + \\ => Window height max
+  - mod + ctrl m => Move window to screen centeral
+  - mod + `\` => Window height max
   - mod + k => Next window of screen
   - mod + j => Previous window of screen
   - mod + ctrl + left => Move window left
