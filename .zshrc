@@ -267,6 +267,7 @@ export NNN_TRASH=1 # trash (needs trash-cli aka trash-put) instead of delete
 export NNN_COLORS="2136" # use a different color for each context
 
 
+# node
 # nvm
 # NOTICE: nvm is slow, load yourself
 alias loadnvm="[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh;
@@ -275,10 +276,13 @@ alias loadnvm="[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh;
 [ -s /opt/homebrew/opt/nvm/nvm.sh ] && \. /opt/homebrew/opt/nvm/nvm.sh  # macos arm
 autoload -U nvm;"
 
+# playwright
+export PLAYWRIGHT_DOWNLOAD_HOST=https://registry.npmmirror.com/-/binary/playwright/
+
 # fnm
 alias loadfnm='eval $(fnm env);'
 
-# rvm
+# rvm(deprecated)
 # NOTICE: rvm is slow, load yourself
 alias loadrvm="[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm; autoload -U rvm;"
 
