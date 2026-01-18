@@ -36,5 +36,19 @@ check_command_installed jq jq
 for i in {0..7}; do
   URL="https://s.cn.bing.net"$(curl -s "https://www.bing.com/HPImageArchive.aspx?format=js&idx=$i&n=1&mkt=$LOCALE" | jq -r '.images[0].url')
   FILENAME=$(echo $URL | $GREP -oP '\K(id=[^=]+.jpg)' | $SED 's/id=//g' | $SED 's/OHR\.//g')
-  wget -q -nc -O "$PICTURE_DIR/$FILENAME" "$URL"
+  
+  # Check if file exists and has valid size (greater than 10KB)
+  if [ -f "$PICTURE_DIR/$FILENAME" ]; then
+    FILE_SIZE=$(stat -f%z "$PICTURE_DIR/$FILENAME" 2>/dev/null || stat -c%s "$PICTURE_DIR/$FILENAME" 2>/dev/null)
+    if [ "$FILE_SIZE" -gt 10240 ]; then
+      echo "Skipping existing file: $FILENAME (${FILE_SIZE} bytes)"
+      continue
+    else
+      echo "File $FILENAME exists but has invalid size (${FILE_SIZE} bytes), re-downloading..."
+      rm -f "$PICTURE_DIR/$FILENAME"
+    fi
+  fi
+  
+  echo "Downloading: $FILENAME"
+  wget -q -O "$PICTURE_DIR/$FILENAME" "$URL"
 done
