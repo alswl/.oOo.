@@ -525,6 +525,7 @@ alias ssh-keygen-ed25519='ssh-keygen -t ed25519'
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias gource='gource --font-file "/System/Library/Fonts/PingFang.ttc"'
 fi
+alias ca=cursor-agent
 
 
 # ls
