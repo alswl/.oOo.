@@ -435,6 +435,12 @@ complete -o nospace -F /usr/local/bin/aliyun aliyun
 # https://github.com/romkatv/gitstatus
 # [ -d $HOME/local/gitstatus ] && source $HOME/local/gitstatus/gitstatus.prompt.zsh
 
+# bun
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# claude-mem https://github.com/thedotmack/claude-mem
+alias claude-mem='bun "$HOME/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
+
 
 ## Dev Tools }}}
 if [[ "$OSTYPE" == "darwin"* ]]; then
