@@ -61,6 +61,10 @@ if [[ -d $HOME/local/kusion/bin ]]; then
   export PATH=$KUSION_HOME/kclvm/bin:$PATH
 fi
 
+if [[ -d /Applications/Obsidian.app/Contents/MacOS ]]; then
+  PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
+fi
+
 export PATH
 # PATH }}}
 
