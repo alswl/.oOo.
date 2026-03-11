@@ -40,3 +40,4 @@ typings
 .zsh_completion/_dima
 .zsh_completion/_cloudinc
 .zsh_completion/_isee
+.zshrc.etc.d/claude.zshrc
