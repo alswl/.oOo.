@@ -256,10 +256,6 @@ alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
 [ -f /opt/homebrew/opt/go@1.25/bin/go ] && alias loadgo125="export PATH=\"/opt/homebrew/opt/go@1.25/bin:$PATH\""
 
 
-# golangci-lint not works with golang 1.21
-[ -f /usr/local/opt/go@1.20/bin/go ] && loadgo120
-[ -f /opt/homebrew/opt/go@1.20/bin/go ] && loadgo120
-
 # pyenv
 [[ $(type pyenv) == function ]] && eval "$(pyenv init -)"
 alias loadpyenv='eval "$(pyenv init -)"'
