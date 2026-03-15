@@ -1,14 +1,15 @@
 #!/bin/bash
-# Generate static claude aliases for fast shell loading
+# Generate static claude aliases for fast shell loading.
+#
 # Usage: gen-claude-alias.sh [output_file]
 
 set -e
 
-CLAUDE_DIR="$HOME/.claude/settings.d"
+CLAUDE_DIR="$HOME/.claude/profiles"
 OUTPUT_FILE="${1:-$HOME/.zshrc.etc.d/claude.zshrc}"
 
 if [[ ! -d "$CLAUDE_DIR" ]]; then
-  echo "Error: Claude settings directory not found: $CLAUDE_DIR" >&2
+  echo "error: profiles directory not found: $CLAUDE_DIR" >&2
   exit 1
 fi
 
@@ -20,24 +21,24 @@ cat > "$OUTPUT_FILE" << 'HEADER'
 # Static aliases (fast loading)
 HEADER
 
-# Generate aliases
-shopt -s nullglob
-configs=("$CLAUDE_DIR"/*.json)
-shopt -u nullglob
+# Collect profiles
+configs=()
+for cfg in "$CLAUDE_DIR"/*.json; do
+  [[ -f "$cfg" ]] && configs+=("$cfg")
+done
 
 for cfg in "${configs[@]}"; do
   name=$(basename "$cfg" .json)
   [[ "$name" == "_common" ]] && continue
   alias_name="claude-${name//-/_}"
-  echo "alias ${alias_name}='claude --settings \"\$HOME/.claude/settings.d/${name}.json\"'" >> "$OUTPUT_FILE"
+  echo "alias ${alias_name}='claude --settings \"\$HOME/.claude/profiles/${name}.json\"'" >> "$OUTPUT_FILE"
 done
 
-# Collect alias names for claude-configs function
 cat >> "$OUTPUT_FILE" << 'FOOTER'
 
-# List all available configs
+# List all available profiles
 claude-configs() {
-  echo "Available claude configs:"
+  echo "Available claude profiles:"
 FOOTER
 
 for cfg in "${configs[@]}"; do
@@ -51,21 +52,21 @@ cat >> "$OUTPUT_FILE" << 'HELPER'
 
 }
 
-# Switch default config via symlink
+# Switch default profile via symlink
 claude-use() {
   local input="${1//_/-}"
-  local target="$HOME/.claude/settings.d/${input}.json"
+  local target="$HOME/.claude/profiles/${input}.json"
 
   if [[ ! -f "$target" ]]; then
-    target=$(find "$HOME/.claude/settings.d" -maxdepth 1 -name "*.json" ! -name "_common.json" 2>/dev/null | grep -i "$input" | head -1)
+    target=$(find "$HOME/.claude/profiles" -maxdepth 1 -name "*.json" ! -name "_common.json" 2>/dev/null | grep -i "$input" | head -1)
   fi
 
-  [[ ! -f "$target" ]] && { echo "Config not found: $1" >&2; return 1; }
+  [[ ! -f "$target" ]] && { echo "error: profile not found: $1" >&2; return 1; }
 
   ln -sf "$target" "$HOME/.claude/settings.json"
-  echo "Default config: ${target:t:r}"
+  echo "profile: ${target:t:r}"
 }
 HELPER
 
-echo "Generated: $OUTPUT_FILE"
-echo "Run: source $OUTPUT_FILE"
+echo "Generated $OUTPUT_FILE"
+echo "  Run: source $OUTPUT_FILE"

@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 """
-cc-switch-export - 从 cc-switch.db 导出 Claude Code 配置到 settings.d 目录
+Export Claude Code configs from cc-switch.db to profiles directory.
 
-支持模块化配置：
-- _common.json: 公共配置（hooks、primaryApiKey 等）
-- <provider>.json: 差异配置（仅 env、enabledPlugins、statusLine 等）
+Each profile contains complete config (COMMON_CONFIG merged with provider overrides).
 
-用法:
-    cc-switch-export [数据库路径] [输出目录]
+Usage:
+    cc-switch-export [db_path] [output_dir]
 
-默认:
-    数据库路径: ~/.cc-switch/cc-switch.db
-    输出目录:   ~/.claude/settings.d/
+Defaults:
+    db_path:    ~/.cc-switch/cc-switch.db
+    output_dir: ~/.claude/profiles/
 """
 
 import json
@@ -23,13 +21,7 @@ from pathlib import Path
 from typing import Optional
 
 
-# 公共配置字段（导出到 _common.json）
-COMMON_FIELDS = ['hooks', 'primaryApiKey', 'skipWebFetchPreflight']
-
-# 保留在每个 provider 配置中的字段
-PROVIDER_FIELDS = ['env', 'enabledPlugins']
-
-# 标准的 hooks 配置
+# Standard hooks configuration
 STANDARD_HOOKS = {
     "PostToolUse": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
     "PreToolUse": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
@@ -39,71 +31,61 @@ STANDARD_HOOKS = {
     "UserPromptSubmit": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
 }
 
-# 公共配置模板（包含 HUD statusLine）
+# Common config template (includes HUD statusLine)
 COMMON_CONFIG = {
     "hooks": STANDARD_HOOKS,
     "primaryApiKey": "api",
     "skipWebFetchPreflight": True,
     "statusLine": {
-        "command": 'bash -c \'"/opt/homebrew/bin/bun" "$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts"\'',
+        "command": 'bash -c \'/opt/homebrew/bin/bun "$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts"\'',
         "type": "command"
     }
 }
 
 
 def slugify(name: str) -> str:
-    """将名称转换为安全的文件名"""
+    """Convert name to safe filename."""
     slug = re.sub(r'[^a-z0-9]+', '-', name.lower())
     slug = slug.strip('-')
     return slug or 'config'
 
 
 def format_json(data: dict) -> str:
-    """格式化 JSON 输出"""
+    """Format JSON output with trailing newline."""
     return json.dumps(data, indent=2, ensure_ascii=False) + '\n'
 
 
-def extract_provider_config(full_config: dict) -> dict:
-    """从完整配置中提取仅属于 provider 的差异配置"""
-    provider_config = {}
+def merge_config(full_config: dict) -> dict:
+    """Merge COMMON_CONFIG with provider config."""
+    merged = COMMON_CONFIG.copy()
+    # Deep copy hooks to avoid modifying original
+    merged["hooks"] = json.loads(json.dumps(COMMON_CONFIG["hooks"]))
 
-    for field in PROVIDER_FIELDS:
-        if field in full_config:
-            provider_config[field] = full_config[field]
+    # Merge provider config (override same keys)
+    for key, value in full_config.items():
+        if key in ('env', 'enabledPlugins'):
+            merged[key] = value
 
-    return provider_config
+    return merged
 
 
 def export_config(db_path: Path, output_dir: Path) -> int:
-    """导出配置，返回导出的文件数量"""
+    """Export configs, return file count."""
 
     if not db_path.exists():
-        print(f"错误: 数据库文件不存在: {db_path}", file=sys.stderr)
+        print(f"error: database not found: {db_path}", file=sys.stderr)
         return 0
 
-    # 创建输出目录
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    print("==> 导出 cc-switch 配置")
-    print(f"    数据库: {db_path}")
-    print(f"    输出目录: {output_dir}")
+    print(f"Exporting from {db_path}")
+    print(f"           to {output_dir}")
     print()
 
     count = 0
 
     with sqlite3.connect(db_path) as conn:
         conn.row_factory = sqlite3.Row
-
-        # 导出公共配置 _common.json
-        print("--> 导出公共配置 _common.json...")
-        common_file = output_dir / '_common.json'
-        common_file.write_text(format_json(COMMON_CONFIG))
-        print(f"    已创建: _common.json")
-        count += 1
-
-        # 导出所有 claude provider 配置
-        print()
-        print("--> 导出 Provider 配置...")
 
         cursor = conn.execute("""
             SELECT id, name, settings_config, is_current, sort_index
@@ -113,7 +95,7 @@ def export_config(db_path: Path, output_dir: Path) -> int:
         """)
 
         providers = cursor.fetchall()
-        print(f"    找到 {len(providers)} 个 Claude 配置")
+        print(f"Found {len(providers)} profiles")
 
         for provider in providers:
             name = provider['name']
@@ -126,53 +108,35 @@ def export_config(db_path: Path, output_dir: Path) -> int:
             try:
                 full_config = json.loads(settings_json)
             except json.JSONDecodeError as e:
-                print(f"    跳过 {name}: JSON 解析失败 ({e})")
+                print(f"  skipping {name}: invalid JSON ({e})")
                 continue
 
-            # 提取仅属于 provider 的差异配置
-            provider_config = extract_provider_config(full_config)
+            # Merge: COMMON_CONFIG + provider overrides
+            merged_config = merge_config(full_config)
 
-            # 如果 provider 配置为空，跳过
-            if not provider_config:
-                print(f"    跳过 {name}: 无有效配置")
-                continue
-
-            # 生成文件名
             filename = f"{slugify(name)}.json"
             output_file = output_dir / filename
 
-            # 写入配置
-            output_file.write_text(format_json(provider_config))
+            output_file.write_text(format_json(merged_config))
 
-            # 显示状态
-            marker = " (当前激活)" if is_current else ""
-            print(f"    已创建: {filename}{marker}")
+            marker = " *" if is_current else ""
+            print(f"  {filename}{marker}")
             count += 1
 
     print()
-    print("==> 导出完成")
-    print(f"    配置文件数量: {count}")
+    print(f"Exported {count} profiles")
     print()
-    print("文件说明:")
-    print(f"  _common.json    - 公共配置 (hooks, primaryApiKey, skipWebFetchPreflight)")
-    print(f"  <provider>.json - 差异配置 (env, enabledPlugins, statusLine)")
-    print()
-    print("Claude Code 启动时会自动合并 settings.d 目录下的所有 .json 文件")
-    print()
-    print("使用方式:")
-    print(f"  # 直接启动（自动合并 _common.json + 其他配置）")
-    print(f"  claude")
-    print()
-    print(f"  # 使用指定配置启动")
-    print(f"  CLAUDE_CONFIG={output_dir}/<config>.json claude")
+    print("Usage:")
+    print("  claude-<profile>              # use alias")
+    print(f"  claude --settings {output_dir}/<name>.json")
 
     return count
 
 
 def main() -> int:
-    """主入口"""
+    """Main entry point."""
     default_db = Path.home() / '.cc-switch' / 'cc-switch.db'
-    default_output = Path.home() / '.claude' / 'settings.d'
+    default_output = Path.home() / '.claude' / 'profiles'
 
     db_path = Path(sys.argv[1]) if len(sys.argv) > 1 else default_db
     output_dir = Path(sys.argv[2]) if len(sys.argv) > 2 else default_output
