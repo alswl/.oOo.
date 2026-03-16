@@ -1,4 +1,6 @@
 window-inherit-working-directory = false
+working-directory = home
+tab-inherit-working-directory = false
 macos-titlebar-proxy-icon = hidden
 copy-on-select = clipboard
-quit-after-last-window-closed=true
+quit-after-last-window-closed = true
