@@ -1,3 +1,5 @@
+# rm default config first
+# rm ~/Library/Application\ Support/com.mitchellh.ghostty/config
 window-inherit-working-directory = false
 working-directory = home
 tab-inherit-working-directory = false
