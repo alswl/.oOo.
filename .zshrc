@@ -425,6 +425,9 @@ export DOCKER_HOST="unix:///$HOME/.docker/run/docker.sock"
 [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
 [ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
 
+# zoxide
+# [ -f /opt/homebrew/bin/zoxide ] && eval "$(zoxide init zsh)" && alias j=z && alias jj='zi'
+
 # ldd
 
 # aliyun
