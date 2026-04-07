@@ -21,6 +21,7 @@ HOME_LOCAL_BIN_PATH=$HOME_LOCAL_PATH/bin
 [ -d $HOME_LOCAL_BIN_PATH ] && PATH=$HOME_LOCAL_BIN_PATH:$PATH
 
 FPATH=$HOME/.zsh_completion/:$FPATH
+FPATH+=$HOME/.zfunc/
 
 # virtual wrapper
 [ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python  # for mac intel
