@@ -67,6 +67,11 @@ if [[ -d /Applications/Obsidian.app/Contents/MacOS ]]; then
   PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
 fi
 
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+PATH="$BUN_INSTALL/bin:$PATH"
+
 export PATH
 # PATH }}}
 
@@ -707,3 +712,6 @@ if [[ -d $HOME/.zshrc.etc.d/ ]]; then
 	done
 fi
 # Local setting }}}
+
+# bun completions
+[ -s "/Users/alswl/.bun/_bun" ] && source "/Users/alswl/.bun/_bun"
