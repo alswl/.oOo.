@@ -14,7 +14,8 @@ PATH=$HOME/.jenv/bin:$PATH
 PATH=$HOME/.local/bin:$PATH
 PATH=$HOME/.luarocks/bin:$PATH
 # PATH=$HOME/.virtualenvs/sys/bin:$PATH
-PATH=$HOME/.krew/bin:$PATH:
+PATH=$HOME/.krew/bin:$PATH
+PATH=$HOME/.cargo/bin:$PATH
 
 HOME_LOCAL_PATH=$HOME/local
 HOME_LOCAL_BIN_PATH=$HOME_LOCAL_PATH/bin
@@ -367,6 +368,10 @@ export ANSIBLE_NOCOWS=1
 
 # android
 export ANDROID_HOME=/usr/local/opt/android-sdk
+
+# rust
+export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
 
 # tmux
 
