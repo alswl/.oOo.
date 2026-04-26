@@ -37,7 +37,7 @@ COMMON_CONFIG = {
     "primaryApiKey": "api",
     "skipWebFetchPreflight": True,
     "statusLine": {
-        "command": 'bash -c \'/opt/homebrew/bin/bun "$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts"\'',
+        "command": 'bash -c \'$HOME/.bun/bin/bun "$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)src/index.ts"\'',
         "type": "command"
     }
 }
