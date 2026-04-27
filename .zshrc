@@ -88,6 +88,9 @@ ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="robbyrussell"
 [[ "$OSTYPE" == "darwin"* ]] && ZSH_THEME="robbyrussell"
 [[ "$OSTYPE" == "linux"* ]] && ZSH_THEME="bira"
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
+  ZSH_THEME="bira"
+fi
 
 
 # using local theme
