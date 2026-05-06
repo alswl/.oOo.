@@ -350,15 +350,16 @@ export GOPRIVATE="github.com/alswl/go-*"
 
 # homebrew
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  export HOMEBREW_NO_AUTO_UPDATE=1
+  export HOMEBREW_NO_AUTO_UPDATE=0
   export HOMEBREW_NO_ANALYTICS=1
   # https://github.com/Homebrew/brew/issues/13794
   export HOMEBREW_NO_INSTALL_FROM_API=1
   export HOMEBREW_NO_VERIFY_ATTESTATIONS=1
-  # tuna
+  # tuna, queue x
   # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
   # ustc
+  export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
   export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
   export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
   # sjtu
