@@ -111,6 +111,7 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 PATH=$HOME/local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:$PATH
+PATH="$HOME/.local/bin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 #PATH="$PATH:$HOME/.rvm/bin"

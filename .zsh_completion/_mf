@@ -1,0 +1,1032 @@
+#compdef mf
+
+autoload -U is-at-least
+
+_mf() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf_commands" \
+"*::: :->mf" \
+&& ret=0
+    case $state in
+    (mf)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-command-$line[1]:"
+        case $line[1] in
+            (source)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf__subcmd__source_commands" \
+"*::: :->source" \
+&& ret=0
+
+    case $state in
+    (source)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-source-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--filter=[]:FILTER:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(add)
+_arguments "${_arguments_options[@]}" : \
+'--name=[]:NAME:_default' \
+'--type=[]:SOURCE_TYPE:(auto rss web file)' \
+'*--tag=[]:TAG:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':path:_files' \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--url=[]:URL:_default' \
+'--name=[]:NAME:_default' \
+'--type=[]:SOURCE_TYPE:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':path:_files' \
+&& ret=0
+;;
+(index)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':path:_files' \
+&& ret=0
+;;
+(clean)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(asset)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf__subcmd__asset_commands" \
+"*::: :->asset" \
+&& ret=0
+
+    case $state in
+    (asset)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-asset-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--filter=[]:FILTER:_default' \
+'--type=[]:ASSET_TYPE:(image video audio other)' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(add)
+_arguments "${_arguments_options[@]}" : \
+'*--tag=[]:TAG:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'(--link)--copy[]' \
+'(--copy)--link[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':path:_files' \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--all[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+'::path:_files' \
+&& ret=0
+;;
+(index)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(project)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf__subcmd__project_commands" \
+"*::: :->project" \
+&& ret=0
+
+    case $state in
+    (project)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-project-command-$line[1]:"
+        case $line[1] in
+            (new)
+_arguments "${_arguments_options[@]}" : \
+'--path=[]:PATH:_files' \
+'--template=[]:TEMPLATE:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--force[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':name:_default' \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(archive)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':name_or_path:_default' \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+'--output-format=[]:OUTPUT_FORMAT:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+'::name_or_path:_default' \
+&& ret=0
+;;
+(lint)
+_arguments "${_arguments_options[@]}" : \
+'*--rule=[]:RULE:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--fix[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+'::path:_files' \
+&& ret=0
+;;
+(index)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--dry-run[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(article)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf__subcmd__article_commands" \
+"*::: :->article" \
+&& ret=0
+
+    case $state in
+    (article)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-article-command-$line[1]:"
+        case $line[1] in
+            (new)
+_arguments "${_arguments_options[@]}" : \
+'--project=[]:PROJECT:_default' \
+'--template=[]:TEMPLATE:_default' \
+'*--tag=[]:TAG:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--draft[]' \
+'--force[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':title:_default' \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+'--project=[]:PROJECT:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(lint)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--fix[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(index)
+_arguments "${_arguments_options[@]}" : \
+'--project=[]:PROJECT:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'-n[]' \
+'--dry-run[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(term)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf__subcmd__term_commands" \
+"*::: :->term" \
+&& ret=0
+
+    case $state in
+    (term)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-term-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--filter=[]:FILTER:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(new)
+_arguments "${_arguments_options[@]}" : \
+'--definition=[]:DEFINITION:_default' \
+'*--alias=[]:ALIAS:_default' \
+'*--tag=[]:TAG:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':term:_default' \
+&& ret=0
+;;
+(lint)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(learn)
+_arguments "${_arguments_options[@]}" : \
+'--original=[]:ORIGINAL:_default' \
+'--correct=[]:CORRECT:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(fix)
+_arguments "${_arguments_options[@]}" : \
+'--definition=[]:DEFINITION:_default' \
+'*--alias=[]:ALIAS:_default' \
+'*--tag=[]:TAG:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':term:_default' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(completion)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':shell:(bash zsh fish powershell elvish)' \
+&& ret=0
+;;
+(build)
+_arguments "${_arguments_options[@]}" : \
+'--project=[]:PROJECT:_default' \
+'--output=[]:OUTPUT:_files' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--dry-run[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':article:_default' \
+&& ret=0
+;;
+(publish)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf__subcmd__publish_commands" \
+"*::: :->publish" \
+&& ret=0
+
+    case $state in
+    (publish)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-publish-command-$line[1]:"
+        case $line[1] in
+            (run)
+_arguments "${_arguments_options[@]}" : \
+'--target=[]:TARGET:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--dry-run[]' \
+'--force[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':path:_files' \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--status=[]:STATUS:_default' \
+'--target-url=[]:TARGET_URL:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+':path:_files' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(config)
+_arguments "${_arguments_options[@]}" : \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_mf__subcmd__config_commands" \
+"*::: :->config" \
+&& ret=0
+
+    case $state in
+    (config)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:mf-config-command-$line[1]:"
+        case $line[1] in
+            (schema)
+_arguments "${_arguments_options[@]}" : \
+'--output-format=[]:OUTPUT_FORMAT:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(show)
+_arguments "${_arguments_options[@]}" : \
+'--output-format=[]:OUTPUT_FORMAT:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+(init)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:_files' \
+'--target=[]:TARGET:_default' \
+'--config=[]:PATH:_files' \
+'--format=[]:FORMAT:(text json)' \
+'--force[]' \
+'*-v[]' \
+'*--verbose[]' \
+'-q[]' \
+'--quiet[]' \
+'--no-color[]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_mf_commands] )) ||
+_mf_commands() {
+    local commands; commands=(
+'source:Manage content sources' \
+'asset:Manage project assets' \
+'project:Manage projects' \
+'article:Manage articles' \
+'term:Manage terminology' \
+'completion:Generate shell completion scripts' \
+'build:Build articles' \
+'publish:Publish articles' \
+'config:Manage configuration' \
+    )
+    _describe -t commands 'mf commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__article_commands] )) ||
+_mf__subcmd__article_commands() {
+    local commands; commands=(
+'new:Create an article' \
+'list:List articles' \
+'lint:Lint articles' \
+'index:Index articles' \
+    )
+    _describe -t commands 'mf article commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__article__subcmd__index_commands] )) ||
+_mf__subcmd__article__subcmd__index_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf article index commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__article__subcmd__lint_commands] )) ||
+_mf__subcmd__article__subcmd__lint_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf article lint commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__article__subcmd__list_commands] )) ||
+_mf__subcmd__article__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf article list commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__article__subcmd__new_commands] )) ||
+_mf__subcmd__article__subcmd__new_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf article new commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__asset_commands] )) ||
+_mf__subcmd__asset_commands() {
+    local commands; commands=(
+'list:List assets' \
+'add:Add an asset' \
+'update:Update assets' \
+'index:Index assets' \
+    )
+    _describe -t commands 'mf asset commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__asset__subcmd__add_commands] )) ||
+_mf__subcmd__asset__subcmd__add_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf asset add commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__asset__subcmd__index_commands] )) ||
+_mf__subcmd__asset__subcmd__index_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf asset index commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__asset__subcmd__list_commands] )) ||
+_mf__subcmd__asset__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf asset list commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__asset__subcmd__update_commands] )) ||
+_mf__subcmd__asset__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf asset update commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__build_commands] )) ||
+_mf__subcmd__build_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf build commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__completion_commands] )) ||
+_mf__subcmd__completion_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf completion commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__config_commands] )) ||
+_mf__subcmd__config_commands() {
+    local commands; commands=(
+'schema:Show config schema' \
+'show:Show effective config' \
+'init:Initialize config file' \
+    )
+    _describe -t commands 'mf config commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__config__subcmd__init_commands] )) ||
+_mf__subcmd__config__subcmd__init_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf config init commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__config__subcmd__schema_commands] )) ||
+_mf__subcmd__config__subcmd__schema_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf config schema commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__config__subcmd__show_commands] )) ||
+_mf__subcmd__config__subcmd__show_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf config show commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__project_commands] )) ||
+_mf__subcmd__project_commands() {
+    local commands; commands=(
+'new:Create a project' \
+'list:List projects' \
+'archive:Archive a project' \
+'status:Show project status' \
+'lint:Lint a project' \
+'index:Index projects' \
+    )
+    _describe -t commands 'mf project commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__project__subcmd__archive_commands] )) ||
+_mf__subcmd__project__subcmd__archive_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf project archive commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__project__subcmd__index_commands] )) ||
+_mf__subcmd__project__subcmd__index_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf project index commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__project__subcmd__lint_commands] )) ||
+_mf__subcmd__project__subcmd__lint_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf project lint commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__project__subcmd__list_commands] )) ||
+_mf__subcmd__project__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf project list commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__project__subcmd__new_commands] )) ||
+_mf__subcmd__project__subcmd__new_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf project new commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__project__subcmd__status_commands] )) ||
+_mf__subcmd__project__subcmd__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf project status commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__publish_commands] )) ||
+_mf__subcmd__publish_commands() {
+    local commands; commands=(
+'run:Publish a file to a target' \
+'update:Update publish record' \
+    )
+    _describe -t commands 'mf publish commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__publish__subcmd__run_commands] )) ||
+_mf__subcmd__publish__subcmd__run_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf publish run commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__publish__subcmd__update_commands] )) ||
+_mf__subcmd__publish__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf publish update commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__source_commands] )) ||
+_mf__subcmd__source_commands() {
+    local commands; commands=(
+'list:List sources' \
+'add:Add a source' \
+'update:Update a source' \
+'index:Index sources' \
+'remove:Remove a source' \
+'clean:Clean source index' \
+    )
+    _describe -t commands 'mf source commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__source__subcmd__add_commands] )) ||
+_mf__subcmd__source__subcmd__add_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf source add commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__source__subcmd__clean_commands] )) ||
+_mf__subcmd__source__subcmd__clean_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf source clean commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__source__subcmd__index_commands] )) ||
+_mf__subcmd__source__subcmd__index_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf source index commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__source__subcmd__list_commands] )) ||
+_mf__subcmd__source__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf source list commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__source__subcmd__remove_commands] )) ||
+_mf__subcmd__source__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf source remove commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__source__subcmd__update_commands] )) ||
+_mf__subcmd__source__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf source update commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__term_commands] )) ||
+_mf__subcmd__term_commands() {
+    local commands; commands=(
+'list:List terms' \
+'new:Create a term' \
+'lint:Lint terms' \
+'learn:Learn term correction' \
+'fix:Fix a term' \
+    )
+    _describe -t commands 'mf term commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__term__subcmd__fix_commands] )) ||
+_mf__subcmd__term__subcmd__fix_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf term fix commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__term__subcmd__learn_commands] )) ||
+_mf__subcmd__term__subcmd__learn_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf term learn commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__term__subcmd__lint_commands] )) ||
+_mf__subcmd__term__subcmd__lint_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf term lint commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__term__subcmd__list_commands] )) ||
+_mf__subcmd__term__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf term list commands' commands "$@"
+}
+(( $+functions[_mf__subcmd__term__subcmd__new_commands] )) ||
+_mf__subcmd__term__subcmd__new_commands() {
+    local commands; commands=()
+    _describe -t commands 'mf term new commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_mf" ]; then
+    _mf "$@"
+else
+    compdef _mf mf
+fi
