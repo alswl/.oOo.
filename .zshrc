@@ -88,7 +88,7 @@ ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="robbyrussell"
 [[ "$OSTYPE" == "darwin"* ]] && ZSH_THEME="robbyrussell"
 [[ "$OSTYPE" == "linux"* ]] && ZSH_THEME="bira"
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$SSH_CONNECTION" ]; then
+if [ -n "$SSH_CONNECTION" ]; then
   ZSH_THEME="bira"
 fi
 
@@ -350,10 +350,10 @@ export GOPRIVATE="github.com/alswl/go-*"
 
 # homebrew
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  export HOMEBREW_NO_AUTO_UPDATE=0
+  # export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_ANALYTICS=1
   # https://github.com/Homebrew/brew/issues/13794
-  export HOMEBREW_NO_INSTALL_FROM_API=1
+  # export HOMEBREW_NO_INSTALL_FROM_API=1
   export HOMEBREW_NO_VERIFY_ATTESTATIONS=1
   # tuna, queue x
   # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
