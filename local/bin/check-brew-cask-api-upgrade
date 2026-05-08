@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+
+def get_brew_prefix() -> Path:
+    result = subprocess.run(["brew", "--prefix"], capture_output=True, text=True)
+    return Path(result.stdout.strip())
+
+
+def get_installed_casks(caskroom: Path) -> tuple[list[str], dict[str, str]]:
+    casks = []
+    installed = {}
+
+    for path in sorted(caskroom.glob("*")):
+        if path.is_symlink():
+            continue
+        name = path.name
+        casks.append(name)
+
+        versions = sorted(p.name for p in path.glob("*"))
+        installed[name] = versions[-1] if versions else None
+
+    return casks, installed
+
+
+def fetch_latest_versions(casks: list[str]) -> dict:
+    result = subprocess.run(
+        ["brew", "info", "--cask", "--json=v2", *casks],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        print(f"brew info error: {result.stderr.strip()}", file=sys.stderr)
+        sys.exit(1)
+    return json.loads(result.stdout)
+
+
+def find_updates(api_data: dict, installed: dict[str, str]) -> list[tuple[str, str, str]]:
+    updates = []
+    for cask in api_data["casks"]:
+        name = cask["token"]
+        latest = cask.get("version")
+        current = installed.get(name)
+        if current and latest and current != latest:
+            updates.append((name, current, latest))
+    return updates
+
+
+def print_results(updates: list[tuple[str, str, str]]) -> None:
+    if not updates:
+        print("All casks up to date.")
+        return
+    for name, current, latest in updates:
+        print(f"{name:<30} {current:<15} -> {latest}")
+
+
+def main() -> None:
+    caskroom = Path(get_brew_prefix(), "Caskroom")
+    casks, installed = get_installed_casks(caskroom)
+
+    if not casks:
+        print("No casks installed.")
+        return
+
+    api_data = fetch_latest_versions(casks)
+    updates = find_updates(api_data, installed)
+    print_results(updates)
+
+
+if __name__ == "__main__":
+    main()
