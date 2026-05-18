@@ -716,6 +716,3 @@ if [[ -d $HOME/.zshrc.etc.d/ ]]; then
 	done
 fi
 # Local setting }}}
-
-# bun completions
-[ -s "/Users/alswl/.bun/_bun" ] && source "/Users/alswl/.bun/_bun"
