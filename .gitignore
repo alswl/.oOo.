@@ -42,3 +42,4 @@ typings
 .zsh_completion/_isee
 .zshrc.etc.d/claude.zshrc
 .claude
+.tool-versions
