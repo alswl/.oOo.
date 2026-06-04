@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import os
+import sys
+import urllib.error
+import urllib.request
+
+
+def json_value(value):
+    try:
+        return json.loads(value)
+    except json.JSONDecodeError:
+        return value
+
+
+def parse_param(param):
+    if "=" not in param:
+        raise argparse.ArgumentTypeError("expected KEY=JSON")
+    key, value = param.split("=", 1)
+    if not key:
+        raise argparse.ArgumentTypeError("expected KEY=JSON")
+    return key, json_value(value)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog="firecrawl",
+        description="Call Firecrawl REST API with FIRECRAWL_API_KEY.",
+    )
+    parser.add_argument("url", nargs="?", help="URL to scrape. Required unless --data supplies the request body.")
+    parser.add_argument(
+        "-e",
+        "--endpoint",
+        default="scrape",
+        help="API endpoint under /v2, for example scrape, search, interact, support/ask, support/docs-search.",
+    )
+    parser.add_argument(
+        "-d",
+        "--data",
+        help="Full JSON request body. If a positional URL is also passed and url is absent, it is added.",
+    )
+    parser.add_argument(
+        "-p",
+        "--param",
+        action="append",
+        default=[],
+        type=parse_param,
+        metavar="KEY=JSON",
+        help='Add or override one JSON field, for example -p onlyMainContent=true -p waitFor=1000.',
+    )
+    parser.add_argument(
+        "-f",
+        "--format",
+        action="append",
+        dest="formats",
+        help="Add one scrape format. Can be repeated, for example -f markdown -f html.",
+    )
+    parser.add_argument(
+        "--show-request",
+        action="store_true",
+        help="Print the request URL and JSON body to stderr before running it.",
+    )
+    args = parser.parse_args()
+
+    if not args.url and not args.data:
+        parser.error("url is required unless --data is provided")
+
+    api_key = os.environ.get("FIRECRAWL_API_KEY")
+    if not api_key:
+        print("error: FIRECRAWL_API_KEY is not set", file=sys.stderr)
+        return 1
+
+    if args.data:
+        try:
+            body = json.loads(args.data)
+        except json.JSONDecodeError as exc:
+            print(f"error: invalid --data JSON: {exc}", file=sys.stderr)
+            return 1
+        if not isinstance(body, dict):
+            print("error: --data must be a JSON object", file=sys.stderr)
+            return 1
+    else:
+        body = {}
+
+    if args.url and "url" not in body:
+        body["url"] = args.url
+    for key, value in args.param:
+        body[key] = value
+    if args.formats:
+        body["formats"] = args.formats
+
+    endpoint = args.endpoint.strip("/")
+    api_url = f"https://api.firecrawl.dev/v2/{endpoint}"
+    payload = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
+
+    if args.show_request:
+        print(f"POST {api_url}", file=sys.stderr)
+        print(payload, file=sys.stderr)
+
+    request = urllib.request.Request(
+        api_url,
+        data=payload.encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(request) as response:
+            sys.stdout.buffer.write(response.read())
+            return 0
+    except urllib.error.HTTPError as exc:
+        sys.stderr.write(exc.read().decode("utf-8", errors="replace"))
+        if not str(exc).endswith("\n"):
+            sys.stderr.write("\n")
+        return 1
+    except urllib.error.URLError as exc:
+        print(f"error: {exc.reason}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
