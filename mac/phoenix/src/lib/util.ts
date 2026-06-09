@@ -1,8 +1,13 @@
 import * as _ from 'lodash';
+import { DEBUG } from '../config';
 
 declare var console: any;
 
 export function log(...args: any[]): void {
+  // Hot-path guard: skip stringify() + Phoenix.log + console.trace unless debugging.
+  if (!DEBUG) {
+    return;
+  }
   args = args.map((arg) => stringify(arg));
   Phoenix.log(...args);
   // tslint:disable-next-line:no-console

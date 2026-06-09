@@ -1,3 +1,7 @@
+// Verbose diagnostic logging + timing probes. Off by default so they never run
+// on the hot path; flip to true only to measure switch latency (see quickstart.md).
+const DEBUG = false;
+
 const MASH: Phoenix.ModifierKey[] = ['alt'];
 const MASH_CTRL: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
 const MASH_SHIFT: Phoenix.ModifierKey[] = ['alt', 'shift'];
@@ -38,6 +42,7 @@ const DISPLAYS_ORDER = {};
 const RESIZE_WITH_RATIO = false;
 
 export {
+  DEBUG,
   MAC_SCREEN_IN_THE_RIGHT,
   MASH,
   MASH_CTRL,

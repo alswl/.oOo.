@@ -1,5 +1,5 @@
-import * as config from './config';
-import { heartbeatWindow } from './window';
+import * as config from '../config';
+import { heartbeatWindow } from '../features/window';
 
 export function saveMousePositionForWindow(window: Window) {
   if (!window) {

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import { A_BIG_PIXEL, RESIZE_WITH_RATIO } from './config';
-import { restoreMousePositionForWindow, saveMousePositionForWindow } from './mouse';
-import { log } from './util';
+import { A_BIG_PIXEL, RESIZE_WITH_RATIO } from '../config';
+import { restoreMousePositionForWindow, saveMousePositionForWindow } from '../lib/mouse';
+import { log } from '../lib/util';
 import { getCurrentWindow, sortByMostRecent } from './window';
 
 // let SCREEN_LATEST_WINDOW: { [screen: string]: Window } = {};
@@ -72,7 +72,7 @@ function getScreenLatestWindow(screen: Screen): Window | null {
   const start = new Date().getTime();
   const nextScreenWindows = screen.windows({ visible: true }); // slow XXX
   // const nextScreenWindows = targetScreen.windows(); // slow XXX
-  Phoenix.log('Time 2: ' + (new Date().getTime() - start));
+  log('Time 2: ' + (new Date().getTime() - start));
   const targetScreenWindows = sortByMostRecent(nextScreenWindows); // ok
   if (targetScreenWindows.length === 0) {
     log('focusAnotherScreen, target no window');
@@ -82,9 +82,9 @@ function getScreenLatestWindow(screen: Screen): Window | null {
     });
     return null;
   }
-  Phoenix.log('Time 2.1: ' + (new Date().getTime() - start));
+  log('Time 2.1: ' + (new Date().getTime() - start));
   const targetWindow = targetScreenWindows[0];
-  Phoenix.log('Time 2.2: ' + (new Date().getTime() - start));
+  log('Time 2.2: ' + (new Date().getTime() - start));
   return targetWindow;
 }
 
@@ -96,7 +96,7 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
   //   return SCREEN_LATEST_WINDOW.get(currentScreen.hash());
   // }
 
-  Phoenix.log('Time 1: ' + (new Date().getTime() - start));
+  log('Time 1: ' + (new Date().getTime() - start));
 
   saveMousePositionForWindow(window);
   const targetWindow = getScreenLatestWindow(targetScreen);
@@ -104,7 +104,7 @@ export function focusAnotherScreen(window: Window, targetScreen: Screen) {
     return;
   }
 
-  Phoenix.log('Time 1.1: ' + (new Date().getTime() - start));
+  log('Time 1.1: ' + (new Date().getTime() - start));
   targetWindow.focus(); // bug, two window in two space, focus will focus in same space first
   restoreMousePositionForWindow(targetWindow); // ok
   // App.get('Finder').focus(); // Hack for Screen unfocus
@@ -114,23 +114,28 @@ export function sortedWindowsOnSameScreen(window: Window | undefined): Window[] 
   if (window === undefined) {
     return [];
   }
-  let windows = window.others({ visible: true, screen: window.screen() });
+  const windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
-  const screen = window.screen();
-  windows = _.chain(windows)
-    .sortBy((x) => {
-      return [
-        A_BIG_PIXEL +
-          x.frame().y -
-          screen.flippedFrame().y +
-          (A_BIG_PIXEL + x.frame().x - screen.flippedFrame().y),
-        x.app().processIdentifier(),
-        x.title(),
+  // Snapshot each window's sort-relevant properties once (one AX-read batch per window)
+  // and read the screen's flipped frame a single time, instead of re-reading frame()/
+  // flippedFrame() inside the sort comparator. The sort key is preserved verbatim,
+  // including the original `flippedFrame().y`-on-x term (latent bug F1, see research.md).
+  const screenFlippedFrameY = window.screen().flippedFrame().y;
+  const sorted = _.chain(windows)
+    .map((w) => {
+      const frame = w.frame();
+      const title = w.title();
+      const key = [
+        A_BIG_PIXEL + frame.y - screenFlippedFrameY + (A_BIG_PIXEL + frame.x - screenFlippedFrameY),
+        w.app().processIdentifier(),
+        title,
       ].join('');
+      return { window: w, title, key };
     })
+    .sortBy((info) => info.key)
     .value();
-  log(`sortedWindowsOnSameScreen: ${windows.map((x) => '"' + x.title() + '"').join(', ')}`);
-  return windows;
+  log(`sortedWindowsOnSameScreen: ${sorted.map((info) => '"' + info.title + '"').join(', ')}`);
+  return sorted.map((info) => info.window);
 }
 
 // TODO use a state save status
