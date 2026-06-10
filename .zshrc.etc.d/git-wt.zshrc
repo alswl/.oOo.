@@ -1,6 +1,6 @@
 # fuzzy 选择 git worktree 并 cd 进去
 # Requires: fzf
-gwtcd() {
+gwcd() {
   local dir
 
   dir="$(
@@ -28,6 +28,7 @@ gwtcd() {
           if (path != "") {
             if (branch == "") branch = "(unknown)"
             print branch "\t" path
+            path = ""
           }
         }
 
