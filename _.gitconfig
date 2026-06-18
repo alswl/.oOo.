@@ -2,10 +2,9 @@
 	email = 
 	name = 
 [color]
-    diff = auto 
+	diff = auto
 	ui = true
 	status = auto
-	diff = auto
 	branch = auto
 [diff]
 	#external = git_diff_wrapper
@@ -53,6 +52,7 @@
 	local-ignored = !git ls-files -v | grep "^[[:lower:]]"
 [merge]
 	tool = vimdiff
+	conflictStyle = zdiff3
 [push]
 	default = simple
 [pull]
@@ -61,6 +61,7 @@
 	excludesfile = ~/.gitignore_global
 	precomposeUnicode = true
 	quotePath = false
+	pager = delta
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
@@ -87,5 +88,16 @@
 	insteadOf = https://github.com/
 [url "git@gitlab.com:"]
 	insteadOf = https://gitlab.com/
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [gitflow "branch"]
 	develop = develop
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	dark = true

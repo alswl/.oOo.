@@ -350,7 +350,7 @@ export GOPRIVATE="github.com/alswl/go-*"
 
 # homebrew
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  # export HOMEBREW_NO_AUTO_UPDATE=1
+  export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_ANALYTICS=1
   # https://github.com/Homebrew/brew/issues/13794
   # export HOMEBREW_NO_INSTALL_FROM_API=1
@@ -361,7 +361,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   # ustc
   export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
   export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-  export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
+  #export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
   # sjtu
   # export HOMEBREW_CORE_GIT_REMOTE=https://mirrors.sjtug.sjtu.edu.cn/git/homebrew-core.git
   # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles/bottles
@@ -602,12 +602,14 @@ alias gmnf='git merge --no-ff'
 alias gmod='git merge origin/develop'
 alias gn='git number --column'
 alias gnst='git number status'
-alias gdt='git difftool'
+alias gdt='git diff --no-ext-diff --color | delta'
+alias gdtc='git diff --no-ext-diff --color --cached | delta'
 alias gcls='git clone --depth 1'
 alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
-alias gdtc='git difftool --cached'
+alias gdv='git difftool'
+alias gdvc='git difftool --cached'
 # override gbda of git plugin
 alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9\-]+)\s*$)" | command xargs -n 1 git branch -d'
 alias gchs='git-changes'

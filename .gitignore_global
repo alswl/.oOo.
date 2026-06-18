@@ -32,3 +32,5 @@ Session.vim
 ~*
 .env
 .venv
+
+**/.claude/settings.local.json
