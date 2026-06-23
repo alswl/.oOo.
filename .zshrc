@@ -289,6 +289,9 @@ autoload -U nvm;"
 # playwright
 export PLAYWRIGHT_DOWNLOAD_HOST=https://registry.npmmirror.com/-/binary/playwright/
 
+# electron (mirror for faster downloads in China)
+export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
+
 # fnm
 alias loadfnm='eval $(fnm env);'
 
