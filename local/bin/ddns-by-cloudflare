@@ -1,29 +1,34 @@
 #!/bin/bash
-# Usage: ddns-by-cloudflare.sh <device> <domain> <zone_id> <record_id> <token>
 
 set -e
 
-DEVICE=$1
-DOMAIN=$2
-ZONE_ID=$3
-RECORD_ID=$4
-TOKEN=$5
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --device)    DEVICE="$2"; shift 2 ;;
+    --domain)    DOMAIN="$2"; shift 2 ;;
+    --zone-id)   ZONE_ID="$2"; shift 2 ;;
+    --record-id) RECORD_ID="$2"; shift 2 ;;
+    --token)     TOKEN_ARG="$2"; shift 2 ;;
+    *) echo "unknown option: $1"; exit 1 ;;
+  esac
+done
 
-if [ -z $DEVICE ] || [ -z $DOMAIN ] || [ -z $ZONE_ID ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
-  echo "error auguments"
-  echo "Usage: ddns-by-cloudflare.sh <device> <domain> <zone_id> <record_id> <token>"
-  exit 0
+[ -z $CLOUDFLARE_TOKEN ] && [ -f ~/.config/ddns-by-cloudflare/env ] && source ~/.config/ddns-by-cloudflare/env
+[ -z $CLOUDFLARE_TOKEN ] && CLOUDFLARE_TOKEN=$TOKEN_ARG
+
+if [ -z "$DEVICE" ] || [ -z "$DOMAIN" ] || [ -z "$ZONE_ID" ] || [ -z "$RECORD_ID" ] || [ -z "$CLOUDFLARE_TOKEN" ]; then
+  echo "Usage: ddns-by-cloudflare --device <dev> --domain <domain> --zone-id <id> --record-id <id> [--token <t>]"
+  exit 1
 fi
 
 IP=$(ifconfig | grep $DEVICE: -A 4 | grep "inet " | tail -n 1 | awk '{print $2}')
 C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
 
 [ "$IP" = "$C_IP" ] && exit 0
-[ -z $IP ] && exit 0
-
+[ -z "$IP" ] && exit 0
 
 curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
-     -H "Authorization: Bearer ${TOKEN}" \
+     -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
      -H "Content-Type: application/json" \
      --data "{\"type\":\"A\",\"name\":\"${DOMAIN}\",\"content\":\"${IP}\",\"proxied\":false}"
 

@@ -1,15 +1,23 @@
 #!/bin/bash
 
-DEVICE=$1
-SUB_DOMAIN=$2
-BASE_DOMAIN=$3
-DOMAIN_ID=$4
-RECORD_ID=$5
-TOKEN=$6
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --device)      DEVICE="$2"; shift 2 ;;
+    --sub-domain)  SUB_DOMAIN="$2"; shift 2 ;;
+    --base-domain) BASE_DOMAIN="$2"; shift 2 ;;
+    --domain-id)   DOMAIN_ID="$2"; shift 2 ;;
+    --record-id)   RECORD_ID="$2"; shift 2 ;;
+    --token)       TOKEN_ARG="$2"; shift 2 ;;
+    *) echo "unknown option: $1"; exit 1 ;;
+  esac
+done
 
-if [ -z $DEVICE ] || [ -z $SUB_DOMAIN ] || [ -z $BASE_DOMAIN ] || [ -z $DOMAIN_ID ] || [ -z $RECORD_ID ] || [ -z $TOKEN ]; then
-  echo "error auguments"
-  exit 0
+[ -z $DNSPOD_TOKEN ] && [ -f ~/.config/ddns-by-dnspod/env ] && source ~/.config/ddns-by-dnspod/env
+[ -z $DNSPOD_TOKEN ] && DNSPOD_TOKEN=$TOKEN_ARG
+
+if [ -z "$DEVICE" ] || [ -z "$SUB_DOMAIN" ] || [ -z "$BASE_DOMAIN" ] || [ -z "$DOMAIN_ID" ] || [ -z "$RECORD_ID" ] || [ -z "$DNSPOD_TOKEN" ]; then
+  echo "Usage: ddns-by-dnspod --device <dev> --sub-domain <sub> --base-domain <base> --domain-id <id> --record-id <id> [--token <t>]"
+  exit 1
 fi
 
 DOMAIN="$SUB_DOMAIN.$BASE_DOMAIN"
@@ -17,10 +25,8 @@ IP=$(ifconfig | grep $DEVICE: -A 4 | grep "inet " | tail -n 1 | awk '{print $2}'
 C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
 
 [ "$IP" = "$C_IP" ] && exit 0
-[ -z $IP ] && exit 0
+[ -z "$IP" ] && exit 0
 
-#record_list_json=$(curl -s https://dnsapi.cn/Record.List -d "domain=$BASE_DOMAIN&sub_domain=$SUB_DOMAIN&record_type=A&record_line=默认&login_token=$TOKEN&format=json")
-
-curl -s https://dnsapi.cn/Record.Modify -d "domain_id=$DOMAIN_ID&record_id=$RECORD_ID&sub_domain=$SUB_DOMAIN&record_type=A&record_line=默认&value=$IP&login_token=$TOKEN&format=json"
+curl -s https://dnsapi.cn/Record.Modify -d "domain_id=$DOMAIN_ID&record_id=$RECORD_ID&sub_domain=$SUB_DOMAIN&record_type=A&record_line=默认&value=$IP&login_token=$DNSPOD_TOKEN&format=json"
 
 # vim: set ft=sh:
