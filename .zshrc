@@ -605,8 +605,14 @@ alias gmnf='git merge --no-ff'
 alias gmod='git merge origin/develop'
 alias gn='git number --column'
 alias gnst='git number status'
-alias gdt='git diff --no-ext-diff --color | delta'
-alias gdtc='git diff --no-ext-diff --color --cached | delta'
+if alias gdt &>/dev/null; then unalias gdt; fi
+gdt() {
+  git diff --no-ext-diff --color "$@" | delta
+}
+if alias gdtc &>/dev/null; then unalias gdtc; fi
+gdtc() {
+  git diff --no-ext-diff --color --cached "$@" | delta
+}
 alias gcls='git clone --depth 1'
 alias gshallow='git pull --depth 1 && git gc --prune=all'
 alias gdc='git diff --color=always'
