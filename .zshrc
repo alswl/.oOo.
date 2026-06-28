@@ -222,7 +222,7 @@ export LC_ALL="en_US.UTF-8"
 
 #LANG="zh_CN.UTF-8"
 export LANG="en_US.UTF-8"
-export LANGUAGE="en_US.UTF--8"
+export LANGUAGE="en_US.UTF-8"
 export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 #LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
 #SUPPORTED="zh_CN.UTF-8:zh_CN:zh"
