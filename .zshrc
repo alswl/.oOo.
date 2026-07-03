@@ -549,7 +549,7 @@ alias p2a='pbpaste > /tmp/a.html && open /tmp/a.html'
 alias p2v='pbpaste | vi -'
 alias ssh-keygen-ed25519='ssh-keygen -t ed25519'
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	alias gource='gource --font-file "/System/Library/Fonts/PingFang.ttc"'
+	alias gource-ext='gource --font-file '/System/Library/Fonts/STHeiti Medium.ttc' --user-image-dir ~/.config/my-gource/avatars --seconds-per-day 3 --auto-skip-seconds 1'
 fi
 alias ca=cursor-agent
 
