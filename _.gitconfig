@@ -1,6 +1,6 @@
 [user]
-	email = 
-	name = 
+	email =
+	name =
 [color]
 	diff = auto
 	ui = true
@@ -9,7 +9,7 @@
 [diff]
 	#external = git_diff_wrapper
 	# tool = vimdiff
-	tool = nvimdiff 
+	tool = nvimdiff
 [difftool]
 	prompt = false
 [pager]
@@ -62,14 +62,8 @@
 	precomposeUnicode = true
 	quotePath = false
 	pager = delta
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
@@ -84,6 +78,10 @@
 	whitespace = red reverse
 [init]
 	defaultBranch = master
+[filesystem "JetBrains s.r.o.|11.0.15|/dev/disk1s4"]
+	timestampResolution = 16000 nanoseconds
+	minRacyThreshold    = 0 nanoseconds
+
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [url "git@gitlab.com:"]
@@ -101,3 +99,12 @@
 [delta]
 	navigate = true
 	dark = true
+	side-by-side = true
+	features = calochortus-lyallii
+[include]
+	# delta theme
+    path = /opt/homebrew/share/git-delta/themes.gitconfig
+[mailmap]
+	file = ~/.config/my-git/mailmap
+[ssh]
+	variant = ssh
