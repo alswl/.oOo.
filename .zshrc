@@ -60,6 +60,9 @@ export GOPATH=$HOME/dev/go
 PATH=$GOPATH/bin:$PATH
 # kusion
 if [[ -d $HOME/local/kusion/bin ]]; then
+  export KUSION_SKIP_UPDATE_CHECK=true
+  export KUSION_HOME="$HOME/local/kusion"
+  export KUSION_PATH="$KUSION_HOME/bin"
   export PATH=$KUSION_HOME/kclvm/bin:$PATH
 fi
 
@@ -118,7 +121,7 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: rbenv is slow
 # NOTICE: nvm is slow
 plugins=( \
-	bower colored-man-pages compleat docker docker-compose fabric fnm gem git gitfast git-flow golang golang dotenv \
+	bower colored-man-pages compleat docker docker-compose fabric fnm gem git gitfast git-flow golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn terraform tmux urltools uv virtualenvwrapper \
 	)
@@ -400,18 +403,7 @@ ssht() {
 }
 
 # s2 is hack alias for ssh
-s2() {
-    if [[ -n "$TMUX" ]]; then
-        local target="${@: -1}"
-        _zsh_tmux_plugin_run rename-window "$target"
-        command ssh "$@"
-        local status=$?
-        _zsh_tmux_plugin_run set-window-option automatic-rename on >/dev/null
-        return $status
-    else
-        command ssh "$@"
-    fi
-}
+alias s2=ssht
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude "*.png" --exclude "*.generated.*"'
 
@@ -472,13 +464,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias ldd='otool -L'
 fi
 
-# kusion
-if [[ -d $HOME/local/kusion/bin ]]; then
-  export KUSION_SKIP_UPDATE_CHECK=true
-  export KUSION_HOME="$HOME/local/kusion"
-  export KUSION_PATH="$KUSION_HOME/bin"
-fi
-
 
 # Alias {{{
 
@@ -487,8 +472,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias b=brew
 	alias simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 	alias readlink=greadlink
-	[ -f /usr/local/bin/screen ] && alias screen='TERM=xterm-256color /usr/local/bin/screen'
-	[ -f /opt/homebrew/bin/screen ] && alias screen='TERM=xterm-256color /opt/homebrew/bin/screen'
 	alias mute='osascript -e "set volume 0"'
 	alias unmute='osascript -e "set volume 2"'
 	# alias find='gfind'
@@ -525,6 +508,7 @@ alias psg='ps -ef | grep '
 alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'
+# force 256-color TERM (inner color set in .screenrc)
 alias screen='TERM=xterm-256color screen'
 alias s='sudo'
 if [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
