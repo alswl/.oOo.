@@ -9,6 +9,9 @@
 
 # PATH {{{
 
+# keep PATH/FPATH entries unique (avoid duplicates on re-source)
+typeset -U path PATH fpath FPATH
+
 PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$HOME/.jenv/bin:$PATH
 PATH=$HOME/.local/bin:$PATH
@@ -23,13 +26,6 @@ HOME_LOCAL_BIN_PATH=$HOME_LOCAL_PATH/bin
 
 FPATH=$HOME/.zsh_completion/:$FPATH
 FPATH=$HOME/.zfunc/:$FPATH
-
-# virtual wrapper
-[ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python  # for mac intel
-[ -f /opt/homebrew/bin/python3 ] && export VIRTUALENVWRAPPER_PYTHON=/opt/homebrew/bin/python3  # for mac apple silicon
-[ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh # arch
-[ -f /opt/homebrew/bin/virtualenvwrapper.sh ] && source /opt/homebrew/bin/virtualenvwrapper.sh # arch
-[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper # ubuntu
 
 
 if [[ -d $HOME_LOCAL_PATH ]]; then
@@ -123,7 +119,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=( \
 	bower colored-man-pages compleat docker docker-compose fabric fnm gem git gitfast git-flow golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
-	screen ssh-agent sudo svn terraform tmux urltools uv virtualenvwrapper \
+	screen ssh-agent sudo svn terraform tmux urltools uv \
 	)
 # historical used plugins
 # vagrant
@@ -137,6 +133,8 @@ plugins=( \
 # https://stackoverflow.com/questions/25614613/how-to-disable-zsh-substitution-autocomplete-with-url-and-backslashes/
 DISABLE_MAGIC_FUNCTIONS=true
 
+# oh-my-zsh runs compinit itself; set the dump path before sourcing it
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 source $ZSH/oh-my-zsh.sh
 
 export HISTSIZE=10000000
@@ -145,10 +143,6 @@ setopt EXTENDED_HISTORY
 
 #export POWERLINE_RIGHT_B="none"
 #export POWERLINE_HIDE_HOST_NAME="true"
-
-autoload -U compinit; compinit
-
-export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
 # ZSH Config }}}
 
@@ -279,6 +273,14 @@ alias loadpyenv='eval "$(pyenv init -)"'
 export NNN_TRASH=1 # trash (needs trash-cli aka trash-put) instead of delete
 export NNN_COLORS="2136" # use a different color for each context
 
+
+# virtualenvwrapper (lazy, load on demand)
+alias loadvirtualenvwrapper="
+[ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python;
+[ -f /opt/homebrew/bin/python3 ] && export VIRTUALENVWRAPPER_PYTHON=/opt/homebrew/bin/python3;
+[ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh;
+[ -f /opt/homebrew/bin/virtualenvwrapper.sh ] && source /opt/homebrew/bin/virtualenvwrapper.sh;
+[ -f /etc/bash_completion.d/virtualenvwrapper ] && source /etc/bash_completion.d/virtualenvwrapper;"
 
 # node
 # nvm
@@ -445,7 +447,10 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 # ldd
 
 # aliyun
-complete -o nospace -F /usr/local/bin/aliyun aliyun
+if (( $+commands[aliyun] )); then
+  autoload -Uz bashcompinit && bashcompinit
+  complete -o nospace -C aliyun aliyun
+fi
 
 ## gitstatus
 
