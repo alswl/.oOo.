@@ -30,6 +30,8 @@ These configuration Includes:
     -   com.alswl.edit-server.plist  # TextAid server for https://chrome.google.com/webstore/detail/textaid/ppoadiihggafnhokfkpphojggcdigllp?hl=en
 -   .obsidian.vimrc # for Obsidian
 
+Deprecated configs (vimperator, pentadactyl, CVim, VimFx, Xmodmap, slate, amethyst, mjolnir) have been moved to [`archived/`](archived/).
+
 Useful `local/bin` (scripts):
 
 -   SimpleHTTPServerWithUpload.py  # simple HTTPS Server with Upload
@@ -142,9 +144,11 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 cd YOUR_REPO_PARENT_PATH
 git clone https://github.com/alswl/.oOo.
 cd .oOo.
-ln -s $(pwd)/.* $HOME/
-rm $HOME/.git
-rm $HOME/.DS_Store
+# symlink dotfiles into $HOME (.[!.]* avoids . and .. ; skip repo-meta & OS cruft)
+for f in .[!.]*; do
+  case "$f" in .git|.gitignore|.DS_Store|.idea|.claude) continue ;; esac
+  ln -sfn "$(pwd)/$f" "$HOME/$f"
+done
 cp $(pwd)/_.gitconfig $HOME/.gitconfig
 
 mkdir -p $HOME/local/bin
@@ -157,7 +161,11 @@ macOS continues:
 
 ```bash
 cd YOUR_REPO_PATH
-ln -s $(pwd)/mac/.* $HOME/
+for f in mac/.[!.]*; do
+  base=${f##*/}
+  case "$base" in .DS_Store|*.swp) continue ;; esac
+  ln -sfn "$(pwd)/$f" "$HOME/$base"
+done
 ln -s $(pwd)/mac/phoenix/dist/phoenix.js $HOME/.phoenix.js
 ln -s $(pwd)/mac/_Library/Application\ Support/Karabiner/private.xml $HOME/Library/Application\ Support/Karabiner/private.xml
 ln -s $(pwd)/mac/_config/karabiner/karabiner.json $HOME/.config/karabiner/karabiner.json
@@ -167,7 +175,9 @@ Linux continues:
 
 ```bash
 cd YOUR_REPO_PATH
-ln -s $(pwd)/linux/.* $HOME/
+for f in linux/.[!.]*; do
+  ln -sfn "$(pwd)/$f" "$HOME/${f##*/}"
+done
 ```
 
 ## Phoenix (window management in macOS as tiling system)
