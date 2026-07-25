@@ -385,13 +385,15 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 export RUSTUP_DIST_SERVER="https://rsproxy.cn"
 export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
 
-# tmux
-
-ssh() {
-    if [ -n "${TMUX}" ]; then
-        tmux rename-window "$(echo $* | awk '{print $1}')"
+# tmux auto rename ssh
+ssht() {
+    if [[ -n "$TMUX" ]]; then
+        local target="${@: -1}"
+        _zsh_tmux_plugin_run rename-window "$target"
         command ssh "$@"
-        tmux set-window-option automatic-rename "on" 1>/dev/null
+        local status=$?
+        _zsh_tmux_plugin_run set-window-option automatic-rename on >/dev/null
+        return $status
     else
         command ssh "$@"
     fi
@@ -399,12 +401,15 @@ ssh() {
 
 # s2 is hack alias for ssh
 s2() {
-    if [ -n "${TMUX}" ]; then
-        tmux rename-window "$(echo $* | awk '{print $1}')"
-        command s2 "$@"
-        tmux set-window-option automatic-rename "on" 1>/dev/null
+    if [[ -n "$TMUX" ]]; then
+        local target="${@: -1}"
+        _zsh_tmux_plugin_run rename-window "$target"
+        command ssh "$@"
+        local status=$?
+        _zsh_tmux_plugin_run set-window-option automatic-rename on >/dev/null
+        return $status
     else
-        command s2 "$@"
+        command ssh "$@"
     fi
 }
 
