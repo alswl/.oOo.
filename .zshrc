@@ -134,7 +134,7 @@ plugins=( \
 DISABLE_MAGIC_FUNCTIONS=true
 
 # oh-my-zsh runs compinit itself; set the dump path before sourcing it
-export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST-$ZSH_VERSION
 source $ZSH/oh-my-zsh.sh
 
 export HISTSIZE=10000000
