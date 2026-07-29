@@ -7,72 +7,7 @@
 # zsh -xv
 
 
-# PATH {{{
-
-# keep PATH/FPATH entries unique (avoid duplicates on re-source)
-typeset -U path PATH fpath FPATH
-
-PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
-PATH=$HOME/.jenv/bin:$PATH
-PATH=$HOME/.local/bin:$PATH
-PATH=$HOME/.luarocks/bin:$PATH
-# PATH=$HOME/.virtualenvs/sys/bin:$PATH
-PATH=$HOME/.krew/bin:$PATH
-PATH=$HOME/.cargo/bin:$PATH
-
-HOME_LOCAL_PATH=$HOME/local
-HOME_LOCAL_BIN_PATH=$HOME_LOCAL_PATH/bin
-[ -d $HOME_LOCAL_BIN_PATH ] && PATH=$HOME_LOCAL_BIN_PATH:$PATH
-
-FPATH=$HOME/.zsh_completion/:$FPATH
-FPATH=$HOME/.zfunc/:$FPATH
-
-
-if [[ -d $HOME_LOCAL_PATH ]]; then
-	for p in `find $HOME_LOCAL_PATH -maxdepth 1 -type d -exec test -d {}/bin \; -print`; do
-		PATH=$p/bin:$PATH
-	done
-fi
-if [[ -d $HOME/.docker/bin ]]; then
-    PATH=$HOME/.docker/bin:$PATH
-fi
-
-# mac intel
-if [[ -d /usr/local/opt/mysql-client/bin ]]; then
-    PATH=/usr/local/opt/mysql-client/bin:$PATH
-fi
-# mac silicon
-if [[ -d /opt/homebrew/opt/mysql-client/bin ]]; then
-    PATH=/opt/homebrew/opt/mysql-client/bin:$PATH
-fi
-if [[ -d $HOME/.codeium/windsurf/bin ]]; then
-    PATH="$HOME/.codeium/windsurf/bin:$PATH"
-fi
-if [[ -d $HOME/.utoo-proxy ]]; then
-    PATH="$HOME/.utoo-proxy:$PATH"
-fi
-# golang
-export GOPATH=$HOME/dev/go
-PATH=$GOPATH/bin:$PATH
-# kusion
-if [[ -d $HOME/local/kusion/bin ]]; then
-  export KUSION_SKIP_UPDATE_CHECK=true
-  export KUSION_HOME="$HOME/local/kusion"
-  export KUSION_PATH="$KUSION_HOME/bin"
-  export PATH=$KUSION_HOME/kclvm/bin:$PATH
-fi
-
-if [[ -d /Applications/Obsidian.app/Contents/MacOS ]]; then
-  PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
-fi
-
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-PATH="$BUN_INSTALL/bin:$PATH"
-
-export PATH
-# PATH }}}
+# interactive shells only. PATH -> .zprofile, exported env -> .zshenv
 
 
 # ZSH Config {{{
@@ -117,7 +52,7 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: rbenv is slow
 # NOTICE: nvm is slow
 plugins=( \
-	bower colored-man-pages compleat docker docker-compose fabric fnm gem git git-flow golang dotenv \
+	bower colored-man-pages docker docker-compose fabric fnm gem git git-flow golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn terraform tmux urltools uv \
 	)
@@ -135,6 +70,10 @@ DISABLE_MAGIC_FUNCTIONS=true
 
 # oh-my-zsh runs compinit itself; set the dump path before sourcing it
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST-$ZSH_VERSION
+# skip compaudit security check on this single-user machine (saves ~30ms)
+ZSH_DISABLE_COMPFIX="true"
+# defer loading ssh keys until first ssh use (saves ~15ms)
+zstyle :omz:plugins:ssh-agent lazy yes
 source $ZSH/oh-my-zsh.sh
 
 export HISTSIZE=10000000
@@ -196,71 +135,23 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
 
-#color
-LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:';
-export LS_COLORS
-export LESSCHARSET=utf-8
-
-# LANG
-export LC_COLLATE="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
-export LC_MESSAGES="en_US.UTF-8"
-export LC_MONETARY="en_US.UTF-8"
-export LC_NUMERIC="en_US.UTF-8"
-export LC_TIME="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-#LC_COLLATE="C"
-#LC_CTYPE="C"
-#LC_MESSAGES="C"
-#LC_MONETARY="C"
-#LC_NUMERIC="C"
-#LC_TIME="C"
-#LC_ALL="C"
-
-#LANG="zh_CN.UTF-8"
-export LANG="en_US.UTF-8"
-export LANGUAGE="en_US.UTF-8"
-export SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
-#LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN"
-#SUPPORTED="zh_CN.UTF-8:zh_CN:zh"
-#SUPPORTED="zh_CN.UTF-8"
-
-
-
 # Sheel Preference }}}
 
 
 # Dev Tools {{{
 
-# export EDITOR=vim
-export EDITOR=nvim
-export RLWRAP_EDITOR="vim '+call cursor(%L,%C)'"
 # export MACOSX_DEPLOYMENT_TARGET=12.4
 
 ## golang
 
 alias loadgopathdev="export GOPATH=${HOME}/dev/go"
 alias savegopathdevenv="echo 'export GOPATH=\$HOME/dev/go' >> .env"
-# mac intel
-[ -f /usr/local/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/usr/local/opt/go@1.16/bin:$PATH\""
-[ -f /usr/local/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/usr/local/opt/go@1.17/bin:$PATH\""
-[ -f /usr/local/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/usr/local/opt/go@1.18/bin:$PATH\""
-[ -f /usr/local/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/usr/local/opt/go@1.19/bin:$PATH\""
-[ -f /usr/local/opt/go@1.20/bin/go ] && alias loadgo120="export PATH=\"/usr/local/opt/go@1.20/bin:$PATH\""
-[ -f /usr/local/opt/go@1.21/bin/go ] && alias loadgo121="export PATH=\"/usr/local/opt/go@1.21/bin:$PATH\""
-[ -f /usr/local/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/usr/local/opt/go@1.22/bin:$PATH\""
-
-# mac silicon
-[ -f /opt/homebrew/opt/go@1.16/bin/go ] && alias loadgo116="export PATH=\"/opt/homebrew/opt/go@1.16/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.17/bin/go ] && alias loadgo117="export PATH=\"/opt/homebrew/opt/go@1.17/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.18/bin/go ] && alias loadgo118="export PATH=\"/opt/homebrew/opt/go@1.18/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.19/bin/go ] && alias loadgo119="export PATH=\"/opt/homebrew/opt/go@1.19/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.20/bin/go ] && alias loadgo120="export PATH=\"/opt/homebrew/opt/go@1.20/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.21/bin/go ] && alias loadgo121="export PATH=\"/opt/homebrew/opt/go@1.21/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.22/bin/go ] && alias loadgo122="export PATH=\"/opt/homebrew/opt/go@1.22/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.23/bin/go ] && alias loadgo123="export PATH=\"/opt/homebrew/opt/go@1.23/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.24/bin/go ] && alias loadgo124="export PATH=\"/opt/homebrew/opt/go@1.24/bin:$PATH\""
-[ -f /opt/homebrew/opt/go@1.25/bin/go ] && alias loadgo125="export PATH=\"/opt/homebrew/opt/go@1.25/bin:$PATH\""
+# loadgoXXX aliases for each brew-installed go@X.Y (Apple Silicon)
+for _go in 1.16 1.17 1.18 1.19 1.20 1.21 1.22 1.23 1.24 1.25; do
+	[ -f /opt/homebrew/opt/go@$_go/bin/go ] && \
+		alias loadgo${_go//./}="export PATH=\"/opt/homebrew/opt/go@$_go/bin:\$PATH\""
+done
+unset _go
 
 
 # pyenv
@@ -270,13 +161,10 @@ alias loadpyenv='eval "$(pyenv init -)"'
 
 # nnn
 # export NNN_OPENER=$HOME/.config/nnn/plugins/nuke
-export NNN_TRASH=1 # trash (needs trash-cli aka trash-put) instead of delete
-export NNN_COLORS="2136" # use a different color for each context
 
 
 # virtualenvwrapper (lazy, load on demand)
 alias loadvirtualenvwrapper="
-[ -f /usr/local/opt/python3/libexec/bin/python ] && export VIRTUALENVWRAPPER_PYTHON=/usr/local/opt/python3/libexec/bin/python;
 [ -f /opt/homebrew/bin/python3 ] && export VIRTUALENVWRAPPER_PYTHON=/opt/homebrew/bin/python3;
 [ -f /usr/bin/virtualenvwrapper.sh ] && source /usr/bin/virtualenvwrapper.sh;
 [ -f /opt/homebrew/bin/virtualenvwrapper.sh ] && source /opt/homebrew/bin/virtualenvwrapper.sh;
@@ -286,16 +174,9 @@ alias loadvirtualenvwrapper="
 # nvm
 # NOTICE: nvm is slow, load yourself
 alias loadnvm="[ -f ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh;
-[ -f /usr/local/opt/nvm/nvm.sh ] && source /usr/local/opt/nvm/nvm.sh;  # ubuntu linux
 [ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh;  # arch linux
 [ -s /opt/homebrew/opt/nvm/nvm.sh ] && \. /opt/homebrew/opt/nvm/nvm.sh  # macos arm
 autoload -U nvm;"
-
-# playwright
-export PLAYWRIGHT_DOWNLOAD_HOST=https://registry.npmmirror.com/-/binary/playwright/
-
-# electron (mirror for faster downloads in China)
-export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
 
 # fnm
 alias loadfnm='eval $(fnm env);'
@@ -315,7 +196,6 @@ alias loadmercurial="autoload -U mercurial;"
 # arc
 [[ -s $HOME_LOCAL_PATH/arcanist/resources/shell/bash-completion ]] && source $HOME_LOCAL_PATH/arcanist/resources/shell/bash-completion
 # sdkman
-export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 # gitlab
 [[ -s $HOME/.gitlabrc ]] && source $HOME/.gitlabrc
@@ -324,9 +204,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 #[[ -s $HOME_LOCAL_PATH/ansible/hacking/env-setup ]] && source $HOME_LOCAL_PATH/ansible/hacking/env-setup -q
 
 # google cloud sdk
-alias loadgcloud="[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc';
-[ -f '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ] && source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc';
-[ -f '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc' ] && source '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc';
+alias loadgcloud="[ -f '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc' ] && source '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc';
 [ -f '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc' ] && source '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc';
 
 autoload -U gcloud;"
@@ -351,45 +229,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 alias loadjenv='eval "$(jenv init -)";'
 
-# go
-export GO111MODULE=on
-export GOPROXY="https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct"
-export GOPRIVATE="github.com/alswl/go-*"
-
-# homebrew
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  export HOMEBREW_NO_AUTO_UPDATE=1
-  export HOMEBREW_NO_ANALYTICS=1
-  # https://github.com/Homebrew/brew/issues/13794
-  # export HOMEBREW_NO_INSTALL_FROM_API=1
-  export HOMEBREW_NO_VERIFY_ATTESTATIONS=1
-  # tuna, queue x
-  # export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"
-  # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
-  # ustc
-  export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
-  export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-  #export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
-  # sjtu
-  # export HOMEBREW_CORE_GIT_REMOTE=https://mirrors.sjtug.sjtu.edu.cn/git/homebrew-core.git
-  # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.sjtug.sjtu.edu.cn/homebrew-bottles/bottles
-
-  # HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
-  # if [ -f "$HB_CNF_HANDLER" ]; then
-    # source "$HB_CNF_HANDLER";
-  # fi
-fi
-
-# ansible
-export ANSIBLE_NOCOWS=1
-
-# android
-export ANDROID_HOME=/usr/local/opt/android-sdk
-
-# rust
-export RUSTUP_DIST_SERVER="https://rsproxy.cn"
-export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
-
 # tmux auto rename ssh
 ssht() {
     if [[ -n "$TMUX" ]]; then
@@ -406,8 +245,6 @@ ssht() {
 
 # s2 is hack alias for ssh
 alias s2=ssht
-
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude "*.png" --exclude "*.generated.*"'
 
 alias lima-docker-install="
 lima sudo apt -y install docker.io
@@ -437,7 +274,6 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 [ -f /usr/share/autojump/autojump.sh ] && source /usr/share/autojump/autojump.sh
 
 # z.lua
-[ -f /usr/local/share/z.lua/z.lua ] && eval "$(lua /usr/local/share/z.lua/z.lua --init zsh)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
 [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
 [ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
 
@@ -523,9 +359,13 @@ alias f='fd -I'
 alias ff='fd --type f | fzf'
 alias ffp='fd --type f | fz --preview "less {}"'
 alias fzp='fzf --preview "less {}"'
-alias fzl='less $(fd --type f | fzf)'
-alias fzv='v $(fd --type f | fzf)'
-alias fzvv='vv $(fd --type f | fzf)'
+# functions (not aliases) so filenames with spaces survive the pipe
+fzl() { local f; f=$(fd --type f | fzf) && less "$f"; }
+fzv() { local f; f=$(fd --type f | fzf) && nvim -p "$f"; }
+fzvv() {
+	local f; f=$(fd --type f | fzf) || return
+	[[ "$OSTYPE" == darwin* ]] && neovide --fork "$f" || gvim -p "$f"
+}
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
@@ -619,8 +459,6 @@ alias gchs='git-changes'
 alias gbsu='git branch -u origin/$(git branch --show-current)'
 alias git-shallow="git pull --depth 1 && git gc --prune=all"
 alias git-unshallow="git fetch --unshallow"
-# `git co` show locals, https://gist.github.com/mmrko/b3ec6da9bea172cdb6bd83bdf95ee817?permalink_comment_id=3645021#gistcomment-3645021
-export GIT_COMPLETION_CHECKOUT_NO_GUESS=1
 alias git-omz-hide='git config --replace-all oh-my-zsh.hide-status 1 && git config --replace-all oh-my-zsh.hide-dirty 1'
 alias lg="lazygit"
 
@@ -716,7 +554,7 @@ alias -g SUS='| sort | uniq -c | sort -gr'
 # Local setting {{{
 
 if [[ -d $HOME/.zshrc.etc.d/ ]]; then
-	for RC in `ls $HOME/.zshrc.etc.d/*.zshrc`; do
+	for RC in $HOME/.zshrc.etc.d/*.zshrc(N); do
 		source $RC;
 	done
 fi
