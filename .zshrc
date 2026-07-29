@@ -117,7 +117,7 @@ COMPLETION_WAITING_DOTS="true"
 # NOTICE: rbenv is slow
 # NOTICE: nvm is slow
 plugins=( \
-	bower colored-man-pages compleat docker docker-compose fabric fnm gem git gitfast git-flow golang dotenv \
+	bower colored-man-pages compleat docker docker-compose fabric fnm gem git git-flow golang dotenv \
 	gradle history history-substring-search httpie kubectl mvn npm nmap pip python redis-cli rsync sbt scala \
 	screen ssh-agent sudo svn terraform tmux urltools uv \
 	)
@@ -576,6 +576,7 @@ elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 alias vd='nvim -d'
 alias vdiff=vd
+alias vdv='v +DiffviewOpen'
 alias neovim-install-dep="cnpm install -g neovim && pip3 install --break-system-packages neovim"
 
 # git
@@ -583,9 +584,7 @@ alias neovim-install-dep="cnpm install -g neovim && pip3 install --break-system-
 # alias gc='git c'
 # alias gci='git ci'
 # alias gcv='git civ'
-alias gcor='git checkoutr'
-alias gcbr='git checkoutr -b'
-alias gcota="git checkoutr $TARGET"
+alias gcbr='git checkout -b'
 alias gdn='git diff --no-ext-diff'
 #alias gpl='git pl'
 #alias gps='git ps'
