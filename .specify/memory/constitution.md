@@ -1,21 +1,20 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: N/A → 1.0.0
-Modified principles: (initial creation)
-Added sections:
-  - Preamble
-  - Principle 1: Modularity over Monolith
-  - Principle 2: Repository as Single Source of Truth
-  - Principle 3: Explicit over Implicit
-  - Principle 4: Incremental Modernization
-  - Principle 5: Conventional Commits
-  - Principle 6: Open-Source Security Hygiene
-  - Governance
+Version: 2.0.0 → 1.0.0 (version reset per maintainer request)
+Principles (4):
+  1. Open-Source Security Hygiene (HIGHEST PRIORITY, supreme)
+  2. Modularity over Monolith
+  3. Repository as Single Source of Truth
+  4. Documented, Reversible Evolution
+Removed sections:
+  - Governance (Principle Precedence, Amendment Procedure, Compliance Review)
+    removed per maintainer request; security-supremacy statement retained inside Principle 1
+Added sections: none
 Templates requiring update:
-  - ⚠ .specify/templates/plan-template.md (not yet created)
-  - ⚠ .specify/templates/spec-template.md (not yet created)
-  - ⚠ .specify/templates/tasks-template.md (not yet created)
+  - ✅ .specify/templates/plan-template.md (aligned — dynamic Constitution Check gate)
+  - ✅ .specify/templates/spec-template.md (aligned — no principle-specific sections required)
+  - ✅ .specify/templates/tasks-template.md (aligned — no principle-specific task types required)
 Deferred TODOs: none
 -->
 
@@ -23,7 +22,7 @@ Deferred TODOs: none
 
 **Project:** .oOo. (alswl's dotfiles)
 **Ratification Date:** 2026-03-22
-**Last Amended Date:** 2026-03-22
+**Last Amended Date:** 2026-07-29
 **Constitution Version:** 1.0.0
 
 ## Preamble
@@ -32,7 +31,21 @@ Deferred TODOs: none
 
 ---
 
-## Principle 1: Modularity over Monolith
+## Principle 1: Open-Source Security Hygiene (HIGHEST PRIORITY)
+
+This repository is public. All content MUST be safe for open-source publication. This principle is supreme: in any conflict with another principle, security MUST prevail.
+
+- Secrets (API keys, tokens, passwords, private hostnames) MUST NEVER be committed to the repository.
+- Machine-specific sensitive configuration MUST use gitignored files (e.g., `.zshrc.etc.d/my-secrets.zshrc`).
+- Scripts that interact with external APIs MUST accept credentials via environment variables or external config files, never hardcoded.
+- Before committing, contributors MUST verify no sensitive data is included in the changeset.
+- `.gitignore` MUST be maintained to exclude known secret-bearing file patterns.
+
+**Rationale:** As a public repository, any committed secret is immediately exposed. The cost of a leaked credential far exceeds the inconvenience of external secret management — which is why security overrides every other consideration.
+
+---
+
+## Principle 2: Modularity over Monolith
 
 Configuration MUST be organized in layered, composable units rather than monolithic files.
 
@@ -45,7 +58,7 @@ Configuration MUST be organized in layered, composable units rather than monolit
 
 ---
 
-## Principle 2: Repository as Single Source of Truth
+## Principle 3: Repository as Single Source of Truth
 
 The repository MUST be the authoritative source for all managed configuration. The home directory is a consumer via symbolic links.
 
@@ -53,75 +66,15 @@ The repository MUST be the authoritative source for all managed configuration. T
 - The repository MUST NOT depend on state outside of itself (except system packages explicitly documented).
 - Files that require per-machine customization MUST use a layering mechanism (e.g., `.zshrc.etc.d/my-secrets.zshrc` gitignored) rather than direct edits to tracked files.
 
-**Rationale:** Symlink strategy ensures changes propagate instantly, version history is preserved, and multi-machine setups stay synchronized.
-
 ---
 
-## Principle 3: Explicit over Implicit
+## Principle 4: Documented, Reversible Evolution
 
-All decisions, deprecations, and platform accommodations MUST be clearly documented in-place.
+Configuration MUST evolve gradually and legibly — changes documented in-place, old configurations deprecated rather than deleted, preserving rollback capability.
 
-- Deprecated tools or configurations MUST be marked with `# deprecated, use <replacement>` in both README and source.
-- OS-detection blocks MUST use explicit `$OSTYPE` checks with clear branch comments.
-- Scripts MUST validate required dependencies at startup and print actionable install instructions on failure.
-- File naming conventions with special meaning (e.g., `_` prefix for symlink-translated paths) MUST be documented.
-
-**Rationale:** A dotfiles repo is revisited infrequently; explicit documentation prevents confusion months or years later.
-
----
-
-## Principle 4: Incremental Modernization
-
-Evolution MUST be gradual — old configurations are deprecated, not deleted — ensuring rollback capability.
-
-- When replacing a tool, the old configuration MUST be retained with a deprecation marker for at least one major version cycle.
-- Migration paths MUST be documented (old tool → new tool) in README or inline comments.
+- Deprecated tools or configurations MUST be marked with `# deprecated, use <replacement>` in both README and source, and retained for at least one major version cycle.
+- Migration paths (old tool → new tool) MUST be documented in README or inline comments.
+- Platform accommodations (e.g., `$OSTYPE` branches) MUST use explicit checks with clear branch comments.
 - New conventions (e.g., XDG compliance) SHOULD be adopted for new tools; existing tools MAY be migrated when convenient, not mandated.
 
-**Rationale:** Dotfiles support daily workflow; abrupt removal of configurations risks breaking a working environment without warning.
-
----
-
-## Principle 5: Conventional Commits
-
-All commits MUST follow the Conventional Commits specification to maintain a parseable, meaningful Git history.
-
-- Commit format: `type(scope): description` where scope is optional.
-- Allowed types: `feat`, `fix`, `docs`, `refactor`, `style`, `chore`, `ci`.
-- Commit messages MUST be in English and in lowercase imperative mood.
-- Each commit SHOULD be atomic — one logical change per commit.
-
-**Rationale:** Consistent commit history enables automated changelog generation and makes it easy to trace when and why a configuration changed.
-
----
-
-## Principle 6: Open-Source Security Hygiene
-
-This repository is public. All content MUST be safe for open-source publication.
-
-- Secrets (API keys, tokens, passwords, private hostnames) MUST NEVER be committed to the repository.
-- Machine-specific sensitive configuration MUST use gitignored files (e.g., `.zshrc.etc.d/my-secrets.zshrc`).
-- Scripts that interact with external APIs MUST accept credentials via environment variables or external config files, never hardcoded.
-- Before committing, contributors MUST verify no sensitive data is included in the changeset.
-- `.gitignore` MUST be maintained to exclude known secret-bearing file patterns.
-
-**Rationale:** As a public repository, any committed secret is immediately exposed. The cost of a leaked credential far exceeds the inconvenience of external secret management.
-
----
-
-## Governance
-
-### Amendment Procedure
-
-1. Propose changes via a commit with type `docs:` modifying this file.
-2. Update `Constitution Version` following semantic versioning:
-   - **MAJOR:** Removal or incompatible redefinition of a principle.
-   - **MINOR:** Addition of new principles or substantial expansion of existing guidance.
-   - **PATCH:** Clarification, wording fixes, or non-semantic adjustments.
-3. Update `Last Amended Date` to the date of the change.
-4. Propagate changes to dependent templates (plan, spec, tasks) in the same commit or a follow-up commit within the same PR.
-
-### Compliance Review
-
-- All code changes SHOULD be reviewed against these principles before merging.
-- The constitution SHOULD be reviewed annually or when a significant new tool/platform is adopted.
+**Rationale:** A dotfiles repo is revisited infrequently and supports daily workflow; in-place documentation prevents future confusion, and deprecating rather than deleting avoids breaking a working environment without warning.
