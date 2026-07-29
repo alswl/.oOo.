@@ -43,3 +43,4 @@ typings
 .zshrc.etc.d/claude.zshrc
 .claude
 .tool-versions
+mac/Library/Application Support/xbar/plugins/gost-claude.env

@@ -577,6 +577,7 @@ fi
 alias vd='nvim -d'
 alias vdiff=vd
 alias vdv='v +DiffviewOpen'
+alias vvdv='vv +DiffviewOpen'
 alias neovim-install-dep="cnpm install -g neovim && pip3 install --break-system-packages neovim"
 
 # git
