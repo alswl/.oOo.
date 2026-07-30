@@ -38,7 +38,7 @@ choices legible.
 
 Actively maintained: **zsh** · **tmux / screen** · **git** · **IdeaVim** ·
 **Obsidian Vim** · **fonts** · **Phoenix** (a macOS tiling window manager) ·
-**Karabiner**.
+**Karabiner** · **xbar**.
 
 Browser keyboard customizations have converged on
 **[Surfingkeys](.surfingkeys.js)**. Earlier configurations for Vimperator,
@@ -170,6 +170,62 @@ done
 ```
 
 </details>
+
+## xbar menu bar utilities
+
+The plugins in
+[`mac/Library/Application Support/xbar/plugins/`](<mac/Library/Application Support/xbar/plugins/>)
+provide small, self-contained controls for macOS. Their filenames follow xbar's
+refresh-interval convention (`5s`, `1m`).
+
+### `launch-agents.1m.sh`
+
+Groups user (`~/Library/LaunchAgents`) and system-installed
+(`/Library/LaunchAgents`) jobs, shows their launchd state, and provides start,
+stop, restart, enable, disable, and Finder actions. `LaunchDaemons` are
+intentionally excluded because managing them requires administrator privileges.
+It uses the macOS-provided `launchctl` and `plutil` tools.
+
+### `gost-local.1m.sh`
+
+Toggles a local [GOST](https://github.com/ginuerzh/gost) HTTP forwarding process
+and shows its PID, uptime, connection count, and latest log line. The defaults
+forward `127.0.0.1:1234` to `127.0.0.1:1235`.
+
+### `gost-claude.5s.sh`
+
+Toggles an authenticated [GOST](https://github.com/ginuerzh/gost) TLS proxy,
+listening on `127.0.0.1:1236`, and reports runtime and connection details. The
+remote endpoint and credentials live in a separate local environment file.
+
+From the repository root, install [xbar](https://xbarapp.com/) and GOST, then
+link the plugins:
+
+```bash
+brew install --cask xbar
+brew install gost
+
+REPO_ROOT="$(pwd)"
+PLUGIN_SOURCE="$REPO_ROOT/mac/Library/Application Support/xbar/plugins"
+PLUGIN_TARGET="$HOME/Library/Application Support/xbar/plugins"
+mkdir -p "$PLUGIN_TARGET"
+
+for plugin in gost-local.1m.sh gost-claude.5s.sh launch-agents.1m.sh; do
+  ln -sfn "$PLUGIN_SOURCE/$plugin" "$PLUGIN_TARGET/$plugin"
+done
+```
+
+For `gost-claude`, create its local configuration beside the plugin:
+
+```bash
+cp "$PLUGIN_SOURCE/gost-claude.env.template" "$PLUGIN_SOURCE/gost-claude.env"
+chmod 600 "$PLUGIN_SOURCE/gost-claude.env"
+```
+
+Set `GOST_USER`, `GOST_PASSWORD`, and `GOST_REMOTE` in that file.
+`gost-claude.env` is gitignored; keep real credentials out of version control.
+The ports and forwarding defaults are constants near the top of each GOST
+plugin and can be adapted to another local setup.
 
 ## Phoenix: tiling window management for macOS
 

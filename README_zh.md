@@ -35,7 +35,7 @@
 
 正在维护：**zsh** · **tmux / screen** · **git** · **IdeaVim** ·
 **Obsidian Vim** · **fonts** · **Phoenix**（macOS 平铺窗口管理器）·
-**Karabiner**。
+**Karabiner** · **xbar**。
 
 浏览器按键已统一收敛到 **[Surfingkeys](.surfingkeys.js)**；早年的 Vimperator、
 Pentadactyl、Vimium、cVim 和 VimFx 配置现已归档。
@@ -163,6 +163,58 @@ done
 ```
 
 </details>
+
+## xbar 菜单栏工具
+
+[`mac/Library/Application Support/xbar/plugins/`](<mac/Library/Application Support/xbar/plugins/>)
+中包含几个独立的 macOS 菜单栏工具。文件名中的 `5s`、`1m` 遵循 xbar
+约定，表示插件的自动刷新间隔。
+
+### `launch-agents.1m.sh`
+
+分栏展示用户级（`~/Library/LaunchAgents`）与系统范围安装
+（`/Library/LaunchAgents`）的任务，显示 launchd 状态，并支持启动、停止、重启、
+启用、禁用和在 Finder 中定位。需要管理员权限的 `LaunchDaemons`
+不在管理范围内。插件仅使用 macOS 自带的 `launchctl` 和 `plutil`。
+
+### `gost-local.1m.sh`
+
+开关本地 [GOST](https://github.com/ginuerzh/gost) HTTP 转发进程，并显示 PID、
+运行时间、连接数和最新日志。默认将 `127.0.0.1:1234` 转发至
+`127.0.0.1:1235`。
+
+### `gost-claude.5s.sh`
+
+开关带认证的 [GOST](https://github.com/ginuerzh/gost) TLS 代理，默认监听
+`127.0.0.1:1236`，同时展示运行与连接状态；远端地址和凭证存放在独立的本地
+环境文件中。
+
+在仓库根目录安装 [xbar](https://xbarapp.com/) 和 GOST，然后链接插件：
+
+```bash
+brew install --cask xbar
+brew install gost
+
+REPO_ROOT="$(pwd)"
+PLUGIN_SOURCE="$REPO_ROOT/mac/Library/Application Support/xbar/plugins"
+PLUGIN_TARGET="$HOME/Library/Application Support/xbar/plugins"
+mkdir -p "$PLUGIN_TARGET"
+
+for plugin in gost-local.1m.sh gost-claude.5s.sh launch-agents.1m.sh; do
+  ln -sfn "$PLUGIN_SOURCE/$plugin" "$PLUGIN_TARGET/$plugin"
+done
+```
+
+`gost-claude` 还需要在插件旁创建一份本地配置：
+
+```bash
+cp "$PLUGIN_SOURCE/gost-claude.env.template" "$PLUGIN_SOURCE/gost-claude.env"
+chmod 600 "$PLUGIN_SOURCE/gost-claude.env"
+```
+
+在文件中填写 `GOST_USER`、`GOST_PASSWORD` 和 `GOST_REMOTE`。
+`gost-claude.env` 已被 gitignore，真实凭证不要提交到版本库。两个 GOST
+插件的端口和转发默认值都集中在脚本开头，可按本地环境修改。
 
 ## Phoenix：macOS 平铺窗口管理
 
