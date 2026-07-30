@@ -366,6 +366,7 @@ fzvv() {
 	local f; f=$(fd --type f | fzf) || return
 	[[ "$OSTYPE" == darwin* ]] && neovide --fork "$f" || gvim -p "$f"
 }
+fcd() { local d; d=$(fd --type d | fzf) && cd "$d"; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
