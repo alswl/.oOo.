@@ -2,9 +2,9 @@
   "devDependencies": {
     "@eslint/js": "8.57.1",
     "@types/phoenix": "https://codeload.github.com/mafredri/phoenix-typings/tar.gz/d6c2d86ee440358cc1227339e05478d1e5454904",
-    "@typescript-eslint/eslint-plugin": "6.21.0",
-    "@typescript-eslint/parser": "6.21.0",
-    "eslint": "8.57.1",
+    "@typescript-eslint/eslint-plugin": "8.65.0",
+    "@typescript-eslint/parser": "8.65.0",
+    "eslint": "10.8.0",
     "prettier": "3.8.1",
     "ts-loader": "9.5.4",
     "typescript": "5.9.3",
