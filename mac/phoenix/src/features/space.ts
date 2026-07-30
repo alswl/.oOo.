@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as config from '../config';
 import { restoreMousePositionForWindow } from '../lib/mouse';
 import { getNextWindowsOnSameScreen, moveToScreen, sortedWindowsOnSameScreen } from './screen';
@@ -12,6 +11,13 @@ function getSpaceByIndex(spaces: Space[], index: number | undefined): Space | un
   return spaces[index];
 }
 
+function getDisplayLayoutValue(
+  values: { [screenCount: number]: number },
+  screenCount: number
+): number | undefined {
+  return values[screenCount] ?? values[2] ?? values[1];
+}
+
 // TODO refact
 export function moveWindowToTargetSpace(
   window: Window | undefined,
@@ -21,23 +27,15 @@ export function moveWindowToTargetSpace(
   if (window === undefined) {
     return;
   }
-  if (nextWindow === undefined) {
+  const targetScreen = targetSpace.screens()[0];
+  if (targetScreen === undefined) {
     return;
   }
-  const currentSpaceOptional = Space.active();
-  if (currentSpaceOptional === undefined) {
-    return;
+  if (window.screen().hash() !== targetScreen.hash()) {
+    moveToScreen(window, targetScreen);
   }
-  const currentSpace = currentSpaceOptional;
-  // _.map(targetSpace.windows(), (w) => { alert(w.title()); } );
-  if (currentSpace.screens()[0].hash() !== targetSpace.screens()[0].hash()) {
-    moveToScreen(window, targetSpace.screens()[0]);
-  }
-  currentSpace.removeWindows([window]);
-  targetSpace.addWindows([window]);
+  targetSpace.moveWindows([window]);
   if (nextWindow) {
-    // App.get('Finder').focus(); // Hack for Screen unfocus
-    // nextWindow.raise();
     nextWindow.focus();
     restoreMousePositionForWindow(nextWindow);
   }
@@ -78,14 +76,9 @@ export function moveWindowToSpace(
     log('moveWindowToSpace, target equlas current');
     return;
   }
-  const targetIndex = _.indexOf(
-    _.map(allSpaces, (x) => x.hash()),
-    target.hash()
-  );
-  const currentIndex = _.indexOf(
-    _.map(allSpaces, (x) => x.hash()),
-    current.hash()
-  );
+  const spaceHashes = allSpaces.map((space) => space.hash());
+  const targetIndex = spaceHashes.indexOf(target.hash());
+  const currentIndex = spaceHashes.indexOf(current.hash());
   if (
     (direction > 0 && targetIndex <= currentIndex) ||
     (direction < 0 && targetIndex >= currentIndex)
@@ -93,17 +86,13 @@ export function moveWindowToSpace(
     log('moveWindowToSpace, space execeed');
     return;
   }
-  current.removeWindows([window]);
-  target.addWindows([window]);
-  const prevWindowOptional = getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
-  if (prevWindowOptional === undefined) {
-    return;
+  const nextWindow = getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
+  target.moveWindows([window]);
+  if (nextWindow !== undefined) {
+    nextWindow.focus();
+    restoreMousePositionForWindow(nextWindow);
   }
-
-  if (prevWindowOptional != null) {
-    prevWindowOptional.focus();
-  }
-  displayAllVisiableWindowModal(current.windows(), prevWindowOptional, null);
+  displayAllVisiableWindowModal(current.windows(), nextWindow ?? null, null);
 }
 
 /**
@@ -125,14 +114,14 @@ export function moveWindowToParkSpace() {
   const screenCount = Screen.all().length;
   const parkSpaceIndex =
     config.PARK_SPACE_APP_INDEX_MAP[window.app().name()] ??
-    config.PARK_SPACE_INDEX_MAP[screenCount];
+    getDisplayLayoutValue(config.PARK_SPACE_INDEX_MAP, screenCount);
   const parkSpace = getSpaceByIndex(allSpaces, parkSpaceIndex);
   if (parkSpace === undefined) {
     return;
   }
   log(`${window}, ${nextWindowOptional}, ${parkSpace}`);
 
-  // moveWindowToTargetSpace(window, nextWindowOptional, parkSpace);
+  moveWindowToTargetSpace(window, nextWindowOptional, parkSpace);
 }
 
 // Move focused window to the work space (former return + MASH_CTRL).
@@ -144,7 +133,10 @@ export function moveWindowToWorkSpace() {
     : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
-  const workSpace = getSpaceByIndex(allSpaces, config.WORK_SPACE_INDEX_MAP[screenCount]);
+  const workSpace = getSpaceByIndex(
+    allSpaces,
+    getDisplayLayoutValue(config.WORK_SPACE_INDEX_MAP, screenCount)
+  );
   if (workSpace === undefined) {
     return;
   }
@@ -165,14 +157,17 @@ export function moveWindowToSecondWorkSpace() {
   const screenCount = Screen.all().length;
   const secondWorkSpace = getSpaceByIndex(
     allSpaces,
-    config.SECOND_WORK_SPACE_INDEX_MAP[screenCount]
+    getDisplayLayoutValue(config.SECOND_WORK_SPACE_INDEX_MAP, screenCount)
   );
   if (secondWorkSpace === undefined) {
     return;
   }
-  _.each(window.app().windows(), (x: Window) => {
-    moveWindowToTargetSpace(x, nextWindow, secondWorkSpace);
-  });
+  window
+    .app()
+    .windows()
+    .forEach((x) => {
+      moveWindowToTargetSpace(x, nextWindow, secondWorkSpace);
+    });
 }
 
 // Move other apps' windows in this space to their park spaces (former delete + MASH_CTRL_SHIFT).
@@ -183,18 +178,21 @@ export function parkOtherWindowsInSpace() {
   }
   const nextWindow = window;
   const allSpaces = Space.all();
-  const otherWindowsInSameSpace = _.filter(
-    window.spaces()[0].windows(),
-    (x) => x.hash() !== window.hash()
-  );
+  const currentSpace = window.spaces()[0];
+  if (currentSpace === undefined) {
+    return;
+  }
+  const otherWindowsInSameSpace = currentSpace
+    .windows()
+    .filter((candidate) => candidate.hash() !== window.hash());
   const screenCount = Screen.all().length;
-  _.each(otherWindowsInSameSpace, (parkedWindow) => {
+  otherWindowsInSameSpace.forEach((parkedWindow) => {
     if (window.app().hash() === parkedWindow.app().hash()) {
       return;
     }
     const parkSpaceIndex =
       config.PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] ??
-      config.PARK_SPACE_INDEX_MAP[screenCount];
+      getDisplayLayoutValue(config.PARK_SPACE_INDEX_MAP, screenCount);
     const parkSpace = getSpaceByIndex(allSpaces, parkSpaceIndex);
     if (parkSpace === undefined) {
       return;

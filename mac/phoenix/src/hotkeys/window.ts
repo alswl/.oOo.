@@ -44,8 +44,6 @@ export function registerWindowHotkeys(): void {
   Key.on('h', MASH_CTRL_SHIFT, () => snapHalf('left'));
   Key.on('l', MASH_CTRL_SHIFT, () => snapHalf('right'));
 
-  // Keep these registrations after the screen hotkeys to preserve Phoenix's
-  // existing duplicate h/l binding order.
   Key.on('h', MASH_CTRL, marginLeft);
   Key.on('l', MASH_CTRL, marginRight);
   Key.on('k', MASH_CTRL, marginTop);

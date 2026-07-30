@@ -13,9 +13,10 @@ export function setMousePositionForWindowCenter(window: Window | undefined) {
   if (window === undefined) {
     return;
   }
+  const frame = window.frame();
   Mouse.move({
-    x: window.topLeft().x + window.frame().width / 2,
-    y: window.topLeft().y + window.frame().height / 2,
+    x: frame.x + frame.width / 2,
+    y: frame.y + frame.height / 2,
   });
   heartbeatWindow(window);
 }

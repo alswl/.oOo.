@@ -1,15 +1,12 @@
-import * as _ from 'lodash';
-import { A_BIG_PIXEL, RESIZE_WITH_RATIO } from '../config';
+import { RESIZE_WITH_RATIO } from '../config';
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from '../lib/mouse';
 import { log } from '../lib/util';
 import { getCurrentWindow } from '../runtime/current-window';
-import { sortByMostRecent } from './window';
 
 // let SCREEN_LATEST_WINDOW: { [screen: string]: Window } = {};
 // let SCREEN_LATEST_WINDOW = new Map<number, Window>();
 
 export function moveToScreen(window: Window, screen: Screen) {
-  const app = window.app();
   const windowFrame = window.frame();
   const currentScreenFrame = window.screen().flippedVisibleFrame();
   const targetScreenFrame = screen.flippedVisibleFrame();
@@ -38,19 +35,6 @@ export function moveToScreen(window: Window, screen: Screen) {
     width,
     height,
   });
-  const targetSpace = screen.currentSpace();
-  if (targetSpace === undefined) {
-    log('moveToScreen, no screen.currentSpace()');
-    return;
-  }
-
-  // force focus window in space
-  // targetSpace.addWindows([window]);
-  // currentSpaces.forEach((x) => { x.removeWindows([window]) });
-  // window.raise();
-  // app.activate();
-  app.hide();
-  app.show();
 }
 
 export function windowsOnOtherScreen(): Window[] {
@@ -60,25 +44,25 @@ export function windowsOnOtherScreen(): Window[] {
   }
 
   const window = windowOptional;
-  const otherWindowsOnSameScreen = window.others({ screen: window.screen() }); // slow
-  const otherWindowTitlesOnSameScreen = _.map(otherWindowsOnSameScreen, (w) => w.title());
-  const return_value = _.chain(window.others())
-    .filter((x: Window) => !_.includes(otherWindowTitlesOnSameScreen, x.title()))
-    .value();
-  return return_value;
+  const sameScreenWindowHashes = new Set(
+    window.others({ screen: window.screen() }).map((candidate) => candidate.hash())
+  );
+  return window.others().filter((candidate) => !sameScreenWindowHashes.has(candidate.hash()));
 }
 
 function getScreenLatestWindow(screen: Screen): Window | null {
   const start = new Date().getTime();
-  const nextScreenWindows = screen.windows({ visible: true }); // slow XXX
-  // const nextScreenWindows = targetScreen.windows(); // slow XXX
+  const targetScreenHash = screen.hash();
+  const targetScreenWindows = Window.recent().filter(
+    (window) => window.screen().hash() === targetScreenHash
+  );
   log('Time 2: ' + (new Date().getTime() - start));
-  const targetScreenWindows = sortByMostRecent(nextScreenWindows); // ok
   if (targetScreenWindows.length === 0) {
     log('focusAnotherScreen, target no window');
+    const frame = screen.frame();
     Mouse.move({
-      x: screen.frame().x + screen.frame().width / 2,
-      y: screen.frame().y + screen.frame().height / 2,
+      x: frame.x + frame.width / 2,
+      y: frame.y + frame.height / 2,
     });
     return null;
   }
@@ -115,26 +99,38 @@ export function sortedWindowsOnSameScreen(window: Window | undefined): Window[] 
   }
   const windows = window.others({ visible: true, screen: window.screen() });
   windows.push(window);
-  // Snapshot each window's sort-relevant properties once (one AX-read batch per window)
-  // and read the screen's flipped frame a single time, instead of re-reading frame()/
-  // flippedFrame() inside the sort comparator. The sort key is preserved verbatim,
-  // including the original `flippedFrame().y`-on-x term (latent bug F1, see research.md).
-  const screenFlippedFrameY = window.screen().flippedFrame().y;
-  const sorted = _.chain(windows)
+  const screenFrame = window.screen().flippedFrame();
+  const sorted = windows
     .map((w) => {
       const frame = w.frame();
       const title = w.title();
-      const key = [
-        A_BIG_PIXEL + frame.y - screenFlippedFrameY + (A_BIG_PIXEL + frame.x - screenFlippedFrameY),
-        w.app().processIdentifier(),
+      return {
+        window: w,
         title,
-      ].join('');
-      return { window: w, title, key };
+        x: frame.x - screenFrame.x,
+        y: frame.y - screenFrame.y,
+        processIdentifier: w.app().processIdentifier(),
+      };
     })
-    .sortBy((info) => info.key)
-    .value();
+    .sort(compareWindowOrder);
   log(`sortedWindowsOnSameScreen: ${sorted.map((info) => '"' + info.title + '"').join(', ')}`);
   return sorted.map((info) => info.window);
+}
+
+export interface WindowOrder {
+  x: number;
+  y: number;
+  processIdentifier: number;
+  title: string;
+}
+
+export function compareWindowOrder(left: WindowOrder, right: WindowOrder): number {
+  return (
+    left.y - right.y ||
+    left.x - right.x ||
+    left.processIdentifier - right.processIdentifier ||
+    left.title.localeCompare(right.title)
+  );
 }
 
 // TODO use a state save status
@@ -148,8 +144,8 @@ export function otherWindowOnSameScreen(
     return undefined;
   }
   const index: number = isCycle
-    ? (_.indexOf(windows, window) + offset + windows.length) % windows.length
-    : _.indexOf(windows, window) + offset;
+    ? (windows.indexOf(window) + offset + windows.length) % windows.length
+    : windows.indexOf(window) + offset;
   if (index >= windows.length || index < 0) {
     log('otherWindowOnSameScreen, no window');
     return;

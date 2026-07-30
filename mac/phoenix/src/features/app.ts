@@ -6,28 +6,37 @@ import { getCurrentWindow } from '../runtime/current-window';
  */
 // switch app, and remember mouse position
 export function callApp(appName: string, orAppName?: string): void {
-  const window = getCurrentWindow();
-  if (window !== undefined) {
-    saveMousePositionForWindow(window);
+  const previousWindow = getCurrentWindow();
+  if (previousWindow !== undefined) {
+    saveMousePositionForWindow(previousWindow);
   }
-  let app: App | undefined = App.launch(appName);
-  // backup app
+  let app = App.launch(appName);
   if (app === undefined && orAppName) {
     app = App.launch(orAppName);
   }
   if (app === undefined) {
     return;
   }
-  const mainWindow = app.mainWindow();
-  if (mainWindow === undefined) {
-    return;
-  }
-  if (window !== undefined && window.hash() === mainWindow.hash()) {
-    return;
-  }
 
-  Timer.after(0.3, () => {
-    (app as App).focus();
-    restoreMousePositionForWindow((app as App).mainWindow());
-  });
+  app.focus();
+  focusAppWindowWhenReady(app, previousWindow?.hash(), 10);
+}
+
+function focusAppWindowWhenReady(
+  app: App,
+  previousWindowHash: number | undefined,
+  attemptsLeft: number
+): void {
+  const mainWindow = app.mainWindow();
+  if (mainWindow !== undefined) {
+    if (mainWindow.hash() !== previousWindowHash) {
+      mainWindow.focus();
+      restoreMousePositionForWindow(mainWindow);
+    }
+    return;
+  }
+  if (attemptsLeft === 0 || app.isTerminated()) {
+    return;
+  }
+  Timer.after(0.1, () => focusAppWindowWhenReady(app, previousWindowHash, attemptsLeft - 1));
 }

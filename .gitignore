@@ -25,6 +25,7 @@ Session.vim
 node_modules
 dist
 package-lock.json
+!mac/phoenix/package-lock.json
 typings
 .zshrc.etc.d/*alibaba*.zshrc
 .zshrc.etc.d/*secrets*.zshrc

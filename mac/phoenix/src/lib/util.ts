@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { DEBUG } from '../config';
 
 export function log(...args: unknown[]): void {
@@ -56,14 +55,13 @@ export function displayAllVisiableWindowModal(
   const screenFrame = rectangleOptional || Screen.main().flippedFrame();
   Modal.build({
     appearance: 'dark',
-    text: _.chain(windows)
+    text: windows
       .map((x) =>
         windowOptional !== null && windowOptional.hash() === x.hash()
           ? '[[' + x.app().name() + ']]'
           : '  ' + x.app().name() + '  '
       )
-      .join('    ')
-      .value(),
+      .join('    '),
     duration: 1,
     // animationDuration: 0,
     weight: 18,
@@ -98,17 +96,17 @@ function showAt(modal: Modal, screen: Screen, widthDiv: number, heightDiv: numbe
 }
 
 // doc https://github.com/kasper/phoenix/issues/180
-export function getEnv(name = '') {
+export function getEnv(name = ''): Promise<string> {
   return new Promise((resolve, reject) => {
     if (name === '') {
       return reject('no variable name provided');
     }
 
-    Task.run('/bin/sh', ['-c', `echo "$${name}"`], (t) => {
+    Task.run('/usr/bin/printenv', [name], (t) => {
       if (t.status === 0) {
         return resolve(t.output);
       } else {
-        return reject(`could not execute command to fetch '$${name}'`);
+        return reject(`could not fetch '${name}'`);
       }
     });
   });

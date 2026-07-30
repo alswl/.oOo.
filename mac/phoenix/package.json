@@ -1,21 +1,15 @@
 {
-  "dependencies": {
-    "@types/lodash": "^4.14.195",
-    "@types/phoenix": "github:mafredri/phoenix-typings#main",
-    "awesome-typescript-loader": "^5.2.1",
-    "lodash": "^4.17.21",
-    "source-map-loader": "^4.0.1",
-    "ts-loader": "^9.4.4",
-    "typescript": "^5.1.6",
-    "typings": "^2.1.1",
-    "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
-  },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.45.0",
-    "prettier": "^3.0.0"
+    "@eslint/js": "8.57.1",
+    "@types/phoenix": "https://codeload.github.com/mafredri/phoenix-typings/tar.gz/d6c2d86ee440358cc1227339e05478d1e5454904",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
+    "eslint": "8.57.1",
+    "prettier": "3.8.1",
+    "ts-loader": "9.5.4",
+    "typescript": "5.9.3",
+    "webpack": "5.104.1",
+    "webpack-cli": "5.1.4"
   },
   "name": "phoenix_configuration_ts",
   "version": "1.0.0",
@@ -25,7 +19,7 @@
     "lint": "eslint \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "build": "webpack --mode=production",
-    "test": "npm run typecheck",
+    "test": "npm run typecheck && node --test tests/*.test.cjs",
     "validate": "npm run lint && npm run test && npm run build"
   },
   "keywords": [],

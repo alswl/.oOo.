@@ -10,7 +10,6 @@ Application in window switch:
 
 ![](./_asserts/application-switch.gif)
 
-
 Window movement:
 
 ![](./_asserts/window.gif)
@@ -32,8 +31,8 @@ Screen movement:
   - option + ctrl + r => Dintalk Meeting
   - option + ctrl + a => Editor (Neovide)
   - option + ctrl + s => Editor (IntelliJ IDEA)
-  - option + ctrl + d => Editor (DataGrip)
-  - option + ctrl + f => Editor (WebStorm)
+  - option + ctrl + d => Editor (WebStorm)
+  - option + ctrl + f => Editor (DataGrip)
   - option + ctrl + z => Editor (Obsidian)
   - option + ctrl + x => Editor (Visual Studio Code)
   - option + ctrl + , => Editor (Yuque)
@@ -44,7 +43,7 @@ Screen movement:
   - mod + ctrl + i => Move current window to previouse screen
 - Window
   - mod + ctrl + shift + m => Toogle window maximize
-TODO
+    TODO
   - mod + - => Window smaller
   - mod + = => Window larger
   - mod + ctrl m => Move window to screen centeral
@@ -79,13 +78,10 @@ TODO
   - mod + delete => move window to parking space
   - mod + ctrl + enter => move window to working space
 
-
-
 ## Build and install
 
 ```
-npm install
-# cnpm install for Mainland China user
+npm ci
 npm run validate
 cp dist/phoenix.js $HOME/.phoenix.js
 ```

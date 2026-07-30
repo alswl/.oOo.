@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from '../lib/mouse';
 import { displayAllVisiableWindowModal, log } from '../lib/util';
 import { getCurrentWindow } from '../runtime/current-window';
 import {
+  clearRestoreFrame,
   getRestoreFrame,
   heartbeatWindow,
   hideInactiveWindows,
@@ -10,15 +10,12 @@ import {
 } from '../runtime/window-state';
 
 export function sortByMostRecent(windows: Window[]): Window[] {
-  // var start = new Date().getTime();
-  const windowsRecent = Window.recent();
-  const visibleAppMostRecentFirst = _.map(windowsRecent, (w) => w.hash());
-  // Phoenix.log('Time s0: ' + (new Date().getTime() - start));
-  const visibleAppMostRecentFirstWithWeight = _.zipObject(
-    visibleAppMostRecentFirst,
-    _.range(visibleAppMostRecentFirst.length)
+  const recentRanks = new Map(Window.recent().map((window, index) => [window.hash(), index]));
+  return [...windows].sort(
+    (left, right) =>
+      (recentRanks.get(left.hash()) ?? Number.MAX_SAFE_INTEGER) -
+      (recentRanks.get(right.hash()) ?? Number.MAX_SAFE_INTEGER)
   );
-  return _.sortBy(windows, (window) => visibleAppMostRecentFirstWithWeight[window.hash()]);
 }
 
 export function calcResizeFrame(frame: Rectangle, ratio: number): Rectangle {
@@ -66,16 +63,25 @@ export function calcLargerFrame(frame: Rectangle): Rectangle {
   return calcResizeFrame(frame, 1.25);
 }
 
+export function clampFrameToScreen(frame: Rectangle, screenFrame: Rectangle): Rectangle {
+  const width = Math.min(frame.width, screenFrame.width);
+  const height = Math.min(frame.height, screenFrame.height);
+  return {
+    x: Math.min(Math.max(frame.x, screenFrame.x), screenFrame.x + screenFrame.width - width),
+    y: Math.min(Math.max(frame.y, screenFrame.y), screenFrame.y + screenFrame.height - height),
+    width,
+    height,
+  };
+}
+
 export const hideInactiveWindow = hideInactiveWindows;
 
 export function setWindowCentral(window: Window) {
+  const screenFrame = window.screen().flippedVisibleFrame();
+  const windowFrame = window.frame();
   window.setTopLeft({
-    x:
-      (window.screen().flippedFrame().width - window.size().width) / 2 +
-      window.screen().flippedFrame().x,
-    y:
-      (window.screen().flippedFrame().height - window.size().height) / 2 +
-      window.screen().flippedFrame().y,
+    x: screenFrame.x + (screenFrame.width - windowFrame.width) / 2,
+    y: screenFrame.y + (screenFrame.height - windowFrame.height) / 2,
   });
   heartbeatWindow(window);
 }
@@ -85,14 +91,14 @@ export function autoRangeByRecent() {
   const frame = screen.flippedVisibleFrame();
 
   const windows: Window[] = sortByMostRecent(screen.windows({ visible: true }));
-  _.map(windows, (window, index) => {
+  windows.forEach((window, index) => {
+    const windowFrame = window.frame();
     window.setTopLeft({
       x: frame.x + index * 100,
       y: frame.y,
     });
     window.setSize({
-      //   width: (window.topLeft().x + window.size().width) > (frame.x + frame.width) ?  frame.x + frame.width - window.topLeft().x: window.size().width,
-      width: window.size().width,
+      width: windowFrame.width,
       height: frame.height,
     });
   });
@@ -123,12 +129,12 @@ export function focusWindowInSameScreen(
 }
 
 export function marginWindow(positionFn: (window: Window, frame: Rectangle) => void) {
-  const frame = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
   if (window === undefined) {
     return;
   }
+  const frame = window.screen().flippedVisibleFrame();
   positionFn(window, frame);
 }
 
@@ -163,11 +169,11 @@ export type HalfSide = 'top' | 'bottom' | 'left' | 'right';
 
 // Snap the focused window to a half of the screen (former k/j/h/l + MASH_CTRL_SHIFT).
 export function snapHalf(side: HalfSide) {
-  const screen = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
   if (window === undefined) {
     return;
   }
+  const screen = window.screen().flippedVisibleFrame();
   const frame = window.frame();
   if (frame === undefined) {
     return;
@@ -198,17 +204,31 @@ export function toggleMaximize() {
   if (window === undefined) {
     return;
   }
-  const screenSize = window.screen().flippedVisibleFrame();
-  if (isMax(window.size(), screenSize)) {
+  const screenFrame = window.screen().flippedVisibleFrame();
+  const windowFrame = window.frame();
+  if (
+    isMax(windowFrame, screenFrame) &&
+    windowFrame.x === screenFrame.x &&
+    windowFrame.y === screenFrame.y
+  ) {
     const restoreFrame = getRestoreFrame(window);
     if (restoreFrame) {
-      window.setSize(restoreFrame.size);
-      window.setTopLeft(restoreFrame.position);
+      if (
+        window.setFrame({
+          ...restoreFrame.position,
+          ...restoreFrame.size,
+        })
+      ) {
+        clearRestoreFrame(window);
+      }
+    } else {
+      window.setFrame(calcSmallerFrame(screenFrame));
     }
   } else {
     saveRestoreFrame(window);
-    window.maximize();
-    setWindowCentral(window);
+    if (!window.maximize()) {
+      clearRestoreFrame(window);
+    }
   }
 }
 
@@ -230,24 +250,8 @@ export function enlargeWindow() {
     return;
   }
   const newFrame = calcLargerFrame(window.frame());
-  const screenFrame = window.screen().flippedFrame();
-  const maxWidth = screenFrame.width;
-  const maxHeight = screenFrame.height;
-
-  if (newFrame.width > maxWidth) {
-    newFrame.width = maxWidth;
-  }
-  if (newFrame.height > maxHeight) {
-    newFrame.height = maxHeight;
-  }
-  if (newFrame.x < screenFrame.x) {
-    newFrame.x = screenFrame.x;
-  }
-  if (newFrame.x + newFrame.width > screenFrame.x + screenFrame.width) {
-    newFrame.x = screenFrame.x + screenFrame.width - newFrame.width;
-  }
-
-  window.setFrame(newFrame);
+  const screenFrame = window.screen().flippedVisibleFrame();
+  window.setFrame(clampFrameToScreen(newFrame, screenFrame));
 }
 
 // Center the focused window (former m + MASH_CTRL).
@@ -265,17 +269,19 @@ export function maximizeHeight() {
   if (window === undefined) {
     return;
   }
-  let y = window.screen().flippedFrame().y;
-  let height = window.screen().flippedFrame().height;
+  const frame = window.frame();
+  const screenFrame = window.screen().flippedVisibleFrame();
+  let y = screenFrame.y;
+  let height = screenFrame.height;
   // patch for vivaldi
   if (window.app().name() === 'Vivaldi') {
     y = y + 20;
     height = height - 20;
   }
   window.setFrame({
-    x: window.frame().x,
+    x: frame.x,
     y,
-    width: window.frame().width,
+    width: frame.width,
     height,
   });
 }
@@ -286,11 +292,13 @@ export function maximizeWidth() {
   if (window === undefined) {
     return;
   }
+  const frame = window.frame();
+  const screenFrame = window.screen().flippedVisibleFrame();
   window.setFrame({
-    x: window.screen().flippedFrame().x,
-    y: window.frame().y,
-    width: window.screen().flippedFrame().width,
-    height: window.frame().height,
+    x: screenFrame.x,
+    y: frame.y,
+    width: screenFrame.width,
+    height: frame.height,
   });
 }
 

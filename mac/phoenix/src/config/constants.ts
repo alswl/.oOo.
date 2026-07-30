@@ -7,7 +7,6 @@ const MASH_CTRL: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
 const MASH_SHIFT: Phoenix.ModifierKey[] = ['alt', 'shift'];
 const MASH_CTRL_SHIFT: Phoenix.ModifierKey[] = ['alt', 'ctrl', 'shift'];
 const HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
-const DEFAULT_WIDTH = 1280;
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = {
   1: 0, // one display case
   2: 3, // two display case
@@ -32,7 +31,6 @@ const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = {
   Mail: 2,
   Airmail: 2,
 };
-const A_BIG_PIXEL = 10000;
 // TODO MAC_SCREEN_IN_THE_RIGHT to DISPLAYS_ORDER
 const MAC_SCREEN_IN_THE_RIGHT = true;
 // const MAC_SCREEN_IN_THE_RIGHT = false;
@@ -46,11 +44,9 @@ export {
   MASH_SHIFT,
   MASH_CTRL_SHIFT,
   HIDE_INACTIVE_WINDOW_TIME,
-  DEFAULT_WIDTH,
   WORK_SPACE_INDEX_MAP,
   SECOND_WORK_SPACE_INDEX_MAP,
   PARK_SPACE_INDEX_MAP,
   PARK_SPACE_APP_INDEX_MAP,
-  A_BIG_PIXEL,
   RESIZE_WITH_RATIO,
 };
