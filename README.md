@@ -4,138 +4,145 @@
 
 **A decade of Linux &amp; macOS dotfiles, still in daily use.**
 
-十余年打磨、至今每天在用的 Linux / macOS 配置合集 —— 拿去参考，随意取用。
+A personal collection of Linux and macOS configurations refined over more than a
+decade. Feel free to explore, borrow, and adapt.
+
+[Chinese](README_zh.md)
 
 </div>
 
 ---
 
-## Philosophy · 理念
+## Philosophy
 
-整个仓库就是一份 `$HOME`：每个文件都放在它在家目录里该在的位置，安装无非是一组软链接。
-This repository is a single, self-contained home directory — installation is nothing more
-than a set of symlinks.
+This repository is a single, self-contained `$HOME`: every file lives where it
+would in a home directory, so installation is little more than creating a set of
+symlinks.
 
-工具会来会走，留下的是肌肉记忆。淘汰的配置不删除，而是退役进 [`archived/`](archived/)，
-让「当年为什么这么选」的痕迹依然可读。Retired configs are archived, not deleted, so the
-history of choices stays legible.
+Tools come and go, but muscle memory remains. Retired configurations are moved to
+[`archived/`](archived/) rather than deleted, keeping the reasoning behind past
+choices legible.
 
-## Layout · 目录结构
+## Layout
 
-| Path            | 说明                                                                  |
-| --------------- | --------------------------------------------------------------------- |
-| `.*`            | 跨平台 dotfiles —— zsh、tmux、screen、git、ctags、各类编辑器            |
-| `.zshrc.etc.d/` | 模块化 zsh 片段，按需 source（docker / k8s / secrets …）               |
-| `mac/`          | 仅 macOS：Phoenix、Karabiner、LaunchAgents、App 支持文件                |
-| `linux/`        | 仅 Linux 的 dotfiles                                                   |
-| `local/bin/`    | ~110 个自用脚本（见 [Toolbox](#toolbox--工具箱)）                       |
-| `archived/`     | 退役配置，留档参考                                                     |
+| Path            | Description                                                              |
+| --------------- | ------------------------------------------------------------------------ |
+| `.*`            | Cross-platform dotfiles for zsh, tmux, screen, git, ctags, and editors   |
+| `.zshrc.etc.d/` | Modular zsh snippets sourced as needed (Docker, Kubernetes, secrets, etc.) |
+| `mac/`          | macOS-only files: Phoenix, Karabiner, LaunchAgents, and app support files |
+| `linux/`        | Linux-only dotfiles                                                      |
+| `local/bin/`    | Around 110 personal scripts; see [Toolbox](#toolbox)                     |
+| `archived/`     | Retired configurations kept for reference                               |
 
-## Configurations · 配置
+## Configurations
 
-在用 / Actively maintained: **zsh** · **tmux / screen** · **git** · **ideavim** ·
-**Obsidian vim** · **fonts** · **Phoenix**（macOS 平铺窗管） · **Karabiner**。
+Actively maintained: **zsh** · **tmux / screen** · **git** · **IdeaVim** ·
+**Obsidian Vim** · **fonts** · **Phoenix** (a macOS tiling window manager) ·
+**Karabiner**.
 
-浏览器按键已统一收敛到 **[Surfingkeys](.surfingkeys.js)**；早年的 Vimperator /
-Pentadactyl / Vimium / cVim / VimFx 现已归档。
+Browser keyboard customizations have converged on
+**[Surfingkeys](.surfingkeys.js)**. Earlier configurations for Vimperator,
+Pentadactyl, Vimium, cVim, and VimFx are now archived.
 
-已拆分为独立仓库 / Split out：
+Split into separate repositories:
 
 - **vim** → [miv][]
-- **awesome**（窗口管理器）→ [awesome][]
+- **awesome** (window manager) → [awesome][]
 
-被取代并归档 / Superseded: Xmodmap（→ Ergodox）、xmonad·xmobar（→ awesome）、
-mjolnir·slate·amethyst（→ Phoenix）。
+Superseded and archived: Xmodmap (replaced by Ergodox), xmonad and xmobar
+(replaced by awesome), and mjolnir, slate, and amethyst (replaced by Phoenix).
 
-## Toolbox · 工具箱
+## Toolbox
 
-`local/bin/` 里攒了一百多个小脚本，是整套工作流的黏合剂。挑几个有特色的晒一晒：
+`local/bin/` contains more than a hundred small scripts that glue the workflow
+together. Here are a few highlights.
 
-### Markdown &amp; 剪贴板互转
+### Markdown and clipboard conversion
 
-在编辑器、浏览器、飞书、微信读书之间搬运富文本时最趁手的一批。
+These scripts make it easy to move rich text among editors, browsers, Feishu,
+and WeRead.
 
-| Script                              | 用途                                                       |
-| ----------------------------------- | ---------------------------------------------------------- |
-| `paste-{md,html,rtf}-to-{md,html,rtf}` | 剪贴板格式互转全矩阵，`-copy` 变体直接回填剪贴板         |
-| `paste-weread-to-md`                | 微信读书划线笔记 → Markdown                                |
-| `paste-simplemind-outline-to-md`    | SimpleMind 脑图大纲 → Markdown                             |
-| `image-from-clipboard-to-png-*`     | 剪贴板图片落地为 PNG，并生成 Markdown 引用                  |
-| `format-gfm` · `gh-md-toc`          | GitHub Flavored Markdown 格式化 / 目录生成                  |
-| `remark` · `reveal`                 | 由 Markdown 生成 remark / reveal.js 幻灯片                  |
+| Script                                | Purpose                                                     |
+| ------------------------------------- | ----------------------------------------------------------- |
+| `paste-{md,html,rtf}-to-{md,html,rtf}` | Convert among clipboard formats; `-copy` variants write back to the clipboard |
+| `paste-weread-to-md`                  | Convert WeRead highlights to Markdown                       |
+| `paste-simplemind-outline-to-md`      | Convert a SimpleMind outline to Markdown                    |
+| `image-from-clipboard-to-png-*`       | Save a clipboard image as PNG and generate a Markdown reference |
+| `format-gfm` · `gh-md-toc`            | Format GitHub Flavored Markdown and generate a table of contents |
+| `remark` · `reveal`                   | Build remark or reveal.js slides from Markdown              |
 
-### 网络 &amp; 代理 · Networking
+### Networking and proxies
 
-| Script                          | 用途                                                   |
-| ------------------------------- | ------------------------------------------------------ |
-| `myip` · `myip-*`               | 十来个出口 IP 探测源（dig / ipinfo / ip.sb / ipip …）  |
-| `ddns-by-{cloudflare,dnspod}`   | 动态 DNS 更新，`-wan` 变体走公网 IP                    |
-| `shadowsocks_client_start_*`    | 按区域（HK / JP / HA）拉起 SS 客户端                   |
-| `socks5proxywrapper` · `dig-http` | SOCKS5/HTTP 代理包装、HTTP 版 dig                     |
+| Script                            | Purpose                                                        |
+| --------------------------------- | -------------------------------------------------------------- |
+| `myip` · `myip-*`                 | Query the public IP through multiple sources (dig, ipinfo, ip.sb, ipip, etc.) |
+| `ddns-by-{cloudflare,dnspod}`     | Update dynamic DNS; `-wan` variants use the public IP           |
+| `shadowsocks_client_start_*`      | Start regional Shadowsocks clients (HK, JP, or HA)              |
+| `socks5proxywrapper` · `dig-http` | Wrap SOCKS5/HTTP proxies and provide an HTTP-based dig utility  |
 
-### 图片 &amp; 媒体 · Media
+### Images and media
 
-| Script                    | 用途                                    |
-| ------------------------- | --------------------------------------- |
-| `tinypng`                 | 调 TinyPNG 压图                          |
-| `resize-img` · `-800/1200/2000` | 按宽度批量缩放                    |
-| `mov2gif`                 | 录屏 `.mov` → GIF                        |
-| `svg2icns`                | SVG → macOS `.icns` 图标集               |
-| `qrdecode`                | 解二维码                                |
+| Script                           | Purpose                                  |
+| -------------------------------- | ---------------------------------------- |
+| `tinypng`                        | Compress images through TinyPNG          |
+| `resize-img` · `-800/1200/2000`  | Batch-resize images to a target width    |
+| `mov2gif`                        | Convert a `.mov` screen recording to GIF |
+| `svg2icns`                       | Convert SVG to a macOS `.icns` icon set  |
+| `qrdecode`                       | Decode QR codes                          |
 
-### Git &amp; 开发 · Dev
+### Git and development
 
-| Script                          | 用途                                       |
-| ------------------------------- | ------------------------------------------ |
-| `git-archive-zip`               | 把 repo 打包成 `xxx.git.zip`               |
-| `git-code-numbers-by-authors`   | 按作者统计代码量                           |
-| `git-min-backup`                | 极简 git 备份                              |
-| `homebrew-using-mirror`         | 一键切 Homebrew 镜像源                     |
-| `check-brew-cask-upgrade`       | 快速检查 cask 更新                         |
+| Script                        | Purpose                                  |
+| ----------------------------- | ---------------------------------------- |
+| `git-archive-zip`             | Package a repository as `xxx.git.zip`    |
+| `git-code-numbers-by-authors` | Count lines of code by author            |
+| `git-min-backup`              | Create a minimal Git backup              |
+| `homebrew-using-mirror`       | Switch Homebrew to a mirror              |
+| `check-brew-cask-upgrade`     | Quickly check for Homebrew cask upgrades |
 
-### 桌面粘合剂 · Desktop glue
+### Desktop glue
 
-| Script                | 用途                                                        |
-| --------------------- | ----------------------------------------------------------- |
-| `edit-server`         | 配合 TextAid，在 Chrome 里用 Vim 编辑文本框                 |
-| `fcitx-remote-osa`    | 用 osascript 切换 macOS 输入法                             |
-| `apple-music-playing` | 取当前 Apple Music 正在播放的曲目                          |
-| `bing-wallpaper.sh`   | 下载必应每日壁纸                                            |
-| `trash-put`           | 用 macOS `trash` 实现 `trash-put`                          |
-| `iterm2-{recv,send}-zmodem.sh` | iTerm2 里的 rz / sz                              |
+| Script                       | Purpose                                                       |
+| ---------------------------- | ------------------------------------------------------------- |
+| `edit-server`                | Edit Chrome text fields in Vim through TextAid                |
+| `fcitx-remote-osa`           | Switch the macOS input method with osascript                  |
+| `apple-music-playing`        | Print the track currently playing in Apple Music              |
+| `bing-wallpaper.sh`          | Download the Bing image of the day                            |
+| `trash-put`                  | Implement `trash-put` with the macOS `trash` command          |
+| `iterm2-{recv,send}-zmodem.sh` | Use `rz` and `sz` in iTerm2                                 |
 
-> 完整清单就是一句 `ls local/bin/` —— 每个脚本都短小、自解释。The full inventory is
-> just `ls local/bin/`.
+> The full inventory is one `ls local/bin/` away. Each script is small and
+> self-explanatory.
 
-## Install · 安装
+## Installation
 
 ```bash
-# 1. 前置依赖 · zsh + oh-my-zsh + autosuggestions
+# 1. Prerequisites: zsh, Oh My Zsh, and zsh-autosuggestions
 brew install zsh                # or: apt-get install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/zsh-users/zsh-autosuggestions \
   "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 
-# 2. 克隆 · clone
+# 2. Clone
 cd YOUR_REPO_PARENT_PATH
 git clone https://github.com/alswl/.oOo. && cd .oOo.
 
-# 3. 软链跨平台 dotfiles 进 $HOME
-#    (.[!.]* 跳过 . 与 .. ；case 守卫跳过仓库元数据与系统垃圾)
+# 3. Symlink cross-platform dotfiles into $HOME
+#    (.[!.]* skips . and ..; the case guard skips repository metadata and system files)
 for f in .[!.]*; do
   case "$f" in .git|.gitignore|.DS_Store|.idea|.claude) continue ;; esac
   ln -sfn "$(pwd)/$f" "$HOME/$f"
 done
 cp "$(pwd)/_.gitconfig" "$HOME/.gitconfig"
 
-# 4. 链接自用脚本
+# 4. Link personal scripts
 mkdir -p "$HOME/local/bin" "$HOME/local/etc"
 ln -s "$(pwd)"/local/bin/* "$HOME/local/bin/"
 ln -s "$(pwd)"/local/etc/* "$HOME/local/etc/"
 ```
 
 <details>
-<summary><b>macOS 额外步骤</b></summary>
+<summary><b>Additional macOS steps</b></summary>
 
 ```bash
 cd YOUR_REPO_PATH
@@ -153,7 +160,7 @@ ln -s "$(pwd)/mac/_config/karabiner/karabiner.json" "$HOME/.config/karabiner/kar
 </details>
 
 <details>
-<summary><b>Linux 额外步骤</b></summary>
+<summary><b>Additional Linux steps</b></summary>
 
 ```bash
 cd YOUR_REPO_PATH
@@ -164,19 +171,21 @@ done
 
 </details>
 
-## Phoenix —— macOS 上的平铺窗口管理
+## Phoenix: tiling window management for macOS
 
-纯键盘驱动、用 JavaScript 脚本化的窗口管理。详见博文
-[*Windows management for hacker*](https://blog.alswl.com/2016/04/windows-management-for-hacker/)。
+Phoenix provides keyboard-driven, JavaScript-scriptable window management. See
+the blog post
+[*Windows management for hacker*](https://blog.alswl.com/2016/04/windows-management-for-hacker/)
+for more details.
 
-| 启动应用 Application launch | 窗口切换 Window switch | 移动窗口 Window movement |
+| Application launch | Window switch | Window movement |
 | --- | --- | --- |
 | ![](./mac/phoenix/_asserts/application-launch.gif) | ![](./mac/phoenix/_asserts/application-switch.gif) | ![](./mac/phoenix/_asserts/window.gif) |
 
-## Related · 相关
+## Related projects
 
-- [miv][] —— vim 配置
-- [awesome][] —— awesome 窗口管理器配置
+- [miv][] — Vim configuration
+- [awesome][] — Awesome window manager configuration
 
 [.oOo.]: https://github.com/alswl/.oOo.
 [awesome]: https://github.com/alswl/awesome
