@@ -1,5 +1,4 @@
-import * as config from '../config';
-import { heartbeatWindow } from '../features/window';
+import { getSavedMousePosition, heartbeatWindow, saveMousePosition } from '../runtime/window-state';
 
 export function saveMousePositionForWindow(window: Window) {
   if (!window) {
@@ -7,8 +6,7 @@ export function saveMousePositionForWindow(window: Window) {
   }
   heartbeatWindow(window);
   const pos = Mouse.location();
-  // pos.y = 800 - pos.y; // fix phoenix 2.x bug
-  config.MOUSE_POSITIONS[window.hash()] = pos;
+  saveMousePosition(window, pos);
 }
 
 export function setMousePositionForWindowCenter(window: Window | undefined) {
@@ -26,11 +24,11 @@ export function restoreMousePositionForWindow(window: Window | undefined) {
   if (window === undefined) {
     return;
   }
-  if (!config.MOUSE_POSITIONS[window.hash()]) {
+  const pos = getSavedMousePosition(window);
+  if (!pos) {
     setMousePositionForWindowCenter(window);
     return;
   }
-  const pos = config.MOUSE_POSITIONS[window.hash()];
   const rect = window.frame();
   if (
     pos.x < rect.x ||

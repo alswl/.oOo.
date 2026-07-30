@@ -1,12 +1,11 @@
-import * as _ from 'lodash';
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from '../lib/mouse';
-import { getCurrentWindow } from './window';
+import { getCurrentWindow } from '../runtime/current-window';
 
 /**
  * App Functions
  */
 // switch app, and remember mouse position
-export function callApp(appName: string, orAppName?: string) {
+export function callApp(appName: string, orAppName?: string): void {
   const window = getCurrentWindow();
   if (window !== undefined) {
     saveMousePositionForWindow(window);

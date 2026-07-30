@@ -1,8 +1,13 @@
 import * as _ from 'lodash';
-import * as config from '../config';
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from '../lib/mouse';
-import { windowsOnOtherScreen } from './screen';
 import { displayAllVisiableWindowModal, log } from '../lib/util';
+import { getCurrentWindow } from '../runtime/current-window';
+import {
+  getRestoreFrame,
+  heartbeatWindow,
+  hideInactiveWindows,
+  saveRestoreFrame,
+} from '../runtime/window-state';
 
 export function sortByMostRecent(windows: Window[]): Window[] {
   // var start = new Date().getTime();
@@ -61,42 +66,7 @@ export function calcLargerFrame(frame: Rectangle): Rectangle {
   return calcResizeFrame(frame, 1.25);
 }
 
-export function getCurrentWindow(): Window | undefined {
-  const windowOptional = Window.focused();
-  if (windowOptional !== undefined) {
-    return windowOptional;
-  }
-  // FIXME sometime mainWindow is undefined
-  return App.focused().mainWindow();
-}
-
-export function hideInactiveWindow(windows: Window[]) {
-  const now = new Date().getTime() / 1000;
-  _.chain(windows)
-    .filter((window) => {
-      if (!config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()]) {
-        config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = now;
-        return false;
-      } else {
-        return true;
-      }
-    })
-    .filter((window) => {
-      return (
-        now - config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] >
-        config.HIDE_INACTIVE_WINDOW_TIME * 60
-      );
-      // return now - ACTIVE_WINDOWS_TIMES[window.app().pid]> 5;
-    })
-    .map((window) => {
-      window.app().hide();
-    });
-}
-
-export function heartbeatWindow(window: Window) {
-  config.ACTIVE_WINDOWS_TIMES[window.app().processIdentifier()] = new Date().getTime() / 1000;
-  // hide_inactiveWindow(window.otherWindowsOnSameScreen());
-}
+export const hideInactiveWindow = hideInactiveWindows;
 
 export function setWindowCentral(window: Window) {
   window.setTopLeft({
@@ -152,7 +122,7 @@ export function focusWindowInSameScreen(
   displayAllVisiableWindowModal(windows, targetWindow, rectangle);
 }
 
-export function marginWindow(positionFn: (window: Window, frame: Rectangle) => any) {
+export function marginWindow(positionFn: (window: Window, frame: Rectangle) => void) {
   const frame = Screen.main().flippedVisibleFrame();
   const window = Window.focused();
 
@@ -169,12 +139,9 @@ export function isMax(windowSize: Size, screenSize: Size): boolean {
 /**
  * Window geometry handlers
  *
- * Extracted from the inline Key.on bodies so phoenix.ts is a thin binding list.
- * Behavior is preserved 1:1 with the previous inline handlers.
+ * Hotkey registration lives in hotkeys/window.ts; this module owns the
+ * corresponding window behavior.
  */
-
-const windowRestoreSizeMap: { [name: string]: Size } = {};
-const windowRestorePositionMap: { [name: string]: Point } = {};
 
 // Move and/or resize the focused window by the given deltas in one call.
 // Covers the 8 former move/enlarge arrow handlers (dw/dh are 0 for pure moves).
@@ -233,15 +200,13 @@ export function toggleMaximize() {
   }
   const screenSize = window.screen().flippedVisibleFrame();
   if (isMax(window.size(), screenSize)) {
-    if (windowRestoreSizeMap[window.hash()]) {
-      window.setSize(windowRestoreSizeMap[window.hash()]);
-    }
-    if (windowRestorePositionMap[window.hash()]) {
-      window.setTopLeft(windowRestorePositionMap[window.hash()]);
+    const restoreFrame = getRestoreFrame(window);
+    if (restoreFrame) {
+      window.setSize(restoreFrame.size);
+      window.setTopLeft(restoreFrame.position);
     }
   } else {
-    windowRestoreSizeMap[window.hash()] = window.size();
-    windowRestorePositionMap[window.hash()] = window.topLeft();
+    saveRestoreFrame(window);
     window.maximize();
     setWindowCentral(window);
   }

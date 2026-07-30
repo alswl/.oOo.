@@ -1,17 +1,13 @@
 import * as _ from 'lodash';
 import { DEBUG } from '../config';
 
-declare var console: any;
-
-export function log(...args: any[]): void {
-  // Hot-path guard: skip stringify() + Phoenix.log + console.trace unless debugging.
+export function log(...args: unknown[]): void {
+  // Hot-path guard: skip stringify() + Phoenix.log unless debugging.
   if (!DEBUG) {
     return;
   }
   args = args.map((arg) => stringify(arg));
   Phoenix.log(...args);
-  // tslint:disable-next-line:no-console
-  console.trace(...args);
 }
 
 export function alert(message: string) {
@@ -25,7 +21,7 @@ export function alert_title(window: Window) {
   alert(window.title());
 }
 
-export function stringify(value: any) {
+export function stringify(value: unknown): unknown {
   if (value instanceof Error) {
     let stack = '';
     if (value.stack) {
@@ -40,7 +36,7 @@ export function stringify(value: any) {
     case 'object':
       return '\n' + JSON.stringify(value, null, 2);
     case 'function':
-      return value.toString();
+      return String(value);
     default:
       return value;
   }
@@ -92,7 +88,7 @@ export function showTitleModal(text: string, duration: number = 1, icon?: Phoeni
 }
 
 function showAt(modal: Modal, screen: Screen, widthDiv: number, heightDiv: number) {
-  const { height, width, x, y } = modal.frame();
+  const { height, width } = modal.frame();
   const sf = screen.visibleFrame();
   modal.origin = {
     x: sf.x + (sf.width / widthDiv - width / 2),

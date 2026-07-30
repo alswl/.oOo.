@@ -6,9 +6,7 @@ const MASH: Phoenix.ModifierKey[] = ['alt'];
 const MASH_CTRL: Phoenix.ModifierKey[] = ['alt', 'ctrl'];
 const MASH_SHIFT: Phoenix.ModifierKey[] = ['alt', 'shift'];
 const MASH_CTRL_SHIFT: Phoenix.ModifierKey[] = ['alt', 'ctrl', 'shift'];
-const MOUSE_POSITIONS: { [name: number]: Point } = {};
 const HIDE_INACTIVE_WINDOW_TIME = 10; // minitus
-const ACTIVE_WINDOWS_TIMES: { [name: number]: number } = {};
 const DEFAULT_WIDTH = 1280;
 const WORK_SPACE_INDEX_MAP: { [name: number]: number } = {
   1: 0, // one display case
@@ -37,7 +35,6 @@ const PARK_SPACE_APP_INDEX_MAP: { [name: string]: number } = {
 const A_BIG_PIXEL = 10000;
 // TODO MAC_SCREEN_IN_THE_RIGHT to DISPLAYS_ORDER
 const MAC_SCREEN_IN_THE_RIGHT = true;
-const DISPLAYS_ORDER = {};
 // const MAC_SCREEN_IN_THE_RIGHT = false;
 const RESIZE_WITH_RATIO = false;
 
@@ -48,12 +45,11 @@ export {
   MASH_CTRL,
   MASH_SHIFT,
   MASH_CTRL_SHIFT,
-  MOUSE_POSITIONS,
   HIDE_INACTIVE_WINDOW_TIME,
-  ACTIVE_WINDOWS_TIMES,
   DEFAULT_WIDTH,
   WORK_SPACE_INDEX_MAP,
   SECOND_WORK_SPACE_INDEX_MAP,
+  PARK_SPACE_INDEX_MAP,
   PARK_SPACE_APP_INDEX_MAP,
   A_BIG_PIXEL,
   RESIZE_WITH_RATIO,

@@ -2,14 +2,14 @@ import * as _ from 'lodash';
 import { A_BIG_PIXEL, RESIZE_WITH_RATIO } from '../config';
 import { restoreMousePositionForWindow, saveMousePositionForWindow } from '../lib/mouse';
 import { log } from '../lib/util';
-import { getCurrentWindow, sortByMostRecent } from './window';
+import { getCurrentWindow } from '../runtime/current-window';
+import { sortByMostRecent } from './window';
 
 // let SCREEN_LATEST_WINDOW: { [screen: string]: Window } = {};
 // let SCREEN_LATEST_WINDOW = new Map<number, Window>();
 
 export function moveToScreen(window: Window, screen: Screen) {
   const app = window.app();
-  const currentSpaces = window.spaces();
   const windowFrame = window.frame();
   const currentScreenFrame = window.screen().flippedVisibleFrame();
   const targetScreenFrame = screen.flippedVisibleFrame();
@@ -90,7 +90,6 @@ function getScreenLatestWindow(screen: Screen): Window | null {
 
 export function focusAnotherScreen(window: Window, targetScreen: Screen) {
   const start = new Date().getTime();
-  const currentScreen = window.screen();
   // TODO using cache
   // if (SCREEN_LATEST_WINDOW.has(currentScreen.hash())) {
   //   return SCREEN_LATEST_WINDOW.get(currentScreen.hash());
@@ -177,25 +176,17 @@ export function getNextWindowsOnSameScreen(
 
 export function switchScreen(
   current: Window | undefined,
-  targetScreenFn: (screen: Screen) => Screen,
-  validationFn: (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => boolean
+  targetScreenFn: (screen: Screen) => Screen
 ) {
   if (current === undefined) {
     return;
   }
-  const allScreens = Screen.all();
   const currentScreen = current.screen();
   if (currentScreen === undefined) {
     log('switchScrren, no current Screen');
     return; // TODO use mouse to find current screen
   }
   const targetScreen = targetScreenFn(currentScreen);
-  if (!validationFn(allScreens, currentScreen, targetScreen)) {
-    log(
-      `switchScrren, validate fn failed, currentScreen: ${currentScreen.identifier()}, targetScreen: ${targetScreen.identifier()}`
-    );
-    return;
-  }
   focusAnotherScreen(current, targetScreen);
 }
 
@@ -222,26 +213,12 @@ export function moveWindowToScreen(
 }
 
 export function focusNextScreen() {
-  switchScreen(
-    getCurrentWindow(),
-    (screen: Screen) => screen.next(),
-    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
-      return true;
-      // return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash()) < _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
-    }
-  );
+  switchScreen(getCurrentWindow(), (screen: Screen) => screen.next());
   // const current = getCurrentWindow();
   // const currentScreen = current.screen();
   // currentScreen.next()
 }
 
 export function focusPreviousScreen() {
-  switchScreen(
-    getCurrentWindow(),
-    (screen: Screen) => screen.previous(),
-    (allScreens: Screen[], currentScreen: Screen, targetScreen: Screen) => {
-      return true;
-      // return _.indexOf(_.map(allScreens, (x) => x.hash()), targetScreen.hash()) > _.indexOf(_.map(allScreens, (x) => x.hash()), currentScreen.hash());
-    }
-  );
+  switchScreen(getCurrentWindow(), (screen: Screen) => screen.previous());
 }

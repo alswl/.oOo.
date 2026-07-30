@@ -3,12 +3,14 @@ import * as config from '../config';
 import { restoreMousePositionForWindow } from '../lib/mouse';
 import { getNextWindowsOnSameScreen, moveToScreen, sortedWindowsOnSameScreen } from './screen';
 import { displayAllVisiableWindowModal, log } from '../lib/util';
-import { getCurrentWindow } from './window';
+import { getCurrentWindow } from '../runtime/current-window';
 
-// NOTE: mirrors the original phoenix.ts aliasing — config exports no PARK_SPACE_INDEX_MAP,
-// so the previous code aliased it to PARK_SPACE_APP_INDEX_MAP. Preserved as-is (latent bug).
-const PARK_SPACE_INDEX_MAP = config.PARK_SPACE_APP_INDEX_MAP;
-const PARK_SPACE_APP_INDEX_MAP = config.PARK_SPACE_APP_INDEX_MAP;
+function getSpaceByIndex(spaces: Space[], index: number | undefined): Space | undefined {
+  if (index === undefined || index < 0 || index >= spaces.length) {
+    return undefined;
+  }
+  return spaces[index];
+}
 
 // TODO refact
 export function moveWindowToTargetSpace(
@@ -122,13 +124,15 @@ export function moveWindowToParkSpace() {
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
   const parkSpaceIndex =
-    PARK_SPACE_APP_INDEX_MAP[window.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
-  if (parkSpaceIndex >= allSpaces.length) {
+    config.PARK_SPACE_APP_INDEX_MAP[window.app().name()] ??
+    config.PARK_SPACE_INDEX_MAP[screenCount];
+  const parkSpace = getSpaceByIndex(allSpaces, parkSpaceIndex);
+  if (parkSpace === undefined) {
     return;
   }
-  log(`${window}, ${nextWindowOptional}, ${allSpaces[parkSpaceIndex]}`);
+  log(`${window}, ${nextWindowOptional}, ${parkSpace}`);
 
-  // moveWindowToTargetSpace(window, nextWindowOptional, allSpaces[parkSpaceIndex]);
+  // moveWindowToTargetSpace(window, nextWindowOptional, parkSpace);
 }
 
 // Move focused window to the work space (former return + MASH_CTRL).
@@ -140,14 +144,11 @@ export function moveWindowToWorkSpace() {
     : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
-  if (config.WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) {
+  const workSpace = getSpaceByIndex(allSpaces, config.WORK_SPACE_INDEX_MAP[screenCount]);
+  if (workSpace === undefined) {
     return;
   }
-  moveWindowToTargetSpace(
-    window,
-    nextWindowOptional,
-    allSpaces[config.WORK_SPACE_INDEX_MAP[screenCount]]
-  );
+  moveWindowToTargetSpace(window, nextWindowOptional, workSpace);
 }
 
 // Move all windows of the focused app to the second work space (former return + MASH_CTRL_SHIFT).
@@ -162,15 +163,15 @@ export function moveWindowToSecondWorkSpace() {
     : getNextWindowsOnSameScreen(window, sortedWindowsOnSameScreen(window));
   const allSpaces = Space.all();
   const screenCount = Screen.all().length;
-  if (config.SECOND_WORK_SPACE_INDEX_MAP[screenCount] >= allSpaces.length) {
+  const secondWorkSpace = getSpaceByIndex(
+    allSpaces,
+    config.SECOND_WORK_SPACE_INDEX_MAP[screenCount]
+  );
+  if (secondWorkSpace === undefined) {
     return;
   }
   _.each(window.app().windows(), (x: Window) => {
-    moveWindowToTargetSpace(
-      x,
-      nextWindow,
-      allSpaces[config.SECOND_WORK_SPACE_INDEX_MAP[screenCount]]
-    );
+    moveWindowToTargetSpace(x, nextWindow, secondWorkSpace);
   });
 }
 
@@ -192,10 +193,12 @@ export function parkOtherWindowsInSpace() {
       return;
     }
     const parkSpaceIndex =
-      PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] || PARK_SPACE_INDEX_MAP[screenCount];
-    if (parkSpaceIndex >= allSpaces.length) {
+      config.PARK_SPACE_APP_INDEX_MAP[parkedWindow.app().name()] ??
+      config.PARK_SPACE_INDEX_MAP[screenCount];
+    const parkSpace = getSpaceByIndex(allSpaces, parkSpaceIndex);
+    if (parkSpace === undefined) {
       return;
     }
-    moveWindowToTargetSpace(parkedWindow, nextWindow, allSpaces[parkSpaceIndex]);
+    moveWindowToTargetSpace(parkedWindow, nextWindow, parkSpace);
   });
 }

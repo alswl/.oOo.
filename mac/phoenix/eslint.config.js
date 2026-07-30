@@ -18,6 +18,9 @@ module.exports = [
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
+      // Phoenix APIs are ambient globals declared by @types/phoenix. TypeScript
+      // resolves them correctly; ESLint's base rule has no type information.
+      'no-undef': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',

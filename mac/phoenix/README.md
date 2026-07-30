@@ -86,7 +86,7 @@ TODO
 ```
 npm install
 # cnpm install for Mainland China user
-npx webpack
+npm run validate
 cp dist/phoenix.js $HOME/.phoenix.js
 ```
 
