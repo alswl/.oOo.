@@ -357,16 +357,24 @@ if [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 alias f='fd -I'
 alias ff='fd --type f | fzf'
-alias ffp='fd --type f | fz --preview "less {}"'
+alias ffp='fd --type f | fzf --preview "less {}"'
 alias fzp='fzf --preview "less {}"'
 # functions (not aliases) so filenames with spaces survive the pipe
 fzl() { local f; f=$(fd --type f | fzf) && less "$f"; }
 fzv() { local f; f=$(fd --type f | fzf) && nvim -p "$f"; }
+# pick a git-changed file (modified/staged/untracked) via fzf
+_fzg_files() { { git -c core.quotePath=false diff --name-only HEAD; git -c core.quotePath=false ls-files --others --exclude-standard; } | fzf; }
+fzgv() { local f; f=$(_fzg_files) && nvim -p "$f"; }
+fzgvv() {
+	local f; f=$(_fzg_files) || return
+	[[ "$OSTYPE" == darwin* ]] && neovide --fork "$f" || gvim -p "$f"
+}
 fzvv() {
 	local f; f=$(fd --type f | fzf) || return
 	[[ "$OSTYPE" == darwin* ]] && neovide --fork "$f" || gvim -p "$f"
 }
-fcd() { local d; d=$(fd --type d | fzf) && cd "$d"; }
+fzcd() { local d; d=$(fd --type d | fzf) && cd "$d"; }
+fzo() { local f; f=$(fd --type f | fzf) && open "$f"; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
