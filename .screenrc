@@ -8,7 +8,9 @@ encoding UTF-8
 
 caption always "%{=b}%{b}%{C}[stream]%{-}  %+010=%-w%8L>%{uB .my}*%n %t%{-}%+w%-014<  %-012=%{b m} "
 
-term screen-256color
+# using TERM=screen-256color scrren in some conditions
+# term screen-256color
+truecolor on
 
 # bind F9 to "move to previous window"
 bindkey -k k9 prev

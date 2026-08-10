@@ -349,8 +349,6 @@ alias psg='ps -ef | grep '
 alias py='python'
 alias jy='jython'
 alias ksh='killall ssh'
-# force 256-color TERM (inner color set in .screenrc)
-alias screen='TERM=xterm-256color screen'
 alias s='sudo'
 if [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias fd="fdfind"
@@ -361,10 +359,10 @@ alias ffp='fd --type f | fzf --preview "less {}"'
 alias fzp='fzf --preview "less {}"'
 # functions (not aliases) so filenames with spaces survive the pipe
 fzl() { local f; f=$(fd --type f | fzf) && less "$f"; }
-fzv() { local f; f=$(fd --type f | fzf) && nvim -p "$f"; }
+fzv() { local f; f=$(fd --type f | fzf) && command "$EDITOR" -p "$f"; }
 # pick a git-changed file (modified/staged/untracked) via fzf
 _fzg_files() { { git -c core.quotePath=false diff --name-only HEAD; git -c core.quotePath=false ls-files --others --exclude-standard; } | fzf; }
-fzgv() { local f; f=$(_fzg_files) && nvim -p "$f"; }
+fzgv() { local f; f=$(_fzg_files) && command "$EDITOR" -p "$f"; }
 fzgvv() {
 	local f; f=$(_fzg_files) || return
 	[[ "$OSTYPE" == darwin* ]] && neovide --fork "$f" || gvim -p "$f"
@@ -378,7 +376,7 @@ fzo() { local f; f=$(fd --type f | fzf) && open "$f"; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
-alias vh='sudo nvim /etc/hosts'
+alias vh='sudo "$EDITOR" /etc/hosts'
 alias fff='fuck'
 alias wo='workon'
 alias ta='tmux attach -t'
@@ -411,9 +409,17 @@ elif [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 # vim
 alias mk=mkdir
-# alias v='vim -p'
-alias v='nvim -p'
-alias vim='nvim -p'
+# Use Vim inside GNU screen for compatibility. Outside screen, prefer
+# Neovim when installed and fall back to Vim otherwise.
+if [[ -z "$STY" ]] && (( $+commands[nvim] )); then
+	export EDITOR=nvim
+	export VISUAL=nvim
+else
+	export EDITOR=vim
+	export VISUAL=vim
+fi
+alias v='command "$EDITOR" -p'
+alias vim='command "$EDITOR" -p'
 if [[ "$OSTYPE" == "darwin"*  ]]; then
 	# alias vv='open -a MacVim'
 	# open -a goneovim not works
@@ -423,7 +429,7 @@ if [[ "$OSTYPE" == "darwin"*  ]]; then
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
-alias vd='nvim -d'
+alias vd='command "$EDITOR" -d'
 alias vdiff=vd
 alias vdv='v +DiffviewOpen'
 alias vvdv='vv +DiffviewOpen'
