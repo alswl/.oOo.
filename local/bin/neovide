@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+exec "/Applications/Neovide.app/Contents/MacOS/neovide" "$@"
