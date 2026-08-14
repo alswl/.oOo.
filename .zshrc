@@ -365,11 +365,11 @@ _fzg_files() { { git -c core.quotePath=false diff --name-only HEAD; git -c core.
 fzgv() { local f; f=$(_fzg_files) && command "$EDITOR" -p "$f"; }
 fzgvv() {
 	local f; f=$(_fzg_files) || return
-	[[ "$OSTYPE" == darwin* ]] && neovide --fork "$f" || gvim -p "$f"
+	[[ "$OSTYPE" == darwin* ]] && neovide --fork --reuse-instance --new-window "$f" || gvim -p "$f"
 }
 fzvv() {
 	local f; f=$(fd --type f | fzf) || return
-	[[ "$OSTYPE" == darwin* ]] && neovide --fork "$f" || gvim -p "$f"
+	[[ "$OSTYPE" == darwin* ]] && neovide --fork --reuse-instance --new-window "$f" || gvim -p "$f"
 }
 fzcd() { local d; d=$(fd --type d | fzf) && cd "$d"; }
 fzo() { local f; f=$(fd --type f | fzf) && open "$f"; }
@@ -424,8 +424,8 @@ if [[ "$OSTYPE" == "darwin"*  ]]; then
 	# alias vv='open -a MacVim'
 	# open -a goneovim not works
 	# alias vv='goneovim'
-	alias vv='neovide --fork'
-	alias vvd='neovide --fork --nvim -d'
+	alias vv='neovide --fork --reuse-instance --new-window'
+	alias vvd='neovide --fork --reuse-instance --new-window -- -d'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
