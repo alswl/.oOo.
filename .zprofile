@@ -5,7 +5,7 @@
 [ -f /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
 
 # Added by Toolbox App
-export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+[ -d "$HOME/Library/Application Support/JetBrains/Toolbox/scripts" ] && PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 
 
 # PATH {{{
@@ -14,17 +14,18 @@ export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 typeset -U path PATH fpath FPATH
 
 PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:$PATH
-PATH=$HOME/.jenv/bin:$PATH
-PATH=$HOME/.local/bin:$PATH
-PATH=$HOME/.luarocks/bin:$PATH
+[ -d "$HOME/.asdf/shims" ] && PATH="$HOME/.asdf/shims:$PATH"
+[ -d "$HOME/.jenv/bin" ] && PATH="$HOME/.jenv/bin:$PATH"
+[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.luarocks/bin" ] && PATH="$HOME/.luarocks/bin:$PATH"
 # PATH=$HOME/.virtualenvs/sys/bin:$PATH
-PATH=$HOME/.krew/bin:$PATH
-PATH=$HOME/.cargo/bin:$PATH
+[ -d "$HOME/.krew/bin" ] && PATH="$HOME/.krew/bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
 
 [ -d $HOME_LOCAL_BIN_PATH ] && PATH=$HOME_LOCAL_BIN_PATH:$PATH
 
-FPATH=$HOME/.zsh_completion/:$FPATH
-FPATH=$HOME/.zfunc/:$FPATH
+[ -d "$HOME/.zsh_completion" ] && FPATH="$HOME/.zsh_completion:$FPATH"
+[ -d "$HOME/.zfunc" ] && FPATH="$HOME/.zfunc:$FPATH"
 
 
 if [[ -d $HOME_LOCAL_PATH ]]; then
@@ -47,13 +48,14 @@ if [[ -d $HOME/.utoo-proxy ]]; then
     PATH="$HOME/.utoo-proxy:$PATH"
 fi
 # golang (GOPATH exported in .zshenv)
-PATH=$GOPATH/bin:$PATH
+[[ -n "$GOPATH" && -d "$GOPATH/bin" ]] && PATH="$GOPATH/bin:$PATH"
 # kusion
 if [[ -d $HOME/local/kusion/bin ]]; then
   export KUSION_SKIP_UPDATE_CHECK=true
   export KUSION_HOME="$HOME/local/kusion"
   export KUSION_PATH="$KUSION_HOME/bin"
-  export PATH=$KUSION_HOME/kclvm/bin:$PATH
+  PATH="$KUSION_HOME/bin:$PATH"
+  [[ -d "$KUSION_HOME/kclvm/bin" ]] && PATH="$KUSION_HOME/kclvm/bin:$PATH"
 fi
 
 if [[ -d /Applications/Obsidian.app/Contents/MacOS ]]; then
@@ -62,8 +64,8 @@ fi
 
 
 # bun
-export BUN_INSTALL="$HOME/.bun"
-PATH="$BUN_INSTALL/bin:$PATH"
+[ -d "$HOME/.bun" ] && export BUN_INSTALL="$HOME/.bun"
+[[ -n "$BUN_INSTALL" && -d "$BUN_INSTALL/bin" ]] && PATH="$BUN_INSTALL/bin:$PATH"
 
 export PATH
 # PATH }}}
