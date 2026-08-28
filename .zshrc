@@ -273,12 +273,14 @@ sudo ln -s $HOME/.lima/default/docker.sock /var/run/docker.sock"
 # autojump
 [ -f /usr/share/autojump/autojump.sh ] && source /usr/share/autojump/autojump.sh
 
-# z.lua
-[ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh enhanced)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
-[ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh enhanced)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
+# zoxide (replaces z.lua): `j` jumps, `jj` is interactive (fzf)
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)" && alias j=z && alias jj='zi'
 
-# zoxide
-# [ -f /opt/homebrew/bin/zoxide ] && eval "$(zoxide init zsh)" && alias j=z && alias jj='zi'
+# z.lua fallback when zoxide is unavailable
+if (( ! $+commands[zoxide] )); then
+  [ -f /usr/share/z.lua/z.lua ] && eval "$(lua /usr/share/z.lua/z.lua --init zsh enhanced)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
+  [ -f /opt/homebrew/share/z.lua/z.lua ] && eval "$(lua /opt/homebrew/share/z.lua/z.lua --init zsh enhanced)" && export _ZL_HYPHEN=1 && alias j=z && alias jj='z -I'
+fi
 
 # ldd
 
