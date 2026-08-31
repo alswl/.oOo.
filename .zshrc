@@ -235,9 +235,9 @@ ssht() {
         local target="${@: -1}"
         _zsh_tmux_plugin_run rename-window "$target"
         command ssh "$@"
-        local status=$?
+        local ret=$?
         _zsh_tmux_plugin_run set-window-option automatic-rename on >/dev/null
-        return $status
+        return $ret
     else
         command ssh "$@"
     fi
