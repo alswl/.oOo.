@@ -473,6 +473,7 @@ alias gdvc='git difftool --cached'
 # override gbda of git plugin
 alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9\-]+)\s*$)" | command xargs -n 1 git branch -d'
 alias gchs='git-changes'
+alias gwtn='git-worktree-new'
 alias gbsu='git branch -u origin/$(git branch --show-current)'
 alias git-shallow="git pull --depth 1 && git gc --prune=all"
 alias git-unshallow="git fetch --unshallow"
@@ -536,6 +537,9 @@ alias ac=antcode
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
 alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 alias rllua='rlwrap -i -r -c -a lua'
+
+# .oOo. repo: (re)link every local/bin script into ~/local/bin
+alias oOo-install-local-bin='repo="$(dirname "$(readlink "$HOME/.zshrc")")"; mkdir -p "$HOME/local/bin"; ln -sfn "$repo"/local/bin/* "$HOME/local/bin/"'
 
 # Hash Alias
 #hash -d WWW="/srv/http/" # use http instead
