@@ -9,3 +9,9 @@ index = "sparse+https://rsproxy.cn/index/"
 
 [net]
 git-fetch-with-cli = true
+
+[build]
+rustc-wrapper = "/opt/homebrew/bin/sccache"
+
+[env]
+SCCACHE_CACHE_SIZE = "12G"
