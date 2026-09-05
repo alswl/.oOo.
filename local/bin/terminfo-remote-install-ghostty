@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# wrapper: install Ghostty's xterm-ghostty terminfo on ssh hosts
+exec terminfo-remote-install xterm-ghostty "$@"

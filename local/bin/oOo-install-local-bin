@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+# .oOo. repo tool: (re)link every repo/local/bin entry into ~/local/bin (run by
+# the oOo-install-local-bin alias in .zshrc). Idempotent.
+#
+# A real file/dir already at the target name is kept (`!` conflict); stale
+# links are only reported (`-`), never deleted.
+
+set -u
+
+repo="$(dirname "$(readlink "$HOME/.zshrc")")"
+[ -n "$repo" ] || {
+  echo "oOo-install-local-bin: ~/.zshrc is not a symlink into the .oOo. repo" >&2
+  exit 1
+}
+src="$repo/local/bin"
+dst="$HOME/local/bin"
+[ -d "$src" ] || {
+  echo "oOo-install-local-bin: source dir missing: $src" >&2
+  exit 1
+}
+mkdir -p "$dst"
+
+created=0 updated=0 unchanged=0 conflict=0
+detail=""
+
+for f in "$src"/*; do
+  [ -e "$f" ] || continue
+  name="$(basename "$f")"
+  cur="$dst/$name"
+  want="$src/$name"
+
+  if [ -L "$cur" ]; then
+    if [ "$(readlink "$cur")" = "$want" ]; then
+      unchanged=$((unchanged + 1))
+      continue
+    fi
+    updated=$((updated + 1))
+    detail="${detail}    ~  ${name}  (was -> $(readlink "$cur"))\n"
+  elif [ -e "$cur" ]; then
+    conflict=$((conflict + 1))
+    detail="${detail}    !  ${name}  kept existing real file\n"
+    continue
+  else
+    created=$((created + 1))
+    detail="${detail}    +  ${name}\n"
+  fi
+  ln -sfn "$want" "$cur"
+done
+
+stale=""
+stale_n=0
+for l in "$dst"/*; do
+  [ -L "$l" ] || continue
+  tgt="$(readlink "$l")"
+  case "$tgt" in
+    "$src"/*)
+      if [ ! -e "$tgt" ]; then
+        stale="${stale}    -  $(basename "$l")  (source removed from repo)\n"
+        stale_n=$((stale_n + 1))
+      fi
+      ;;
+  esac
+done
+
+echo "$src -> $dst"
+echo "  before: ${unchanged} ok, ${updated} mislinked, ${created} missing, ${conflict} conflict"
+echo "  after : $((created + updated + unchanged)) linked"
+[ -n "$detail" ] || detail="    (nothing to do)\n"
+printf '%b' "$detail"
+if [ "$stale_n" -gt 0 ]; then
+  printf '%b' "$stale"
+  echo "  note: ${stale_n} stale link(s) above (not removed)"
+fi
+
+# vim: set ft=sh:

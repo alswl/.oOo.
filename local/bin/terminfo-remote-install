@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# Install a local terminal terminfo (xterm-kitty, xterm-ghostty, ...) on ssh
+# hosts, so ncurses programs there stop dying with:
+#   ncurses: cannot initialize terminal type ($TERM="...")
+#
+# Usage: terminfo-remote-install <terminfo-name> <ssh-dest> [ssh-dest ...]
+#   e.g. terminfo-remote-install xterm-ghostty server
+#   (the -ghostty / -kitty wrappers are just this with the name filled in)
+#
+# Installs into the remote login user's ~/.terminfo (root/sudo for system-wide);
+# port/keys come from ~/.ssh/config. One ssh per host; already-set hosts skipped.
+
+set -uo pipefail
+
+usage() {
+  echo "usage: $(basename "$0") <terminfo-name> <ssh-dest> [ssh-dest ...]" >&2
+  echo "  e.g. $(basename "$0") xterm-ghostty server" >&2
+  exit 1
+}
+[ "$#" -ge 2 ] || usage
+term="$1"
+shift
+
+# ships with the terminal; pipe it to the remote `tic` (reads stdin) instead of
+# scp, so no temp file lands on either side.
+terminfo="$(infocmp -x "$term" 2>/dev/null)" || {
+  echo "error: '$term' not in local terminfo -- run this on the terminal's host" >&2
+  exit 1
+}
+
+# Program run on each host; stdin carries the terminfo payload.
+remote_install="set -u
+command -v tic >/dev/null 2>&1 || { echo 'error: tic missing on remote (install ncurses-bin)' >&2; exit 2; }
+infocmp '$term' >/dev/null 2>&1 && exit 0  # already installed
+tic -x -
+"
+
+install_on() {
+  printf '%s\n' "$terminfo" | ssh "$1" "$remote_install"
+}
+
+rc=0
+for host in "$@"; do
+  if install_on "$host"; then
+    echo "ok: $host"
+  else
+    echo "failed: $host" >&2
+    rc=1
+  fi
+done
+exit "$rc"
+
+# vim: set ft=sh:

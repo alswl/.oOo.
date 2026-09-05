@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# wrapper: install kitty's xterm-kitty terminfo on ssh hosts
+exec terminfo-remote-install xterm-kitty "$@"

@@ -538,8 +538,8 @@ alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt
 alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
 alias rllua='rlwrap -i -r -c -a lua'
 
-# .oOo. repo: (re)link every local/bin script into ~/local/bin
-alias oOo-install-local-bin='repo="$(dirname "$(readlink "$HOME/.zshrc")")"; mkdir -p "$HOME/local/bin"; ln -sfn "$repo"/local/bin/* "$HOME/local/bin/"'
+# relink repo local/bin tools into ~/local/bin (logic + diff in local/bin/oOo-install-local-bin)
+alias oOo-install-local-bin='repo="$(dirname "$(readlink "$HOME/.zshrc")")"; "$repo"/local/bin/oOo-install-local-bin'
 
 # Hash Alias
 #hash -d WWW="/srv/http/" # use http instead
