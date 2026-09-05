@@ -99,6 +99,7 @@ and WeRead.
 | `git-min-backup`              | Create a minimal Git backup              |
 | `homebrew-using-mirror`       | Switch Homebrew to a mirror              |
 | `check-brew-cask-upgrade`     | Quickly check for Homebrew cask upgrades |
+| `terminfo-remote-install` · `-{ghostty,kitty}` | Install the local terminal terminfo on ssh hosts, fixing `TERM` init errors in remote ncurses programs |
 
 ### Desktop glue
 
