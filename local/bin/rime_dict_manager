@@ -5,4 +5,5 @@
 # see other supported options:
 # ./rime_dict_manager
 
-DYLD_LIBRARY_PATH="/Library/Input Methods/Squirrel.app/Contents/Frameworks" "/Library/Input Methods/Squirrel.app/Contents/MacOS/rime_dict_manager" $@
+exec env DYLD_LIBRARY_PATH="/Library/Input Methods/Squirrel.app/Contents/Frameworks" \
+  "/Library/Input Methods/Squirrel.app/Contents/MacOS/rime_dict_manager" "$@"

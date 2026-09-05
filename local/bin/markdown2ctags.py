@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 # Copyright (C) 2013 John Szakmeister <john@szakmeister.net>
 # All rights reserved.
@@ -60,8 +60,8 @@ class Tag(object):
             self.tagName, self.tagFile, self.tagAddress,
             self._formatFields().replace('\t', ' '))
 
-    def __cmp__(self, other):
-        return cmp(str(self), str(other))
+    def __lt__(self, other):
+        return str(self) < str(other)
 
     @staticmethod
     def section(section):
@@ -217,10 +217,10 @@ def main():
     if options.tagfile == '-':
         output = sys.stdout
     else:
-        output = open(options.tagfile, 'wb')
+        output = open(options.tagfile, 'w', encoding='utf-8')
 
     for filename in args:
-        f = open(filename, 'rb')
+        f = open(filename, encoding='utf-8')
         lines = f.read().splitlines()
         f.close()
         sections = findSections(filename, lines)
@@ -242,5 +242,5 @@ if __name__ == '__main__':
             sys.exit(141)
         raise
     except ScriptError as e:
-        print >> sys.stderr, "ERROR: %s" % str(e)
+        print("ERROR: %s" % str(e), file=sys.stderr)
         sys.exit(1)

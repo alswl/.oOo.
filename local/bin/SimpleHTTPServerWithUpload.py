@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """Simple HTTP Server With Upload.
-This module builds on BaseHTTPServer by implementing the standard GET
+This module builds on http.server by implementing the standard GET
 and HEAD requests in a fairly straightforward manner.
 """
 
@@ -12,20 +12,16 @@ __home_page__ = "http://li2z.cn/"
 
 import os
 import posixpath
-import BaseHTTPServer
-import urllib
-import cgi
+import html
+import http.server
+from io import BytesIO
 import shutil
 import mimetypes
 import re
-
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from urllib.parse import quote, unquote
 
 
-class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     """Simple HTTP request handler with GET/HEAD/POST commands.
     This serves files from the current directory and any of its
     subdirectories.  The MIME type for files is determined by
@@ -53,42 +49,42 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_POST(self):
         """Serve a POST request."""
         r, info = self.deal_post_data()
-        print
-        r, info, "by: ", self.client_address
-        f = StringIO()
-        f.write('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
-        f.write("<html>\n<title>Upload Result Page</title>\n")
-        f.write("<body>\n<h2>Upload Result Page</h2>\n")
-        f.write("<hr>\n")
+        print(r, info, "by:", self.client_address)
+        page = []
+        page.append('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
+        page.append("<html>\n<title>Upload Result Page</title>\n")
+        page.append("<body>\n<h2>Upload Result Page</h2>\n")
+        page.append("<hr>\n")
         if r:
-            f.write("<strong>Success:</strong>")
+            page.append("<strong>Success:</strong>")
         else:
-            f.write("<strong>Failed:</strong>")
-        f.write(info)
-        f.write("<br><a href=\"%s\">back</a>" % self.headers['referer'])
-        f.write("<hr><small>Powerd By: bones7456, check new version at ")
-        f.write("<a href=\"http://li2z.cn/?s=SimpleHTTPServerWithUpload\">")
-        f.write("here</a>.</small></body>\n</html>\n")
-        length = f.tell()
-        f.seek(0)
+            page.append("<strong>Failed:</strong>")
+        page.append(html.escape(info))
+        page.append("<br><a href=\"%s\">back</a>" % html.escape(self.headers.get('Referer', '/'), quote=True))
+        page.append("<hr><small>Powerd By: bones7456, check new version at ")
+        page.append("<a href=\"http://li2z.cn/?s=SimpleHTTPServerWithUpload\">")
+        page.append("here</a>.</small></body>\n</html>\n")
+        body = ''.join(page).encode('utf-8')
         self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.send_header("Content-Length", str(length))
+        self.send_header("Content-type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
         self.end_headers()
-        if f:
-            self.copyfile(f, self.wfile)
-            f.close()
+        self.wfile.write(body)
 
     def deal_post_data(self):
-        boundary = self.headers.plisttext.split("=")[1]
+        boundary = self.headers.get_boundary()
+        if not boundary:
+            return (False, "Content-Type is missing a multipart boundary")
+        boundary = boundary.encode('ascii')
         remainbytes = int(self.headers['content-length'])
         line = self.rfile.readline()
         remainbytes -= len(line)
-        if not boundary in line:
+        if boundary not in line:
             return (False, "Content NOT begin with boundary")
         line = self.rfile.readline()
         remainbytes -= len(line)
-        fn = re.findall(r'Content-Disposition.*name="file"; filename="(.*)"', line)
+        fn = re.findall(r'Content-Disposition.*name="file"; filename="([^"]*)"',
+                        line.decode('utf-8', errors='replace'))
         if not fn:
             return (False, "Can't find out file name...")
         path = self.translate_path(self.path)
@@ -109,7 +105,7 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             remainbytes -= len(line)
             if boundary in line:
                 preline = preline[0:-1]
-                if preline.endswith('\r'):
+                if preline.endswith(b'\r'):
                     preline = preline[0:-1]
                 out.write(preline)
                 out.close()
@@ -117,7 +113,8 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             else:
                 out.write(preline)
                 preline = line
-        return (False, "Unexpect Ends of data.")
+        out.close()
+        return (False, "Unexpected end of data.")
 
     def send_head(self):
         """Common code for GET and HEAD commands.
@@ -172,16 +169,16 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.send_error(404, "No permission to list directory")
             return None
         list.sort(key=lambda a: a.lower())
-        f = StringIO()
-        displaypath = cgi.escape(urllib.unquote(self.path))
-        f.write('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
-        f.write("<html>\n<title>Directory listing for %s</title>\n" % displaypath)
-        f.write("<body>\n<h2>Directory listing for %s</h2>\n" % displaypath)
-        f.write("<hr>\n")
-        f.write("<form ENCTYPE=\"multipart/form-data\" method=\"post\">")
-        f.write("<input name=\"file\" type=\"file\"/>")
-        f.write("<input type=\"submit\" value=\"upload\"/></form>\n")
-        f.write("<hr>\n<ul>\n")
+        page = []
+        displaypath = html.escape(unquote(self.path))
+        page.append('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">')
+        page.append("<html>\n<title>Directory listing for %s</title>\n" % displaypath)
+        page.append("<body>\n<h2>Directory listing for %s</h2>\n" % displaypath)
+        page.append("<hr>\n")
+        page.append("<form ENCTYPE=\"multipart/form-data\" method=\"post\">")
+        page.append("<input name=\"file\" type=\"file\"/>")
+        page.append("<input type=\"submit\" value=\"upload\"/></form>\n")
+        page.append("<hr>\n<ul>\n")
         for name in list:
             fullname = os.path.join(path, name)
             displayname = linkname = name
@@ -192,14 +189,14 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             if os.path.islink(fullname):
                 displayname = name + "@"
                 # Note: a link to a directory displays with @ and links with /
-            f.write('<li><a href="%s">%s</a>\n'
-                    % (urllib.quote(linkname), cgi.escape(displayname)))
-        f.write("</ul>\n<hr>\n</body>\n</html>\n")
-        length = f.tell()
-        f.seek(0)
+            page.append('<li><a href="%s">%s</a>\n'
+                        % (quote(linkname), html.escape(displayname)))
+        page.append("</ul>\n<hr>\n</body>\n</html>\n")
+        encoded_page = ''.join(page).encode('utf-8')
+        f = BytesIO(encoded_page)
         self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.send_header("Content-Length", str(length))
+        self.send_header("Content-type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(encoded_page)))
         self.end_headers()
         return f
 
@@ -212,7 +209,7 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         # abandon query parameters
         path = path.split('?', 1)[0]
         path = path.split('#', 1)[0]
-        path = posixpath.normpath(urllib.unquote(path))
+        path = posixpath.normpath(unquote(path))
         words = path.split('/')
         words = filter(None, words)
         path = os.getcwd()
@@ -268,8 +265,8 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 def test(HandlerClass=SimpleHTTPRequestHandler,
-         ServerClass=BaseHTTPServer.HTTPServer):
-    BaseHTTPServer.test(HandlerClass, ServerClass)
+         ServerClass=http.server.HTTPServer):
+    http.server.test(HandlerClass, ServerClass)
 
 
 if __name__ == '__main__':

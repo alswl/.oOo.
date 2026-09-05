@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 # from: https://gist.github.com/iMerica/dfb1be6e2f664c716756
 Dir.glob("#{ENV['HOME']}/Library/Application Support/Viscosity/OpenVPN/*/config.conf").each do |file|
   certificate_files = ['ca', 'cert', 'key', 'tls-auth']

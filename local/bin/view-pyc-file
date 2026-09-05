@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import platform
 import time
@@ -9,36 +9,53 @@ import dis
 import struct
 
 
+def read_uint32(file):
+    value = file.read(4)
+    if len(value) != 4:
+        raise ValueError("truncated pyc header")
+    return struct.unpack('<I', value)[0]
+
+
 def view_pyc_file(path):
     """Read and display a content of the Python`s bytecode in a pyc-file."""
 
-    file = open(path, 'rb')
+    with open(path, 'rb') as file:
+        magic = file.read(4)
+        if len(magic) != 4:
+            raise ValueError("truncated pyc header")
 
-    magic = file.read(4)
-    timestamp = file.read(4)
-    size = None
+        timestamp = None
+        size = None
+        if sys.version_info >= (3, 7):
+            flags = read_uint32(file)
+            if flags & 1:
+                file.read(8)  # Hash-based pyc files have no timestamp or source size.
+            else:
+                timestamp = read_uint32(file)
+                size = read_uint32(file)
+        else:
+            timestamp = read_uint32(file)
+            if sys.version_info >= (3, 3):
+                size = read_uint32(file)
 
-    if sys.version_info.major == 3 and sys.version_info.minor >= 3:
-        size = file.read(4)
-        size = struct.unpack('I', size)[0]
-
-    code = marshal.load(file)
+        code = marshal.load(file)
 
     magic = binascii.hexlify(magic).decode('utf-8')
-    timestamp = time.asctime(time.localtime(struct.unpack('I', b'D\xa5\xc2X')[0]))
+    timestamp_display = time.asctime(time.localtime(timestamp)) if timestamp else "hash-based"
 
     dis.disassemble(code)
 
     print('-' * 80)
     print(
         'Python version: {}\nMagic code: {}\nTimestamp: {}\nSize: {}'
-        .format(platform.python_version(), magic, timestamp, size)
+        .format(platform.python_version(), magic, timestamp_display, size)
     )
-
-    file.close()
 
 
 if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} FILE.pyc", file=sys.stderr)
+        sys.exit(1)
     view_pyc_file(sys.argv[1])
 
 # vim: set ft=python:

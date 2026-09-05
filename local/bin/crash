@@ -1,1 +1,3 @@
-java -jar ~/local/libs/crash.shell-1.3.1-SNAPSHOT-standalone.jar
+#!/bin/sh
+
+exec java -jar "$HOME/local/libs/crash.shell-1.3.1-SNAPSHOT-standalone.jar" "$@"

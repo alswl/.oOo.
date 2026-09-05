@@ -4,21 +4,20 @@ set -e
 
 OUTPUT_DIR=./.output
 
-rm -rf $OUTPUT_DIR/*
-touch $OUTPUT_DIR/.gitkeep
-cp .lark.yml $OUTPUT_DIR/lark.yml
+mkdir -p "$OUTPUT_DIR"
+find "$OUTPUT_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+touch "$OUTPUT_DIR/.gitkeep"
+cp .lark.yml "$OUTPUT_DIR/lark.yml"
 
-for FILE_NAME in $(find . -type f -name "*.md"); do
-  NEW_FILE_NAME=$OUTPUT_DIR/${FILE_NAME%.*}.md
-  mkdir -p $(dirname $NEW_FILE_NAME)
-  cat $FILE_NAME | pandoc -f markdown -t markdown_github --wrap=none >$NEW_FILE_NAME 2>/dev/null
-  echo "" >>$NEW_FILE_NAME
-  echo "" >>$NEW_FILE_NAME
-  echo "<!-- vim: set ft=markdown.gfm: -->" >>$NEW_FILE_NAME
-done
+while IFS= read -r -d '' file_name; do
+  new_file_name="$OUTPUT_DIR/${file_name#./}"
+  mkdir -p "$(dirname "$new_file_name")"
+  pandoc -f markdown -t markdown_github --wrap=none <"$file_name" >"$new_file_name" 2>/dev/null
+  printf '\n\n<!-- vim: set ft=markdown.gfm: -->\n' >>"$new_file_name"
+done < <(find . -path "./$OUTPUT_DIR" -prune -o -type f -name '*.md' -print0)
 
-for ASSETS_DIR in $(find . -type d -name "*.assets"); do
-  rsync -q -avr $ASSETS_DIR/ $OUTPUT_DIR/$ASSETS_DIR/
-done
+while IFS= read -r -d '' assets_dir; do
+  rsync -q -avr -- "$assets_dir/" "$OUTPUT_DIR/${assets_dir#./}/"
+done < <(find . -path "./$OUTPUT_DIR" -prune -o -type d -name '*.assets' -print0)
 
 generate-output-summary-md

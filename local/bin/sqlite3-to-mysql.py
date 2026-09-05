@@ -1,17 +1,16 @@
-#! /usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 
 
 def main():
-    print
-    "SET sql_mode='NO_BACKSLASH_ESCAPES';"
+    print("SET sql_mode='NO_BACKSLASH_ESCAPES';")
     lines = sys.stdin.read().splitlines()
     for line in lines:
-        processLine(line)
+        process_line(line)
 
 
-def processLine(line):
+def process_line(line):
     if (
             line.startswith("PRAGMA") or
             line.startswith("BEGIN TRANSACTION;") or
@@ -26,19 +25,26 @@ def processLine(line):
     line = line.replace(",'t'", ",'1'")
     line = line.replace(",'f'", ",'0'")
     in_string = False
-    newLine = ''
-    for c in line:
+    new_line = ''
+    index = 0
+    while index < len(line):
+        c = line[index]
         if not in_string:
             if c == "'":
                 in_string = True
             elif c == '"':
-                newLine = newLine + '`'
+                new_line += '`'
+                index += 1
                 continue
         elif c == "'":
+            if index + 1 < len(line) and line[index + 1] == "'":
+                new_line += "''"
+                index += 2
+                continue
             in_string = False
-        newLine = newLine + c
-    print
-    newLine
+        new_line += c
+        index += 1
+    print(new_line)
 
 
 if __name__ == "__main__":

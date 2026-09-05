@@ -1,1 +1,3 @@
-tinyproxy
+#!/bin/sh
+
+exec tinyproxy

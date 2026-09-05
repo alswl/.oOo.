@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 # download from https://github.com/archerhu/scel2mmseg/blob/master/scel2mmseg.py
 
@@ -52,7 +52,7 @@ def get_word_from_sogou_cell_dict(fname):
     f.seek(hz_offset)
     while f.tell() != file_size:
         word_count = read_uint16(f)
-        pinyin_count = read_uint16(f) / 2
+        pinyin_count = read_uint16(f) // 2
 
         py_set = []
         for i in range(pinyin_count):
@@ -71,27 +71,24 @@ def get_word_from_sogou_cell_dict(fname):
 
 def showtxt(records):
     for (pystr, utf8str) in records:
-        print
-        len(utf8str), utf8str
+        print(len(utf8str), utf8str)
 
 
 def store(records, f):
     for (pystr, utf8str) in records:
-        f.write("%s\t1\n" % (utf8str.encode("utf8")))
+        f.write("%s\t1\n" % utf8str)
         f.write("x:1\n")
 
 
 def main():
     if len(sys.argv) != 3:
-        print
-        "Unknown Option \n usage: python %s file.scel new.txt" % (sys.argv[0])
-        exit(1)
+        print("Unknown option\nusage: %s file.scel new.txt" % sys.argv[0], file=sys.stderr)
+        sys.exit(1)
 
     # Specify the param of scel path as a directory, you can place many scel file in this dirctory, the this process will combine the result in one txt file
     if os.path.isdir(sys.argv[1]):
         for fileName in glob.glob(sys.argv[1] + '*.scel'):
-            print
-            fileName
+            print(fileName)
             generator = get_word_from_sogou_cell_dict(fileName)
             with open(sys.argv[2], "a") as f:
                 store(generator, f)

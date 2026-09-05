@@ -1,2 +1,2 @@
 #!/bin/sh
-connect -H 127.0.0.1:1235 "$@"
+exec connect -H 127.0.0.1:1235 "$@"

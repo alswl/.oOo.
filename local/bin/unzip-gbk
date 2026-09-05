@@ -1,26 +1,41 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
 import sys
 import zipfile
+from pathlib import Path
 
-print
-"Processing File " + sys.argv[1]
 
-zip_file = zipfile.ZipFile(sys.argv[1], "r");
+def decoded_name(info: zipfile.ZipInfo) -> str:
+    if info.flag_bits & 0x800:
+        return info.filename
+    return info.filename.encode("cp437").decode("gbk")
 
-for name in zip_file.namelist():
-    utf8name = name.decode('gbk')
-    print
-    "Extracting " + utf8name
-    pathname = os.path.dirname(utf8name)
-    if not os.path.exists(pathname) and pathname != "":
-        os.makedirs(pathname)
-    data = zip_file.read(name)
-    if not os.path.exists(utf8name):
-        output_file = open(utf8name, "w")
-        output_file.write(data)
-        output_file.close()
 
-zip_file.close()
+def main() -> int:
+    if len(sys.argv) != 2:
+        print(f"Usage: {Path(sys.argv[0]).name} archive.zip", file=sys.stderr)
+        return 1
+
+    archive = Path(sys.argv[1])
+    destination = Path.cwd()
+    print(f"Processing File {archive}")
+
+    with zipfile.ZipFile(archive) as zip_file:
+        for info in zip_file.infolist():
+            name = decoded_name(info)
+            target = destination / name
+
+            print(f"Extracting {name}")
+            if info.is_dir():
+                target.mkdir(parents=True, exist_ok=True)
+                continue
+
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if not target.exists():
+                with zip_file.open(info) as source, target.open("wb") as output:
+                    output.write(source.read())
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

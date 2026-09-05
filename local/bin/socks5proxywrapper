@@ -9,10 +9,12 @@ fi
 
 SOCKS_SERVER=127.0.0.1
 SOCKS_PORT=1234
-SYSTEM_PROXY_ENABLED=$(networksetup -getsocksfirewallproxy Wi-Fi | grep '^Enabled' | cut -d ' ' -f2)
-SYSTEM_PROXY_PORT=$(networksetup -getsocksfirewallproxy Wi-Fi | grep 'Port' | cut -d ' ' -f2)
-if [[ $SYSTEM_PROXY_ENABLED = "Yes" ]] && [[ $SYSTEM_PROXY_PORT != "0" ]]; then
-  SOCKS_PORT=$SYSTEM_PROXY_PORT
+if [ "$(uname)" = 'Darwin' ] && command -v networksetup >/dev/null 2>&1; then
+  SYSTEM_PROXY_ENABLED=$(networksetup -getsocksfirewallproxy Wi-Fi | awk '/^Enabled/{print $2}')
+  SYSTEM_PROXY_PORT=$(networksetup -getsocksfirewallproxy Wi-Fi | awk '/^Port/{print $2}')
+  if [ "$SYSTEM_PROXY_ENABLED" = "Yes" ] && [ "$SYSTEM_PROXY_PORT" != "0" ]; then
+    SOCKS_PORT=$SYSTEM_PROXY_PORT
+  fi
 fi
 
 # sniproxy
@@ -20,14 +22,17 @@ fi
 #SOCKS_PORT=80
 #SOCKS_PORT=443
 
-if [ $(uname) = 'Darwin' ]; then
+if [ "$(uname)" = 'Darwin' ]; then
   # https://bitbucket.org/gotoh/connect
   # https://github.com/gotoh/ssh-connect
-  connect -S ${SOCKS_SERVER}:${SOCKS_PORT} "$@"
-elif [ $(uname -s) = 'Linux' ] || [ $(uname -o) = 'Cygwin' ]; then
+  exec connect -S "${SOCKS_SERVER}:${SOCKS_PORT}" "$@"
+elif [ "$(uname -s)" = 'Linux' ] || [ "$(uname -o 2>/dev/null || true)" = 'Cygwin' ]; then
   # openbsd-netcat
-  exec nc -x${SOCKS_SERVER}:${SOCKS_PORT} -X5 $@
+  exec nc -x"${SOCKS_SERVER}:${SOCKS_PORT}" -X5 "$@"
 fi
+
+echo "Unsupported operating system" >&2
+exit 1
 
 # socat
 # exec socat STDIO SOCKS4:${SOCKS_SERVER}:$1:$2,socksport=${SOCKS_PORT}
