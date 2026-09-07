@@ -7,10 +7,8 @@
 
 set -eu
 
-start_dir=${VIM_WORKSPACE:-$PWD}
-
-if ! workspace_dir=$(git -C "$start_dir" rev-parse --show-toplevel 2>/dev/null); then
-  workspace_dir=$(CDPATH= cd -- "$start_dir" && pwd -P)
+if ! workspace_dir=$(git rev-parse --show-toplevel 2>/dev/null); then
+  workspace_dir=$(pwd -P)
 fi
 
 if [ "${1-}" = "--print-cwd" ]; then
