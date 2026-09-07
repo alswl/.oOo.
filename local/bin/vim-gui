@@ -1,0 +1,44 @@
+#!/bin/sh
+# Open a GUI Vim in the current Git worktree (or, outside Git, the current directory).
+# Managed in the .oOo. dotfiles repo (local/bin/vim-gui); oOo-install-local-bin links
+# it onto PATH as ~/local/bin/vim-gui.
+# MacVim (mvim) is intentionally unsupported: its wrapper reuses the already-running
+# MacVim app, so `--cmd cd` is dropped on reuse and the window opens in the wrong worktree.
+
+set -eu
+
+start_dir=${VIM_WORKSPACE:-$PWD}
+
+if ! workspace_dir=$(git -C "$start_dir" rev-parse --show-toplevel 2>/dev/null); then
+  workspace_dir=$(CDPATH= cd -- "$start_dir" && pwd -P)
+fi
+
+if [ "${1-}" = "--print-cwd" ]; then
+  printf '%s\n' "$workspace_dir"
+  exit 0
+fi
+
+cd "$workspace_dir"
+vim_workspace_escaped=$(printf '%s' "$workspace_dir" | sed "s/'/''/g")
+vim_cwd_cmd="execute 'cd' fnameescape('$vim_workspace_escaped')"
+
+if command -v neovide >/dev/null 2>&1; then
+  nohup neovide --fork --chdir "$workspace_dir" "$@" </dev/null >/dev/null 2>&1 &
+elif command -v gvim >/dev/null 2>&1; then
+  nohup gvim --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+elif command -v nvim-qt >/dev/null 2>&1; then
+  nohup nvim-qt -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+elif command -v goneovim >/dev/null 2>&1; then
+  nohup goneovim -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+elif command -v fvim >/dev/null 2>&1; then
+  nohup fvim -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+elif command -v nvui >/dev/null 2>&1; then
+  nohup nvui -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+elif command -v vimr >/dev/null 2>&1; then
+  nohup vimr --nvim "$@" </dev/null >/dev/null 2>&1 &
+else
+  printf '%s\n' 'No supported GUI Vim found (tried neovide, gvim, nvim-qt, goneovim, fvim, nvui, vimr).' >&2
+  exit 127
+fi
+
+exit 0
