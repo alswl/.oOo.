@@ -21,19 +21,8 @@ from pathlib import Path
 from typing import Optional
 
 
-# Standard hooks configuration
-STANDARD_HOOKS = {
-    "PostToolUse": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
-    "PreToolUse": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
-    "SessionEnd": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
-    "SessionStart": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
-    "Stop": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
-    "UserPromptSubmit": [{"hooks": [{"command": '/opt/homebrew/bin/node "$HOME/.confirmo/hooks/confirmo-hook.js"', "timeout": 5, "type": "command"}], "matcher": ""}],
-}
-
 # Common config template (includes HUD statusLine)
 COMMON_CONFIG = {
-    "hooks": STANDARD_HOOKS,
     "primaryApiKey": "api",
     "skipWebFetchPreflight": True,
     "statusLine": {
@@ -56,15 +45,13 @@ def format_json(data: dict) -> str:
 
 
 def merge_config(full_config: dict) -> dict:
-    """Merge COMMON_CONFIG with provider config."""
+    """Merge COMMON_CONFIG with the provider's own settings."""
     merged = COMMON_CONFIG.copy()
-    # Deep copy hooks to avoid modifying original
-    merged["hooks"] = json.loads(json.dumps(COMMON_CONFIG["hooks"]))
 
-    # Merge provider config (override same keys)
-    for key, value in full_config.items():
-        if key in ('env', 'enabledPlugins'):
-            merged[key] = value
+    # Provider-specific keys override common config
+    for key in ('hooks', 'env', 'enabledPlugins'):
+        if key in full_config:
+            merged[key] = full_config[key]
 
     return merged
 
