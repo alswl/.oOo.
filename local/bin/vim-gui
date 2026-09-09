@@ -1,7 +1,7 @@
 #!/bin/sh
 # Open a GUI Vim in the current Git worktree (or, outside Git, the current directory).
 # Managed in the .oOo. dotfiles repo (local/bin/vim-gui); oOo-install-local-bin links
-# it onto PATH as ~/local/bin/vim-gui.
+# it onto PATH as ~/.local/bin/vim-gui.
 # MacVim (mvim) is intentionally unsupported: its wrapper reuses the already-running
 # MacVim app, so `--cmd cd` is dropped on reuse and the window opens in the wrong worktree.
 

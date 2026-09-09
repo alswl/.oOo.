@@ -1,7 +1,7 @@
 # exported env for every zsh (incl. scripts). PATH lives in .zprofile
 # (macOS path_helper runs after .zshenv and would reorder it).
 
-export HOME_LOCAL_PATH=$HOME/local
+export HOME_LOCAL_PATH=$HOME/.local
 export HOME_LOCAL_BIN_PATH=$HOME_LOCAL_PATH/bin
 
 # editor

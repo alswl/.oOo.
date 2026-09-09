@@ -534,12 +534,12 @@ alias app-identifier='/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier"'
 alias ac=antcode
 
 # mssql cli interface
-alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f ~/local/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
-alias rlscheme='rlwrap -i -r -c -f ~/local/etc/mit_scheme_bindings.txt scheme'
+alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f $HOME_LOCAL_PATH/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
+alias rlscheme='rlwrap -i -r -c -f $HOME_LOCAL_PATH/etc/mit_scheme_bindings.txt scheme'
 alias rllua='rlwrap -i -r -c -a lua'
 
-# relink repo local/bin tools into ~/local/bin (logic + diff in local/bin/oOo-install-local-bin)
-alias oOo-install-local-bin='repo="$(dirname "$(readlink "$HOME/.zshrc")")"; "$repo"/local/bin/oOo-install-local-bin'
+# relink repo local/bin tools into ~/.local/bin (logic + diff in local/bin/oOo-install-local-bin)
+alias oOo-install-local-bin="$HOME/dev/github.com/alswl/.oOo./local/bin/oOo-install-local-bin"
 
 # Hash Alias
 #hash -d WWW="/srv/http/" # use http instead
@@ -564,7 +564,7 @@ fi
 alias -g C='| pbcopy'
 alias -g P='pbpaste'
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
-alias -g GP='GIT_PROXY_COMMAND=~/local/bin/socks5proxywrapper; GIT_SSH=~/local/bin/soks5proxyssh'
+alias -g GP='GIT_PROXY_COMMAND=$HOME_LOCAL_BIN_PATH/socks5proxywrapper; GIT_SSH=$HOME_LOCAL_BIN_PATH/soks5proxyssh'
 alias -g TOA=' > /tmp/a.html && open /tmp/a.html'
 alias -g SUS='| sort | uniq -c | sort -gr'
 

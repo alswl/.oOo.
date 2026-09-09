@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ssh -o ProxyCommand="$HOME/local/bin/socks5proxywrapper %h %p" "$@"
+exec ssh -o ProxyCommand="$HOME/.local/bin/socks5proxywrapper %h %p" "$@"

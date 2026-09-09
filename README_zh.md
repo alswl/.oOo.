@@ -130,9 +130,9 @@ done
 cp "$(pwd)/_.gitconfig" "$HOME/.gitconfig"
 
 # 4. 链接自用脚本
-mkdir -p "$HOME/local/bin" "$HOME/local/etc"
-ln -s "$(pwd)"/local/bin/* "$HOME/local/bin/"
-ln -s "$(pwd)"/local/etc/* "$HOME/local/etc/"
+mkdir -p "$HOME/.local/bin" "$HOME/.local/etc"
+ln -s "$(pwd)"/local/bin/* "$HOME/.local/bin/"
+ln -s "$(pwd)"/local/etc/* "$HOME/.local/etc/"
 ```
 
 <details>

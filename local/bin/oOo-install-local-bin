@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# .oOo. repo tool: (re)link every repo/local/bin entry into ~/local/bin (run by
+# .oOo. repo tool: (re)link every repo/local/bin entry into ~/.local/bin (run by
 # the oOo-install-local-bin alias in .zshrc). Idempotent.
 #
 # A real file/dir already at the target name is kept (`!` conflict); stale
@@ -8,13 +8,13 @@
 
 set -u
 
-repo="$(dirname "$(readlink "$HOME/.zshrc")")"
-[ -n "$repo" ] || {
-  echo "oOo-install-local-bin: ~/.zshrc is not a symlink into the .oOo. repo" >&2
+repo="$HOME/dev/github.com/alswl/.oOo."
+src="$repo/local/bin"
+dst="$HOME/.local/bin"
+[ -d "$repo" ] || {
+  echo "oOo-install-local-bin: .oOo. repo not found: $repo" >&2
   exit 1
 }
-src="$repo/local/bin"
-dst="$HOME/local/bin"
 [ -d "$src" ] || {
   echo "oOo-install-local-bin: source dir missing: $src" >&2
   exit 1
