@@ -50,9 +50,9 @@ fi
 # golang (GOPATH exported in .zshenv)
 [[ -n "$GOPATH" && -d "$GOPATH/bin" ]] && PATH="$GOPATH/bin:$PATH"
 # kusion
-if [[ -d $HOME/local/kusion/bin ]]; then
+if [[ -d $HOME_LOCAL_PATH/kusion/bin ]]; then
   export KUSION_SKIP_UPDATE_CHECK=true
-  export KUSION_HOME="$HOME/local/kusion"
+  export KUSION_HOME="$HOME_LOCAL_PATH/kusion"
   export KUSION_PATH="$KUSION_HOME/bin"
   PATH="$KUSION_HOME/bin:$PATH"
   [[ -d "$KUSION_HOME/kclvm/bin" ]] && PATH="$KUSION_HOME/kclvm/bin:$PATH"

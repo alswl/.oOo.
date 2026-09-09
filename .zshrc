@@ -61,7 +61,7 @@ plugins=( \
 [ -f /etc/redhat-release ] && plugins+=( yum )
 [ -f /etc/debian_version ] && plugins+=( debian ubuntu )
 [ -f /etc/arch-release ] && plugins+=( archlinux )
-# disable brew in plugin, it will put brew path in front of ~/local/bin
+# disable brew in plugin, it will put brew path in front of ~/.local/bin
 [[ "$OSTYPE" == "darwin"* ]] && plugins+=( macos xcode )
 
 # disable zsh substitution/autocomplete with URL and backslashes
@@ -293,7 +293,7 @@ fi
 ## gitstatus
 
 # https://github.com/romkatv/gitstatus
-# [ -d $HOME/local/gitstatus ] && source $HOME/local/gitstatus/gitstatus.prompt.zsh
+# [ -d $HOME/.local/gitstatus ] && source $HOME/.local/gitstatus/gitstatus.prompt.zsh
 
 # bun
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
