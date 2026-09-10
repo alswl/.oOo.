@@ -367,11 +367,12 @@ _fzg_files() { { git -c core.quotePath=false diff --name-only HEAD; git -c core.
 fzgv() { local f; f=$(_fzg_files) && command "$EDITOR" -p "$f"; }
 fzgvv() {
 	local f; f=$(_fzg_files) || return
-	[[ "$OSTYPE" == darwin* ]] && neovide --fork --reuse-instance --new-window "$f" || gvim -p "$f"
+	# _fzg_files paths are repo-relative, so anchor them before leaving the cwd
+	vim-gui "$(git rev-parse --show-toplevel)/$f"
 }
 fzvv() {
 	local f; f=$(fd --type f | fzf) || return
-	[[ "$OSTYPE" == darwin* ]] && neovide --fork --reuse-instance --new-window "$f" || gvim -p "$f"
+	vim-gui "$f"
 }
 fzcd() { local d; d=$(fd --type d | fzf) && cd "$d"; }
 fzo() { local f; f=$(fd --type f | fzf) && open "$f"; }
@@ -426,8 +427,9 @@ if [[ "$OSTYPE" == "darwin"*  ]]; then
 	# alias vv='open -a MacVim'
 	# open -a goneovim not works
 	# alias vv='goneovim'
-	alias vv='neovide --fork --reuse-instance --new-window'
-	alias vvd='neovide --fork --reuse-instance --new-window -- -d'
+	# vim-gui picks the GUI (neovide first) and handles cwd/fork; see local/bin.
+	alias vv='vim-gui'
+	alias vvd='vim-gui --diff'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
 fi
@@ -470,6 +472,9 @@ alias gdc='git diff --color=always'
 alias gdcc='git diff --color=always --cached'
 alias gdv='git difftool'
 alias gdvc='git difftool --cached'
+alias gdvv='git difftool -t guivim'
+alias gdvvc='git difftool -t guivim --cached'
+alias gmvv='git mergetool -t guivim'
 # override gbda of git plugin
 alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9\-]+)\s*$)" | command xargs -n 1 git branch -d'
 alias gchs='git-changes'

@@ -1,42 +1,125 @@
 #!/bin/sh
-# Open a GUI Vim in the current Git worktree (or, outside Git, the current directory).
-# Managed in the .oOo. dotfiles repo (local/bin/vim-gui); oOo-install-local-bin links
-# it onto PATH as ~/.local/bin/vim-gui.
+# The single GUI-Vim entry point for this dotfiles repo: one place that knows which
+# GUI Vim is installed and how to make it open, diff, merge, block or run detached.
+# Managed in the .oOo. dotfiles repo (local/bin/vim-gui); oOo-install-local-bin
+# links it onto PATH as ~/.local/bin/vim-gui.
+#
+# | invocation                       | cwd           | vim args added       | caller       |
+# | -------------------------------- | ------------- | -------------------- | ------------ |
+# | `vim-gui`                        | worktree root | -                    | `vv`         |
+# | `vim-gui [+CMD...]`              | worktree root | -                    | `vvdv`       |
+# | `vim-gui FILE...`                | $PWD          | `-p`                 | `vv`, `fz*v` |
+# | `vim-gui --diff A B`             | $PWD          | `-d`                 | `vvd`        |
+# | `vim-gui --wait --diff L R`      | $PWD          | `-d`                 | difftool     |
+# | `vim-gui --wait --merge L B R M` | $PWD          | `-d -c '4wincmd w…'` | mergetool    |
+# | `vim-gui --print-cwd`            | -             | -                    | -            |
+#
+# The last two are the "guivim" git difftool/mergetool in _.gitconfig; `--wait`
+# is what git needs, since it runs one invocation per file and each must block.
+#
+# What each GUI can actually be asked for, in probe order — the first one found
+# wins, and a missing capability degrades rather than fails. The script has
+# already cd'd, so the cwd column is the belt-and-braces flag on top of that:
+#
+# | GUI       | set cwd     | block for `--wait` | `-p` tabs        |
+# | --------- | ----------- | ------------------ | ---------------- |
+# | neovide   | `--chdir`   | `--no-fork`        | `--tabs` default |
+# | gvim      | `--cmd cd`  | `-f`               | yes              |
+# | nvim-qt   | `--cmd cd`  | `--nofork`         | yes              |
+# | goneovim  | `--cmd cd`  | none — see below   | yes              |
+# | fvim      | `--cmd cd`  | none — see below   | yes              |
+# | nvui      | `--cmd cd`  | none — see below   | yes              |
+# | vimr      | file paths  | `--wait`           | yes              |
+#
+# The three with no blocking flag are still run through `nohup … &` for detached
+# use; under `--wait` they return as soon as the GUI process does, which for a
+# git difftool means the next file may open before you closed the last one.
+#
 # MacVim (mvim) is intentionally unsupported: its wrapper reuses the already-running
-# MacVim app, so `--cmd cd` is dropped on reuse and the window opens in the wrong worktree.
+# MacVim app, so `--cmd cd` is dropped on reuse and the window opens in the wrong
+# worktree. Neovide is invoked without --reuse-instance for the same reason.
 
 set -eu
 
-if ! workspace_dir=$(git rev-parse --show-toplevel 2>/dev/null); then
-  workspace_dir=$(pwd -P)
+mode=open
+wait=false
+print_cwd=false
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --diff) mode=diff ;;
+    --merge) mode=merge ;;
+    --wait) wait=true ;;
+    --print-cwd) print_cwd=true ;;
+    --) shift; break ;;
+    *) break ;;
+  esac
+  shift
+done
+
+case "$mode" in
+  diff) [ "$#" -eq 2 ] || { echo "vim-gui --diff needs 2 files" >&2; exit 2; } ;;
+  merge) [ "$#" -eq 4 ] || { echo "vim-gui --merge needs LOCAL BASE REMOTE MERGED" >&2; exit 2; } ;;
+esac
+
+# A plain run naming no file (+cmd args don't count) lands in the worktree root;
+# anything naming files keeps the caller's cwd so relative paths still resolve.
+workspace_dir=$(pwd -P)
+if [ "$mode" = open ]; then
+  has_file=false
+  for a in "$@"; do
+    case "$a" in +*) ;; *) has_file=true ;; esac
+  done
+  if [ "$has_file" = false ]; then
+    workspace_dir=$(git rev-parse --show-toplevel 2>/dev/null || pwd -P)
+  fi
 fi
 
-if [ "${1-}" = "--print-cwd" ]; then
+if [ "$print_cwd" = true ]; then
   printf '%s\n' "$workspace_dir"
   exit 0
 fi
 
 cd "$workspace_dir"
+
+# Vim arguments the mode implies, in front of the caller's own. -p (one tab per
+# file) matches the terminal `v` alias; vim/gvim and nvim honour it, neovide is
+# already --tabs by default, and any GUI that ignores it just falls back to
+# buffers. It is deliberately not used with -d, where the windows are the point.
+case "$mode" in
+  open) if [ "$has_file" = true ]; then set -- -p "$@"; fi ;;
+  diff) set -- -d "$@" ;;
+  merge) set -- -d -c '4wincmd w | wincmd J' "$@" ;;
+esac
+
 vim_workspace_escaped=$(printf '%s' "$workspace_dir" | sed "s/'/''/g")
 vim_cwd_cmd="execute 'cd' fnameescape('$vim_workspace_escaped')"
 
 if command -v neovide >/dev/null 2>&1; then
-  nohup neovide --fork --chdir "$workspace_dir" "$@" </dev/null >/dev/null 2>&1 &
+  if [ "$wait" = true ]; then fork_flag=--no-fork; else fork_flag=--fork; fi
+  set -- neovide --chdir "$workspace_dir" "$fork_flag" -- "$@"
 elif command -v gvim >/dev/null 2>&1; then
-  nohup gvim --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+  if [ "$wait" = true ]; then set -- -f "$@"; fi
+  set -- gvim --cmd "$vim_cwd_cmd" "$@"
 elif command -v nvim-qt >/dev/null 2>&1; then
-  nohup nvim-qt -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+  set -- -- --cmd "$vim_cwd_cmd" "$@"
+  if [ "$wait" = true ]; then set -- --nofork "$@"; fi
+  set -- nvim-qt "$@"
 elif command -v goneovim >/dev/null 2>&1; then
-  nohup goneovim -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+  set -- goneovim -- --cmd "$vim_cwd_cmd" "$@"
 elif command -v fvim >/dev/null 2>&1; then
-  nohup fvim -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+  set -- fvim -- --cmd "$vim_cwd_cmd" "$@"
 elif command -v nvui >/dev/null 2>&1; then
-  nohup nvui -- --cmd "$vim_cwd_cmd" "$@" </dev/null >/dev/null 2>&1 &
+  set -- nvui -- --cmd "$vim_cwd_cmd" "$@"
 elif command -v vimr >/dev/null 2>&1; then
-  nohup vimr --nvim "$@" </dev/null >/dev/null 2>&1 &
+  if [ "$wait" = true ]; then set -- --wait "$@"; fi
+  set -- vimr --nvim "$@"
 else
-  printf '%s\n' 'No supported GUI Vim found (tried neovide, gvim, nvim-qt, goneovim, fvim, nvui, vimr).' >&2
+  echo 'No supported GUI Vim found (tried neovide, gvim, nvim-qt, goneovim, fvim, nvui, vimr).' >&2
   exit 127
 fi
 
-exit 0
+if [ "$wait" = true ]; then
+  exec "$@"
+fi
+nohup "$@" </dev/null >/dev/null 2>&1 &
