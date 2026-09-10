@@ -99,7 +99,6 @@ mjolnir、slate 和 amethyst（→ Phoenix）。
 
 | 脚本                           | 用途                                         |
 | ------------------------------ | -------------------------------------------- |
-| `edit-server`                  | 配合 TextAid，在 Chrome 里用 Vim 编辑文本框 |
 | `fcitx-remote-osa`             | 用 osascript 切换 macOS 输入法              |
 | `apple-music-playing`          | 获取 Apple Music 当前播放曲目               |
 | `bing-wallpaper.sh`            | 下载必应每日壁纸                            |

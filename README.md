@@ -105,7 +105,6 @@ and WeRead.
 
 | Script                       | Purpose                                                       |
 | ---------------------------- | ------------------------------------------------------------- |
-| `edit-server`                | Edit Chrome text fields in Vim through TextAid                |
 | `fcitx-remote-osa`           | Switch the macOS input method with osascript                  |
 | `apple-music-playing`        | Print the track currently playing in Apple Music              |
 | `bing-wallpaper.sh`          | Download the Bing image of the day                            |
