@@ -1,14 +1,15 @@
 #!/bin/sh
-# The single GUI-Vim entry point for this dotfiles repo: one place that knows which
-# GUI Vim is installed and how to make it open, diff, merge, block or run detached.
+# The limited workspace-aware GUI-Vim entry point for external Skills and Git:
+# one place that knows which GUI Vim is installed and how to open, diff, merge,
+# block or run detached.
 # Managed in the .oOo. dotfiles repo (local/bin/vim-gui); oOo-install-local-bin
 # links it onto PATH as ~/.local/bin/vim-gui.
 #
 # | invocation                       | cwd           | vim args added       | caller       |
 # | -------------------------------- | ------------- | -------------------- | ------------ |
-# | `vim-gui`                        | worktree root | -                    | `vv`         |
-# | `vim-gui [+CMD...]`              | worktree root | -                    | `vvdv`       |
-# | `vim-gui FILE...`                | $PWD          | `-p`                 | `vv`, `fz*v` |
+# | `vim-gui`                        | worktree root | -                    | agent/tools  |
+# | `vim-gui [+CMD...]`              | worktree root | -                    | external     |
+# | `vim-gui FILE...`                | $PWD          | `-p`                 | `fz*v`       |
 # | `vim-gui --diff A B`             | $PWD          | `-d`                 | `vvd`        |
 # | `vim-gui --wait --diff L R`      | $PWD          | `-d`                 | difftool     |
 # | `vim-gui --wait --merge L B R M` | $PWD          | `-d -c '4wincmd w…'` | mergetool    |

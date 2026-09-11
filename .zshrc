@@ -427,8 +427,9 @@ if [[ "$OSTYPE" == "darwin"*  ]]; then
 	# alias vv='open -a MacVim'
 	# open -a goneovim not works
 	# alias vv='goneovim'
-	# vim-gui picks the GUI (neovide first) and handles cwd/fork; see local/bin.
-	alias vv='vim-gui'
+	# vv is the plain GUI opener: preserve the caller's cwd and pass paths through.
+	# vim-gui is the limited workspace-aware entry point for external Skills/Git.
+	alias vv='neovide --fork'
 	alias vvd='vim-gui --diff'
 elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias vv='gvim -p'
