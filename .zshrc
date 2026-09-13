@@ -446,6 +446,14 @@ alias neovim-install-dep="cnpm install -g neovim && pip3 install --break-system-
 # alias gci='git ci'
 # alias gcv='git civ'
 alias gcbr='git checkout -b'
+# gcor: like `git checkout` but tab-completes remote branches (origin/foo -> foo),
+# without touching GIT_COMPLETION_CHECKOUT_NO_GUESS (which keeps plain `git co` locals-only)
+alias gcor='git checkout'
+_git_checkout_remote_guess () {
+	local GIT_COMPLETION_CHECKOUT_NO_GUESS=
+	_git
+}
+compdef _git_checkout_remote_guess gcor=git-checkout
 alias gdn='git diff --no-ext-diff'
 #alias gpl='git pl'
 #alias gps='git ps'
