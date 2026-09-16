@@ -12,7 +12,7 @@ previous_tab = ["prefix+p", "f9"]
 next_tab = ["prefix+n", "f10"]
 previous_workspace = "f11"
 next_workspace = "f12"
-previous_agent = "f7"
+previous_agent = ["prefix+a", "f7"]
 next_agent = "f8"
 
 [experimental]
