@@ -20,6 +20,7 @@ switch_ascii_input_source_in_prefix = true
 
 [ui]
 agent_panel_sort = "priority"
+window_title = "herdr · {terminal_title}"
 
 [ui.toast]
 delivery = "herdr"
