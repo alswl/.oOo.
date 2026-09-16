@@ -15,9 +15,6 @@ next_workspace = "f12"
 previous_agent = ["prefix+a", "f7"]
 next_agent = "f8"
 
-[experimental]
-switch_ascii_input_source_in_prefix = true
-
 [ui]
 agent_panel_sort = "priority"
 window_title = "herdr · {terminal_title}"
