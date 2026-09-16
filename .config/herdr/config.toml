@@ -1,0 +1,31 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+q"
+switch_workspace = "prefix+1..9"
+switch_tab = "prefix+shift+1..9"
+previous_tab = ["prefix+p", "f9"]
+next_tab = ["prefix+n", "f10"]
+previous_workspace = "f11"
+next_workspace = "f12"
+previous_agent = "f7"
+next_agent = "f8"
+
+[experimental]
+switch_ascii_input_source_in_prefix = true
+
+[ui]
+agent_panel_sort = "priority"
+
+[ui.toast]
+delivery = "herdr"
+
+[ui.sidebar.agents]
+rows = [
+  ["state_icon", "workspace"],
+  ["agent", "terminal_title_stripped"],
+]
