@@ -4,6 +4,9 @@ onboarding = false
 name = "terminal"
 auto_switch = false
 
+[theme.custom]
+selection_bg = "blue"
+
 [keys]
 prefix = "ctrl+q"
 switch_workspace = "prefix+1..9"
@@ -14,6 +17,8 @@ previous_workspace = "f11"
 next_workspace = "f12"
 previous_agent = ["prefix+a", "f7"]
 next_agent = "f8"
+navigate_workspace_up = "up"
+navigate_workspace_down = "down"
 
 [ui]
 agent_panel_sort = "priority"
@@ -24,6 +29,6 @@ delivery = "herdr"
 
 [ui.sidebar.agents]
 rows = [
-  ["state_icon", "workspace"],
-  ["agent", "terminal_title_stripped"],
+  ["state_icon", "workspace", "agent", "$model"],
+  ["terminal_title_stripped"],
 ]

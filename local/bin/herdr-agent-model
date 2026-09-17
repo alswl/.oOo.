@@ -1,0 +1,195 @@
+#!/usr/bin/env python3
+"""Report an allowlisted model alias to Herdr pane metadata.
+
+Codex and Claude-compatible agents invoke this script on SessionStart,
+UserPromptSubmit, and Stop; Herdr does not invoke it. Install those hooks with
+``herdr-agent-model-install``. HERDR_ENV, HERDR_PANE_ID, and HERDR_SOCKET_PATH
+are Herdr contracts; the script name and ``model`` metadata key are local.
+Provider prefixes, full model names, and unrecognized models are never sent.
+"""
+
+import json
+import os
+import socket
+import sys
+import time
+
+
+MODEL_ALIASES = {
+    "DeepSeek-V4-Flash-0731": "dsv4flash",
+    "DeepSeek-V3.2": "dsv32",
+    "GLM-5.2": "glm52",
+    "GLM-5.3:glink_domestic": "glm53",
+    "GLM-5.1": "glm51",
+    "GLM-5": "glm5",
+    "GLM-4.7": "glm47",
+    "GLM-4.6": "glm46",
+    "Kimi-K2-Instruct-0905": "kimik2",
+    "Kimi-K2-Thinking": "kimik2think",
+    "Kimi-K2.5": "kimik25",
+    "Kimi-K2.6": "kimik26",
+    "MiniMax-M2.1": "minimaxm21",
+    "Qwen3-Coder-480B-A35B-Instruct": "qwen3coder",
+    "claude-haiku-4.5": "haiku45",
+    "claude-haiku-4-5": "haiku45",
+    "claude-haiku-4-5-20251001": "haiku45",
+    "claude-opus-4.6": "opus46",
+    "claude-opus-4-6": "opus46",
+    "claude-opus-4-5": "opus45",
+    "claude-opus-4-7": "opus47",
+    "claude-sonnet-4.6": "sonnet46",
+    "claude-sonnet-4-6": "sonnet46",
+    "claude-sonnet-4-5": "sonnet45",
+    "codex-mini-latest": "codexmini",
+    "deepseek-v4-flash": "dsv4flash",
+    "deepseek-v4-pro": "dsv4pro",
+    "gpt-5.5": "gpt55",
+    "gpt-5.4": "gpt54",
+    "gpt-5.3-codex": "gpt53",
+    "gpt-5.2-codex": "gpt52",
+    "gpt-5.1-codex": "gpt51",
+    "gpt-5.6-luna": "luna",
+    "gpt-5.6-sol": "sol",
+    "gpt-5.6-terra": "terra",
+    "gpt-6-astra": "astra",
+}
+
+
+def recent_json_records(path):
+    try:
+        with open(path, "rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            position = handle.tell()
+            remainder = b""
+            while position:
+                size = min(64 * 1024, position)
+                position -= size
+                handle.seek(position)
+                chunk = handle.read(size) + remainder
+                lines = chunk.split(b"\n")
+                remainder = lines.pop(0)
+                for line in reversed(lines):
+                    try:
+                        yield json.loads(line)
+                    except (json.JSONDecodeError, UnicodeDecodeError):
+                        continue
+            if remainder:
+                try:
+                    yield json.loads(remainder)
+                except (json.JSONDecodeError, UnicodeDecodeError):
+                    pass
+    except (OSError, TypeError):
+        return
+
+
+def string_value(value):
+    if isinstance(value, str) and value.strip():
+        return value.strip()
+    if isinstance(value, dict):
+        for key in ("display_name", "name", "id"):
+            nested = value.get(key)
+            if isinstance(nested, str) and nested.strip():
+                return nested.strip()
+    return None
+
+
+def model_name(value):
+    model = string_value(value)
+    if not model:
+        return None
+    return model.rsplit("/", 1)[-1]
+
+
+def compact_model(model):
+    return MODEL_ALIASES.get(model, "unknown")
+
+
+def display_agent(transcript_path):
+    if not isinstance(transcript_path, str):
+        return None
+    normalized = transcript_path.replace("\\", "/")
+    if "/.codex/" in normalized:
+        return "cx"
+    if "/.codefuse/" in normalized:
+        return "cf"
+    if "/.claude/" in normalized:
+        return "cc"
+    return None
+
+
+def model_from_record(record):
+    if not isinstance(record, dict):
+        return None
+
+    # Codex writes the resolved model on every turn context.
+    if record.get("type") == "turn_context":
+        payload = record.get("payload")
+        if isinstance(payload, dict):
+            return model_name(payload.get("model"))
+
+    # Claude Code and compatible agents write it on assistant messages.
+    message = record.get("message")
+    if isinstance(message, dict):
+        model = model_name(message.get("model"))
+        if model:
+            return model
+
+    return model_name(record.get("model"))
+
+
+def main():
+    if os.environ.get("HERDR_ENV") != "1":
+        return
+
+    pane_id = os.environ.get("HERDR_PANE_ID")
+    socket_path = os.environ.get("HERDR_SOCKET_PATH")
+    if not pane_id or not socket_path:
+        return
+
+    try:
+        hook_input = json.load(sys.stdin)
+    except (json.JSONDecodeError, OSError):
+        hook_input = {}
+
+    model = model_name(hook_input.get("model"))
+    transcript_path = hook_input.get("transcript_path")
+    agent_label = display_agent(transcript_path)
+    if not model and isinstance(transcript_path, str):
+        for record in recent_json_records(transcript_path):
+            model = model_from_record(record)
+            if model:
+                break
+
+    if not model:
+        for name in ("ANTHROPIC_MODEL", "CLAUDE_MODEL", "OPENAI_MODEL"):
+            model = model_name(os.environ.get(name))
+            if model:
+                break
+    if not model:
+        return
+
+    model_alias = compact_model(model)
+
+    request = {
+        "id": f"user:agent-model:{int(time.time() * 1000)}",
+        "method": "pane.report_metadata",
+        "params": {
+            "pane_id": pane_id,
+            "source": "user:agent-model",
+            "seq": time.time_ns(),
+            **({"display_agent": agent_label} if agent_label else {}),
+            "tokens": {"model": model_alias},
+        },
+    }
+
+    try:
+        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
+            client.settimeout(0.5)
+            client.connect(socket_path)
+            client.sendall((json.dumps(request) + "\n").encode())
+    except OSError:
+        pass
+
+
+if __name__ == "__main__":
+    main()

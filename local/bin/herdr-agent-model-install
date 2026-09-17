@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+import argparse
+import json
+import os
+import tempfile
+from pathlib import Path
+
+
+MARKER = "__herdr_model_hook__"
+EVENTS = ("SessionStart", "UserPromptSubmit", "Stop")
+CONFIG_NAMES = {"codex": "hooks.json", "claude": "settings.json"}
+HOOK = Path.home() / ".local/bin/herdr-agent-model"
+
+
+def hook_entry():
+    return {
+        MARKER: True,
+        "hooks": [
+            {
+                "type": "command",
+                "command": str(HOOK),
+                "timeout": 3,
+            }
+        ],
+    }
+
+
+def load_config(path):
+    with path.open(encoding="utf-8") as handle:
+        data = json.load(handle)
+    hooks = data.setdefault("hooks", {})
+    if not isinstance(hooks, dict):
+        raise ValueError("hooks must be an object")
+    return data, hooks
+
+
+def without_ours(entries):
+    if not isinstance(entries, list):
+        raise ValueError("hook event must be an array")
+    return [entry for entry in entries if not isinstance(entry, dict) or not entry.get(MARKER)]
+
+
+def write_config(path, data):
+    mode = path.stat().st_mode
+    with tempfile.NamedTemporaryFile(
+        mode="w", encoding="utf-8", dir=path.parent, delete=False
+    ) as handle:
+        json.dump(data, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+        temporary = Path(handle.name)
+    # NamedTemporaryFile defaults to 0600; atomic replacement must not change user policy.
+    os.chmod(temporary, mode)
+    os.replace(temporary, path)
+
+
+def install(path):
+    data, hooks = load_config(path)
+    for event in EVENTS:
+        hooks[event] = [*without_ours(hooks.get(event, [])), hook_entry()]
+    write_config(path, data)
+
+
+def uninstall(path):
+    data, hooks = load_config(path)
+    for event in EVENTS:
+        hooks[event] = without_ours(hooks.get(event, []))
+    write_config(path, data)
+
+
+def installed(path):
+    _, hooks = load_config(path)
+    return all(
+        sum(
+            isinstance(entry, dict) and entry.get(MARKER) is True
+            for entry in hooks.get(event, [])
+        )
+        == 1
+        for event in EVENTS
+    )
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "action",
+        choices=("install", "status", "uninstall"),
+        default="install",
+        nargs="?",
+    )
+    parser.add_argument("--integration", choices=CONFIG_NAMES, required=True)
+    parser.add_argument(
+        "--config-dir",
+        type=Path,
+        help="Agent configuration directory; defaults to the integration home",
+    )
+    return parser.parse_args()
+
+
+def default_config_dir(integration):
+    if integration == "codex":
+        return Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
+    return Path(os.environ.get("CLAUDE_CONFIG_DIR", Path.home() / ".claude"))
+
+
+def main():
+    args = parse_args()
+    config_dir = (args.config_dir or default_config_dir(args.integration)).expanduser()
+    path = config_dir / CONFIG_NAMES[args.integration]
+
+    if args.action == "install" and not HOOK.is_file():
+        raise SystemExit(f"hook not found: {HOOK}")
+    if not path.is_file():
+        raise SystemExit(f"config not found: {path}")
+
+    try:
+        if args.action == "install":
+            install(path)
+        elif args.action == "uninstall":
+            uninstall(path)
+        state = "installed" if installed(path) else "not installed"
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        raise SystemExit(f"{args.integration}: error: {error}") from None
+    print(f"{args.integration}: {state} ({path})")
+
+
+if __name__ == "__main__":
+    main()
