@@ -436,8 +436,9 @@ elif [[ "$OSTYPE" == "linux"* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 fi
 alias vd='command "$EDITOR" -d'
 alias vdiff=vd
-alias vdv='v +DiffviewOpen'
-alias vvdv='vv +DiffviewOpen'
+vdv() { command "$EDITOR" "+DiffviewOpen $*"; }
+vdh() { command "$EDITOR" "+DiffviewFileHistory $*"; }
+vvdv() { vv "+DiffviewOpen $*"; }
 alias neovim-install-dep="cnpm install -g neovim && pip3 install --break-system-packages neovim"
 
 # git
