@@ -62,11 +62,6 @@
 	pager = delta
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
-[difftool "guivim"]
-    cmd = "vim-gui --wait --diff \"$LOCAL\" \"$REMOTE\""
-[mergetool "guivim"]
-    cmd = "vim-gui --wait --merge \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
-    trustExitCode = true
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
