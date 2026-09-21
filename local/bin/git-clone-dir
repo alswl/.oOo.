@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# clone a git url into ./<owner>/<repo> under the current directory
+
+url="$1"
+[[ -n "$url" ]] || {
+    echo "git-clone-dir: usage: git-clone-dir <git-url>" >&2
+    exit 1
+}
+
+path="${url#*://*/}"   # strip scheme+host for https urls
+path="${path#*:}"      # strip host: for scp-like ssh urls
+path="${path%.git}"
+
+owner="${path%/*}"
+repo="${path##*/}"
+
+[[ -n "$owner" && -n "$repo" && "$owner" != "$path" ]] || {
+    echo "git-clone-dir: cannot parse owner/repo from: $url" >&2
+    exit 1
+}
+
+mkdir -p "$owner" || exit 1
+git clone "$url" "$owner/$repo"

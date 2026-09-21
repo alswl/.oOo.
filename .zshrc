@@ -491,6 +491,7 @@ alias gmvv='git mergetool -t guivim'
 alias gbda='git branch --no-color --merged | command grep -vE "^(\+|\*|\s*(master|develop|dev|EI[0-9_]+|sprint-[a-zA-Z0-9\-]+)\s*$)" | command xargs -n 1 git branch -d'
 alias gchs='git-changes'
 alias gwtn='git-worktree-new'
+alias gcld='git-clone-dir'
 alias gbsu='git branch -u origin/$(git branch --show-current)'
 alias git-shallow="git pull --depth 1 && git gc --prune=all"
 alias git-unshallow="git fetch --unshallow"
