@@ -79,6 +79,8 @@ source $ZSH/oh-my-zsh.sh
 export HISTSIZE=10000000
 export SAVEHIST=10000000
 setopt EXTENDED_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
 
 #export POWERLINE_RIGHT_B="none"
 #export POWERLINE_HIDE_HOST_NAME="true"
