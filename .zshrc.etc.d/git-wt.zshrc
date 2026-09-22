@@ -50,3 +50,15 @@ gwcd() {
   cd "$(printf '%s\n' "$dir" | awk -F '\t' '{print $2}')"
 }
 
+# 新建 git worktree 并 cd 进去
+gwtcd() {
+  local out dir
+
+  out="$(git-worktree-new)" || return
+  printf '%s\n' "$out"
+
+  dir="${out##*created: }"
+  [[ -d "$dir" ]] || return 1
+
+  cd "$dir"
+}
