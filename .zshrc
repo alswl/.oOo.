@@ -430,13 +430,13 @@ if (( $+commands[neovide] )); then
 	alias vvd='neovide --fork -- -d'
 	fzgvv() {
 		local f; f=$(_fzg_files) || return
-		vv "$f"
+		neovide --fork "$f"
 	}
 	fzvv() {
 		local f; f=$(fd --type f | fzf) || return
-		vv "$f"
+		neovide --fork "$f"
 	}
-	vvdv() { vv "+DiffviewOpen $*"; }
+	vvdv() { neovide --fork "+DiffviewOpen $*"; }
 fi
 alias vd='command "$EDITOR" -d'
 alias vdiff=vd
