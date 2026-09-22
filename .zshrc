@@ -426,15 +426,15 @@ fi
 alias v='command "$EDITOR" -p'
 alias vim='command "$EDITOR" -p'
 if (( $+commands[neovide] )); then
-	alias vv='neovide --fork'
+	alias vv='neovide --fork --reuse-instance --new-window'
 	alias vvd='neovide --fork -- -d'
 	fzgvv() {
 		local f; f=$(_fzg_files) || return
-		neovide --fork "$f"
+		neovide --fork --reuse-instance --new-window "$f"
 	}
 	fzvv() {
 		local f; f=$(fd --type f | fzf) || return
-		neovide --fork "$f"
+		neovide --fork --reuse-instance --new-window "$f"
 	}
 	vvdv() { neovide --fork "+DiffviewOpen $*"; }
 fi
