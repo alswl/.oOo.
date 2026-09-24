@@ -1,6 +1,6 @@
 # fuzzy 选择 git worktree 并 cd 进去
 # Requires: fzf
-gwcd() {
+gwtcd() {
   local dir
 
   dir="$(
