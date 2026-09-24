@@ -51,7 +51,7 @@ gwcd() {
 }
 
 # 新建 git worktree 并 cd 进去
-gwtcd() {
+gwtncd() {
   local out dir
 
   out="$(git-worktree-new)" || return
