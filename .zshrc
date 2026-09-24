@@ -245,9 +245,6 @@ ssht() {
     fi
 }
 
-# s2 is hack alias for ssh
-alias s2=ssht
-
 alias lima-docker-install="
 lima sudo apt -y install docker.io
 lima sudo usermod -aG docker $USER"
