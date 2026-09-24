@@ -62,3 +62,5 @@ gwtncd() {
 
   cd "$dir"
 }
+
+alias gwcd=gwtcd
