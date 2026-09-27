@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+
+# .oOo. repo tool: (re)link everything the repo installs (run by the
+# oOo-install alias in .zshrc). Idempotent.
+#
+# - top-level dotfiles (.[!.]*) -> $HOME/         (.zprofile, .zshrc, .tmux.conf, ...)
+# - .config/<app>/<file>       -> ~/.config/<app>/<file>   (per-file, so apps can
+#                                                still write logs/sockets next to them)
+# - local/bin/*                -> ~/.local/bin/
+#
+# Repo location is derived from this script's own path (follow symlinks), so it
+# works no matter where the repo is cloned.
+#
+# Anything already at the target name that we don't own is kept (`!` conflict):
+# a real file/dir, or a symlink pointing elsewhere (e.g. ~/.config/kitty/theme.conf
+# -> ./kitty-themes/...). Only links into this repo get relinked. Links into the
+# repo whose source was removed are reported (`-` stale), never deleted.
+
+set -u
+
+self="$(readlink -f "${BASH_SOURCE[0]}")" || {
+  echo "oOo-install: cannot resolve script path: ${BASH_SOURCE[0]}" >&2
+  exit 1
+}
+src="$(cd "$(dirname "$self")" && pwd)"   # repo/local/bin
+repo="$(dirname "$(dirname "$src")")"
+[ -d "$repo" ] || {
+  echo "oOo-install: .oOo. repo not found: $repo" >&2
+  exit 1
+}
+
+link_one() { # <source> <target>
+  local want="$1" cur="$2" name="${2##*/}"
+  if [ -L "$cur" ]; then
+    if [ "$(readlink "$cur")" = "$want" ]; then
+      unchanged=$((unchanged + 1))
+      return
+    fi
+    case "$(readlink -f "$cur")" in
+      "$repo"/*)
+        updated=$((updated + 1))
+        detail="${detail}    ~  ${cur#"$HOME"/}  (was -> $(readlink "$cur"))\n"
+        ;;
+      *)
+        conflict=$((conflict + 1))
+        detail="${detail}    !  ${cur#"$HOME"/}  kept existing link -> $(readlink "$cur")\n"
+        return
+        ;;
+    esac
+  elif [ -e "$cur" ]; then
+    conflict=$((conflict + 1))
+    detail="${detail}    !  ${cur#"$HOME"/}  kept existing real file\n"
+    return
+  else
+    created=$((created + 1))
+    detail="${detail}    +  ${cur#"$HOME"/}\n"
+  fi
+  ln -sfn "$want" "$cur"
+}
+
+report() { # <section-src> <section-dst>
+  echo "$1 -> $2"
+  echo "  before: ${unchanged} ok, ${updated} mislinked, ${created} missing, ${conflict} conflict"
+  echo "  after : $((created + updated + unchanged)) linked"
+  [ -n "$detail" ] || detail="    (nothing to do)\n"
+  printf '%b' "$detail"
+}
+
+# 1. top-level dotfiles (same skip list as the README install step; .config is
+#    handled per-file below instead of linked as a whole)
+created=0 updated=0 unchanged=0 conflict=0
+detail=""
+for f in "$repo"/.[!.]*; do
+  [ -e "$f" ] || continue
+  name="$(basename "$f")"
+  case "$name" in
+    .git|.gitignore|.DS_Store|.idea|.claude|.config) continue ;;
+  esac
+  link_one "$f" "$HOME/$name"
+done
+report "$repo" "$HOME"
+
+# 2. .config apps: real dir in ~/.config/<app>/, files linked one by one
+created=0 updated=0 unchanged=0 conflict=0
+detail=""
+for app in "$repo"/.config/*; do
+  [ -d "$app" ] || continue
+  name="$(basename "$app")"
+  mkdir -p "$HOME/.config/$name"
+  for f in "$app"/* "$app"/.[!.]*; do
+    [ -e "$f" ] || continue
+    link_one "$f" "$HOME/.config/$name/$(basename "$f")"
+  done
+done
+report "$repo/.config" "$HOME/.config"
+
+# 3. local/bin tools
+dst="$HOME/.local/bin"
+mkdir -p "$dst"
+created=0 updated=0 unchanged=0 conflict=0
+detail=""
+for f in "$src"/*; do
+  [ -e "$f" ] || continue
+  name="$(basename "$f")"
+  link_one "$f" "$dst/$name"
+done
+
+# links into local/bin whose source was removed from the repo
+stale=""
+stale_n=0
+for l in "$dst"/*; do
+  [ -L "$l" ] || continue
+  tgt="$(readlink "$l")"
+  case "$tgt" in
+    "$src"/*)
+      if [ ! -e "$tgt" ]; then
+        stale="${stale}    -  $(basename "$l")  (source removed from repo)\n"
+        stale_n=$((stale_n + 1))
+      fi
+      ;;
+  esac
+done
+
+report "$src" "$dst"
+if [ "$stale_n" -gt 0 ]; then
+  printf '%b' "$stale"
+  echo "  note: ${stale_n} stale link(s) above (not removed)"
+fi
+
+# vim: set ft=sh:

@@ -551,9 +551,9 @@ alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f $HOME_LOCAL_PATH/etc/mssql_bin
 alias rlscheme='rlwrap -i -r -c -f $HOME_LOCAL_PATH/etc/mit_scheme_bindings.txt scheme'
 alias rllua='rlwrap -i -r -c -a lua'
 
-# relink repo local/bin tools into ~/.local/bin (logic + diff in local/bin/oOo-install-local-bin)
+# (re)link repo into $HOME: dotfiles (.zprofile etc.) + ~/.config/<app> files + local/bin
 # resolve repo dir from the sourced .zshrc real path, not a hardcoded clone location
-alias oOo-install-local-bin="${${(%):-%x}:A:h}/local/bin/oOo-install-local-bin"
+alias oOo-install="${${(%):-%x}:A:h}/local/bin/oOo-install"
 
 # Hash Alias
 #hash -d WWW="/srv/http/" # use http instead

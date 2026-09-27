@@ -141,6 +141,14 @@ ln -s "$(pwd)"/local/bin/* "$HOME/.local/bin/"
 ln -s "$(pwd)"/local/etc/* "$HOME/.local/etc/"
 ```
 
+To (re)link everything later — home dotfiles (`.zprofile`, `.zshrc`, ...),
+per-file `~/.config/<app>` configs (e.g. `herdr/config.toml`), and
+`~/.local/bin` — run the idempotent installer:
+
+```bash
+local/bin/oOo-install
+```
+
 <details>
 <summary><b>Additional macOS steps</b></summary>
 
