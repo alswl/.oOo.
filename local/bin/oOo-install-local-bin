@@ -3,13 +3,20 @@
 # .oOo. repo tool: (re)link every repo/local/bin entry into ~/.local/bin (run by
 # the oOo-install-local-bin alias in .zshrc). Idempotent.
 #
+# Repo location is derived from this script's own path (follow symlinks), so it
+# works no matter where the repo is cloned.
+#
 # A real file/dir already at the target name is kept (`!` conflict); stale
 # links are only reported (`-`), never deleted.
 
 set -u
 
-repo="$HOME/dev/github.com/alswl/.oOo."
-src="$repo/local/bin"
+self="$(readlink -f "${BASH_SOURCE[0]}")" || {
+  echo "oOo-install-local-bin: cannot resolve script path: ${BASH_SOURCE[0]}" >&2
+  exit 1
+}
+src="$(cd "$(dirname "$self")" && pwd)"
+repo="$(dirname "$src")"
 dst="$HOME/.local/bin"
 [ -d "$repo" ] || {
   echo "oOo-install-local-bin: .oOo. repo not found: $repo" >&2
