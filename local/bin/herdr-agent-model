@@ -5,31 +5,32 @@ Codex and Claude-compatible agents invoke this script on SessionStart,
 UserPromptSubmit, and Stop; Herdr does not invoke it. Install those hooks with
 ``herdr-agent-model-install``. HERDR_ENV, HERDR_PANE_ID, and HERDR_SOCKET_PATH
 are Herdr contracts; the script name and ``model`` metadata key are local.
-Provider prefixes, full model names, and unrecognized models are never sent.
+Aliases stay within 8 characters. Provider prefixes, full model names, and
+unrecognized models are never sent.
 """
 
 import json
 import os
+import re
 import socket
 import sys
 import time
 
 
 MODEL_ALIASES = {
-    "DeepSeek-V4-Flash-0731": "dsv4flash",
+    "DeepSeek-V4-Flash-0731": "dsv4f",
     "DeepSeek-V3.2": "dsv32",
     "GLM-5.2": "glm52",
-    "GLM-5.3:glink_domestic": "glm53",
     "GLM-5.1": "glm51",
     "GLM-5": "glm5",
     "GLM-4.7": "glm47",
     "GLM-4.6": "glm46",
     "Kimi-K2-Instruct-0905": "kimik2",
-    "Kimi-K2-Thinking": "kimik2think",
+    "Kimi-K2-Thinking": "kimik2t",
     "Kimi-K2.5": "kimik25",
     "Kimi-K2.6": "kimik26",
-    "MiniMax-M2.1": "minimaxm21",
-    "Qwen3-Coder-480B-A35B-Instruct": "qwen3coder",
+    "MiniMax-M2.1": "mmax21",
+    "Qwen3-Coder-480B-A35B-Instruct": "qwen3c",
     "claude-haiku-4.5": "haiku45",
     "claude-haiku-4-5": "haiku45",
     "claude-haiku-4-5-20251001": "haiku45",
@@ -37,12 +38,12 @@ MODEL_ALIASES = {
     "claude-opus-4-6": "opus46",
     "claude-opus-4-5": "opus45",
     "claude-opus-4-7": "opus47",
-    "claude-sonnet-4.6": "sonnet46",
-    "claude-sonnet-4-6": "sonnet46",
-    "claude-sonnet-4-5": "sonnet45",
-    "codex-mini-latest": "codexmini",
-    "deepseek-v4-flash": "dsv4flash",
-    "deepseek-v4-pro": "dsv4pro",
+    "claude-sonnet-4.6": "son46",
+    "claude-sonnet-4-6": "son46",
+    "claude-sonnet-4-5": "son45",
+    "codex-mini-latest": "cxmini",
+    "deepseek-v4-flash": "dsv4f",
+    "deepseek-v4-pro": "dsv4p",
     "gpt-5.5": "gpt55",
     "gpt-5.4": "gpt54",
     "gpt-5.3-codex": "gpt53",
@@ -100,8 +101,47 @@ def model_name(value):
     return model.rsplit("/", 1)[-1]
 
 
+CLAUDE_FAMILIES = {"opus": "opus", "sonnet": "son", "haiku": "haiku", "fable": "fable"}
+VARIANT_LETTERS = {"flash": "f", "pro": "p", "thinking": "t", "air": "a", "lite": "l"}
+
+
+def family_alias(lowered):
+    """Derive an alias from the model family when the table lags behind.
+
+    Matching is case-insensitive and prefix-based so provider routing
+    suffixes, "-0731" dates, and "[1m]" context tags fall away.
+    """
+    match = re.search(r"claude-(opus|sonnet|haiku|fable)-(\d+)(?:[.-](\d+))?", lowered)
+    if match:
+        return CLAUDE_FAMILIES[match.group(1)] + match.group(2) + (match.group(3) or "")
+    match = re.search(r"gpt-[\d.]+-(luna|sol|terra|astra)", lowered)
+    if match:
+        return match.group(1)
+    match = re.search(r"gpt-(\d+(?:\.\d+)?)(?:-codex|-mini)?(?:$|-)", lowered)
+    if match:
+        return "gpt" + match.group(1).replace(".", "")
+    match = re.search(r"glm-?(\d+(?:\.\d+)?)(?:-(flash|thinking|air|lite))?", lowered)
+    if match:
+        return "glm" + match.group(1).replace(".", "") + (VARIANT_LETTERS.get(match.group(2)) or "")
+    match = re.search(r"deepseek-v(\d+)(?:\.(\d+))?(?:-(flash|pro|thinking|lite))?", lowered)
+    if match:
+        return "dsv" + match.group(1) + (match.group(2) or "") + (VARIANT_LETTERS.get(match.group(3)) or "")
+    match = re.search(r"kimi-k(\d+)(?:\.(\d+))?(?:-(thinking))?", lowered)
+    if match:
+        return "kimik" + match.group(1) + (match.group(2) or "") + ("t" if match.group(3) else "")
+    match = re.search(r"minimax-m(\d+)(?:\.(\d+))?", lowered)
+    if match:
+        return "mmax" + match.group(1) + (match.group(2) or "")
+    match = re.search(r"qwen([\d.]+)?-coder", lowered)
+    if match:
+        return "qwen" + (match.group(1) or "").replace(".", "") + "c"
+    return None
+
+
 def compact_model(model):
-    return MODEL_ALIASES.get(model, "unknown")
+    alias = MODEL_ALIASES.get(model) or family_alias(model.lower())
+    # Herdr pane labels stay readable; aliases never exceed 8 characters.
+    return (alias or "unknown")[:8]
 
 
 def display_agent(transcript_path):
@@ -121,20 +161,25 @@ def model_from_record(record):
     if not isinstance(record, dict):
         return None
 
+    model = None
+
     # Codex writes the resolved model on every turn context.
     if record.get("type") == "turn_context":
         payload = record.get("payload")
         if isinstance(payload, dict):
-            return model_name(payload.get("model"))
+            model = model_name(payload.get("model"))
 
     # Claude Code and compatible agents write it on assistant messages.
-    message = record.get("message")
-    if isinstance(message, dict):
-        model = model_name(message.get("model"))
-        if model:
-            return model
+    if not model:
+        message = record.get("message")
+        if isinstance(message, dict):
+            model = model_name(message.get("model"))
 
-    return model_name(record.get("model"))
+    if not model:
+        model = model_name(record.get("model"))
+
+    # Claude Code stamps API-error placeholders "<synthetic>"; keep scanning.
+    return None if model == "<synthetic>" else model
 
 
 def main():
