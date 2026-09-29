@@ -7,6 +7,8 @@
 # - .config/<app>/<file>       -> ~/.config/<app>/<file>   (per-file, so apps can
 #                                                still write logs/sockets next to them)
 # - local/bin/*                -> ~/.local/bin/
+# - mac/<tree>                 -> $HOME/<tree>    (per-file; phoenix only links
+#                                                dist/phoenix.js)
 #
 # Repo location is derived from this script's own path (follow symlinks), so it
 # works no matter where the repo is cloned.
@@ -126,5 +128,24 @@ if [ "$stale_n" -gt 0 ]; then
   printf '%b' "$stale"
   echo "  note: ${stale_n} stale link(s) above (not removed)"
 fi
+
+# 4. mac/ platform tree: real dirs on the way, final files linked one by one —
+#    apps keep writing their own state next to the links (xbar settings, etc).
+#    Samples and disabled entries stay out of the way; the phoenix project is
+#    source, only its built dist/phoenix.js gets linked; legacy underscore
+#    dirs (_config, _Library) predate the convention and are not auto-linked.
+created=0 updated=0 unchanged=0 conflict=0
+detail=""
+while IFS= read -r rel; do
+  [ -n "$rel" ] || continue
+  case "$(basename "$rel")" in .DS_Store|*.template|*.disabled) continue ;; esac
+  case "$rel" in phoenix/*|_*|_*/*) continue ;; esac
+  mkdir -p "$HOME/$(dirname "$rel")"
+  link_one "$repo/mac/$rel" "$HOME/$rel"
+done < <(cd "$repo/mac" && find . -type f | sed 's|^\./||')
+if [ -f "$repo/mac/phoenix/dist/phoenix.js" ]; then
+  link_one "$repo/mac/phoenix/dist/phoenix.js" "$HOME/.phoenix.js"
+fi
+report "$repo/mac" "$HOME"
 
 # vim: set ft=sh:
