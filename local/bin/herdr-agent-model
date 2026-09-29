@@ -95,10 +95,15 @@ def string_value(value):
 
 
 def model_name(value):
+    if isinstance(value, dict):
+        names = [
+            nested.strip().rsplit("/", 1)[-1]
+            for key in ("display_name", "name", "id")
+            if isinstance((nested := value.get(key)), str) and nested.strip()
+        ]
+        return next((name for name in names if compact_model(name)), names[0] if names else None)
     model = string_value(value)
-    if not model:
-        return None
-    return model.rsplit("/", 1)[-1]
+    return model.rsplit("/", 1)[-1] if model else None
 
 
 CLAUDE_FAMILIES = {"opus": "opus", "sonnet": "son", "haiku": "haiku", "fable": "fable"}
@@ -141,7 +146,27 @@ def family_alias(lowered):
 def compact_model(model):
     alias = MODEL_ALIASES.get(model) or family_alias(model.lower())
     # Herdr pane labels stay readable; aliases never exceed 8 characters.
-    return (alias or "unknown")[:8]
+    return alias[:8] if alias else None
+
+
+def model_from_hook_input(hook_input):
+    """Read model names from the hook's common top-level and nested shapes."""
+    if not isinstance(hook_input, dict):
+        return None
+
+    candidates = [hook_input.get(key) for key in ("model", "model_name", "model_id")]
+    for key in ("payload", "data", "message", "model_info"):
+        nested = hook_input.get(key)
+        if isinstance(nested, dict):
+            candidates.extend(nested.get(name) for name in ("model", "model_name", "model_id"))
+
+    # Prefer a recognized alias if the hook supplies both a display label and
+    # a provider/model identifier in different fields.
+    for candidate in candidates:
+        name = model_name(candidate)
+        if name and compact_model(name):
+            return name
+    return next((model_name(candidate) for candidate in candidates if model_name(candidate)), None)
 
 
 def display_agent(transcript_path):
@@ -196,7 +221,7 @@ def main():
     except (json.JSONDecodeError, OSError):
         hook_input = {}
 
-    model = model_name(hook_input.get("model"))
+    model = model_from_hook_input(hook_input)
     transcript_path = hook_input.get("transcript_path")
     agent_label = display_agent(transcript_path)
     if not model and isinstance(transcript_path, str):
@@ -214,6 +239,8 @@ def main():
         return
 
     model_alias = compact_model(model)
+    if not model_alias:
+        return
 
     request = {
         "id": f"user:agent-model:{int(time.time() * 1000)}",
