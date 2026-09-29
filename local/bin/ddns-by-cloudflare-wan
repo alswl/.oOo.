@@ -20,15 +20,28 @@ if [ -z "$DOMAIN" ] || [ -z "$ZONE_ID" ] || [ -z "$RECORD_ID" ] || [ -z "$CLOUDF
   exit 1
 fi
 
-IP=$(myip)
+IP=$(myip 2>/dev/null || true)
 C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
 
+if [ -z "$IP" ]; then
+  echo "ERROR: cannot get WAN IP from myip" >&2
+  exit 1
+fi
 [ "$IP" = "$C_IP" ] && exit 0
-[ -z "$IP" ] && exit 0
+if [ -z "$C_IP" ]; then
+  echo "ERROR: cannot resolve $DOMAIN" >&2
+  exit 1
+fi
 
-curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
+RESP=$(curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
      -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
      -H "Content-Type: application/json" \
-     --data "{\"type\":\"A\",\"name\":\"${DOMAIN}\",\"content\":\"${IP}\",\"proxied\":false}"
+     --data "{\"type\":\"A\",\"name\":\"${DOMAIN}\",\"content\":\"${IP}\",\"proxied\":false}") || true
+echo "$RESP"
+case "$RESP" in
+  *'"success":true'*) ;;
+  *) echo "ERROR: cloudflare update failed: $RESP" >&2
+     exit 1 ;;
+esac
 
 # vim: set ft=sh:

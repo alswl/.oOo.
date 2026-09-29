@@ -21,12 +21,25 @@ if [ -z "$DEVICE" ] || [ -z "$SUB_DOMAIN" ] || [ -z "$BASE_DOMAIN" ] || [ -z "$D
 fi
 
 DOMAIN="$SUB_DOMAIN.$BASE_DOMAIN"
-IP=$(ifconfig | grep $DEVICE: -A 4 | grep "inet " | tail -n 1 | awk '{print $2}')
+IP=$(ipconfig getifaddr $DEVICE 2>/dev/null || true)
 C_IP=$(drill $DOMAIN | grep "^$DOMAIN" | awk '{print $5}')
 
+if [ -z "$IP" ]; then
+  echo "ERROR: no IPv4 address on $DEVICE" >&2
+  exit 1
+fi
 [ "$IP" = "$C_IP" ] && exit 0
-[ -z "$IP" ] && exit 0
+if [ -z "$C_IP" ]; then
+  echo "ERROR: cannot resolve $DOMAIN" >&2
+  exit 1
+fi
 
-curl -s https://dnsapi.cn/Record.Modify -d "domain_id=$DOMAIN_ID&record_id=$RECORD_ID&sub_domain=$SUB_DOMAIN&record_type=A&record_line=默认&value=$IP&login_token=$DNSPOD_TOKEN&format=json"
+RESP=$(curl -sS https://dnsapi.cn/Record.Modify -d "domain_id=$DOMAIN_ID&record_id=$RECORD_ID&sub_domain=$SUB_DOMAIN&record_type=A&record_line=默认&value=$IP&login_token=$DNSPOD_TOKEN&format=json") || true
+echo "$RESP"
+case "$RESP" in
+  *'"code":"1"'*|*'"code":1'*) ;;
+  *) echo "ERROR: dnspod update failed: $RESP" >&2
+     exit 1 ;;
+esac
 
 # vim: set ft=sh:
