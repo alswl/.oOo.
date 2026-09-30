@@ -195,14 +195,17 @@ done
 brew install --cask xbar
 brew install gost
 
-REPO_ROOT="$(pwd)"
-PLUGIN_SOURCE="$REPO_ROOT/mac/Library/Application Support/xbar/plugins"
-PLUGIN_TARGET="$HOME/Library/Application Support/xbar/plugins"
-mkdir -p "$PLUGIN_TARGET"
+local/bin/xbar-plugins-mgr.py sync
+```
 
-for plugin in gost-local.1m.sh gost-claude.5s.sh launch-agents.1m.sh; do
-  ln -sfn "$PLUGIN_SOURCE/$plugin" "$PLUGIN_TARGET/$plugin"
-done
+启用状态位于带注释的 TOML 文件
+`mac/Library/Application Support/xbar/plugins.toml`。如需合并另一个
+dotfiles 仓库声明的插件，使用其根目录作为额外的 `--repo` 参数；`status` 查看
+链接状态，`-n` 预览同步结果。
+
+```bash
+local/bin/xbar-plugins-mgr.py sync --repo /path/to/dotfiles-extends-ali
+local/bin/xbar-plugins-mgr.py status --repo /path/to/dotfiles-extends-ali
 ```
 
 `gost-claude` 还需要在插件旁创建一份本地配置：

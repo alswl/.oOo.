@@ -139,7 +139,9 @@ detail=""
 while IFS= read -r rel; do
   [ -n "$rel" ] || continue
   case "$(basename "$rel")" in .DS_Store|*.template|*.disabled) continue ;; esac
-  case "$rel" in phoenix/*|_*|_*/*) continue ;; esac
+  case "$rel" in
+    phoenix/*|_*|_*/*|Library/Application\ Support/xbar/plugins.toml|Library/Application\ Support/xbar/plugins|Library/Application\ Support/xbar/plugins/*) continue ;;
+  esac
   mkdir -p "$HOME/$(dirname "$rel")"
   link_one "$repo/mac/$rel" "$HOME/$rel"
 done < <(cd "$repo/mac" && find . -type f | sed 's|^\./||')

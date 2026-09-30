@@ -213,14 +213,18 @@ link the plugins:
 brew install --cask xbar
 brew install gost
 
-REPO_ROOT="$(pwd)"
-PLUGIN_SOURCE="$REPO_ROOT/mac/Library/Application Support/xbar/plugins"
-PLUGIN_TARGET="$HOME/Library/Application Support/xbar/plugins"
-mkdir -p "$PLUGIN_TARGET"
+local/bin/xbar-plugins-mgr.py sync
+```
 
-for plugin in gost-local.1m.sh gost-claude.5s.sh launch-agents.1m.sh; do
-  ln -sfn "$PLUGIN_SOURCE/$plugin" "$PLUGIN_TARGET/$plugin"
-done
+Enablement lives in the commented TOML file
+`mac/Library/Application Support/xbar/plugins.toml`.
+To merge plugins declared by another dotfiles repository, pass its root as an
+additional `--repo` argument. Use `status` to inspect the links and `-n` to
+preview a sync.
+
+```bash
+local/bin/xbar-plugins-mgr.py sync --repo /path/to/dotfiles-extends-ali
+local/bin/xbar-plugins-mgr.py status --repo /path/to/dotfiles-extends-ali
 ```
 
 For `gost-claude`, create its local configuration beside the plugin:

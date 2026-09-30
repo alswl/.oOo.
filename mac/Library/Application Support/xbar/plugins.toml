@@ -1,0 +1,6 @@
+# xbar only loads scripts linked into ~/Library/Application Support/xbar/plugins.
+# Set a plugin to true to let xbar-plugins-mgr.py create that link.
+[plugins]
+"launch-agents.1m.sh" = true  # LaunchAgent status and controls
+"gost-local.1m.sh" = false    # disabled: this machine uses Surge instead
+"gost-claude.5s.sh" = false   # needs a local gost-claude.env with credentials
