@@ -126,7 +126,7 @@ for f in .[!.]*; do
   case "$f" in .git|.gitignore|.DS_Store|.idea|.claude) continue ;; esac
   ln -sfn "$(pwd)/$f" "$HOME/$f"
 done
-cp "$(pwd)/_.gitconfig" "$HOME/.gitconfig"
+[ -e "$HOME/.gitconfig" ] || cp "$(pwd)/_.gitconfig" "$HOME/.gitconfig"
 
 # 4. 链接自用脚本
 mkdir -p "$HOME/.local/bin" "$HOME/.local/etc"

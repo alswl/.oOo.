@@ -9,6 +9,9 @@
 # - local/bin/*                -> ~/.local/bin/
 # - mac/<tree>                 -> $HOME/<tree>    (per-file; phoenix only links
 #                                                dist/phoenix.js)
+# - _.gitconfig                -> $HOME/.gitconfig (copy at init; an existing
+#                                                file is kept — name/email
+#                                                live there)
 #
 # Repo location is derived from this script's own path (follow symlinks), so it
 # works no matter where the repo is cloned.
@@ -149,5 +152,15 @@ if [ -f "$repo/mac/phoenix/dist/phoenix.js" ]; then
   link_one "$repo/mac/phoenix/dist/phoenix.js" "$HOME/.phoenix.js"
 fi
 report "$repo/mac" "$HOME"
+
+# 5. _.gitconfig: seed at init only — a real ~/.gitconfig is user-owned
+#    (name/email live there), so an existing file is kept as is.
+echo "$repo/_.gitconfig -> $HOME/.gitconfig"
+if [ -e "$HOME/.gitconfig" ]; then
+  echo "    !  .gitconfig  kept existing file"
+else
+  cp "$repo/_.gitconfig" "$HOME/.gitconfig"
+  echo "    +  .gitconfig"
+fi
 
 # vim: set ft=sh:
