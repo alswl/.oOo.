@@ -544,7 +544,6 @@ alias daterfc3339='gdate --rfc-3339=seconds | sed "s/ /T/"'
 alias datets='date +%s'
 alias datenow='date "+%Y-%m-%d %H:%M:%S"'
 alias app-identifier='/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier"'
-alias ac=antcode
 
 # mssql cli interface
 alias rlmssql='rlwrap -n -i -a -c -S "mssql> " -f $HOME_LOCAL_PATH/etc/mssql_bindings.txt mssql'  # https://github.com/hasankhan/sql-cli
