@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# gost-local.1m.sh
 
 # <xbar.title>gost-local</xbar.title>
 # <xbar.version>v2.0</xbar.version>
@@ -7,6 +8,8 @@
 # <xbar.dependencies>gost</xbar.dependencies>
 
 export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH}"
+
+SCRIPT_NAME="$(basename "$0")"
 
 GOST_LISTEN="127.0.0.1:1234"
 GOST_FORWARD="127.0.0.1:1235"
@@ -60,6 +63,7 @@ if is_running; then
 	PID=$(get_pid)
 	echo "👻"
 	echo "---"
+	echo "${SCRIPT_NAME}"
 	echo "Running"
 	echo "Listen:  ${GOST_LISTEN}"
 	echo "Forward: ${GOST_FORWARD} (HTTP)"
@@ -70,6 +74,7 @@ if is_running; then
 else
 	echo "⚪"
 	echo "---"
+	echo "${SCRIPT_NAME}"
 	echo "Stopped"
 	echo "Listen:  ${GOST_LISTEN}"
 	echo "Forward: ${GOST_FORWARD} (HTTP)"

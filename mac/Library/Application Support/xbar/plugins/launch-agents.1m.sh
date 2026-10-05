@@ -241,6 +241,7 @@ done
 echo "⚙️"
 
 echo "---"
+echo "$(basename "$0")"
 echo "LaunchAgents"
 echo "Running $RUNNING_COUNT · loaded $LOADED_COUNT · disabled $DISABLED_COUNT · total $TOTAL_COUNT"
 echo "---"
