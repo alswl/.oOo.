@@ -355,26 +355,26 @@ if [[ "$OSTYPE" == 'linux'* ]] || [[ "$OSTYPE" == 'cygwin'* ]]; then
 	alias fd="fdfind"
 fi
 alias f='fd -I'
-alias ff='fd --type f | fzf'
-alias ffp='fd --type f | fzf --preview "less {}"'
+alias ff='fzf'
+alias ffp='fzf --preview "less {}"'
 alias fzp='fzf --preview "less {}"'
 # functions (not aliases) so filenames with spaces survive the pipe
-fzl() { local f; f=$(fd --type f | fzf) && less "$f"; }
-fzv() { local f; f=$(fd --type f | fzf) && command "$EDITOR" -p "$f"; }
-# Emit absolute paths because Neovide resolves file arguments from the caller's cwd.
+fzl() { local f; f=$(fzf) && less "$f"; }
+fzv() { local f; f=$(fzf) && command "$EDITOR" -p "$f"; }
+# Show repo-relative paths in fzf, but emit an absolute path because Neovide
+# resolves file arguments from the caller's cwd.
 _fzg_files() {
-	local root
+	local root f
 	root=$(git rev-parse --show-toplevel 2>/dev/null) || return
-	{
-		git -c core.quotePath=false diff --name-only --diff-filter=ACMR HEAD
-		git -c core.quotePath=false ls-files --others --exclude-standard
-	} | while IFS= read -r f; do
-		printf '%s/%s\n' "$root" "$f"
-	done | fzf
+	f=$({
+		git -C "$root" -c core.quotePath=false diff --name-only --diff-filter=ACMR HEAD
+		git -C "$root" -c core.quotePath=false ls-files --others --exclude-standard
+	} | fzf) || return
+	printf '%s/%s\n' "$root" "$f"
 }
 fzgv() { local f; f=$(_fzg_files) && command "$EDITOR" -p "$f"; }
-fzcd() { local d; d=$(fd --type d | fzf) && cd "$d"; }
-fzo() { local f; f=$(fd --type f | fzf) && open "$f"; }
+fzcd() { local d; d=$(fd --type d --hidden --follow --exclude .git | fzf) && cd "$d"; }
+fzo() { local f; f=$(fzf) && open "$f"; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
@@ -430,7 +430,7 @@ if (( $+commands[neovide] )); then
 		neovide --fork --reuse-instance --new-window "$f"
 	}
 	fzvv() {
-		local f; f=$(fd --type f | fzf) || return
+		local f; f=$(fzf) || return
 		neovide --fork --reuse-instance --new-window "$f"
 	}
 	vvdv() { neovide --fork "+DiffviewOpen $*"; }
@@ -577,6 +577,8 @@ fi
 alias -g C='| pbcopy'
 alias -g P='pbpaste'
 alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
+# gost-claude proxy (xbar, 127.0.0.1:1236): HC claude-zhipu_glm
+alias -g HC='http_proxy=http://127.0.0.1:1236 https_proxy=http://127.0.0.1:1236 no_proxy=localhost,127.0.0.1,192.168.0.0/16'
 alias -g GP='GIT_PROXY_COMMAND=$HOME_LOCAL_BIN_PATH/socks5proxywrapper; GIT_SSH=$HOME_LOCAL_BIN_PATH/soks5proxyssh'
 alias -g TOA=' > /tmp/a.html && open /tmp/a.html'
 alias -g SUS='| sort | uniq -c | sort -gr'
