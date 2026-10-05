@@ -391,6 +391,16 @@ fzgd() {
 	git -C "$root" diff -- "$f" | less
 }
 fzcd() { local d; d=$(fd --type d --hidden --follow --exclude .git | fzf) && cd "$d"; }
+# cd to a directory containing git-changed files (deduped, repo-relative)
+fzgcd() {
+	local root d
+	root=$(git rev-parse --show-toplevel 2>/dev/null) || return
+	d=$({
+		git -C "$root" -c core.quotePath=false diff --name-only --diff-filter=ACMR HEAD
+		git -C "$root" -c core.quotePath=false ls-files --others --exclude-standard
+	} | while read -r f; do printf '%s\n' "${f:h}"; done | sort -u | fzf) || return
+	cd "$root/$d"
+}
 fzo() { local f; f=$(fzf) && open "$f"; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
