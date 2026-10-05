@@ -373,6 +373,23 @@ _fzg_files() {
 	printf '%s/%s\n' "$root" "$f"
 }
 fzgv() { local f; f=$(_fzg_files) && command "$EDITOR" -p "$f"; }
+fzgo() { local f; f=$(_fzg_files) && open "$f"; }
+fzgg() {
+	(( $# )) || return 1
+	local root sel file line
+	root=$(git rev-parse --show-toplevel 2>/dev/null) || return
+	sel=$(git -C "$root" -c core.quotePath=false grep -n -- "$@" | fzf) || return
+	file=${sel%%:*}
+	line=${sel#*:}; line=${line%%:*}
+	command "$EDITOR" -p "+$line" "$root/$file"
+}
+# Browse diffs of files changed against HEAD (untracked files have no diff)
+fzgd() {
+	local root f
+	root=$(git rev-parse --show-toplevel 2>/dev/null) || return
+	f=$(git -C "$root" -c core.quotePath=false diff --name-only --diff-filter=ACMR HEAD | fzf) || return
+	git -C "$root" diff -- "$f" | less
+}
 fzcd() { local d; d=$(fd --type d --hidden --follow --exclude .git | fzf) && cd "$d"; }
 fzo() { local f; f=$(fzf) && open "$f"; }
 alias tarx='tar xzvf'
