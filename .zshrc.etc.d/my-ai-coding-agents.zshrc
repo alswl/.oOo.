@@ -15,7 +15,7 @@
 _claude_run() {
 	local cfg="$1"
 	shift
-	command claude --settings "$cfg" --dangerously-skip-permissions --name "$(basename $PWD)" "$@"
+	_ai_agent_session_run claude --settings "$cfg" "$@"
 }
 
 # zhipu: flash / pro (pro is glm-5.3; "glm-5.3-pro" does not exist)
@@ -27,15 +27,14 @@ claude-deepseek-flash() { _claude_run "$HOME/.claude/profiles/deepseek.json" --m
 
 # official claude via claude.ai login: needs HC, and the shell's zhipu
 # ANTHROPIC_* env must be stripped or it overrides the login
-_claude_official() {
+_claude_official() (
 	local model="$1"
 	shift
-	command env -u ANTHROPIC_AUTH_TOKEN -u ANTHROPIC_BASE_URL -u ANTHROPIC_MODEL \
-		-u ANTHROPIC_DEFAULT_OPUS_MODEL -u ANTHROPIC_DEFAULT_SONNET_MODEL -u ANTHROPIC_DEFAULT_HAIKU_MODEL \
-		http_proxy=http://127.0.0.1:1236 https_proxy=http://127.0.0.1:1236 \
-		claude --settings "$HOME/.claude/profiles/claude-official.json" \
-		--dangerously-skip-permissions --name "$(basename $PWD)" --model "$model" "$@"
-}
+	unset ANTHROPIC_AUTH_TOKEN ANTHROPIC_BASE_URL ANTHROPIC_MODEL \
+		ANTHROPIC_DEFAULT_OPUS_MODEL ANTHROPIC_DEFAULT_SONNET_MODEL ANTHROPIC_DEFAULT_HAIKU_MODEL
+	export http_proxy=http://127.0.0.1:1236 https_proxy=http://127.0.0.1:1236
+	_ai_agent_session_run claude --settings "$HOME/.claude/profiles/claude-official.json" --model "$model" "$@"
+)
 
 claude-opus() { _claude_official claude-opus-5-5 "$@" }
 claude-sonnet() { _claude_official claude-sonnet-5-5 "$@" }
@@ -45,7 +44,7 @@ _codex_official() {
 	local model="$1"
 	shift
 	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
-		command codex --dangerously-bypass-approvals-and-sandbox -m "$model" "$@"
+		_ai_agent_codex -m "$model" "$@"
 }
 
 codex-sol() { _codex_official gpt-6.1-sol "$@" }
