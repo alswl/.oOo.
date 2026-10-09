@@ -9,7 +9,9 @@ _ai_agent_session_run() {
 	args=("${_AI_AGENT_WORKTREE_ARGS[@]}")
 	unset _AI_AGENT_WORKTREE_ARGS
 	_ai_agent_prepare_worktrees "${args[@]}" || return
-	command "$agent" --dangerously-skip-permissions --name "$(basename "$PWD")" "${args[@]}"
+	# Claude-only flags go last: cfuse forwards everything after --cc to the
+	# claude engine, and rejects these when they come before its own flags.
+	command "$agent" "${args[@]}" --dangerously-skip-permissions --name "$(basename "$PWD")"
 }
 
 # Shared two-word worktree names for Claude and cfuse.
