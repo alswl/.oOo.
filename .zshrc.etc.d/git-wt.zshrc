@@ -39,6 +39,9 @@ gwtcd() {
           }
         }
       ' |
+      while IFS=$'\t' read -r branch path; do
+        [[ -d "$path" ]] && printf '%s\t%s\n' "$branch" "$path"
+      done |
       fzf \
         --delimiter=$'\t' \
         --with-nth=1,2 \
