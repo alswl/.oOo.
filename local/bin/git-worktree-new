@@ -11,4 +11,24 @@ name="$(shuf -n 200 /usr/share/dict/words | grep -E '^[a-z]{3,9}$' | head -n 3 |
 }
 
 git worktree add -b "$name" ".claude/worktrees/$name" || exit 1
-echo "created: $(pwd)/.claude/worktrees/$name"
+
+# attach initialized submodules as detached worktrees sharing the submodule's git dir
+root=$(pwd)
+wt="$root/.claude/worktrees/$name"
+if [[ -f "$wt/.gitmodules" ]]; then
+    while IFS= read -r sub; do
+        [[ -z "$sub" ]] && continue
+        if [[ -e "$wt/$sub/.git" ]]; then
+            git -C "$wt" submodule update --init --recursive -- "$sub" || exit 1
+        elif [[ -e "$root/$sub/.git" ]]; then
+            commit="$(git -C "$wt" rev-parse "HEAD:$sub")" || exit 1
+            mkdir -p "$wt/$(dirname "$sub")" || exit 1
+            git -C "$root/$sub" worktree add --detach "$wt/$sub" "$commit" || exit 1
+            git -C "$wt/$sub" submodule update --init --recursive || exit 1
+        else
+            git -C "$wt" submodule update --init --recursive -- "$sub" || exit 1
+        fi
+    done < <(git config -f "$wt/.gitmodules" --get-regexp '^submodule\..*\.path$' | sed 's/^[^[:space:]]*[[:space:]]//')
+fi
+
+echo "created: $wt"
