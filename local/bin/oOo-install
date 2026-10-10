@@ -4,6 +4,8 @@
 # oOo-install alias in .zshrc). Idempotent.
 #
 # - top-level dotfiles (.[!.]*) -> $HOME/         (.zprofile, .zshrc, .tmux.conf, ...)
+# - .zshrc.etc.d/*             -> ~/.zshrc.etc.d/*  (per-file, so machine-local
+#                                                snippets can sit next to them)
 # - .config/<app>/<file>       -> ~/.config/<app>/<file>   (per-file, so apps can
 #                                                still write logs/sockets next to them)
 # - local/bin/*                -> ~/.local/bin/
@@ -71,19 +73,41 @@ report() { # <section-src> <section-dst>
   printf '%b' "$detail"
 }
 
-# 1. top-level dotfiles (same skip list as the README install step; .config is
-#    handled per-file below instead of linked as a whole)
+# 1. top-level dotfiles (same skip list as the README install step; .config and
+#    .zshrc.etc.d are handled per-file below instead of linked as a whole)
 created=0 updated=0 unchanged=0 conflict=0
 detail=""
 for f in "$repo"/.[!.]*; do
   [ -e "$f" ] || continue
   name="$(basename "$f")"
   case "$name" in
-    .git|.gitignore|.DS_Store|.idea|.claude|.config) continue ;;
+    .git|.gitignore|.DS_Store|.idea|.claude|.config|.zshrc.etc.d) continue ;;
   esac
   link_one "$f" "$HOME/$name"
 done
 report "$repo" "$HOME"
+
+# 1b. .zshrc.etc.d: real dir, files linked one by one. A legacy whole-dir link
+#     into this repo is replaced by the real dir (the link itself is ours).
+etc="$HOME/.zshrc.etc.d"
+if [ -L "$etc" ]; then
+  case "$(readlink -f "$etc")" in
+    "$repo"/*) rm "$etc" ;;
+  esac
+fi
+created=0 updated=0 unchanged=0 conflict=0
+detail=""
+if [ -L "$etc" ]; then
+  conflict=1
+  detail="    !  .zshrc.etc.d  kept existing link -> $(readlink "$etc")\n"
+else
+  mkdir -p "$etc"
+  for f in "$repo"/.zshrc.etc.d/*.zshrc; do
+    [ -e "$f" ] || continue
+    link_one "$f" "$etc/$(basename "$f")"
+  done
+fi
+report "$repo/.zshrc.etc.d" "$etc"
 
 # 2. .config apps: real dir in ~/.config/<app>/, files linked one by one
 created=0 updated=0 unchanged=0 conflict=0
