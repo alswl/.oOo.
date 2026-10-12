@@ -39,9 +39,7 @@ const APP_LAUNCH: AppBinding[] = [
   // Tblive = DingTalk Meeting & Webinar
   {
     key: 'r',
-    app: '/Applications/Antding.app/Contents/Frameworks/Tblive.app/Contents/MacOS/Tblive',
-    fallback:
-      '/Applications/Antding.app/Contents/Frameworks/DingMeeting.app/Contents/MacOS/DingMeeting',
+    app: '/Applications/Antding.app/Contents/Frameworks/DingMeeting.app/Contents/MacOS/DingMeeting',
   },
   // { key: 'a', app: 'MacVim' },
   // { key: 'a', app: 'goneovim' },
