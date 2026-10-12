@@ -33,3 +33,6 @@ rows = [
   ["state_icon", "workspace", "agent", "$model"],
   ["terminal_title_stripped"],
 ]
+
+[session]
+resume_agents_on_restore = false
