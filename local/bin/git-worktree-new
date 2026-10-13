@@ -2,7 +2,8 @@
 
 # create a new git worktree under .claude/worktrees, named by 3 random words
 
-cd "$(git rev-parse --show-toplevel)" || exit 1
+root=$(git rev-parse --show-toplevel) || exit 1
+cd "$root" || exit 1
 
 name="$(shuf -n 200 /usr/share/dict/words | grep -E '^[a-z]{3,9}$' | head -n 3 | paste -sd- -)"
 [[ -n "$name" ]] || {
@@ -13,7 +14,6 @@ name="$(shuf -n 200 /usr/share/dict/words | grep -E '^[a-z]{3,9}$' | head -n 3 |
 git worktree add -b "$name" ".claude/worktrees/$name" || exit 1
 
 # attach initialized submodules as detached worktrees sharing the submodule's git dir
-root=$(pwd)
 wt="$root/.claude/worktrees/$name"
 if [[ -f "$wt/.gitmodules" ]]; then
     while IFS= read -r sub; do
@@ -29,6 +29,27 @@ if [[ -f "$wt/.gitmodules" ]]; then
             git -C "$wt" submodule update --init --recursive -- "$sub" || exit 1
         fi
     done < <(git config -f "$wt/.gitmodules" --get-regexp '^submodule\..*\.path$' | sed 's/^[^[:space:]]*[[:space:]]//')
+fi
+
+# Lockfiles identify uv projects without assuming their directory names.
+if ! (
+    set -o pipefail
+    git -C "$wt" ls-files --recurse-submodules -z -- 'uv.lock' '**/uv.lock' |
+        while IFS= read -r -d '' lock; do
+            project="$wt/$(dirname "$lock")"
+            [[ -f "$project/pyproject.toml" ]] || continue
+            if ! command -v uv >/dev/null 2>&1; then
+                printf 'git-worktree-new: uv is required to initialize %s\n' "$project" >&2
+                exit 1
+            fi
+            if ! UV_PROJECT_ENVIRONMENT="$project/.venv" uv sync --locked --no-dev --project "$project" >&2; then
+                printf 'Retry: UV_PROJECT_ENVIRONMENT=%q uv sync --locked --no-dev --project %q\n' "$project/.venv" "$project" >&2
+                exit 1
+            fi
+        done
+); then
+    printf 'git-worktree-new: uv initialization failed; worktree retained at %s\n' "$wt" >&2
+    exit 1
 fi
 
 echo "created: $wt"

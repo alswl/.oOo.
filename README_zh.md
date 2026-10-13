@@ -91,6 +91,7 @@ mjolnir、slate 和 amethyst（→ Phoenix）。
 | `git-archive-zip`             | 把仓库打包成 `xxx.git.zip`  |
 | `git-code-numbers-by-authors` | 按作者统计代码量            |
 | `git-min-backup`              | 极简 Git 备份               |
+| `git-worktree-new`            | 创建 worktree、准备子模块，并初始化 uv 项目 |
 | `homebrew-using-mirror`       | 一键切换 Homebrew 镜像源    |
 | `check-brew-cask-upgrade`     | 快速检查 Homebrew cask 更新 |
 | `terminfo-remote-install` · `-{ghostty,kitty}` | 把本机终端 terminfo 装到 ssh 主机，解决远程 ncurses 程序 `TERM` 无法初始化的报错 |
