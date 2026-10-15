@@ -43,8 +43,9 @@ claude-sonnet() { _claude_official claude-sonnet-5-5 "$@" }
 _codex_official() {
 	local model="$1"
 	shift
+	# Work around the Codex CLI TUI bootstrap failure: https://github.com/openai/codex/issues/52775
 	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
-		_ai_agent_codex -m "$model" "$@"
+		_ai_agent_codex -m "$model" -c log_dir=/Users/alswl/.codex/log "$@"
 }
 
 codex-sol() { _codex_official gpt-6.1-sol "$@" }
