@@ -53,6 +53,27 @@ codex-astra() { _codex_official gpt-6-astra "$@" }
 codex-luna() { _codex_official gpt-6-luna "$@" }
 codex-terra() { _codex_official gpt-5.6-terra "$@" }
 
+# Same flags launched through chatta's shared Codex app-server, so IRC
+# messages can wake an idle session. Tool commands run in the app-server's
+# environment, which keeps the env of whichever launch started it: the proxy
+# must be set here, and two agents in one worktree need distinct
+# CHATTA_CODEX_SERVICE_HOME values. chatta can only ensure the service, not
+# restart it.  Use Homebrew's released Chatta explicitly: a stale development
+# binary at ~/dev/go/bin is earlier in PATH on this machine and lacks `codex`.
+_codex_official_chat() {
+	local model="$1"
+	shift
+	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
+		CHATTA_BIN=/opt/homebrew/bin/chatta \
+		command /opt/homebrew/bin/chatta chat codex launch -- --dangerously-bypass-approvals-and-sandbox \
+		-C "$PWD" -m "$model" -c log_dir=/Users/alswl/.codex/log "$@"
+}
+
+codex-sol-chat() { _codex_official_chat gpt-6.1-sol "$@" }
+codex-astra-chat() { _codex_official_chat gpt-6-astra "$@" }
+codex-luna-chat() { _codex_official_chat gpt-6-luna "$@" }
+codex-terra-chat() { _codex_official_chat gpt-5.6-terra "$@" }
+
 claude-profile-check() {
 	local name="${1//_/-}"
 	local cfg="$HOME/.claude/profiles/${name}.json"
@@ -70,4 +91,6 @@ claude-configs() {
 	print "  claude-opus  claude-sonnet"
 	print "H proxy baked (1235):"
 	print "  codex-sol  codex-astra  codex-luna  codex-terra"
+	print "H proxy baked (1235), via chatta's shared app-server:"
+	print "  codex-sol-chat  codex-astra-chat  codex-luna-chat  codex-terra-chat"
 }
