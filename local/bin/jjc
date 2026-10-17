@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# select a directory from zoxide's database and copy its path (~-shortened unless -a)
+
+format=short
+if [[ "$1" == "-a" || "$1" == "--absolute" ]]; then
+    format=absolute
+    shift
+fi
+if (( $# )); then
+    echo "Usage: jjc [-a|--absolute]" >&2
+    exit 2
+fi
+
+dir=$(zoxide query --interactive) || exit
+[[ -n "$dir" ]] || exit 1
+if [[ "$format" == short && ( "$dir" == "$HOME" || "$dir" == "$HOME"/* ) ]]; then
+    dir="~${dir#"$HOME"}"
+fi
+
+if [[ "$OSTYPE" == darwin* ]]; then
+    printf '%s' "$dir" | pbcopy || exit
+else
+    printf '%s' "$dir" | xclip -selection clipboard || exit
+fi
+echo "Copied: $dir"
