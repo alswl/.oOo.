@@ -363,7 +363,7 @@ fzl() { local f; f=$(fzf) && less "$f"; }
 fzv() { local f; f=$(fzf) && command "$EDITOR" -p "$f"; }
 fzcd() { local d; d=$(fd --type d --hidden --follow --exclude .git | fzf) && cd "$d"; }
 fzo() { local f; f=$(fzf) && open "$f"; }
-fzrc() {
+_fzr_pick() {
 	local file_type=f selected_path
 	case "$#:$1" in
 		0:*) ;;
@@ -379,10 +379,18 @@ fzrc() {
 	esac
 	[[ -n "$selected_path" ]] || return
 	selected_path=$(realpath "$selected_path") || return
+	print -r -- "$selected_path"
+}
+fzrc() {
+	local selected_path
+	selected_path=$(_fzr_pick "$@") || return
 	print -rn -- "$selected_path" | pbcopy
 }
 fzrdc() { fzrc --type d; }
 fzrfc() { fzrc --type f; }
+fzr() { _fzr_pick "$@"; }
+fzrd() { _fzr_pick --type d; }
+fzrf() { _fzr_pick --type f; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
