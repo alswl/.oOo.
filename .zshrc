@@ -363,6 +363,26 @@ fzl() { local f; f=$(fzf) && less "$f"; }
 fzv() { local f; f=$(fzf) && command "$EDITOR" -p "$f"; }
 fzcd() { local d; d=$(fd --type d --hidden --follow --exclude .git | fzf) && cd "$d"; }
 fzo() { local f; f=$(fzf) && open "$f"; }
+fzrc() {
+	local file_type=f selected_path
+	case "$#:$1" in
+		0:*) ;;
+		2:--type) file_type=$2 ;;
+		1:--type=f) file_type=f ;;
+		1:--type=d) file_type=d ;;
+		*) print -u2 'Usage: fzrc [--type f|d]'; return 2 ;;
+	esac
+	case "$file_type" in
+		f) selected_path=$(fzf) || return ;;
+		d) selected_path=$(fd --type d --hidden --follow --exclude .git | fzf) || return ;;
+		*) print -u2 'Usage: fzrc [--type f|d]'; return 2 ;;
+	esac
+	[[ -n "$selected_path" ]] || return
+	selected_path=$(realpath "$selected_path") || return
+	print -rn -- "$selected_path" | pbcopy
+}
+fzrdc() { fzrc --type d; }
+fzrfc() { fzrc --type f; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
