@@ -45,3 +45,5 @@ typings
 .claude
 .tool-versions
 mac/Library/Application Support/xbar/plugins/gost-claude.env
+mac/Library/Application Support/xbar/plugins/local-relay.env
+mac/Library/Application Support/xbar/plugins.local.toml

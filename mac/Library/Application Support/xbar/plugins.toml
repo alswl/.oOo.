@@ -1,6 +1,7 @@
 # xbar only loads scripts linked into ~/Library/Application Support/xbar/plugins.
-# Set a plugin to true to let xbar-plugins-mgr.py create that link.
+# Base defaults; per-machine overrides go into plugins.local.toml
+# (gitignored, wins by key), applied by xbar-plugins-mgr.py.
 [plugins]
-"launch-agents.1m.sh" = true  # LaunchAgent status and controls
-"gost-local.1m.sh" = false    # disabled: this machine uses Surge instead
-"gost-claude.5s.sh" = false   # needs a local gost-claude.env with credentials
+"launch-agents.1m.sh" = true
+"local-relay.1m.sh" = false    # local 1234->1235 forward (formerly gost-local); needs a 1235 upstream (e.g. Surge); optional AUTO_START via local-relay.env
+"gost-claude.5s.sh" = false   # needs a local gost-claude.env with credentials; optional AUTO_START=true

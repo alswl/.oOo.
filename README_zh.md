@@ -178,7 +178,7 @@ done
 启用、禁用和在 Finder 中定位。需要管理员权限的 `LaunchDaemons`
 不在管理范围内。插件仅使用 macOS 自带的 `launchctl` 和 `plutil`。
 
-### `gost-local.1m.sh`
+### `local-relay.1m.sh`
 
 开关本地 [GOST](https://github.com/ginuerzh/gost) HTTP 转发进程，并显示 PID、
 运行时间、连接数和最新日志。默认将 `127.0.0.1:1234` 转发至
@@ -200,9 +200,17 @@ local/bin/xbar-plugins-mgr.py sync
 ```
 
 启用状态位于带注释的 TOML 文件
-`mac/Library/Application Support/xbar/plugins.toml`。如需合并另一个
-dotfiles 仓库声明的插件，使用其根目录作为额外的 `--repo` 参数；`status` 查看
-链接状态，`-n` 预览同步结果。
+`mac/Library/Application Support/xbar/plugins.toml`。本机差异写在同目录的
+`plugins.local.toml`（已 gitignore），按键覆盖，也可新增条目：
+
+```toml
+# plugins.local.toml — 仅本机生效
+[plugins]
+"gost-claude.5s.sh" = true
+```
+
+如需合并另一个 dotfiles 仓库声明的插件，使用其根目录作为额外的 `--repo` 参数；
+`status` 查看链接状态，`-n` 预览同步结果。
 
 ```bash
 local/bin/xbar-plugins-mgr.py sync --repo /path/to/dotfiles-extends-ali
@@ -217,6 +225,8 @@ chmod 600 "$PLUGIN_SOURCE/gost-claude.env"
 ```
 
 在文件中填写 `GOST_USER`、`GOST_PASSWORD` 和 `GOST_REMOTE`。
+两个 GOST 插件都可在各自 gitignore 的 `.env`（`gost-claude.env`、`local-relay.env`）
+中设置 `AUTO_START=true`，菜单刷新时自动启动；手动 Stop 后暂停自启，直到再次手动 Start。
 `gost-claude.env` 已被 gitignore，真实凭证不要提交到版本库。两个 GOST
 插件的端口和转发默认值都集中在脚本开头，可按本地环境修改。
 

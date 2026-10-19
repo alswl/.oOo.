@@ -36,7 +36,10 @@ def fail(message: str) -> None:
     raise SystemExit(2)
 
 
-def read_config(config_path: Path) -> list[Plugin]:
+LOCAL_CONFIG_NAME = "plugins.local.toml"
+
+
+def read_entries(config_path: Path) -> dict[str, bool]:
     try:
         document = tomllib.loads(config_path.read_text())
     except FileNotFoundError:
@@ -44,22 +47,29 @@ def read_config(config_path: Path) -> list[Plugin]:
     except tomllib.TOMLDecodeError as error:
         fail(f"invalid TOML in {config_path}: {error}")
 
-    entries = document.get("plugins") if isinstance(document, dict) else None
+    entries = document.get("plugins")
     if not isinstance(entries, dict):
         fail(f"{config_path}: plugins must be a table of filename = true/false entries")
+    for name, enabled in entries.items():
+        if Path(name).name != name or not name.endswith(".sh"):
+            fail(f"{config_path}: plugin names must be filenames ending in .sh")
+        if not isinstance(enabled, bool):
+            fail(f"{config_path}: {name} must be true or false")
+    return entries
+
+
+def read_config(config_path: Path) -> list[Plugin]:
+    # Repository defaults, overridden by an optional gitignored per-machine
+    # plugins.local.toml (local wins by key and may add entries).
+    entries = read_entries(config_path)
+    local_path = config_path.with_name(LOCAL_CONFIG_NAME)
+    if local_path.exists():
+        entries.update(read_entries(local_path))
 
     source_dir = config_path.parent / "plugins"
     repository = config_path.parents[4]
     plugins: list[Plugin] = []
-    names: set[str] = set()
     for name, enabled in entries.items():
-        if not isinstance(name, str) or Path(name).name != name or not name.endswith(".sh"):
-            fail(f"{config_path}: plugin names must be filenames ending in .sh")
-        if not isinstance(enabled, bool):
-            fail(f"{config_path}: {name} must be true or false")
-        if name in names:
-            fail(f"{config_path}: duplicate plugin entry: {name}")
-        names.add(name)
         source = source_dir / name
         if not source.is_file():
             fail(f"{config_path}: plugin source not found: {source}")

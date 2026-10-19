@@ -195,7 +195,7 @@ stop, restart, enable, disable, and Finder actions. `LaunchDaemons` are
 intentionally excluded because managing them requires administrator privileges.
 It uses the macOS-provided `launchctl` and `plutil` tools.
 
-### `gost-local.1m.sh`
+### `local-relay.1m.sh`
 
 Toggles a local [GOST](https://github.com/ginuerzh/gost) HTTP forwarding process
 and shows its PID, uptime, connection count, and latest log line. The defaults
@@ -219,6 +219,15 @@ local/bin/xbar-plugins-mgr.py sync
 
 Enablement lives in the commented TOML file
 `mac/Library/Application Support/xbar/plugins.toml`.
+Per-machine overrides go into a gitignored `plugins.local.toml` beside it;
+its entries win by key and may add plugins:
+
+```toml
+# plugins.local.toml — this machine only
+[plugins]
+"gost-claude.5s.sh" = true
+```
+
 To merge plugins declared by another dotfiles repository, pass its root as an
 additional `--repo` argument. Use `status` to inspect the links and `-n` to
 preview a sync.
@@ -236,6 +245,9 @@ chmod 600 "$PLUGIN_SOURCE/gost-claude.env"
 ```
 
 Set `GOST_USER`, `GOST_PASSWORD`, and `GOST_REMOTE` in that file.
+Both GOST plugins accept `AUTO_START=true` in their gitignored `.env`
+(`gost-claude.env`, `local-relay.env`) to start on menu refresh; a manual
+Stop pauses it until the next manual Start.
 `gost-claude.env` is gitignored; keep real credentials out of version control.
 The ports and forwarding defaults are constants near the top of each GOST
 plugin and can be adapted to another local setup.
