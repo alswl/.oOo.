@@ -227,8 +227,9 @@ chmod 600 "$PLUGIN_SOURCE/gost-claude.env"
 在文件中填写 `GOST_USER`、`GOST_PASSWORD` 和 `GOST_REMOTE`。
 两个 GOST 插件都可在各自 gitignore 的 `.env`（`gost-claude.env`、`local-relay.env`）
 中设置 `AUTO_START=true`，菜单刷新时自动启动；手动 Stop 后暂停自启，直到再次手动 Start。
-`gost-claude.env` 已被 gitignore，真实凭证不要提交到版本库。两个 GOST
-插件的端口和转发默认值都集中在脚本开头，可按本地环境修改。
+`gost-claude.env` 已被 gitignore，真实凭证不要提交到版本库。
+`local-relay` 不需要 env 文件；只有要开启 `AUTO_START` 或改端口时，才把
+`local-relay.env.template` 复制为 `local-relay.env`。
 
 ## Phoenix：macOS 平铺窗口管理
 

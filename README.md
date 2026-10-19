@@ -249,8 +249,8 @@ Both GOST plugins accept `AUTO_START=true` in their gitignored `.env`
 (`gost-claude.env`, `local-relay.env`) to start on menu refresh; a manual
 Stop pauses it until the next manual Start.
 `gost-claude.env` is gitignored; keep real credentials out of version control.
-The ports and forwarding defaults are constants near the top of each GOST
-plugin and can be adapted to another local setup.
+`local-relay` needs no env file; copy `local-relay.env.template` to
+`local-relay.env` only to enable `AUTO_START` or change its ports.
 
 ## Phoenix: tiling window management for macOS
 
