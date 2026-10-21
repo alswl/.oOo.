@@ -391,6 +391,26 @@ fzrfc() { fzrc --type f; }
 fzr() { _fzr_pick "$@"; }
 fzrd() { _fzr_pick --type d; }
 fzrf() { _fzr_pick --type f; }
+# Compare with the tracking branch from the merge base, including local edits.
+_fzg_files() {
+	local root base selected_path
+	root=$(git rev-parse --show-toplevel) || return
+	base=$(git merge-base HEAD '@{upstream}') || return
+	selected_path=$(
+		cd "$root" || return
+		setopt local_options pipe_fail
+		git diff --no-ext-diff --name-only --diff-filter=d -z "$base" -- |
+			fzf --read0 --print0 |
+			IFS= read -r -d '' selected_path && print -r -- "$selected_path"
+	) || return
+	[[ -n "$selected_path" ]] || return 1
+	print -r -- "$root/$selected_path"
+}
+fzgu() { _fzg_files; }
+fzguo() { local f; f=$(_fzg_files) || return; open "$f"; }
+fzguv() { local f; f=$(_fzg_files) || return; command "$EDITOR" -p "$f"; }
+fzgul() { local f; f=$(_fzg_files) || return; less "$f"; }
+fzguc() { local f; f=$(_fzg_files) || return; print -rn -- "$f" | pbcopy; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
@@ -445,6 +465,7 @@ if (( $+commands[neovide] )); then
 		local f; f=$(_fzg_files) || return
 		neovide --fork --reuse-instance --new-window "$f"
 	}
+	fzguvv() { fzgvv "$@"; }
 	fzvv() {
 		local f; f=$(fzf) || return
 		neovide --fork --reuse-instance --new-window "$f"
