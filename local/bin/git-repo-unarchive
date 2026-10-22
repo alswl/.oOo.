@@ -1,0 +1,72 @@
+#!/bin/bash
+# Restore a repo archived by git-repo-archive, cloning from the remotes in its archive.json.
+
+set -e
+
+DIR=$(cd "${1:-$PWD}" && pwd -P)
+JSON=$DIR/archive.json
+TMP=$DIR.unarchiving
+
+fail() {
+	echo "Error, $1, exited" >&2
+	exit 1
+}
+
+warn() {
+	echo "Warning, $1" >&2
+}
+
+[[ -f $JSON ]] || fail "$JSON not found"
+[[ -z $(ls -A "$DIR" | grep -vx -e README.md -e archive.json) ]] || fail "$DIR should only contain README.md and archive.json"
+[[ ! -e $TMP ]] || fail "$TMP already exists"
+
+jq -e '.config | strings' "$JSON" > /dev/null || fail "$JSON has no config, archived by an older version"
+
+MAIN=$(jq -r '.remotes | map(.name) | if index("origin") then "origin" else .[0] end // empty' "$JSON")
+[[ $MAIN ]] || fail "no remote found in $JSON"
+MAIN_URL=$(jq -r --arg n "$MAIN" '.remotes[] | select(.name == $n) | .fetch' "$JSON")
+
+git clone --origin "$MAIN" "$MAIN_URL" "$TMP"
+
+# archived .git/config has the remotes, push urls, branch upstreams and other local settings
+jq -r '.config' "$JSON" > "$TMP/.git/config"
+mkdir -p "$TMP/.git/info"
+jq -r '.info.exclude // empty' "$JSON" > "$TMP/.git/info/exclude"
+jq -r '.info.attributes // empty' "$JSON" > "$TMP/.git/info/attributes"
+git -C "$TMP" fetch --all --quiet
+
+# the clone has its own idea of the local branches, make them exactly the recorded ones
+git -C "$TMP" checkout -q --detach
+while IFS=$'\t' read -r name commit; do
+	git -C "$TMP" update-ref "refs/heads/$name" "$commit" || warn "cannot restore branch $name at $commit"
+done < <(jq -r '.branches | to_entries[] | [.key, .value] | @tsv' "$JSON")
+
+BRANCH=$(jq -r '.head.branch // empty' "$JSON")
+if [[ $BRANCH ]]; then
+	git -C "$TMP" checkout -q "$BRANCH" || warn "cannot checkout branch $BRANCH"
+else
+	COMMIT=$(jq -r '.head.commit' "$JSON")
+	git -C "$TMP" checkout -q --detach "$COMMIT" || warn "cannot checkout detached HEAD at $COMMIT"
+fi
+
+RECORDED=$(jq -r '.branches | keys[]' "$JSON")
+for name in $(git -C "$TMP" for-each-ref --format='%(refname:short)' refs/heads); do
+	grep -qxF "$name" <<< "$RECORDED" || git -C "$TMP" branch -qD "$name"
+done
+
+WORKTREES=$(jq -r '.worktrees[]? | [.path, .commit, (.branch // "-"), (.locked | tostring)] | @tsv' "$JSON")
+
+rm -f "$DIR/README.md" "$JSON"
+rmdir "$DIR"
+mv "$TMP" "$DIR"
+
+# worktrees record absolute paths in .git, so add them after the repo is in place
+while IFS=$'\t' read -r rel commit branch locked; do
+	[[ $rel ]] || continue
+	if [[ $branch == - ]]; then
+		git -C "$DIR" worktree add -q --detach "$DIR/$rel" "$commit" || warn "cannot restore worktree $rel at $commit"
+	else
+		git -C "$DIR" worktree add -q "$DIR/$rel" "$branch" || warn "cannot restore worktree $rel on branch $branch"
+	fi
+	[[ $locked != true ]] || git -C "$DIR" worktree lock "$DIR/$rel"
+done <<< "$WORKTREES"

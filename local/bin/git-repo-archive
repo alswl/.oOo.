@@ -1,0 +1,197 @@
+#!/bin/bash
+# Usage: git-repo-archive [--discard-ignored] [DIR]
+# Replace a git repo with README.md and archive.json that record its remotes,
+# branches and worktrees. Refuses unless the repo and every linked worktree
+# in it are recoverable from the remotes and archive.json, except ignored
+# files, which are listed and need confirmation (--discard-ignored skips it).
+# Reverse: git-repo-unarchive.
+
+set -e
+
+DISCARD_IGNORED=
+while [[ $1 == -* ]]; do
+	case $1 in
+		--discard-ignored) DISCARD_IGNORED=1 ;;
+		*) echo "Usage: ${0##*/} [--discard-ignored] [DIR]" >&2; exit 2 ;;
+	esac
+	shift
+done
+
+DIR=$(cd "${1:-$PWD}" && pwd -P)
+
+fail() {
+	echo "Error, $1, exited" >&2
+	[[ -z $2 ]] || echo "$2" >&2
+	exit 1
+}
+
+[[ $(git -C "$DIR" rev-parse --show-toplevel 2>/dev/null) == "$DIR" ]] || fail "$DIR is not a git repo root"
+[[ $(git -C "$DIR" remote) ]] || fail "Git has no remote"
+
+# linked worktrees: path, commit, branch, locked, prunable ("-" when empty, a
+# tab IFS would squeeze empty fields)
+WT_RELS=()
+WT_RECORDS=()
+while IFS=$'\t' read -r path head branch locked prunable; do
+	[[ $prunable == - ]] || continue # directory is gone, nothing to keep
+	real=$(cd "$path" && pwd -P)
+	[[ $real == "$DIR"/* ]] || fail "worktree $path is outside $DIR, it would be left behind"
+	WT_RELS+=("${real#$DIR/}")
+	WT_RECORDS+=("${real#$DIR/}"$'\t'"$head"$'\t'"$branch"$'\t'"$locked")
+done < <(git -C "$DIR" worktree list --porcelain | awk '
+	function flush() { if (p != "") print p "\t" (h == "" ? "-" : h) "\t" (b == "" ? "-" : b) "\t" (l == "" ? "-" : l) "\t" (r == "" ? "-" : r) }
+	/^worktree / { flush(); n++; p = substr($0, 10); h = b = l = r = ""; next }
+	/^HEAD /     { h = $2 }
+	/^branch /   { b = $2; sub("refs/heads/", "", b) }
+	/^locked/    { l = "true" }
+	/^prunable/  { r = 1 }
+	END          { flush() }' | sed 1d)
+
+# remote-tracking refs may be stale, refresh before comparing; a remote that
+# cannot be fetched means nothing can be verified against it, so refuse.
+# Fetch each remote by name, "fetch --all" skips remotes with skipFetchAll.
+for r in $(git -C "$DIR" remote); do
+	git -C "$DIR" fetch --prune --quiet "$r" || fail "cannot fetch remote $r"
+done
+
+# checks that apply to the main tree and to every linked worktree
+check_tree() { # abs path, rel path ("" for the main tree)
+	local w=$1 where=${2:+ in worktree $2} out
+	if [[ -z $2 && ${#WT_RELS[@]} -gt 0 ]]; then
+		# worktrees inside the repo are checked on their own; -uall, or git
+		# collapses a directory of worktrees into one "?? dir/" line
+		out=$(git -C "$w" status --porcelain -uall)
+		out=$(grep -vxFf <(printf '?? %s/\n' "${WT_RELS[@]}") <<< "$out" || true)
+	else
+		out=$(git -C "$w" status --porcelain)
+	fi
+	[[ -z $out ]] || fail "Git has uncommitted or untracked files$where" "$out"
+	if [[ -z $2 ]]; then
+		out=$(git -C "$w" log --branches HEAD --not --remotes --oneline)
+	else
+		out=$(git -C "$w" log HEAD --not --remotes --oneline)
+	fi
+	[[ -z $out ]] || fail "Git has unpushed commits$where" "$out"
+	out=$(git -C "$w" submodule status 2> /dev/null | grep -v '^-' || true)
+	[[ -z $out ]] || fail "Git has initialized submodules$where" "$out"
+	if grep -qs 'filter=lfs' "$w/.gitattributes"; then fail "Git uses LFS, objects may exist only locally$where"; fi
+}
+check_tree "$DIR" ""
+for rel in ${WT_RELS[@]+"${WT_RELS[@]}"}; do
+	check_tree "$DIR/$rel" "$rel"
+done
+
+STASH=$(git -C "$DIR" stash list)
+[[ -z $STASH ]] || fail "Git has stash" "$STASH"
+
+LOCAL_TAGS=$(git -C "$DIR" for-each-ref --format='%(objectname) %(refname)' refs/tags | sort)
+REMOTE_TAGS=
+for r in $(git -C "$DIR" remote); do
+	TAGS=$(git -C "$DIR" ls-remote --tags --refs "$r") || fail "cannot list tags of remote $r"
+	REMOTE_TAGS+=${TAGS//$'\t'/ }$'\n'
+done
+REMOTE_TAGS=$(sort -u <<< "$REMOTE_TAGS")
+UNPUSHED_TAGS=$(comm -23 <(echo "$LOCAL_TAGS") <(echo "$REMOTE_TAGS"))
+[[ -z $UNPUSHED_TAGS ]] || fail "Git has unpushed tags" "$UNPUSHED_TAGS"
+
+# local state outside the remotes that archive.json cannot bring back, refuse
+[[ ! -s $DIR/.git/objects/info/alternates ]] || fail "Git borrows objects from other repos (alternates)"
+HOOKS=$(ls "$DIR/.git/hooks" 2> /dev/null | grep -v '\.sample$' || true)
+[[ -z $HOOKS ]] || fail "Git has custom hooks" "$HOOKS"
+EXTRA_REFS=$(git -C "$DIR" for-each-ref --format='%(refname)' | grep -vE '^refs/(heads|tags|remotes)/|^refs/stash$' || true)
+[[ -z $EXTRA_REFS ]] || fail "Git has refs that are not branches or tags" "$EXTRA_REFS"
+
+# ignored files are not in any remote, they are lost unless the user agrees;
+# worktrees inside the repo are checked on their own, don't list them here
+list_ignored() { # rel path inside DIR, "" for the root
+	local e=${1%/} rel c contains=
+	for rel in ${WT_RELS[@]+"${WT_RELS[@]}"}; do
+		if [[ $rel == "$e" ]]; then return; fi
+		if [[ $rel == "$e"/* ]]; then contains=1; fi
+	done
+	if [[ $contains ]]; then
+		for c in "$DIR/$e"/* "$DIR/$e"/.[!.]*; do
+			if [[ -e $c ]]; then list_ignored "${c#$DIR/}"; fi
+		done
+	else
+		echo "$1"
+	fi
+}
+IGNORED=
+while IFS= read -r f; do
+	[[ -z $f ]] || IGNORED+=$(list_ignored "$f")$'\n'
+done < <(git -C "$DIR" ls-files --others --ignored --exclude-standard --directory)
+for rel in ${WT_RELS[@]+"${WT_RELS[@]}"}; do
+	while IFS= read -r f; do
+		[[ -z $f ]] || IGNORED+="$rel/$f"$'\n'
+	done < <(git -C "$DIR/$rel" ls-files --others --ignored --exclude-standard --directory)
+done
+IGNORED=${IGNORED%$'\n'}
+IGNORED=$(grep -v '^$' <<< "$IGNORED" || true)
+if [[ $IGNORED ]]; then
+	{
+		echo "These ignored files are not in any remote and will be lost:"
+		while IFS= read -r f; do du -sh "$DIR/$f"; done <<< "$IGNORED" | sed "s|$DIR/||"
+	} >&2
+	if [[ -z $DISCARD_IGNORED ]]; then
+		[[ -t 0 ]] || fail "ignored files need confirmation, use --discard-ignored to skip it"
+		read -r -p "Archive $DIR anyway? [y/N] " ANSWER
+		[[ $ANSWER == [yY] ]] || fail "not confirmed"
+	fi
+fi
+
+REMOTES=$(git -C "$DIR" remote -v)
+
+REMOTES_JSON='[]'
+for r in $(git -C "$DIR" remote); do
+	REMOTES_JSON=$(jq -c --arg n "$r" \
+		--arg f "$(git -C "$DIR" remote get-url "$r")" \
+		--arg p "$(git -C "$DIR" remote get-url --push --all "$r")" \
+		'. + [{name: $n, fetch: $f, push: ($p | split("\n"))}]' <<< "$REMOTES_JSON")
+done
+WORKTREES_JSON='[]'
+for record in ${WT_RECORDS[@]+"${WT_RECORDS[@]}"}; do
+	IFS=$'\t' read -r rel head branch locked <<< "$record"
+	WORKTREES_JSON=$(jq -c --arg path "$rel" --arg branch "$branch" --arg commit "$head" --arg locked "$locked" \
+		'. + [{path: $path, branch: (if $branch == "-" then null else $branch end), commit: $commit, locked: ($locked == "true")}]' <<< "$WORKTREES_JSON")
+done
+# name -> commit map of the given ref namespace
+refs_json() {
+	git -C "$DIR" for-each-ref --format='%(refname:short) %(objectname)' "$1" |
+		jq -R 'split(" ") | {(.[0]): .[1]}' | jq -s 'add // {}'
+}
+JSON=$(jq -n \
+	--arg name "$(basename "$DIR")" \
+	--arg archived_at "$(date '+%Y-%m-%dT%H:%M:%S%z')" \
+	--arg path "$DIR" \
+	--arg branch "$(git -C "$DIR" symbolic-ref --short -q HEAD || true)" \
+	--arg commit "$(git -C "$DIR" rev-parse HEAD)" \
+	--arg config "$(cat "$DIR/.git/config")" \
+	--arg info_exclude "$(cat "$DIR/.git/info/exclude" 2> /dev/null || true)" \
+	--arg info_attributes "$(cat "$DIR/.git/info/attributes" 2> /dev/null || true)" \
+	--argjson remotes "$REMOTES_JSON" \
+	--argjson worktrees "$WORKTREES_JSON" \
+	--argjson branches "$(refs_json refs/heads)" \
+	--argjson tags "$(refs_json refs/tags)" \
+	--argjson ignored "$(jq -R . <<< "$IGNORED" | jq -s 'map(select(. != ""))')" \
+	'{version: 1, name: $name, archived_at: $archived_at, path: $path,
+	  head: {branch: (if $branch == "" then null else $branch end), commit: $commit},
+	  remotes: $remotes, config: $config,
+	  info: {exclude: $info_exclude, attributes: $info_attributes},
+	  branches: $branches, worktrees: $worktrees, tags: $tags, ignored: $ignored}')
+
+trash "$DIR"
+mkdir "$DIR"
+echo "$JSON" > "$DIR/archive.json"
+cat > "$DIR/README.md" <<EOF
+# $(basename "$DIR")
+
+Archived by git-repo-archive at $(date '+%Y-%m-%d %H:%M:%S'), restore with git-repo-unarchive.
+Details are in archive.json.
+
+## Remotes
+
+\`\`\`
+$REMOTES
+\`\`\`
+EOF

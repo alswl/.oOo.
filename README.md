@@ -96,7 +96,8 @@ and WeRead.
 | ----------------------------- | ---------------------------------------- |
 | `git-archive-zip`             | Package a repository as `xxx.git.zip`    |
 | `git-code-numbers-by-authors` | Count lines of code by author            |
-| `git-min-backup`              | Create a minimal Git backup              |
+| `git-repo-archive`            | Replace a losslessly restorable repo with README.md + archive.json (`--discard-ignored` skips the ignored-files prompt) |
+| `git-repo-unarchive`          | Restore an archived repo from its archive.json |
 | `git-worktree-new`            | Create a worktree, prepare submodules, and initialize uv projects |
 | `homebrew-using-mirror`       | Switch Homebrew to a mirror              |
 | `check-brew-cask-upgrade`     | Quickly check for Homebrew cask upgrades |

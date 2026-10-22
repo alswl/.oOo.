@@ -90,7 +90,8 @@ mjolnir、slate 和 amethyst（→ Phoenix）。
 | ----------------------------- | --------------------------- |
 | `git-archive-zip`             | 把仓库打包成 `xxx.git.zip`  |
 | `git-code-numbers-by-authors` | 按作者统计代码量            |
-| `git-min-backup`              | 极简 Git 备份               |
+| `git-repo-archive`            | 确认能无损还原后，才把仓库替换为 README.md + archive.json（有忽略文件时需确认，`--discard-ignored` 跳过） |
+| `git-repo-unarchive`          | 从 archive.json 还原仓库 |
 | `git-worktree-new`            | 创建 worktree、准备子模块，并初始化 uv 项目 |
 | `homebrew-using-mirror`       | 一键切换 Homebrew 镜像源    |
 | `check-brew-cask-upgrade`     | 快速检查 Homebrew cask 更新 |
