@@ -2,6 +2,22 @@
 
 # create a new git worktree under .claude/worktrees, named by 3 random words
 
+sync_mode=offline
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --no-sync) sync_mode=skip ;;
+        --online) sync_mode=online ;;
+        -h|--help)
+            echo 'Usage: git-worktree-new [--no-sync | --online]'
+            echo 'Default: initialize uv projects from local cache without network access.'
+            echo '  --no-sync  Skip uv initialization.'
+            echo '  --online   Initialize uv projects with network access; fail on sync errors.'
+            exit 0 ;;
+        *) printf 'Unknown option: %s\n' "$1" >&2; exit 2 ;;
+    esac
+    shift
+done
+
 root=$(git rev-parse --show-toplevel) || exit 1
 cd "$root" || exit 1
 
@@ -32,7 +48,7 @@ if [[ -f "$wt/.gitmodules" ]]; then
 fi
 
 # Lockfiles identify uv projects without assuming their directory names.
-if ! (
+if [[ "$sync_mode" != skip ]] && ! (
     set -o pipefail
     git -C "$wt" ls-files --recurse-submodules -z -- 'uv.lock' '**/uv.lock' |
         while IFS= read -r -d '' lock; do
@@ -40,11 +56,17 @@ if ! (
             [[ -f "$project/pyproject.toml" ]] || continue
             if ! command -v uv >/dev/null 2>&1; then
                 printf 'git-worktree-new: uv is required to initialize %s\n' "$project" >&2
-                exit 1
+                [[ "$sync_mode" == online ]] && exit 1
+                continue
             fi
-            if ! UV_PROJECT_ENVIRONMENT="$project/.venv" uv sync --locked --no-dev --project "$project" >&2; then
+            sync_args=(--locked --no-dev --project "$project")
+            [[ "$sync_mode" == offline ]] && sync_args+=(--offline)
+            if ! UV_PROJECT_ENVIRONMENT="$project/.venv" uv sync "${sync_args[@]}" >&2; then
                 printf 'Retry: UV_PROJECT_ENVIRONMENT=%q uv sync --locked --no-dev --project %q\n' "$project/.venv" "$project" >&2
-                exit 1
+                if [[ "$sync_mode" == online ]]; then
+                    exit 1
+                fi
+                printf 'git-worktree-new: offline initialization incomplete; continuing without a ready environment\n' >&2
             fi
         done
 ); then

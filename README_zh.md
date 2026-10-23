@@ -92,7 +92,7 @@ mjolnir、slate 和 amethyst（→ Phoenix）。
 | `git-code-numbers-by-authors` | 按作者统计代码量            |
 | `git-repo-archive`            | 确认能无损还原后，才把仓库替换为 README.md + archive.json（有忽略文件时需确认，`--discard-ignored` 跳过） |
 | `git-repo-unarchive`          | 从 archive.json 还原仓库 |
-| `git-worktree-new`            | 创建 worktree、准备子模块，并初始化 uv 项目 |
+| `git-worktree-new`            | 创建 worktree、准备子模块，默认离线初始化 uv 项目（`--no-sync` 跳过；`--online` 允许下载） |
 | `homebrew-using-mirror`       | 一键切换 Homebrew 镜像源    |
 | `check-brew-cask-upgrade`     | 快速检查 Homebrew cask 更新 |
 | `terminfo-remote-install` · `-{ghostty,kitty}` | 把本机终端 terminfo 装到 ssh 主机，解决远程 ncurses 程序 `TERM` 无法初始化的报错 |

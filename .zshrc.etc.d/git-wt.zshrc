@@ -57,7 +57,7 @@ gwtcd() {
 gwtncd() {
   local out dir
 
-  out="$(git-worktree-new)" || return
+  out="$(git-worktree-new "$@")" || return
   printf '%s\n' "$out"
 
   dir="${out##*created: }"
