@@ -297,8 +297,6 @@ fi
 # bun
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# claude-mem https://github.com/thedotmack/claude-mem
-alias claude-mem='bun "$HOME/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
 
 
 ## Dev Tools }}}
