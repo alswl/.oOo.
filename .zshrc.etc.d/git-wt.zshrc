@@ -67,3 +67,4 @@ gwtncd() {
 }
 
 alias gwcd=gwtcd
+alias gwtl=gwtls

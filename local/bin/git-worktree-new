@@ -2,16 +2,12 @@
 
 # create a new git worktree under .claude/worktrees, named by 3 random words
 
-sync_mode=offline
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --no-sync) sync_mode=skip ;;
-        --online) sync_mode=online ;;
+        --no-sync) ;; # Compatibility: environment initialization is always skipped.
         -h|--help)
-            echo 'Usage: git-worktree-new [--no-sync | --online]'
-            echo 'Default: initialize uv projects from local cache without network access.'
-            echo '  --no-sync  Skip uv initialization.'
-            echo '  --online   Initialize uv projects with network access; fail on sync errors.'
+            echo 'Usage: git-worktree-new'
+            echo 'Create a worktree and prepare available submodules locally; no dependency installation.'
             exit 0 ;;
         *) printf 'Unknown option: %s\n' "$1" >&2; exit 2 ;;
     esac
@@ -29,48 +25,28 @@ name="$(shuf -n 200 /usr/share/dict/words | grep -E '^[a-z]{3,9}$' | head -n 3 |
 
 git worktree add -b "$name" ".claude/worktrees/$name" || exit 1
 
-# attach initialized submodules as detached worktrees sharing the submodule's git dir
-wt="$root/.claude/worktrees/$name"
-if [[ -f "$wt/.gitmodules" ]]; then
+# Each submodule gets its own checkout at the recorded commit, using local objects.
+# Recurse through source checkouts so nested submodules never need cloning or fetching.
+prepare_submodules() {
+    local source="$1" target="$2" sub commit
+    [[ -f "$target/.gitmodules" ]] || return 0
     while IFS= read -r sub; do
-        [[ -z "$sub" ]] && continue
-        if [[ -e "$wt/$sub/.git" ]]; then
-            git -C "$wt" submodule update --init --recursive -- "$sub" || exit 1
-        elif [[ -e "$root/$sub/.git" ]]; then
-            commit="$(git -C "$wt" rev-parse "HEAD:$sub")" || exit 1
-            mkdir -p "$wt/$(dirname "$sub")" || exit 1
-            git -C "$root/$sub" worktree add --detach "$wt/$sub" "$commit" || exit 1
-            git -C "$wt/$sub" submodule update --init --recursive || exit 1
-        else
-            git -C "$wt" submodule update --init --recursive -- "$sub" || exit 1
+        [[ -n "$sub" ]] || continue
+        commit="$(git -C "$target" rev-parse "HEAD:$sub")" || return 1
+        if [[ ! -e "$source/$sub/.git" ]] ||
+            ! git -C "$source/$sub" cat-file -e "$commit^{commit}" 2>/dev/null; then
+            printf 'git-worktree-new: skipping submodule %s (required commit unavailable locally); initialize it manually if needed\n' "$target/$sub" >&2
+            continue
         fi
-    done < <(git config -f "$wt/.gitmodules" --get-regexp '^submodule\..*\.path$' | sed 's/^[^[:space:]]*[[:space:]]//')
-fi
+        mkdir -p "$(dirname "$target/$sub")" || return 1
+        git -C "$source/$sub" worktree add --detach "$target/$sub" "$commit" || return 1
+        prepare_submodules "$source/$sub" "$target/$sub" || return 1
+    done < <(git config -f "$target/.gitmodules" --get-regexp '^submodule\..*\.path$' | sed 's/^[^[:space:]]*[[:space:]]//')
+}
 
-# Lockfiles identify uv projects without assuming their directory names.
-if [[ "$sync_mode" != skip ]] && ! (
-    set -o pipefail
-    git -C "$wt" ls-files --recurse-submodules -z -- 'uv.lock' '**/uv.lock' |
-        while IFS= read -r -d '' lock; do
-            project="$wt/$(dirname "$lock")"
-            [[ -f "$project/pyproject.toml" ]] || continue
-            if ! command -v uv >/dev/null 2>&1; then
-                printf 'git-worktree-new: uv is required to initialize %s\n' "$project" >&2
-                [[ "$sync_mode" == online ]] && exit 1
-                continue
-            fi
-            sync_args=(--locked --no-dev --project "$project")
-            [[ "$sync_mode" == offline ]] && sync_args+=(--offline)
-            if ! UV_PROJECT_ENVIRONMENT="$project/.venv" uv sync "${sync_args[@]}" >&2; then
-                printf 'Retry: UV_PROJECT_ENVIRONMENT=%q uv sync --locked --no-dev --project %q\n' "$project/.venv" "$project" >&2
-                if [[ "$sync_mode" == online ]]; then
-                    exit 1
-                fi
-                printf 'git-worktree-new: offline initialization incomplete; continuing without a ready environment\n' >&2
-            fi
-        done
-); then
-    printf 'git-worktree-new: uv initialization failed; worktree retained at %s\n' "$wt" >&2
+wt="$root/.claude/worktrees/$name"
+if ! prepare_submodules "$root" "$wt"; then
+    printf 'git-worktree-new: submodule preparation failed; worktree retained at %s\n' "$wt" >&2
     exit 1
 fi
 
