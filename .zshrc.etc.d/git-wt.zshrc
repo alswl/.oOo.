@@ -106,14 +106,31 @@ gwtrms() (
           sed 's/^[^[:space:]]*[[:space:]]//' || [[ ${pipestatus[1]} == 1 ]]
   }
 
+  local -a disposable_dirs=()
+
   inspect_tree() {
-      local tree="$1" changes dir sub
+      local tree="$1" changes='' dir sub entry file
       dir=$(git -C "$tree" rev-parse --absolute-git-dir)
       [[ ! -e "$dir/locked" ]] || {
           printf 'gwtrms: locked worktree: %s\n' "$tree" >&2
           return 1
       }
-      changes=$(git -C "$tree" status --porcelain --untracked-files=all --ignored --ignore-submodules="${2:-none}")
+      while IFS= read -r -d '' entry; do
+          file="${entry#???}"
+          if [[ "$entry" == '!! '* &&
+                ( "$file" == .venv/ || "$file" == */.venv/ ||
+                  "$file" == __pycache__/ || "$file" == */__pycache__/ ) &&
+                -d "$tree/$file" && ! -L "$tree/${file%/}" ]]; then
+              disposable_dirs+=("$tree/$file")
+          else
+              changes+="$entry"$'\n'
+              # Rename/copy records have a second NUL-delimited path.
+              if [[ "${entry[1,2]}" == *[RC]* ]]; then
+                  IFS= read -r -d '' file || return 1
+                  changes+="$file"$'\n'
+              fi
+          fi
+      done < <(git -C "$tree" status --porcelain -z --untracked-files=normal --ignored --ignore-submodules="${2:-none}")
       [[ -z "$changes" ]] || {
           printf 'gwtrms: local changes or files in %s; retained:\n%s\n' "$tree" "$changes" >&2
           return 1
@@ -140,6 +157,8 @@ gwtrms() (
   }
 
   inspect_tree "$target"
+  # Only remove approved ignored caches after every checkout passed inspection.
+  (( ${#disposable_dirs} == 0 )) || rm -rf -- "${disposable_dirs[@]}"
   remove_submodules "$target"
   inspect_tree "$target" all
   # Git still requires --force for worktrees with submodule administration data.
@@ -153,7 +172,8 @@ gcleanup() (
 
   [[ $# -eq 0 ]] || { echo 'Usage: gcleanup' >&2; exit 2; }
   local target current branch base probe entry wt='' ref
-  local -a candidates=()
+  local rc
+  local -a candidates=() cleaned=() retained=()
   local -A worktrees=()
   target=$(git rev-parse --verify HEAD)
   current=$(git symbolic-ref -q HEAD) || {
@@ -190,8 +210,19 @@ gcleanup() (
     ref="refs/heads/$branch"
     wt="${worktrees[$ref]-}"
     if [[ -n "$wt" ]]; then
-      gwtrms "$wt"
+      # A condition context would disable ERR_EXIT inside gwtrms.
+      setopt NO_ERR_EXIT; gwtrms "$wt"; rc=$?; setopt ERR_EXIT
+      (( rc == 0 )) || { retained+=("$branch"); continue; }
     fi
-    git branch -D -- "$branch" || exit $?
+    if git branch -D -- "$branch"; then
+      cleaned+=("$branch")
+    else
+      retained+=("$branch")
+    fi
   done
+  printf 'gcleanup: checked %d candidates; cleaned %d; retained %d\n' \
+    "${#candidates}" "${#cleaned}" "${#retained}"
+  (( ${#cleaned} == 0 )) || printf '  cleaned: %s\n' "${cleaned[@]}"
+  (( ${#retained} == 0 )) || printf '  retained: %s (see errors above)\n' "${retained[@]}"
+  (( ${#retained} == 0 ))
 )
