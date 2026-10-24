@@ -145,3 +145,53 @@ gwtrms() (
   # Git still requires --force for worktrees with submodule administration data.
   git --git-dir="$common" worktree remove --force -- "$target"
 )
+
+# 清理已合并（含 squash）的分支及其 worktree，以当前 HEAD 为基准。
+gcleanup() (
+  emulate -L zsh
+  setopt ERR_EXIT NO_UNSET PIPE_FAIL
+
+  [[ $# -eq 0 ]] || { echo 'Usage: gcleanup' >&2; exit 2; }
+  local target current branch base probe entry wt='' ref
+  local -a candidates=()
+  local -A worktrees=()
+  target=$(git rev-parse --verify HEAD)
+  current=$(git symbolic-ref -q HEAD) || {
+    echo 'gcleanup: switch to the integration branch first' >&2
+    exit 1
+  }
+
+  while IFS= read -r branch; do
+    ref="refs/heads/$branch"
+    [[ "$ref" == "$current" ]] && continue
+    case "$branch" in
+      main|master|develop|dev|EI[0-9_]*|sprint-*) continue ;;
+    esac
+    if git merge-base --is-ancestor "$ref" "$target"; then
+      candidates+=("$branch")
+    else
+      base=$(git merge-base "$target" "$ref") || continue
+      probe=$(git commit-tree "$(git rev-parse "$ref^{tree}")" -p "$base" -m _)
+      if [[ "$(git cherry "$target" "$probe")" == -* ]]; then
+        candidates+=("$branch")
+      fi
+    fi
+  done < <(git for-each-ref --format='%(refname:short)' refs/heads/)
+
+  git worktree prune
+  while IFS= read -r -d '' entry; do
+    case "$entry" in
+      'worktree '*) wt="${entry#worktree }" ;;
+      'branch '*) worktrees[${entry#branch }]="$wt" ;;
+    esac
+  done < <(git worktree list --porcelain -z)
+
+  for branch in "${candidates[@]}"; do
+    ref="refs/heads/$branch"
+    wt="${worktrees[$ref]-}"
+    if [[ -n "$wt" ]]; then
+      gwtrms "$wt"
+    fi
+    git branch -D -- "$branch" || exit $?
+  done
+)
