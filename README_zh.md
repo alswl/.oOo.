@@ -92,7 +92,7 @@ mjolnir、slate 和 amethyst（→ Phoenix）。
 | `git-code-numbers-by-authors` | 按作者统计代码量            |
 | `git-repo-archive`            | 确认能无损还原后，才把仓库替换为 README.md + archive.json（有忽略文件时需确认，`--discard-ignored` 跳过） |
 | `git-repo-unarchive`          | 从 archive.json 还原仓库 |
-| `git-worktree-new`            | 创建 worktree，使用本地 Git 对象独立检出子模块；不联网、不安装依赖，缺少本地对象的子模块会提示并跳过 |
+| `git-worktree-new`            | 创建 worktree，使用本地 Git 对象独立检出子模块；离线初始化主仓与子模块的 uv 环境（`--no-sync` 跳过）；缺少本地 Git 对象的子模块提示并跳过，依赖缓存不足时报错且不联网回退 |
 | `homebrew-using-mirror`       | 一键切换 Homebrew 镜像源    |
 | `check-brew-cask-upgrade`     | 快速检查 Homebrew cask 更新 |
 | `terminfo-remote-install` · `-{ghostty,kitty}` | 把本机终端 terminfo 装到 ssh 主机，解决远程 ncurses 程序 `TERM` 无法初始化的报错 |

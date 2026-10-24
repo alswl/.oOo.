@@ -2,12 +2,14 @@
 
 # create a new git worktree under .claude/worktrees, named by 3 random words
 
+sync_environment=true
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --no-sync) ;; # Compatibility: environment initialization is always skipped.
+        --no-sync) sync_environment=false ;;
         -h|--help)
-            echo 'Usage: git-worktree-new'
-            echo 'Create a worktree and prepare available submodules locally; no dependency installation.'
+            echo 'Usage: git-worktree-new [--no-sync]'
+            echo 'Create a worktree, prepare local submodules, and sync uv environments offline.'
             exit 0 ;;
         *) printf 'Unknown option: %s\n' "$1" >&2; exit 2 ;;
     esac
@@ -25,6 +27,16 @@ name="$(shuf -n 200 /usr/share/dict/words | grep -E '^[a-z]{3,9}$' | head -n 3 |
 
 git worktree add -b "$name" ".claude/worktrees/$name" || exit 1
 
+sync_uv() {
+    local target="$1"
+    [[ "$sync_environment" == true && -f "$target/uv.lock" ]] || return 0
+    env -u VIRTUAL_ENV -u UV_PROJECT_ENVIRONMENT \
+        uv sync --locked --offline --no-python-downloads --project "$target" || {
+        printf 'git-worktree-new: offline uv initialization failed at %s; worktree retained (no online fallback)\n' "$target" >&2
+        return 1
+    }
+}
+
 # Each submodule gets its own checkout at the recorded commit, using local objects.
 # Recurse through source checkouts so nested submodules never need cloning or fetching.
 prepare_submodules() {
@@ -41,13 +53,16 @@ prepare_submodules() {
         mkdir -p "$(dirname "$target/$sub")" || return 1
         git -C "$source/$sub" worktree add --detach "$target/$sub" "$commit" || return 1
         prepare_submodules "$source/$sub" "$target/$sub" || return 1
+        sync_uv "$target/$sub" || return 1
     done < <(git config -f "$target/.gitmodules" --get-regexp '^submodule\..*\.path$' | sed 's/^[^[:space:]]*[[:space:]]//')
 }
 
 wt="$root/.claude/worktrees/$name"
 if ! prepare_submodules "$root" "$wt"; then
-    printf 'git-worktree-new: submodule preparation failed; worktree retained at %s\n' "$wt" >&2
+    printf 'git-worktree-new: worktree initialization failed; worktree retained at %s\n' "$wt" >&2
     exit 1
 fi
+
+sync_uv "$wt" || exit 1
 
 echo "created: $wt"
