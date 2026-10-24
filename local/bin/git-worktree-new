@@ -9,7 +9,7 @@ while [[ $# -gt 0 ]]; do
         --no-sync) sync_environment=false ;;
         -h|--help)
             echo 'Usage: git-worktree-new [--no-sync]'
-            echo 'Create a worktree, prepare local submodules, and sync uv environments offline.'
+            echo 'Create a worktree and local submodules; copy matching uv environments or sync offline.'
             exit 0 ;;
         *) printf 'Unknown option: %s\n' "$1" >&2; exit 2 ;;
     esac
@@ -27,14 +27,102 @@ name="$(shuf -n 200 /usr/share/dict/words | grep -E '^[a-z]{3,9}$' | head -n 3 |
 
 git worktree add -b "$name" ".claude/worktrees/$name" || exit 1
 
+copy_environment() {
+    local source="$1" target="$2"
+    [[ -x "$source/.venv/bin/python" && ! -L "$source/.venv" && ! -e "$target/.venv" ]] || return 2
+    cmp -s "$source/uv.lock" "$target/uv.lock" &&
+        cmp -s "$source/pyproject.toml" "$target/pyproject.toml" || return 2
+
+    "$source/.venv/bin/python" -IB - "$source" "$target" <<'PY'
+import importlib.metadata
+import os
+from pathlib import Path
+import re
+import shlex
+import shutil
+import subprocess
+import sys
+
+try:
+    import tomllib
+except ImportError:
+    sys.exit(2)
+
+source, target = map(Path, sys.argv[1:])
+old, new = source / ".venv", target / ".venv"
+
+def normalize(name):
+    return re.sub(r"[-_.]+", "-", name).lower()
+
+# An installed environment may be stale even when its lockfile is unchanged.
+locked = {}
+for package in tomllib.loads((source / "uv.lock").read_text())["package"]:
+    if "version" in package:
+        locked.setdefault(normalize(package["name"]), set()).add(package["version"])
+for distribution in importlib.metadata.distributions():
+    versions = locked.get(normalize(distribution.metadata["Name"]))
+    if versions is not None and distribution.version not in versions:
+        print(f"git-worktree-new: source environment has stale {distribution.metadata['Name']}; trying offline sync", file=sys.stderr)
+        sys.exit(2)
+
+try:
+    shutil.copytree(old, new, symlinks=True,
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    # Virtual environments contain absolute script, editable-source and metadata paths.
+    for path in new.rglob("*"):
+        if path.is_symlink():
+            link = os.readlink(path)
+            if link == str(source) or link.startswith(str(source) + os.sep):
+                path.unlink()
+                path.symlink_to(str(target) + link[len(str(source)):])
+            continue
+        if not path.is_file():
+            continue
+        if (path.parent != new / "bin" and path.suffix not in (".pth", ".egg-link")
+                and path.name not in ("pyvenv.cfg", "direct_url.json", "RECORD", "uv_cache.json")):
+            continue
+        data = path.read_bytes()
+        if b"\0" not in data:
+            updated = data.replace(source.as_uri().encode(), target.as_uri().encode())
+            updated = updated.replace(os.fsencode(source), os.fsencode(target))
+            if path.parent == new / "bin":
+                first, separator, body = updated.partition(b"\n")
+                shebang = re.fullmatch(rb"#!(" + re.escape(os.fsencode(new / "bin"))
+                                      + rb"/python[\d.]*)(?: (.*))?", first)
+                if shebang:
+                    command = shlex.quote(os.fsdecode(shebang[1]))
+                    if shebang[2]:
+                        command += " " + shlex.join(shlex.split(os.fsdecode(shebang[2])))
+                    updated = (f'#!/bin/sh\n\'\'\'exec\' {command} "$0" "$@"\n\' \'\'\'\n'.encode()
+                               + body)
+            if updated != data:
+                path.write_bytes(updated)
+
+    env = dict(os.environ)
+    env.pop("VIRTUAL_ENV", None)
+    env.pop("UV_PROJECT_ENVIRONMENT", None)
+    subprocess.run(["uv", "pip", "check", "--offline", "--python", str(new / "bin/python")],
+                   env=env, check=True)
+except (OSError, subprocess.CalledProcessError) as error:
+    print(f"git-worktree-new: copied environment failed validation at {new}: {error}; retained for inspection", file=sys.stderr)
+    sys.exit(1)
+print(f"git-worktree-new: copied environment to {new} (no downloads)", file=sys.stderr)
+PY
+}
+
 sync_uv() {
     local source="$1" target="$2"
-    local -a python=()
+    local copied=0
+    local -a python=() groups=()
     [[ "$sync_environment" == true && -f "$target/uv.lock" ]] || return 0
+    copy_environment "$source" "$target" || copied=$?
+    [[ "$copied" == 0 ]] && return 0
+    [[ "$copied" == 2 ]] || return 1
     # Reuse the source interpreter so version-specific wheels hit the cache.
     [[ -x "$source/.venv/bin/python" ]] && python=(--python "$source/.venv/bin/python")
-    env -u VIRTUAL_ENV -u UV_PROJECT_ENVIRONMENT \
-        uv sync --locked --offline --no-python-downloads "${python[@]}" --project "$target" || {
+    [[ "${target##*/}" == .lbkit ]] && groups=(--no-dev)
+    env -u VIRTUAL_ENV UV_PROJECT_ENVIRONMENT="$target/.venv" \
+        uv sync --locked --offline --no-python-downloads "${python[@]}" "${groups[@]}" --project "$target" || {
         printf 'git-worktree-new: offline uv initialization failed at %s; worktree retained (no online fallback)\n' "$target" >&2
         return 1
     }

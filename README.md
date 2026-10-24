@@ -98,7 +98,7 @@ and WeRead.
 | `git-code-numbers-by-authors` | Count lines of code by author            |
 | `git-repo-archive`            | Replace a losslessly restorable repo with README.md + archive.json (`--discard-ignored` skips the ignored-files prompt) |
 | `git-repo-unarchive`          | Restore an archived repo from its archive.json |
-| `git-worktree-new`            | Create a worktree and independent submodule checkouts using local Git objects; sync locked uv environments offline (including submodules); `--no-sync` skips dependency initialization |
+| `git-worktree-new`            | Create a worktree and independent submodule checkouts using local Git objects; copy matching uv environments from the source checkout, else sync offline (including submodules); `--no-sync` skips dependency initialization |
 | `homebrew-using-mirror`       | Switch Homebrew to a mirror              |
 | `check-brew-cask-upgrade`     | Quickly check for Homebrew cask upgrades |
 | `terminfo-remote-install` · `-{ghostty,kitty}` | Install the local terminal terminfo on ssh hosts, fixing `TERM` init errors in remote ncurses programs |
