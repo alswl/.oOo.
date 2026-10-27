@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# create a new git worktree under .claude/worktrees, named by 3 random words
+# create a new git worktree under .claude/worktrees
 
 sync_environment=true
 
@@ -19,11 +19,13 @@ done
 root=$(git rev-parse --show-toplevel) || exit 1
 cd "$root" || exit 1
 
-name="$(shuf -n 200 /usr/share/dict/words | grep -E '^[a-z]{3,9}$' | head -n 3 | paste -sd- -)"
-[[ -n "$name" ]] || {
-    echo "git-worktree-new: cannot build a name from /usr/share/dict/words" >&2
-    exit 1
-}
+name=''
+if [[ -r /usr/share/dict/words ]] && command -v shuf >/dev/null 2>&1; then
+    name="$(shuf -n 200 /usr/share/dict/words | LC_ALL=C grep -E '^[a-z]{3,9}$' | head -n 3 | paste -sd- -)"
+fi
+if [[ ! "$name" =~ ^[a-z]{3,9}(-[a-z]{3,9}){2}$ ]]; then
+    printf -v name 'wt-%04x%04x' "$RANDOM" "$RANDOM"
+fi
 
 git worktree add -b "$name" ".claude/worktrees/$name" || exit 1
 
