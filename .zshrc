@@ -409,6 +409,41 @@ fzguo() { local f; f=$(_fzg_files) || return; open "$f"; }
 fzguv() { local f; f=$(_fzg_files) || return; command "$EDITOR" -p "$f"; }
 fzgul() { local f; f=$(_fzg_files) || return; less "$f"; }
 fzguc() { local f; f=$(_fzg_files) || return; print -rn -- "$f" | pbcopy; }
+# Compare with the repository trunk (origin/HEAD, then local main/master),
+# including local edits. All ref lookups are local; this does not fetch.
+_fzgm_files() {
+	local root trunk base selected_path candidate
+	root=$(git rev-parse --show-toplevel) || return
+	trunk=$(git symbolic-ref -q refs/remotes/origin/HEAD) || trunk=
+	if [[ -z "$trunk" ]] || ! git rev-parse --verify --quiet "$trunk^{commit}" >/dev/null; then
+		trunk=
+		for candidate in main master origin/main origin/master; do
+			if git rev-parse --verify --quiet "$candidate^{commit}" >/dev/null; then
+				trunk=$candidate
+				break
+			fi
+		done
+	fi
+	if [[ -z "$trunk" ]]; then
+		print -u2 'fzgm: cannot find a local main/master trunk ref'
+		return 1
+	fi
+	base=$(git merge-base HEAD "$trunk") || return
+	selected_path=$(
+		cd "$root" || return
+		setopt local_options pipe_fail
+		git diff --no-ext-diff --name-only --diff-filter=d -z "$base" -- |
+			fzf --read0 --print0 |
+			IFS= read -r -d '' selected_path && print -r -- "$selected_path"
+	) || return
+	[[ -n "$selected_path" ]] || return 1
+	print -r -- "$root/$selected_path"
+}
+fzgm() { _fzgm_files; }
+fzgmo() { local f; f=$(_fzgm_files) || return; open "$f"; }
+fzgmv() { local f; f=$(_fzgm_files) || return; command "$EDITOR" -p "$f"; }
+fzgml() { local f; f=$(_fzgm_files) || return; less "$f"; }
+fzgmc() { local f; f=$(_fzgm_files) || return; print -rn -- "$f" | pbcopy; }
 alias tarx='tar xzvf'
 alias tarc='tar czvf'
 alias e='echo'
@@ -464,6 +499,10 @@ if (( $+commands[neovide] )); then
 		neovide --fork --reuse-instance --new-window "$f"
 	}
 	fzguvv() { fzgvv "$@"; }
+	fzgmvv() {
+		local f; f=$(_fzgm_files) || return
+		neovide --fork --reuse-instance --new-window "$f"
+	}
 	fzvv() {
 		local f; f=$(fzf) || return
 		neovide --fork --reuse-instance --new-window "$f"
