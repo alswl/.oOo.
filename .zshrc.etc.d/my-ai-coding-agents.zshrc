@@ -45,7 +45,7 @@ _codex_official() {
 	shift
 	# Work around the Codex CLI TUI bootstrap failure: https://github.com/openai/codex/issues/52775
 	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
-		_ai_agent_codex -m "$model" -c log_dir=/Users/alswl/.codex/log "$@"
+		_ai_agent_codex -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
 
 codex-sol() { _codex_official gpt-6.1-sol "$@" }
@@ -66,7 +66,7 @@ _codex_official_chat() {
 	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
 		CHATTA_BIN=/opt/homebrew/bin/chatta \
 		command /opt/homebrew/bin/chatta chat codex launch -- --dangerously-bypass-approvals-and-sandbox \
-		-C "$PWD" -m "$model" -c log_dir=/Users/alswl/.codex/log "$@"
+		-C "$PWD" -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
 
 codex-sol-chat() { _codex_official_chat gpt-6.1-sol "$@" }
