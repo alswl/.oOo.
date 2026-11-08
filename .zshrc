@@ -227,7 +227,10 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_202` # oracle jdk
 	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_212` # adopt open jdk
 	#export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0_282` # openjdk@8
-	export JAVA_HOME=`/usr/libexec/java_home -v 1.8` # adoptopenjdk-8.jdk
+	if [[ -x /usr/libexec/java_home ]] && _java_home=$(/usr/libexec/java_home -v 1.8 2>/dev/null); then
+		export JAVA_HOME="$_java_home" # adoptopenjdk-8.jdk
+	fi
+	unset _java_home
 fi
 alias loadjenv='eval "$(jenv init -)";'
 

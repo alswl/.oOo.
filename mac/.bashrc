@@ -117,7 +117,10 @@ PATH="$HOME/.local/bin:$PATH"
 #PATH="$PATH:$HOME/.rvm/bin"
 
 export PATH
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+if [[ -x /usr/libexec/java_home ]] && _java_home=$(/usr/libexec/java_home -v 1.8 2>/dev/null); then
+    export JAVA_HOME="$_java_home"
+fi
+unset _java_home
 launchctl setenv PATH $PATH
 
 . "$HOME/.cargo/env"
