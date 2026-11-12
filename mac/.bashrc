@@ -124,3 +124,11 @@ unset _java_home
 launchctl setenv PATH $PATH
 
 . "$HOME/.cargo/env"
+
+# Local extensions: keep machine and org-specific settings out of this repo.
+if [ -d "$HOME/.bashrc.etc.d" ]; then
+    for _bashrc in "$HOME"/.bashrc.etc.d/*.bash; do
+        [ -r "$_bashrc" ] && . "$_bashrc"
+    done
+    unset _bashrc
+fi

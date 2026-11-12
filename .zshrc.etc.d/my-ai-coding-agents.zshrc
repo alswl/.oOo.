@@ -58,14 +58,18 @@ codex-terra() { _codex_official gpt-5.6-terra "$@" }
 # environment, which keeps the env of whichever launch started it: the proxy
 # must be set here, and two agents in one worktree need distinct
 # CHATTA_CODEX_SERVICE_HOME values. chatta can only ensure the service, not
-# restart it.  Use Homebrew's released Chatta explicitly: a stale development
-# binary at ~/dev/go/bin is earlier in PATH on this machine and lacks `codex`.
+# restart it. Resolve the installed CLI from PATH.
 _codex_official_chat() {
 	local model="$1"
 	shift
+	local chatta_bin
+	chatta_bin=$(command -v chatta) || {
+		print -u2 'codex-chat: chatta is not installed or not on PATH'
+		return 127
+	}
 	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
-		CHATTA_BIN=/opt/homebrew/bin/chatta \
-		command /opt/homebrew/bin/chatta chat codex launch -- --dangerously-bypass-approvals-and-sandbox \
+		CHATTA_BIN="$chatta_bin" \
+		command "$chatta_bin" chat codex launch -- --dangerously-bypass-approvals-and-sandbox \
 		-C "$PWD" -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
 

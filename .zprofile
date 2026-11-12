@@ -44,9 +44,6 @@ fi
 if [[ -d $HOME/.codeium/windsurf/bin ]]; then
     PATH="$HOME/.codeium/windsurf/bin:$PATH"
 fi
-if [[ -d $HOME/.utoo-proxy ]]; then
-    PATH="$HOME/.utoo-proxy:$PATH"
-fi
 # golang (GOPATH exported in .zshenv)
 [[ -n "$GOPATH" && -d "$GOPATH/bin" ]] && PATH="$GOPATH/bin:$PATH"
 # kusion
