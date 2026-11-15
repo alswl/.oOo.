@@ -653,9 +653,9 @@ if [[ "$OSTYPE" == 'linux'* ]]; then
 fi
 alias -g C='| pbcopy'
 alias -g P='pbpaste'
-alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235'
+alias -g H='http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 no_proxy=localhost,127.0.0.0/8,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.local NO_PROXY=localhost,127.0.0.0/8,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.local'
 # gost-claude proxy (xbar, 127.0.0.1:1236): HC claude-zhipu_glm
-alias -g HC='http_proxy=http://127.0.0.1:1236 https_proxy=http://127.0.0.1:1236 no_proxy=localhost,127.0.0.1,192.168.0.0/16'
+alias -g HC='http_proxy=http://127.0.0.1:1236 https_proxy=http://127.0.0.1:1236 no_proxy=localhost,127.0.0.0/8,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.local NO_PROXY=localhost,127.0.0.0/8,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.local'
 alias -g GP='GIT_PROXY_COMMAND=$HOME_LOCAL_BIN_PATH/socks5proxywrapper; GIT_SSH=$HOME_LOCAL_BIN_PATH/soks5proxyssh'
 alias -g TOA=' > /tmp/a.html && open /tmp/a.html'
 alias -g SUS='| sort | uniq -c | sort -gr'
