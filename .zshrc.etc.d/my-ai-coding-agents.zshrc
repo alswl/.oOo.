@@ -32,8 +32,7 @@ _claude_official() (
 	shift
 	unset ANTHROPIC_AUTH_TOKEN ANTHROPIC_BASE_URL ANTHROPIC_MODEL \
 		ANTHROPIC_DEFAULT_OPUS_MODEL ANTHROPIC_DEFAULT_SONNET_MODEL ANTHROPIC_DEFAULT_HAIKU_MODEL
-	export http_proxy=http://127.0.0.1:1236 https_proxy=http://127.0.0.1:1236
-	_ai_agent_session_run claude --settings "$HOME/.claude/profiles/claude-official.json" --model "$model" "$@"
+	HC _ai_agent_session_run claude --settings "$HOME/.claude/profiles/claude-official.json" --model "$model" "$@"
 )
 
 claude-opus() { _claude_official claude-opus-5-5 "$@" }
@@ -44,8 +43,7 @@ _codex_official() {
 	local model="$1"
 	shift
 	# Work around the Codex CLI TUI bootstrap failure: https://github.com/openai/codex/issues/52775
-	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
-		_ai_agent_codex -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
+	H _ai_agent_codex -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
 
 codex-sol() { _codex_official gpt-6.1-sol -c model_reasoning_effort=medium "$@" }
@@ -67,8 +65,7 @@ _codex_official_chat() {
 		print -u2 'codex-chat: chatta is not installed or not on PATH'
 		return 127
 	}
-	http_proxy=http://127.0.0.1:1235 https_proxy=http://127.0.0.1:1235 \
-		CHATTA_BIN="$chatta_bin" \
+	H CHATTA_BIN="$chatta_bin" \
 		command "$chatta_bin" chat codex launch -- --dangerously-bypass-approvals-and-sandbox \
 		-C "$PWD" -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
