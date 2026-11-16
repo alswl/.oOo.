@@ -48,9 +48,9 @@ _codex_official() {
 		_ai_agent_codex -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
 
-codex-sol() { _codex_official gpt-6.1-sol "$@" }
-codex-astra() { _codex_official gpt-6-astra "$@" }
-codex-luna() { _codex_official gpt-6-luna "$@" }
+codex-sol() { _codex_official gpt-6.1-sol -c model_reasoning_effort=medium "$@" }
+codex-astra() { _codex_official gpt-6-astra -c model_reasoning_effort=medium "$@" }
+codex-luna() { _codex_official gpt-6-luna -c model_reasoning_effort=max "$@" }
 codex-terra() { _codex_official gpt-5.6-terra "$@" }
 
 # Same flags launched through chatta's shared Codex app-server, so IRC
