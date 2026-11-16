@@ -48,7 +48,7 @@ _codex_official() {
 
 codex-sol() { _codex_official gpt-6.1-sol -c model_reasoning_effort=medium "$@" }
 codex-astra() { _codex_official gpt-6-astra -c model_reasoning_effort=medium "$@" }
-codex-luna() { _codex_official gpt-6-luna -c model_reasoning_effort=max "$@" }
+codex-luna() { _codex_official gpt-6-luna -c model_reasoning_effort=high "$@" }
 codex-terra() { _codex_official gpt-5.6-terra "$@" }
 
 # Same flags launched through chatta's shared Codex app-server, so IRC
@@ -72,7 +72,7 @@ _codex_official_chat() {
 
 codex-sol-chat() { _codex_official_chat gpt-6.1-sol "$@" }
 codex-astra-chat() { _codex_official_chat gpt-6-astra "$@" }
-codex-luna-chat() { _codex_official_chat gpt-6-luna "$@" }
+codex-luna-chat() { _codex_official_chat gpt-6-luna -c model_reasoning_effort=high "$@" }
 codex-terra-chat() { _codex_official_chat gpt-5.6-terra "$@" }
 
 claude-profile-check() {
