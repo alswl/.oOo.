@@ -2,9 +2,53 @@
 
 # clone a git url into ./<owner>/<repo> under the current directory
 
-url="$1"
+[[ "$#" -gt 0 ]] || {
+    echo "git-clone-dir: usage: git-clone-dir [git-clone-options] <git-url>" >&2
+    exit 1
+}
+
+# Keep clone options (including options that take a separate value) and find
+# the repository argument. `gcld --depth=1 <url>` must not treat the option as
+# the repository.
+clone_args=()
+url=""
+expect_value=0
+for arg in "$@"; do
+    if [[ -n "$url" ]]; then
+        echo "git-clone-dir: unexpected argument after git URL: $arg" >&2
+        exit 1
+    fi
+
+    if (( expect_value )); then
+        clone_args+=("$arg")
+        expect_value=0
+        continue
+    fi
+
+    case "$arg" in
+        --template|--reference|--reference-if-able|--separate-git-dir|--origin|-o|--branch|-b|--upload-pack|-u|--config|-c|--depth|--shallow-since|--shallow-exclude|--server-option|--filter|--jobs|-j|--revision)
+            clone_args+=("$arg")
+            expect_value=1
+            ;;
+        --)
+            clone_args+=("--")
+            ;;
+        -* )
+            clone_args+=("$arg")
+            ;;
+        *)
+            url="$arg"
+            ;;
+    esac
+done
+
+if (( expect_value )); then
+    echo "git-clone-dir: missing value for git clone option" >&2
+    exit 1
+fi
+
 [[ -n "$url" ]] || {
-    echo "git-clone-dir: usage: git-clone-dir <git-url>" >&2
+    echo "git-clone-dir: usage: git-clone-dir [git-clone-options] <git-url>" >&2
     exit 1
 }
 
@@ -21,4 +65,4 @@ repo="${path##*/}"
 }
 
 mkdir -p "$owner" || exit 1
-git clone "$url" "$owner/$repo"
+git clone "${clone_args[@]}" "$url" "$owner/$repo"
