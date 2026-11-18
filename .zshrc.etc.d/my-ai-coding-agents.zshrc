@@ -46,10 +46,10 @@ _codex_official() {
 	H _ai_agent_codex -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
 
-codex-sol() { _codex_official gpt-6.1-sol -c model_reasoning_effort=medium "$@" }
-codex-astra() { _codex_official gpt-6-astra -c model_reasoning_effort=medium "$@" }
+codex-sol() { _codex_official gpt-6.2-sol -c model_reasoning_effort=medium "$@" }
+codex-astra() { _codex_official gpt-6.2-astra -c model_reasoning_effort=medium "$@" }
 codex-luna() { _codex_official gpt-6-luna -c model_reasoning_effort=high "$@" }
-codex-terra() { _codex_official gpt-5.6-terra "$@" }
+codex-terra() { _codex_official gpt-6.1-terra "$@" }
 
 # Same flags launched through chatta's shared Codex app-server, so IRC
 # messages can wake an idle session. Tool commands run in the app-server's
@@ -70,10 +70,10 @@ _codex_official_chat() {
 		-C "$PWD" -m "$model" -c "log_dir=${CODEX_HOME:-$HOME/.codex}/log" "$@"
 }
 
-codex-sol-chat() { _codex_official_chat gpt-6.1-sol "$@" }
-codex-astra-chat() { _codex_official_chat gpt-6-astra "$@" }
+codex-sol-chat() { _codex_official_chat gpt-6.2-sol "$@" }
+codex-astra-chat() { _codex_official_chat gpt-6.2-astra "$@" }
 codex-luna-chat() { _codex_official_chat gpt-6-luna -c model_reasoning_effort=high "$@" }
-codex-terra-chat() { _codex_official_chat gpt-5.6-terra "$@" }
+codex-terra-chat() { _codex_official_chat gpt-6.1-terra "$@" }
 
 claude-profile-check() {
 	local name="${1//_/-}"
