@@ -29,6 +29,41 @@ fi
 
 git worktree add -b "$name" ".claude/worktrees/$name" || exit 1
 
+copy_root_symlinks() (
+    local source="$1" target="$2" link dest link_target part depth
+    local -a parts
+    shopt -s dotglob nullglob
+
+    for link in "$source"/*; do
+        [[ -L "$link" ]] || continue
+        dest="$target/${link##*/}"
+        [[ ! -e "$dest" && ! -L "$dest" ]] || continue
+        link_target=$(readlink -n -- "$link" && printf '.') || return 1
+        link_target=${link_target%.}
+
+        # Relative targets inside the repo should follow the new checkout.
+        # Anchor paths that leave the repo so they still reach the shared target.
+        if [[ "$link_target" != /* ]]; then
+            depth=0
+            IFS=/ read -r -d '' -a parts < <(printf '%s\0' "$link_target")
+            for part in "${parts[@]}"; do
+                case "$part" in
+                    ''|.) ;;
+                    ..) ((depth -= 1)) ;;
+                    *) ((depth += 1)) ;;
+                esac
+                if (( depth < 0 )); then
+                    link_target="$source/$link_target"
+                    break
+                fi
+            done
+        fi
+
+        ln -s -- "$link_target" "$dest" || return 1
+    done
+    return 0
+)
+
 copy_environment() {
     local source="$1" target="$2"
     [[ -x "$source/.venv/bin/python" && ! -L "$source/.venv" && ! -e "$target/.venv" ]] || return 2
@@ -157,5 +192,10 @@ if ! prepare_submodules "$root" "$wt"; then
 fi
 
 sync_uv "$root" "$wt" || exit 1
+
+if ! copy_root_symlinks "$root" "$wt"; then
+    printf 'git-worktree-new: could not copy root symlinks; worktree retained at %s\n' "$wt" >&2
+    exit 1
+fi
 
 echo "created: $wt"
