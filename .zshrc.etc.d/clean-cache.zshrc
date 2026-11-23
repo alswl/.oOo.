@@ -1,4 +1,48 @@
 if [[ "$OSTYPE" == "darwin"* ]]; then
+  clean-codex() {
+    emulate -L zsh
+    local dry_run=false target name year month cutoff latest
+    local -a releases candidates
+    local result=0
+
+    if (( $# > 1 )) || { (( $# == 1 )) && [[ "$1" != "--dry-run" ]]; }; then
+      print -u2 'Usage: clean-codex [--dry-run]'
+      return 2
+    fi
+    [[ "$1" == "--dry-run" ]] && dry_run=true
+
+    for target in "$HOME"/.codex/packages/app-server-daemon/releases/*(/N); do
+      name=${target:t}
+      [[ "$name" =~ '^[0-9]+\.[0-9]+\.[0-9]+-[[:alnum:]_-]+$' ]] && releases+=("$target")
+    done
+    releases=( ${(on)releases} )
+    if (( ${#releases} )); then
+      latest=${releases[-1]}
+      for target in "${releases[@]}"; do
+        [[ "$target" != "$latest" ]] && candidates+=("$target")
+      done
+    fi
+
+    year=$(date +%Y) || return 1
+    month=$(date +%m) || return 1
+    cutoff=$(( 10#$year * 12 + 10#$month - 1 ))
+    for target in "$HOME"/.codex/sessions/[0-9][0-9][0-9][0-9]/[0-9][0-9](/N); do
+      year=${target:h:t}
+      month=${target:t}
+      (( 10#$month >= 1 && 10#$month <= 12 && 10#$year * 12 + 10#$month < cutoff )) && candidates+=("$target")
+    done
+
+    for target in "${candidates[@]}"; do
+      if $dry_run; then
+        print -r -- "Would trash: $target"
+      else
+        print -r -- "Trashing: $target"
+        trash "$target" || result=1
+      fi
+    done
+    return $result
+  }
+
   alias clean-homebrew='du -sh $HOME/Library/Caches/Homebrew/; find $HOME/Library/Caches/Homebrew/ -maxdepth 1 -mindepth 1 -exec trash {} \; '
   alias clean-coursier='find $HOME/Library/Caches/Coursier/v1/http -maxdepth 1 -mindepth 1 -exec trash {} \; ; find $HOME/Library/Caches/Coursier/v1/https -maxdepth 1 -mindepth 1 -exec trash {} \;'
   alias clean-pip='find $HOME/Library/Caches/pip/http -maxdepth 1 -mindepth 1 -exec trash {} \;'
