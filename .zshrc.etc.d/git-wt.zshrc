@@ -87,14 +87,15 @@ gwtrms() (
       exit 2
   fi
 
-  target=$(cd -- "$1" && pwd -P)
-  root=$(git -C "$target" rev-parse --show-toplevel)
-  [[ "$target" == "$(cd -- "$root" && pwd -P)" ]] || {
+  target=$(cd -- "$1" && pwd -P) || exit 1
+  root=$(git -C "$target" rev-parse --show-toplevel) || exit 1
+  root=$(cd -- "$root" && pwd -P) || exit 1
+  [[ "$target" == "$root" ]] || {
       echo 'gwtrms: specify the worktree root, not a subdirectory' >&2
       exit 1
   }
-  gitdir=$(git -C "$target" rev-parse --absolute-git-dir)
-  common=$(git -C "$target" rev-parse --path-format=absolute --git-common-dir)
+  gitdir=$(git -C "$target" rev-parse --absolute-git-dir) || exit 1
+  common=$(git -C "$target" rev-parse --path-format=absolute --git-common-dir) || exit 1
   [[ "$gitdir" != "$common" ]] || {
       echo 'gwtrms: refusing to remove the main worktree' >&2
       exit 1
@@ -109,12 +110,19 @@ gwtrms() (
   local -a disposable_dirs=()
 
   inspect_tree() {
-      local tree="$1" changes='' dir sub entry file
-      dir=$(git -C "$tree" rev-parse --absolute-git-dir)
+      local tree="$1" changes='' dir sub entry file entries submodules operation
+      dir=$(git -C "$tree" rev-parse --absolute-git-dir) || return 1
       [[ ! -e "$dir/locked" ]] || {
           printf 'gwtrms: locked worktree: %s\n' "$tree" >&2
           return 1
       }
+      for operation in rebase-merge rebase-apply BISECT_START MERGE_HEAD CHERRY_PICK_HEAD REVERT_HEAD sequencer; do
+          if [[ -e "$dir/$operation" ]]; then
+              printf 'gwtrms: Git operation in progress in %s; retained\n' "$tree" >&2
+              return 1
+          fi
+      done
+      entries=$(git -C "$tree" status --porcelain -z --untracked-files=normal --ignored --ignore-submodules="${2:-none}") || return 1
       while IFS= read -r -d '' entry; do
           file="${entry#???}"
           if [[ "$entry" == '!! '* &&
@@ -130,50 +138,55 @@ gwtrms() (
                   changes+="$file"$'\n'
               fi
           fi
-      done < <(git -C "$tree" status --porcelain -z --untracked-files=normal --ignored --ignore-submodules="${2:-none}")
+      done <<< "$entries"
       [[ -z "$changes" ]] || {
           printf 'gwtrms: local changes or files in %s; retained:\n%s\n' "$tree" "$changes" >&2
           return 1
       }
+      submodules=$(submodule_paths "$tree") || return 1
       while IFS= read -r sub; do
-          [[ -e "$tree/$sub/.git" ]] || continue
+          [[ -n "$sub" && -e "$tree/$sub/.git" ]] || continue
           inspect_tree "$tree/$sub" || return 1
-      done < <(submodule_paths "$tree")
+      done <<< "$submodules"
   }
 
   remove_submodules() {
-      local tree="$1" sub dir shared
+      local tree="$1" sub dir shared submodules
+      submodules=$(submodule_paths "$tree") || return 1
       while IFS= read -r sub; do
-          [[ -e "$tree/$sub/.git" ]] || continue
+          [[ -n "$sub" && -e "$tree/$sub/.git" ]] || continue
           remove_submodules "$tree/$sub" || return 1
-          dir=$(git -C "$tree/$sub" rev-parse --absolute-git-dir)
-          shared=$(git -C "$tree/$sub" rev-parse --path-format=absolute --git-common-dir)
+          dir=$(git -C "$tree/$sub" rev-parse --absolute-git-dir) || return 1
+          shared=$(git -C "$tree/$sub" rev-parse --path-format=absolute --git-common-dir) || return 1
           if [[ "$dir" != "$shared" ]]; then
               git --git-dir="$shared" worktree remove -- "$tree/$sub" || return 1
           else
               git -C "$tree" submodule deinit -- "$sub" || return 1
           fi
-      done < <(submodule_paths "$tree")
+      done <<< "$submodules"
   }
 
-  inspect_tree "$target"
+  # A caller may test our exit status, which disables ERR_EXIT within this function.
+  inspect_tree "$target" || exit 1
   # Only remove approved ignored caches after every checkout passed inspection.
-  (( ${#disposable_dirs} == 0 )) || rm -rf -- "${disposable_dirs[@]}"
-  remove_submodules "$target"
-  inspect_tree "$target" all
+  if (( ${#disposable_dirs} > 0 )); then
+      rm -rf -- "${disposable_dirs[@]}" || exit 1
+  fi
+  remove_submodules "$target" || exit 1
+  inspect_tree "$target" all || exit 1
   # Git still requires --force for worktrees with submodule administration data.
   git --git-dir="$common" worktree remove --force -- "$target"
 )
 
-# 清理已合并（含 squash）的分支及其 worktree，以当前 HEAD 为基准。
+# 清理已合并的分支（含 squash）和已合入当前 HEAD 的 detached worktree。
 gcleanup() (
   emulate -L zsh
   setopt ERR_EXIT NO_UNSET PIPE_FAIL
 
   [[ $# -eq 0 ]] || { echo 'Usage: gcleanup' >&2; exit 2; }
-  local target current branch base probe entry wt='' ref
-  local rc
-  local -a candidates=() cleaned=() retained=()
+  local target current branch base probe entry wt='' wt_head='' ref
+  local -i worktree_index=0
+  local -a candidates=() detached_worktrees=() cleaned=() retained=()
   local -A worktrees=()
   target=$(git rev-parse --verify HEAD)
   current=$(git symbolic-ref -q HEAD) || {
@@ -201,18 +214,28 @@ gcleanup() (
   git worktree prune
   while IFS= read -r -d '' entry; do
     case "$entry" in
-      'worktree '*) wt="${entry#worktree }" ;;
+      'worktree '*)
+        wt="${entry#worktree }"
+        wt_head=''
+        (( ++worktree_index ))
+        ;;
+      'HEAD '*) wt_head="${entry#HEAD }" ;;
       'branch '*) worktrees[${entry#branch }]="$wt" ;;
+      detached)
+        # Git lists the main worktree first, even when invoked from a linked one.
+        if (( worktree_index > 1 )) && git merge-base --is-ancestor "$wt_head" "$target"; then
+          detached_worktrees+=("$wt")
+        fi
+        ;;
     esac
   done < <(git worktree list --porcelain -z)
 
   for branch in "${candidates[@]}"; do
     ref="refs/heads/$branch"
     wt="${worktrees[$ref]-}"
-    if [[ -n "$wt" ]]; then
-      # A condition context would disable ERR_EXIT inside gwtrms.
-      setopt NO_ERR_EXIT; gwtrms "$wt"; rc=$?; setopt ERR_EXIT
-      (( rc == 0 )) || { retained+=("$branch"); continue; }
+    if [[ -n "$wt" ]] && ! gwtrms "$wt"; then
+      retained+=("$branch")
+      continue
     fi
     if git branch -D -- "$branch"; then
       cleaned+=("$branch")
@@ -220,8 +243,15 @@ gcleanup() (
       retained+=("$branch")
     fi
   done
+  for wt in "${detached_worktrees[@]}"; do
+    if gwtrms "$wt"; then
+      cleaned+=("detached worktree $wt")
+    else
+      retained+=("detached worktree $wt")
+    fi
+  done
   printf 'gcleanup: checked %d candidates; cleaned %d; retained %d\n' \
-    "${#candidates}" "${#cleaned}" "${#retained}"
+    "$(( ${#candidates} + ${#detached_worktrees} ))" "${#cleaned}" "${#retained}"
   (( ${#cleaned} == 0 )) || printf '  cleaned: %s\n' "${cleaned[@]}"
   (( ${#retained} == 0 )) || printf '  retained: %s (see errors above)\n' "${retained[@]}"
   (( ${#retained} == 0 ))
