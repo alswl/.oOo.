@@ -53,9 +53,20 @@ gwtcd() {
   cd "$(printf '%s\n' "$dir" | awk -F '\t' '{print $2}')"
 }
 
+typeset -gaU gwtncd_extensions
+
+# 扩展接收新工作树的绝对路径。只注册用户信任的函数。
+gwtncd_register() {
+  if [[ $# -ne 1 ]] || (( ! ${+functions[$1]} )); then
+    printf 'Usage: gwtncd_register <function>\n' >&2
+    return 2
+  fi
+  gwtncd_extensions+=("$1")
+}
+
 # 新建 git worktree 并 cd 进去
 gwtncd() {
-  local out dir
+  local out dir extension
 
   out="$(git-worktree-new "$@")" || return
   printf '%s\n' "$out"
@@ -63,8 +74,25 @@ gwtncd() {
   dir="${out##*created: }"
   [[ -d "$dir" ]] || return 1
 
+  if (( ! ${argv[(I)--no-sync]} )); then
+    for extension in "${gwtncd_extensions[@]}"; do
+      if ! ( "$extension" "$dir" ); then
+        printf 'gwtncd: extension %s failed in %s\n' "$extension" "$dir" >&2
+      fi
+    done
+  fi
   cd "$dir"
 }
+
+_gwtncd_vease_browser() {
+  local worktree="$1" vease="$HOME/dev/github.com/alswl/vease-app" common
+  [[ -f "$vease/scripts/ensure-browser.sh" ]] || return 0
+  common=$(git -C "$worktree" rev-parse --path-format=absolute --git-common-dir) || return 1
+  [[ "$common" == "$vease/.git" ]] || return 0
+  sh "$vease/scripts/ensure-browser.sh" --link-cached "$worktree"
+}
+
+gwtncd_register _gwtncd_vease_browser
 
 alias gwcd=gwtcd
 alias gwtl=gwtls

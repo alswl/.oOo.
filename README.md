@@ -103,6 +103,8 @@ and WeRead.
 | `check-brew-cask-upgrade`     | Quickly check for Homebrew cask upgrades |
 | `terminfo-remote-install` · `-{ghostty,kitty}` | Install the local terminal terminfo on ssh hosts, fixing `TERM` init errors in remote ncurses programs |
 
+`gwtncd` creates and enters a worktree. Register trusted local functions with `gwtncd_register <function>`. Each function receives the new worktree's absolute path before the shell enters it. Use `gwtncd --no-sync` to skip dependency setup and extensions. The Vease extension links an existing user-level Chromium cache.
+
 ### Desktop glue
 
 | Script                       | Purpose                                                       |

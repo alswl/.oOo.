@@ -97,6 +97,8 @@ mjolnir、slate 和 amethyst（→ Phoenix）。
 | `check-brew-cask-upgrade`     | 快速检查 Homebrew cask 更新 |
 | `terminfo-remote-install` · `-{ghostty,kitty}` | 把本机终端 terminfo 装到 ssh 主机，解决远程 ncurses 程序 `TERM` 无法初始化的报错 |
 
+`gwtncd` 创建并进入工作树。通过 `gwtncd_register <函数名>` 注册本机信任的扩展。扩展接收新工作树的绝对路径，并在进入目录前运行。用 `gwtncd --no-sync` 跳过依赖初始化和扩展。Vease 的扩展只链接已有的 Chromium 用户缓存。
+
 ### 桌面粘合剂
 
 | 脚本                           | 用途                                         |
